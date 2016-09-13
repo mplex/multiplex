@@ -1,0 +1,63 @@
+\name{cph}
+\alias{cph}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+Cumulated Person Hierarchy
+}
+\description{
+A function to calculate the Cumulated Person Hierarchy in networks of multiple relations
+}
+\usage{
+cph(W, labels = NULL)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{W}{
+    an object of the `\code{Rel.Box}' class.
+  }
+  \item{labels}{
+   (optional) the labels of the relational system
+  }
+}
+\details{
+The cumulated person hierarchy is used to determine the partial structural equivalence among the actors in a multiple network. Two nodes are considered as \emph{partial structural equivalent} iff they have identical role sets.
+
+The outcome of this function depends on the characteristics of the Relation-Box.
+}
+\value{
+An array representing the cumulated person hierarchy.
+}
+\references{
+Breiger, R.L. and P.E. Pattison, `Cumulated social roles: The duality of persons and their algebras,' \emph{Social Networks}, 8, 215-256. 1986.
+
+Mandel, M.J. `Roles and networks: A local approach'. B.A. Honours thesis, Harvard University. 1978.
+}
+\author{
+Antonio Rivero Ostoic
+}
+\note{
+If the length of the labels differ from the order of the relational system, then labels will be ignored.
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+\code{\link{rbox}}, \code{\link{semigroup}}, \code{\link{diagram}}
+}
+\examples{
+## Create the data: two binary relations among three elements
+arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
+c(3,3,2))>.9, 3 ) )
+
+## Make the Relation Box
+rarr <- rbox(arr)
+
+## Calculate the cumulated person hierarchy
+cph(rarr)
+
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{ algebra }
+\keyword{ math }
+\keyword{ array }

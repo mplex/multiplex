@@ -1,0 +1,95 @@
+\name{semigroup}
+\alias{semigroup}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+Constructing the Semigroup of Relations
+}
+\description{
+Function to create the complete semigroup of multiple relations, where the multiplication table can be specified with either a numerical or a symbolic form.
+}
+\usage{
+semigroup(x, type = c("numerical", "symbolic"), labels = NULL, 
+           cmp = FALSE,  smpl = FALSE )
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{x}{
+   an array; usually with three dimensions of stacked matrices where the multiple relations are placed.
+}
+  \item{type}{
+   does the semigroup should be given in a numerical (default) or in a symbolic form?
+}
+  \item{labels}{
+   (optional) a list of the labels of each distinct relation.
+}
+  \item{cmp}{
+   (optional) a logical to indicate whether the composite matrices should be also given.
+}
+  \item{smpl}{
+   (logical) whether to simplify or not the strings of relations.
+}
+}
+\details{
+A multiple relation can be defined by square matrices of 0's and 1's indicating the presence and absence of ties among a set of actors. If there is more than one relation type, the matrices must preserve the label ordering of its elements and stacked into an object array in order to be effectively applied to this function.
+
+The semigroup, which is an algebraic structure having a set with an associative operation on it, is calculated considering binary matrices only. This means that if the provided matrices are valued, the function will dichotomise the input data automatically; values higher or equal to a unit are converted to one, otherwise they are set to zero. If you are not happy with that, you can go to \code{\link{dichot}} and specify your own cutoff value for the dichotomization.
+}
+\value{
+An object of `\code{Semigroup}' class.
+The items included are:
+  \item{gens}{
+  an array with the generator relations
+}
+  \item{cmps}{
+  an array with the unique compound relations
+}
+  \item{ord}{
+  a number with the dimension of the semigroup
+}
+  \item{st}{
+  the strings, i.e. a vector of the unique relations
+}
+  \item{S}{
+  the semigroup of relations (see below)
+}
+
+If the specified type is `\code{numerical}', then a matrix of semigroup values is given, otherwise the values is returned as a data frame with the strings of the semigroup.
+}
+\references{
+Boorman, S.A. and H.C. White, `Social Structure from Multiple Networks. II. Role Structures.' \emph{American Journal of Sociology}, 81 (6), 1384-1446. 1976.
+
+Boyd, J.P. \emph{Social Semigroups. A unified theory of scaling and blockmodelling as applied to social networks}. George Mason University Press. 1991.
+
+Pattison, P.E. \emph{Algebraic Models for Social Networks}. Cambridge University Press. 1993.
+}
+\author{
+Antonio Rivero Ostoic
+}
+\note{
+It is recommendable to perform the function \code{prev} before attempting to construct the semigroup, unless the input data has few dimensions.
+}
+
+\section{Warning}{
+For medium size or bigger sets (having e.g. more the 4 relation types), the semigroup construction could take a long time.
+}
+
+\seealso{
+\code{\link{prev}}, \code{\link{strings}}, \code{\link{edgeT}}, \code{\link{wordT}}, \code{\link{relabel}}, \code{\link{dichot}}, \code{\link{ltlw}}, \code{\link{cngr}}.
+}
+
+\examples{
+## Create the data: 2 binary relations among 3 elements
+arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
+       c(3,3,2))>.5, 1 ) )
+
+## optional: put labels
+dimnames(arr)[[3]] <- list("n", "m")
+
+## look at the semigroup
+semigroup(arr)
+
+}
+%% R documentation directory.
+\keyword{ algebra }
+\keyword{ math }
+%

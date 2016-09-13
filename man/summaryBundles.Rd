@@ -1,0 +1,66 @@
+\name{summaryBundles}
+\alias{summaryBundles}
+\title{
+Summary of Bundle Classes
+}
+\description{
+Pretty printing of the bundle class patterns results.
+}
+\usage{
+summaryBundles(x, file = NULL, latex = FALSE, byties)
+}
+\arguments{
+  \item{x}{
+   an object of the `\code{Rel.Bundles}' class
+}
+  \item{file}{
+   (optional) the path where the output file is to be placed
+}
+  \item{latex}{
+   (logical) whether the output sholud be in latex format or not
+}
+  \item{byties}{
+   (logical) expand tie patterns and collapse tie labels?
+}
+%  \item{prsep}{
+%   (optional) the pair separator for the pairwise relations
+%}
+%  \item{...}{
+%   additional arguments
+%}
+}
+\details{
+This function prints the bundle census patterns existing in the network with an option to export such information in a friendly format. The dyadic bundle patterns are provide by the function \code{\link{bundles}}; however the outcome of this function provides a list of pair lists for each bundle with the involved types of relations and nodes in the network. This form for presentation, although is convenient for further computation, it is not always easy to read for a human eye. Naturally the pair separator chosen must match the one of \code{bundles}.
+
+If \code{latex} is set to \code{TRUE}, then the path file is activated to obtain a \code{tex} file with the different bundle class patterns.
+}
+\value{
+The distinct bundle class patterns with a user friendly format.
+}
+\references{
+Ostoic, J. A. R. `Dyadic Patterns in Multiple Networks,' \emph{International Conference on Advances in Social Networks Analysis and Mining}, 475-481. 2011.
+}
+\author{
+Antonio Rivero Ostoic
+}
+\note{
+In case that the file already exists in the pointed directory, then the file will be overwritten.
+}
+
+\seealso{
+\code{\link{bundles}}, \code{\link{bundle.census}}
+}
+\examples{
+## Create the data: 2 binary relations among 3 elements
+arr <- round( replace( array( runif(18), c(3 ,3, 2) ), array( runif(18),
+c(3, 3, 2) ) > .8, 3 ) )
+
+## Establish the different bundles
+bd <- bundles(arr)
+
+## Print the different relational bundles
+summaryBundles(bd)
+
+}
+\keyword{ print }
+\keyword{ IO }

@@ -1,0 +1,70 @@
+\name{semiring}
+\alias{semiring}
+\title{
+Semiring Structures for Balance Theory
+}
+\description{
+A function to construct semiring structures for the analysis of structural balance theory.
+}
+\usage{
+semiring(x, type = c("balance", "cluster"), symclos = TRUE,
+            transclos = TRUE, labels = NULL, k = 2)
+}
+\arguments{
+  \item{x}{  an object of a `\code{Signed}' class
+}
+  \item{type}{  balance or cluster semiring?
+}
+  \item{symclos}{  (logical) apply symmetric closure?
+}
+  \item{transclos}{  (logical) apply transitive closure?
+}
+  \item{labels}{  (optional) labels for the semiring output
+}
+  \item{k}{  length of the cycle or the semicycle
+}
+}
+\details{
+Semiring structures are based on signed networks, and this function provides the capabilities to handle either the balance semiring or the cluster semiring within the structural balance theory.
+%
+A semiring combines two different kinds of operations with a single underlying set, and it can be seen as an abstract semigroup with identity under multiplication and a commutative monoid under addition. Semirings are useful to determinate whether a given signed network is balanced or clusterable. The symmetric closure evaluates this by looking at semicycles in the system; otherwise the evaluation is through closed paths. 
+}
+\value{
+An object of `\code{Semiring}' class. 
+The items included are:
+  \item{val}{the valences in the semiring}
+  \item{s }{the original semiring structure}
+  \item{Q }{the resulted semiring structure}
+  \item{k }{the number of cycles or semicycles}
+}
+\references{
+Harary, F, Z. Norman, and D. Cartwright  \emph{Structural Models: An Introduction to the Theory of Directed Graphs}. New York: John Wiley & Sons. 1965.
+
+Doreian, P., V. Batagelj and A. Ferligoj  \emph{Generalized Blockmodeling}. Cambridge University Press. 2004.
+}
+\author{
+Antonio Rivero Ostoic
+}
+\note{
+Disabling transitive closure should be made with good substantial reasons.
+}
+\seealso{
+\code{\link{signed}}, \code{\link{as.signed}}
+}
+\examples{
+## Create the data: two sets with a pair of binary relations 
+## among three elements
+arr <- round( replace( array( runif(18), c(3 ,3, 2) ), array( runif(18),
+       c(3, 3, 2) ) > .5, 3 ) )
+
+## Make the signed matrix with two types of relations
+sg <- signed(arr)
+
+## Establish the semiring structure
+semiring(sg)
+
+}
+\keyword{ algebra }
+\keyword{ math }
+\keyword{ models }
+
