@@ -35,9 +35,9 @@ Ganter, B. and R. Wille  \emph{Formal Concept Analysis -- Mathematical Foundatio
 \author{
 Antonio Rivero Ostoic
 }
-\note{
-Only \emph{principal} filters or ideals are supported for the moment.
-}
+%\note{
+%Only \emph{principal} filters or ideals are supported for the moment.
+%}
 %\section{Warning }{
 %
 %}
