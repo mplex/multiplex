@@ -55,19 +55,22 @@ function (x, type = c("tolist", "toarray"), lb2lb = FALSE, labels = NULL,
             return(x)
         if (missing(ord) == TRUE) {
             ord <- length(dhc(jnt(x)))
+            ifelse(is.null(labels) == TRUE, lbs <- levels(factor(dhc(x))), 
+                lbs <- labels)
         }
         else {
             ord <- as.numeric(ord)
             if (isTRUE(nlevels(factor(dhc(x))) > ord) == TRUE) {
                 ord <- nlevels(factor(dhc(x)))
-                warning("Value of 'ord' given is less than the number of elements in the list.")
+                warning("'ord' is ignored, value is less than the number of factor levels in the pairwise list.")
             }
             else {
                 NA
             }
+            ifelse(is.null(labels) == TRUE, lbs <- seq(1, ord), 
+                lbs <- labels)
         }
-        ifelse(is.null(labels) == TRUE, lbs <- levels(factor(dhc(x))), 
-            lbs <- labels)
+        lbs <- lbs[1:ord]
         mat <- matrix(0L, ncol = ord, nrow = ord, dimnames = list(lbs, 
             lbs))
         for (i in 1:length(x)) {
