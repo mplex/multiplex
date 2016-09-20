@@ -165,12 +165,14 @@ function (x, xd, lbs, TRD, r, m, mlt, prsep)
             tmpout <- vector()
             for (j in 1:length(TEnt3p[[i]])) {
                 if (isTRUE(length(Eout3p[[i]]) > 0) == TRUE) {
-                  if (isTRUE(!(Einn3p[[i]][j] %in% out[[i]])) == 
-                    TRUE) 
-                    tmpinn <- append(tmpinn, Einn3p[[i]][j])
                   if (isTRUE(!(Eout3p[[i]][j] %in% inn[[i]])) == 
                     TRUE) 
                     tmpout <- append(tmpout, Eout3p[[i]][j])
+                }
+                if (isTRUE(length(Einn3p[[i]]) > 0) == TRUE) {
+                  if (isTRUE(!(Einn3p[[i]][j] %in% out[[i]])) == 
+                    TRUE) 
+                    tmpinn <- append(tmpinn, Einn3p[[i]][j])
                 }
             }
             rm(j)
@@ -198,7 +200,6 @@ function (x, xd, lbs, TRD, r, m, mlt, prsep)
                 mixe[[i]]))]
         }
         rm(i)
-        rm(Eoutnp)
     }
     else {
         mixe <- TEinn <- TEout <- character(0)
