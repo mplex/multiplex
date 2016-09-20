@@ -11,6 +11,9 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
     else {
         NA
     }
+    if (isTRUE(any(c("entire", "strong", "weak", "asym", "recp", 
+        "txch", "tent", "mixd", "full") %in% bonds)) == FALSE) 
+        stop("Invalid \"bonds\" type.")
     if (all(c("strong", "weak") %in% bonds) == TRUE | isTRUE("entire" %in% 
         bonds) == TRUE) {
         bnds <- "entire"
