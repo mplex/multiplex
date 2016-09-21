@@ -1,64 +1,55 @@
 read.srt <-
-function (file, header = TRUE, sep = "\t", attr = FALSE, toarray = TRUE, 
-    dichot = FALSE, labels = NULL) 
+function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE, 
+    attr = FALSE, rownames = FALSE) 
 {
-    ifelse(isTRUE(is.data.frame(file) == FALSE) == TRUE, x <- utils::read.table(file, 
-        header = header, sep = sep), x <- file)
+    ifelse(is.array(file) == TRUE | is.data.frame(file) == TRUE, 
+        x <- file, x <- utils::read.table(file, header = header, 
+            sep = sep))
     if (isTRUE(attr == TRUE) == TRUE) {
         xa <- x
-        if (isTRUE(ncol(x) == 2L) == TRUE) {
-            x <- as.data.frame(cbind(as.vector(x[, 1]), as.vector(x[, 
-                1]), as.vector(x[, 2])))
-        }
-        else if (isTRUE(ncol(x) > 2L) == TRUE) {
-            x <- cbind(x[, 1], x[, 1], x[, 2:ncol(x)])
-        }
+        ifelse(isTRUE(rownames == FALSE) == TRUE, x <- as.data.frame(cbind(as.vector(x[, 
+            1]), as.vector(x[, 1]), as.vector(x[, 2:ncol(x)]))), 
+            x <- as.data.frame(cbind(rownames(x), rownames(x), 
+                x[, 1:ncol(x)])))
         attr(x, "names")[1:2] <- c("n", "n")
+    }
+    else {
+        NA
     }
     if (isTRUE(toarray == TRUE) == TRUE) {
         R <- (ncol(x) - 2L)
         if (R == 0L) 
             stop("You must specify at least one relation.")
-        if (is.null(labels) == TRUE) {
-            lbs <- unique(c(as.vector(x[, 1]), as.vector(x[, 
-                2])))
-            if (isTRUE(lbs == "") == TRUE) {
-                warning("Node labels in the input are empty!")
-                lbs <- 1:nrow(x)
-            }
-            else {
-                NA
-            }
-            ifelse(isTRUE(R == 1L) == TRUE, MAT <- array(0L, 
-                dim = c(length(lbs), length(lbs))), MAT <- array(0L, 
-                dim = c(length(lbs), length(lbs), R)))
-            dimnames(MAT)[[1]] <- dimnames(MAT)[[2]] <- lbs
+        lbs <- unique(c(as.vector(x[, 1]), as.vector(x[, 2])))
+        if (isTRUE(lbs == "") == TRUE) {
+            warning("Node labels in the input are empty!")
+            lbs <- 1:nrow(x)
         }
         else {
-            ifelse(isTRUE(R == 1L) == TRUE, MAT <- array(0L, 
-                dim = c(length(labels), length(labels))), MAT <- array(0L, 
-                dim = c(length(labels), length(labels), R)))
-            dimnames(MAT)[[1]] <- dimnames(MAT)[[2]] <- labels
+            NA
         }
+        n <- length(lbs)
+        ifelse(isTRUE(R == 1L) == TRUE, MAT <- array(0L, dim = c(n, 
+            n)), MAT <- array(0L, dim = c(n, n, R)))
+        dimnames(MAT)[[1]] <- dimnames(MAT)[[2]] <- lbs
         ifelse(isTRUE(R == 1L) == FALSE, dimnames(MAT)[[3]] <- attr(x, 
             "names")[3:ncol(x)], NA)
-        Dims <- attr(MAT, "dimnames")[[1]]
         if (isTRUE(ncol(x) > 3L) == TRUE) {
-            for (r in 3:ncol(x)) {
-                rel <- which(x[, r] != 0L)
+            for (k in 1:R) {
+                rel <- which(x[, (k + 2L)] != 0L)
                 rrel <- x[rel, ]
-                X <- integer(length(Dims))
-                for (i in 1:length(Dims)) {
-                  X[i] <- sum(as.numeric(rrel[, 1] == Dims[i]))
+                X <- n
+                for (i in 1:n) {
+                  X[i] <- sum(as.numeric(rrel[, 1] == lbs[i]))
                 }
                 rm(i)
-                attr(X, "names") <- Dims
+                attr(X, "names") <- lbs
                 xx <- vector()
-                for (i in 1:length(Dims)) {
+                for (i in 1:n) {
                   ifelse(X[i] != 0L, xx[i] <- i, xx[i] <- NA)
                 }
                 rm(i)
-                attr(xx, "names") <- Dims
+                attr(xx, "names") <- lbs
                 xx <- (stats::na.omit(xx))
                 xx <- as.vector(attr(xx, "names"))
                 nX <- X[which(X > 0L)]
@@ -71,24 +62,24 @@ function (file, header = TRUE, sep = "\t", attr = FALSE, toarray = TRUE,
                       for (j in 1:length(YY)) {
                         tmp <- MAT[(which((as.vector(rownames(MAT)) == 
                           xx[i]), arr.ind = TRUE)), (which(as.vector(colnames(MAT) == 
-                          YY[j]), arr.ind = TRUE)), (r - 2L)]
+                          YY[j]), arr.ind = TRUE)), (k)]
                         MAT[(which((as.vector(rownames(MAT)) == 
                           xx[i]), arr.ind = TRUE)), (which(as.vector(colnames(MAT) == 
-                          YY[j]), arr.ind = TRUE)), (r - 2L)] <- tmp + 
-                          as.numeric(rrel[, r][which(rrel[, 1] == 
-                            attr(nX, "names")[i])])[j]
+                          YY[j]), arr.ind = TRUE)), (k)] <- tmp + 
+                          as.numeric(as.vector(rrel[, (k + 2L)][which(rrel[, 
+                            1] == attr(nX, "names")[i])]))[j]
                       }
                       rm(j)
                     }
                     else if (isTRUE(length(YY) == 1L) == TRUE) {
                       tmp <- MAT[(which((as.vector(rownames(MAT)) == 
                         xx[i]), arr.ind = TRUE)), (which(as.vector(colnames(MAT) == 
-                        YY), arr.ind = TRUE)), (r - 2L)]
+                        YY), arr.ind = TRUE)), (k)]
                       MAT[(which((as.vector(rownames(MAT)) == 
                         xx[i]), arr.ind = TRUE)), (which(as.vector(colnames(MAT) == 
-                        YY), arr.ind = TRUE)), (r - 2L)] <- tmp + 
-                        as.numeric(rrel[, r][which(rrel[, 1] == 
-                          attr(nX, "names")[i])])
+                        YY), arr.ind = TRUE)), (k)] <- tmp + 
+                        as.numeric(as.vector(rrel[, (k + 2L)][which(rrel[, 
+                          1] == attr(nX, "names")[i])]))
                     }
                   }
                   rm(i)
@@ -101,37 +92,38 @@ function (file, header = TRUE, sep = "\t", attr = FALSE, toarray = TRUE,
                     for (j in 1:length(YY)) {
                       MAT[(which((as.vector(rownames(MAT)) == 
                         xx), arr.ind = TRUE)), (which(as.vector(colnames(MAT) == 
-                        YY[j]), arr.ind = TRUE)), (r - 2L)] <- as.numeric(rrel[, 
-                        r][which(rrel[, 1] == attr(nX, "names"))])[j]
+                        YY[j]), arr.ind = TRUE)), (k)] <- as.numeric(as.vector(rrel[, 
+                        (k + 2L)][which(rrel[, 1] == attr(nX, 
+                        "names"))]))[j]
                     }
                     rm(j)
                   }
                   else if (isTRUE(length(YY) == 1L) == TRUE) {
                     MAT[(which((as.vector(rownames(MAT)) == xx), 
                       arr.ind = TRUE)), (which(as.vector(colnames(MAT) == 
-                      YY), arr.ind = TRUE)), (r - 2L)] <- as.numeric(rrel[, 
-                      r][which(rrel[, 1] == attr(nX, "names"))])
+                      YY), arr.ind = TRUE)), (k)] <- as.numeric(as.vector(rrel[, 
+                      (k + 2L)][which(rrel[, 1] == attr(nX, "names"))]))
                   }
                   rm(xx, YY)
                 }
             }
-            rm(r)
+            rm(k)
         }
         else if (isTRUE(ncol(x) == 3L) == TRUE) {
             rel <- which(x[, 3] != 0L)
             rrel <- x[rel, ]
-            X <- integer(length(Dims))
-            for (i in 1:length(Dims)) {
-                X[i] <- sum(as.numeric(rrel[, 1] == Dims[i]))
+            X <- integer(n)
+            for (i in 1:n) {
+                X[i] <- sum(as.numeric(rrel[, 1] == lbs[i]))
             }
             rm(i)
-            attr(X, "names") <- Dims
+            attr(X, "names") <- lbs
             xx <- vector()
-            for (i in 1:length(Dims)) {
+            for (i in 1:n) {
                 ifelse(X[i] != 0L, xx[i] <- i, xx[i] <- NA)
             }
             rm(i)
-            attr(xx, "names") <- Dims
+            attr(xx, "names") <- lbs
             xx <- (stats::na.omit(xx))
             xx <- as.vector(attr(xx, "names"))
             nX <- X[which(X > 0L)]
@@ -147,8 +139,8 @@ function (file, header = TRUE, sep = "\t", attr = FALSE, toarray = TRUE,
                         YY[j]), arr.ind = TRUE))]
                       MAT[(which((as.vector(rownames(MAT)) == 
                         xx[i]), arr.ind = TRUE)), (which(as.vector(colnames(MAT) == 
-                        YY[j]), arr.ind = TRUE))] <- tmp + as.numeric(factor(rrel[, 
-                        3][which(rrel[, 1] == attr(nX, "names")[i])]))[j]
+                        YY[j]), arr.ind = TRUE))] <- tmp + as.numeric(as.vector(factor(rrel[, 
+                        3][which(rrel[, 1] == attr(nX, "names")[i])])))[j]
                     }
                     rm(j)
                   }
@@ -158,8 +150,8 @@ function (file, header = TRUE, sep = "\t", attr = FALSE, toarray = TRUE,
                       YY), arr.ind = TRUE))]
                     MAT[(which((as.vector(rownames(MAT)) == xx[i]), 
                       arr.ind = TRUE)), (which(as.vector(colnames(MAT) == 
-                      YY), arr.ind = TRUE))] <- tmp + as.numeric(factor(rrel[, 
-                      3][which(rrel[, 1] == attr(nX, "names")[i])]))
+                      YY), arr.ind = TRUE))] <- tmp + as.numeric(as.vector(factor(rrel[, 
+                      3][which(rrel[, 1] == attr(nX, "names")[i])])))
                   }
                 }
                 rm(i)
@@ -170,8 +162,8 @@ function (file, header = TRUE, sep = "\t", attr = FALSE, toarray = TRUE,
                   for (j in 1:length(YY)) {
                     MAT[(which((as.vector(rownames(MAT)) == xx), 
                       arr.ind = TRUE)), (which(as.vector(colnames(MAT) == 
-                      YY[j]), arr.ind = TRUE)), 1] <- as.numeric(rrel[, 
-                      3][which(rrel[, 1] == attr(nX, "names"))])[j]
+                      YY[j]), arr.ind = TRUE)), 1] <- as.numeric(as.vector(rrel[, 
+                      3][which(rrel[, 1] == attr(nX, "names"))]))[j]
                   }
                   rm(j)
                 }
@@ -187,16 +179,24 @@ function (file, header = TRUE, sep = "\t", attr = FALSE, toarray = TRUE,
         }
         return(MAT)
     }
-    if (isTRUE(dichot == TRUE) == TRUE) {
-        x[, 3:ncol(x)] <- dichot(x[, 3:ncol(x)])
-    }
-    if (isTRUE(attr == TRUE) == TRUE) {
-        rownames(xa) <- xa[, 1]
-        ifelse(isTRUE(ncol(xa) == 2L) == TRUE, NA, xa <- xa[, 
-            2:ncol(xa)])
-        return(xa)
-    }
-    else {
-        return(x)
+    else if (isTRUE(toarray == FALSE) == TRUE) {
+        if (isTRUE(attr == TRUE) == TRUE) {
+            if (isTRUE(dichot == TRUE) == TRUE) {
+                ifelse(isTRUE(rownames == TRUE) == TRUE, xa[, 
+                  1:ncol(xa)] <- dichot(xa[, 1:ncol(xa)]), x[, 
+                  3:ncol(x)] <- dichot(x[, 3:ncol(x)]))
+            }
+            if (isTRUE(rownames == TRUE) == TRUE) {
+                rownames(xa) <- xa[, 1]
+                xa <- xa[, 2:ncol(xa)]
+            }
+            else {
+                NA
+            }
+            return(xa)
+        }
+        else {
+            return(x)
+        }
     }
 }
