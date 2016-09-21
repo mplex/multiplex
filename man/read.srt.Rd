@@ -8,8 +8,8 @@ Read \code{srt} Files
 A function to read files with \emph{s}end, \emph{r}eceive, and \emph{t}ies format for a multivariate network with the possibility to transform it into an three dimenasional array.
 }
 \usage{
-read.srt(file, header = TRUE, sep = "\t", attr = FALSE , 
-         toarray = TRUE, dichot = FALSE, labels = NULL)
+read.srt(file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE, 
+    attr = FALSE, rownames = FALSE) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -22,23 +22,21 @@ read.srt(file, header = TRUE, sep = "\t", attr = FALSE ,
   \item{sep}{
    the separator among the columns (default is horizontal tab)
 }
-  \item{attr}{
-   (logical) whether or not the file corresponds to attribute-based data
-}
   \item{toarray}{
   (logical) should the data frame be transformed to arrays?
 }
   \item{dichot}{
   (logical) should the data be dichotomized?
 }
-  \item{labels}{
-  (optional) labels of the nodes
+  \item{attr}{
+   (logical) whether or not the file corresponds to attribute-based data
+}
+  \item{rownames}{
+  (logical) are rownames the labels of the nodes?
 }
 }
 \details{
-\code{srt} stands for \emph{s}end, \emph{r}eceive, and \emph{t}ies, and it is a data frame with at least 3 columns for the sender, receiver, and the ties, one column for each type of relation. However, the \code{attr} option correspond to a actor and self-ties data frame file with the option to transform it to an identical matrix.
-It is also possible to treat the input data as data frame object and manipulate it via e.g. the \code{\link[base:subset]{subset}} function with the \code{toarray} option.
-
+\code{srt} stands for \emph{s}end, \emph{r}eceive, and \emph{t}ies, and it is a data frame with at least 3 columns for the sender, receiver, and the ties, one column for each type of relation. However, the \code{attr} option correspond to a actor and self-ties data frame file with the option to transform it into a diagonal matrix. When \code{toarray} is set to \code{FALSE}, options \code{attr} and \code{rownames} allow placing the first column of the data frame as the name of the table, which is the format of two-mode data, and compute for instance Galois transformations among the partite sets.
 }
 \value{
 By default an array; usually with three dimensions of stacked matrices where the multiple relations are placed. If \code{toarray = FALSE}, then the data frame is given.
@@ -53,11 +51,11 @@ By default an array; usually with three dimensions of stacked matrices where the
 \author{
 Antonio Rivero Ostoic
 }
-%\note{
-%
-%}
+\note{
+It is also possible to treat the input data as data frame object and manipulate it via e.g. the \code{\link[base:subset]{subset}} function with the \code{toarray} option.
+}
 \seealso{
-\code{\link{write.srt}}, \code{\link{read.gml}}, \code{\link{read.dl}}
+\code{\link{write.srt}}, \code{\link{read.gml}}, \code{\link{read.dl}}, \code{\link{galois}}
 }
 %\examples{
 %
