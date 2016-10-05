@@ -223,7 +223,7 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
         if (isTRUE(attr(x, "class") == "Rel.System") == FALSE) {
             X <- x
             if (is.null(sel) == TRUE) {
-                x <- rel.sys221(x, type = "tolist", bonds = bonds, 
+                x <- rel.sys(x, type = "tolist", bonds = bonds, 
                   loops = loops, att = att)
             }
             else {
@@ -238,8 +238,8 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
                 ifelse(isTRUE(is.numeric(sel) == TRUE) == TRUE, 
                   Sel <- dimnames(x)[[1]][sel], Sel <- sel)
                 ifelse(isTRUE(Sel == "att") == TRUE | isTRUE(Sel == 
-                  "noatt") == TRUE, x <- rel.sys221(x, type = "tolist", 
-                  bonds = bonds, loops = loops, att = att), x <- rel.sys221(x, 
+                  "noatt") == TRUE, x <- rel.sys(x, type = "tolist", 
+                  bonds = bonds, loops = loops, att = att), x <- rel.sys(x, 
                   type = "tolist", bonds = bonds, sel = Sel, 
                   loops = loops, att = att))
             }
