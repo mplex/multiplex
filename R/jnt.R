@@ -3,9 +3,7 @@ function (xj, prsep)
 {
     ifelse(missing(prsep) == TRUE, prsep <- ", ", NA)
     if (isTRUE(length(xj) != 0) == TRUE) {
-        Ltj <- FALSE
-        ifelse(isTRUE(is.list(xj)) == TRUE, Ltj <- TRUE, NA)
-        if (isTRUE(Ltj) == TRUE) {
+        if (isTRUE(is.list(xj)) == TRUE) {
             Xj <- list()
             jt <- list()
             length(Xj) <- length(jt) <- length(xj)
@@ -13,8 +11,10 @@ function (xj, prsep)
                 if (isTRUE(length(xj[[i]]) != 0) == TRUE) {
                   tmpj <- as.list(xj[[i]])
                   for (j in 1:length(xj[[i]])) {
-                    Xj[[i]] <- append(Xj[[i]], strsplit(tmpj[[j]], 
-                      prsep)[[1]])
+                    ifelse(isTRUE("." %in% strsplit(prsep, "")[[1]]) == 
+                      TRUE, Xj[[i]] <- append(Xj[[i]], tmpj[[j]]), 
+                      Xj[[i]] <- append(Xj[[i]], strsplit(tmpj[[j]], 
+                        prsep)[[1]]))
                   }
                   rm(j, tmpj)
                   Xj[[i]] <- unique(Xj[[i]])
@@ -35,7 +35,7 @@ function (xj, prsep)
             }
             rm(i)
         }
-        else if (isTRUE(Ltj) == FALSE) {
+        else if (isTRUE(is.vector(xj)) == TRUE) {
             vec <- vector()
             for (i in 1:length(xj)) {
                 vec <- append(vec, strsplit(xj[i], prsep)[[1]])
@@ -52,8 +52,12 @@ function (xj, prsep)
                 rm(i)
             }
         }
-        ifelse(isTRUE(is.list(xj) == TRUE) == TRUE, attr(jt, 
-            "names") <- attr(xj, "names"), NA)
+        else {
+            xj
+        }
+        ifelse(isTRUE(is.list(xj)) == TRUE && is.null(attr(xj, 
+            "names")) == FALSE, attr(jt, "names") <- attr(xj, 
+            "names"), NA)
         return(jt)
     }
     else {
