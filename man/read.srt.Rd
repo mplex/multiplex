@@ -1,6 +1,5 @@
 \name{read.srt}
 \alias{read.srt}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Read \code{srt} Files
 }
@@ -11,7 +10,6 @@ A function to read files with \emph{s}end, \emph{r}eceive, and \emph{t}ies forma
 read.srt(file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE, 
     attr = FALSE, rownames = FALSE) 
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{file}{
   path to the file
@@ -37,6 +35,8 @@ read.srt(file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
 }
 \details{
 \code{srt} stands for \emph{s}end, \emph{r}eceive, and \emph{t}ies, and it is a data frame with at least 3 columns for the sender, receiver, and the ties, one column for each type of relation. However, the \code{attr} option correspond to a actor and self-ties data frame file with the option to transform it into a diagonal matrix. When \code{toarray} is set to \code{FALSE}, options \code{attr} and \code{rownames} allow placing the first column of the data frame as the name of the table, which is the format of two-mode data, and compute for instance Galois transformations among the partite sets.
+
+It is also possible to treat the input data as data frame object and manipulate it via e.g. the \code{\link[base:subset]{subset}} function with the \code{toarray} option.
 }
 \value{
 By default an array; usually with three dimensions of stacked matrices where the multiple relations are placed. If \code{toarray = FALSE}, then the data frame is given.
@@ -52,7 +52,7 @@ By default an array; usually with three dimensions of stacked matrices where the
 Antonio Rivero Ostoic
 }
 \note{
-It is also possible to treat the input data as data frame object and manipulate it via e.g. the \code{\link[base:subset]{subset}} function with the \code{toarray} option.
+Valued networks are now supported as well.
 }
 \seealso{
 \code{\link{write.srt}}, \code{\link{read.gml}}, \code{\link{read.dl}}, \code{\link{galois}}
@@ -60,8 +60,6 @@ It is also possible to treat the input data as data frame object and manipulate 
 %\examples{
 %
 %}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ IO }
 \keyword{ manip }
 \keyword{ data }

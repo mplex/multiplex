@@ -1,7 +1,7 @@
 \name{partial.order}
 \alias{partial.order}
 \title{
-The Partial Order of Strings or Galois derivations
+The Partial Order of String relations or of Galois derivations
 }
 \description{
 Construct the partial order table of unique relations of the semigroup, or else of the concepts produced by Galois derivations.
@@ -26,7 +26,7 @@ To get the partial order of an entire semigroup, both generators and compound re
 Galois derivations are now possible to be partially ordered as well, and this option is based on the output given by the \code{\link{galois}} function.
 }
 \value{
-The partial order table in a matrix form.
+An object of `\code{Partial.Order}' class with the partial order table in a matrix form.
 }
 \references{
 Pattison, P.E. \emph{Algebraic Models for Social Networks}. Cambridge University Press. 1993.

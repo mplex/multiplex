@@ -25,7 +25,7 @@ The cumulated person hierarchy is used to determine the partial structural equiv
 The outcome of this function depends on the characteristics of the Relation-Box.
 }
 \value{
-An array representing the cumulated person hierarchy.
+An object of `\code{Partial.Order}' class with an array representing the cumulated person hierarchy.
 }
 \references{
 Breiger, R.L. and P.E. Pattison, `Cumulated social roles: The duality of persons and their algebras,' \emph{Social Networks}, 8, 215-256. 1986.
@@ -56,8 +56,6 @@ rarr <- rbox(arr)
 cph(rarr)
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ algebra }
 \keyword{ math }
 \keyword{ array }
