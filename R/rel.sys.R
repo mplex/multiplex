@@ -26,18 +26,29 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
         bnds <- bonds
     }
     if (match.arg(type) == "tolist") {
-        if (is.array(x) == FALSE) 
-            stop("'x' must be an array.")
-        if (isTRUE(dim(x)[1] == dim(x)[2]) == FALSE) 
-            stop("'x' must be a square array.")
+        if (is.array(x) == FALSE) {
+            if (isTRUE(attr(x, "class") == "Rel.System") == FALSE) {
+                stop("'x' must be an array or a \"Rel.System\" class object.")
+            }
+            else if (isTRUE(attr(x, "class") == "Rel.System") == 
+                TRUE) {
+                return(x)
+            }
+        }
+        else {
+            if (isTRUE(dim(x)[1] == dim(x)[2]) == FALSE) 
+                stop("'x' must be a square array.")
+        }
         if (is.null(att) == FALSE) {
+            if (is.numeric(att) == FALSE) 
+                stop("'att' must be numeric pointing the array(s) representing the attribute(s).")
             if (is.na(dim(x)[3]) == FALSE) {
                 if (isTRUE(max(att) > dim(x)[3]) == TRUE) 
-                  stop("Value of 'attr' greater than dim(x)[3]")
+                  stop("Value of 'att' greater than dim(x)[3]")
             }
             else if (is.na(dim(x)[3]) == TRUE) {
                 if (isTRUE(max(att) > 1L) == TRUE) 
-                  stop("Value of 'attr' greater than dim(x)[3]")
+                  stop("Value of 'att' greater than dim(x)[3]")
             }
             ats <- bundles(x, collapse = FALSE, loops = TRUE, 
                 prsep = prsep)[[7]][att]
@@ -166,18 +177,18 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
         }
         ifelse(is.na(dim(x)[3]) == TRUE, stb <- unlist(stb), 
             NA)
-        if (is.null(att) == TRUE) {
-            if (is.na(dim(x)[3]) == FALSE) {
+        if (is.na(dim(x)[3]) == FALSE) {
+            if (is.null(att) == TRUE) {
                 ifelse(is.null(dimnames(x)[[3]]) == TRUE, attr(stb, 
                   "names") <- 1:(dim(x)[3] - length(att)), attr(stb, 
                   "names") <- dimnames(x)[[3]])
             }
-        }
-        else {
-            ifelse(is.null(dimnames(x)[[3]]) == TRUE, attr(stb, 
-                "names") <- which(!(seq(dim(x)[3]) %in% att)), 
-                attr(stb, "names") <- dimnames(x)[[3]][which(!(seq(dim(x)[3]) %in% 
-                  att))])
+            else if (is.null(att) == FALSE) {
+                ifelse(is.null(dimnames(x)[[3]]) == TRUE, attr(stb, 
+                  "names") <- which(!(seq(dim(x)[3]) %in% att)), 
+                  attr(stb, "names") <- dimnames(x)[[3]][which(!(seq(dim(x)[3]) %in% 
+                    att))])
+            }
         }
         if (is.null(dimnames(x)[[1]]) == TRUE) {
             note <- "Input labels in 'x' are NULL."
@@ -221,29 +232,27 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
     }
     else if (match.arg(type) == "toarray") {
         if (isTRUE(attr(x, "class") == "Rel.System") == FALSE) {
-            X <- x
-            if (is.null(sel) == TRUE) {
-                x <- rel.sys(x, type = "tolist", bonds = bonds, 
-                  loops = loops, att = att)
-            }
-            else {
-                if (is.array(sel) == TRUE) {
-                  ifelse(is.na(dim(sel)[3]) == TRUE | isTRUE(dim(sel)[3] == 
-                    1L) == TRUE, sel <- diag(sel), sel <- diag(mnplx(sel)))
-                  sel <- as.vector(attr(which(!(sel == 0)), "names"))
+            tmp <- x
+            if (is.null(sel) == FALSE) {
+                if (isTRUE(sel == "noatt") == TRUE && isTRUE(as.numeric(att) <= 
+                  dim(tmp)[3])) {
+                  return(tmp[, , which(1:dim(tmp)[3] != att)])
+                }
+                else if (isTRUE(sel == "att") == TRUE && isTRUE(as.numeric(att) <= 
+                  dim(tmp)[3])) {
+                  return(tmp[, , which(1:dim(tmp)[3] == att)])
                 }
                 else {
-                  NA
+                  return(tmp)
                 }
-                ifelse(isTRUE(is.numeric(sel) == TRUE) == TRUE, 
-                  Sel <- dimnames(x)[[1]][sel], Sel <- sel)
-                ifelse(isTRUE(Sel == "att") == TRUE | isTRUE(Sel == 
-                  "noatt") == TRUE, x <- rel.sys(x, type = "tolist", 
-                  bonds = bonds, loops = loops, att = att), x <- rel.sys(x, 
-                  type = "tolist", bonds = bonds, sel = Sel, 
-                  loops = loops, att = att))
             }
-            ifelse(is.na(dim(X)[3]) == TRUE, x$Ties <- unlist(x$Ties), 
+            else {
+                ifelse(is.null(att) == TRUE, x <- rel.sys(tmp, 
+                  type = "tolist", bonds = bonds, loops = loops), 
+                  x <- rel.sys(tmp, type = "tolist", bonds = bonds, 
+                    loops = loops, att = att))
+            }
+            ifelse(is.na(dim(tmp)[3]) == TRUE, x$Ties <- unlist(x$Ties), 
                 NA)
         }
         else {
@@ -251,7 +260,13 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
         }
         if (isTRUE(x$sys.ord == 0L) == TRUE) 
             stop("Relational system chosen is empty!")
-        if (is.null(sel) == FALSE && is.na(dim(X)[3]) == FALSE) {
+        if (is.null(sel) == TRUE) {
+            n <- x$sys.ord
+            r <- length(x$Ties)
+            lbs <- x$incl
+            lbst <- attr(x$Ties, "names")
+        }
+        else if (is.null(sel) == FALSE) {
             if (isTRUE(sel == "att") == TRUE) {
                 Sel <- x$nodes[which(x$nodes %in% unlist(dhc(x$Attrs)))]
             }
@@ -295,11 +310,8 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
             n <- length(lbs)
             r <- length(lbst)
         }
-        else if (is.null(sel) == TRUE) {
-            n <- x$sys.ord
-            r <- length(x$Ties)
-            lbs <- x$incl
-            lbst <- attr(x$Ties, "names")
+        else if (is.null(sel) == FALSE && isTRUE(attr(x, "class")[1] == 
+            "array") == TRUE) {
         }
         else {
             n <- length(x$sel)
