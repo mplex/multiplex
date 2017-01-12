@@ -231,132 +231,144 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
         return(RS)
     }
     else if (match.arg(type) == "toarray") {
+        tmp <- x
         if (isTRUE(attr(x, "class") == "Rel.System") == FALSE) {
-            tmp <- x
             if (is.null(sel) == FALSE) {
-                if (isTRUE(sel == "noatt") == TRUE && isTRUE(as.numeric(att) <= 
-                  dim(tmp)[3])) {
-                  return(tmp[, , which(1:dim(tmp)[3] != att)])
-                }
-                else if (isTRUE(sel == "att") == TRUE && isTRUE(as.numeric(att) <= 
-                  dim(tmp)[3])) {
-                  return(tmp[, , which(1:dim(tmp)[3] == att)])
+                if (is.array(sel) == TRUE) {
+                  ifelse(is.na(dim(sel)[3]) == TRUE | isTRUE(dim(sel)[3] == 
+                    1L) == TRUE, sel <- diag(sel), sel <- diag(mnplx(sel)))
+                  sel <- as.vector(attr(which(!(sel == 0)), "names"))
                 }
                 else {
-                  return(tmp)
+                  NA
+                }
+                ifelse(isTRUE(is.numeric(sel) == TRUE) == TRUE, 
+                  Sel <- dimnames(x)[[1]][sel], Sel <- sel)
+                if (isTRUE(Sel == "att") == TRUE | isTRUE(Sel == 
+                  "noatt") == TRUE) {
+                  x <- rel.sys(tmp, type = "tolist", bonds = bonds, 
+                    loops = loops, att = att)
+                }
+                else {
+                  ifelse(is.na(dim(tmp)[3]) == TRUE, return(tmp[which(dimnames(tmp)[[1]] %in% 
+                    Sel), which(dimnames(tmp)[[1]] %in% Sel)]), 
+                    return(tmp[which(dimnames(tmp)[[1]] %in% 
+                      Sel), which(dimnames(tmp)[[1]] %in% Sel), 
+                      ]))
                 }
             }
             else {
-                ifelse(is.null(att) == TRUE, x <- rel.sys(tmp, 
-                  type = "tolist", bonds = bonds, loops = loops), 
-                  x <- rel.sys(tmp, type = "tolist", bonds = bonds, 
-                    loops = loops, att = att))
+                x <- rel.sys(tmp, type = "tolist", bonds = bonds, 
+                  loops = loops, att = att)
             }
             ifelse(is.na(dim(tmp)[3]) == TRUE, x$Ties <- unlist(x$Ties), 
                 NA)
         }
-        else {
-            NA
-        }
-        if (isTRUE(x$sys.ord == 0L) == TRUE) 
-            stop("Relational system chosen is empty!")
-        if (is.null(sel) == TRUE) {
-            n <- x$sys.ord
-            r <- length(x$Ties)
-            lbs <- x$incl
-            lbst <- attr(x$Ties, "names")
-        }
-        else if (is.null(sel) == FALSE) {
-            if (isTRUE(sel == "att") == TRUE) {
-                Sel <- x$nodes[which(x$nodes %in% unlist(dhc(x$Attrs)))]
+        if (isTRUE(attr(x, "class") == "Rel.System") == TRUE) {
+            if (isTRUE(x$sys.ord == 0L) == TRUE) 
+                stop("Relational system chosen is empty!")
+            if (is.null(sel) == TRUE) {
+                n <- x$sys.ord
+                r <- length(x$Ties)
+                lbs <- x$incl
+                lbst <- attr(x$Ties, "names")
             }
-            else if (isTRUE(sel == "noatt") == TRUE) {
-                Sel <- x$nodes[which(!(x$nodes %in% unlist(dhc(x$Attrs))))]
+            else if (is.null(sel) == FALSE) {
+                if (isTRUE(sel == "att") == TRUE) {
+                  sel <- x$nodes[which(x$nodes %in% unlist(dhc(x$Attrs)))]
+                }
+                else if (isTRUE(sel == "noatt") == TRUE) {
+                  sel <- x$nodes[which(!(x$nodes %in% unlist(dhc(x$Attrs))))]
+                }
+                else if (isTRUE(any(sel %in% x$nodes)) == FALSE) {
+                  warning("selection is not part of 'x'.")
+                  return(tmp)
+                }
+                else {
+                  NA
+                }
+                lbst <- vector()
+                ntsel <- list()
+                for (k in 1:length(x$Ties)) {
+                  tss <- which(dhc(x$Ties[[k]]) %in% sel)
+                  if (isTRUE(length(tss) > 0) == TRUE) {
+                    tmpsel <- vector()
+                    for (i in 1:length(tss)) {
+                      if (isTRUE((tss[i]%%2L) == 1L) == TRUE) {
+                        tmpsel <- append(tmpsel, x$Ties[[k]][ceiling(tss[i]/2L)])
+                      }
+                      else {
+                        tmpsel <- append(tmpsel, x$Ties[[k]][floor(tss[i]/2L)])
+                      }
+                    }
+                    rm(i)
+                    ntsel[[k]] <- as.vector(unlist(tmpsel))
+                    lbst <- append(lbst, attr(x$Ties, "names")[k])
+                  }
+                  else {
+                    NA
+                  }
+                }
+                rm(k)
+                ntsel <- ntsel[unlist(lapply(ntsel, length) != 
+                  0)]
+                attr(ntsel, "names") <- lbst
+                x$Ties <- ntsel
+                lbs <- unique(dhc(unlist(ntsel)))
+                n <- length(lbs)
+                r <- length(lbst)
             }
-            else if (isTRUE(any(Sel %in% x$nodes)) == FALSE) {
-                return(sel)
+            else if (is.null(sel) == FALSE && isTRUE(attr(x, 
+                "class")[1] == "array") == TRUE) {
             }
             else {
-                NA
+                n <- length(x$sel)
+                r <- 1
+                lbs <- x$sel
+                lbst <- NULL
             }
-            lbst <- vector()
-            ntsel <- list()
-            for (k in 1:length(x$Ties)) {
-                tss <- which(dhc(x$Ties[[k]]) %in% Sel)
-                if (isTRUE(length(tss) > 0) == TRUE) {
-                  tmpsel <- vector()
-                  for (i in 1:length(tss)) {
-                    if (isTRUE((tss[i]%%2L) == 1L) == TRUE) {
-                      tmpsel <- append(tmpsel, x$Ties[[k]][ceiling(tss[i]/2L)])
-                    }
-                    else {
-                      tmpsel <- append(tmpsel, x$Ties[[k]][floor(tss[i]/2L)])
-                    }
-                  }
-                  rm(i)
-                  ntsel[[k]] <- as.vector(unlist(tmpsel))
-                  lbst <- append(lbst, attr(x$Ties, "names")[k])
+            arr <- array(0, dim = c(n, n, r))
+            dimnames(arr)[[1]] <- dimnames(arr)[[2]] <- lbs
+            if (isTRUE(n > 0) == TRUE) 
+                dimnames(arr)[[3]] <- lbst
+            for (i in 1:r) {
+                if (isTRUE(length(x$Ties[[i]]) > 0) == TRUE && 
+                  isTRUE(n > 0) == TRUE) {
+                  arr[, , i] <- transf(x$Ties[[i]], type = "toarray", 
+                    ord = n, labels = lbs, lb2lb = TRUE)
                 }
                 else {
                   NA
                 }
             }
-            rm(k)
-            rm(tss)
-            ntsel <- ntsel[unlist(lapply(ntsel, length) != 0)]
-            attr(ntsel, "names") <- lbst
-            x$Ties <- ntsel
-            lbs <- unique(dhc(unlist(ntsel)))
-            n <- length(lbs)
-            r <- length(lbst)
-        }
-        else if (is.null(sel) == FALSE && isTRUE(attr(x, "class")[1] == 
-            "array") == TRUE) {
-        }
-        else {
-            n <- length(x$sel)
-            r <- 1
-            lbs <- x$sel
-            lbst <- NULL
-        }
-        arr <- array(0, dim = c(n, n, r))
-        dimnames(arr)[[1]] <- dimnames(arr)[[2]] <- lbs
-        if (isTRUE(n > 0) == TRUE) 
-            dimnames(arr)[[3]] <- lbst
-        for (i in 1:r) {
-            if (isTRUE(length(x$Ties[[i]]) > 0) == TRUE && isTRUE(n > 
-                0) == TRUE) {
-                arr[, , i] <- transf(x$Ties[[i]], type = "toarray", 
-                  ord = n, labels = lbs, lb2lb = TRUE)
-            }
-            else {
-                NA
-            }
-        }
-        rm(i)
-        if (is.null(x$Attrs) == FALSE) {
-            arra <- array(0, dim = c(n, n, length(x$Attrs)))
-            dimnames(arra)[[1]] <- dimnames(arra)[[2]] <- lbs
-            if (isTRUE(n > 0) == TRUE) 
-                dimnames(arra)[[3]] <- attr(x$Attrs, "names")
-            for (i in 1:length(x$Attrs)) {
-                act <- dhc(x$Attrs[[i]], prsep = prsep)
-                if (isTRUE(length(act) > 0) == TRUE) {
-                  diag(arra[, , i])[which(lbs %in% dhc(x$Attrs[[i]]))] <- 1L
+            rm(i)
+            if (is.null(x$Attrs) == FALSE) {
+                arra <- array(0, dim = c(n, n, length(x$Attrs)))
+                dimnames(arra)[[1]] <- dimnames(arra)[[2]] <- lbs
+                if (isTRUE(n > 0) == TRUE) 
+                  dimnames(arra)[[3]] <- attr(x$Attrs, "names")
+                for (i in 1:length(x$Attrs)) {
+                  act <- dhc(x$Attrs[[i]], prsep = prsep)
+                  if (isTRUE(length(act) > 0) == TRUE) {
+                    diag(arra[, , i])[which(lbs %in% dhc(x$Attrs[[i]]))] <- 1L
+                  }
+                }
+                rm(i)
+                attrs <- dim(arr)[3]
+                arr <- zbind(arr, arra)
+                if (isTRUE(dim(arra)[3] > 1) == TRUE) {
+                  class(arr) <- c("array", paste("Attrs.", paste(attrs + 
+                    1L, dim(arr)[3], sep = ","), sep = " : "))
+                }
+                else {
+                  class(arr) <- c("array", paste("Attrs.", dim(arr)[3], 
+                    sep = " : "))
                 }
             }
-            rm(i)
-            attrs <- dim(arr)[3]
-            arr <- zbind(arr, arra)
-            if (isTRUE(dim(arra)[3] > 1) == TRUE) {
-                class(arr) <- c("array", paste("Attrs.", paste(attrs + 
-                  1L, dim(arr)[3], sep = ","), sep = " : "))
-            }
-            else {
-                class(arr) <- c("array", paste("Attrs.", dim(arr)[3], 
-                  sep = " : "))
-            }
+            return(arr)
         }
-        return(arr)
+    }
+    else {
+        stop("Input not recognizable!!")
     }
 }
