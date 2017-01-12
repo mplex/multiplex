@@ -1,6 +1,6 @@
 read.srt <-
 function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE, 
-    attr = FALSE, rownames = FALSE) 
+    attr = FALSE, rownames = FALSE, add = NULL) 
 {
     ifelse(is.array(file) == TRUE | is.data.frame(file) == TRUE, 
         x <- file, x <- utils::read.table(file, header = header, 
@@ -15,6 +15,14 @@ function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
     }
     else {
         NA
+    }
+    if (is.null(add) == FALSE) {
+        levels(x[, 1]) <- c(levels(x[, 1]), add)
+        levels(x[, 2]) <- c(levels(x[, 2]), add)
+        for (i in 1:length(add)) {
+            x <- rbind(x, c(add[i], add[i], NA))
+        }
+        rm(i)
     }
     if (isTRUE(toarray == TRUE) == TRUE) {
         R <- (ncol(x) - 2L)
