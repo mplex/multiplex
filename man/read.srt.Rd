@@ -8,7 +8,7 @@ A function to read files with \emph{s}end, \emph{r}eceive, and \emph{t}ies forma
 }
 \usage{
 read.srt(file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE, 
-    attr = FALSE, rownames = FALSE) 
+    attr = FALSE, rownames = FALSE, add = NULL) 
 }
 \arguments{
   \item{file}{
@@ -32,9 +32,12 @@ read.srt(file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
   \item{rownames}{
   (logical) are rownames the labels of the nodes?
 }
+  \item{add}{
+  (optional) isolates to be added 
+}
 }
 \details{
-\code{srt} stands for \emph{s}end, \emph{r}eceive, and \emph{t}ies, and it is a data frame with at least 3 columns for the sender, receiver, and the ties, one column for each type of relation. However, the \code{attr} option correspond to a actor and self-ties data frame file with the option to transform it into a diagonal matrix. When \code{toarray} is set to \code{FALSE}, options \code{attr} and \code{rownames} allow placing the first column of the data frame as the name of the table, which is the format of two-mode data, and compute for instance Galois transformations among the partite sets.
+\code{srt} stands for \emph{s}end, \emph{r}eceive, and \emph{t}ies, and it is a data frame with at least 3 columns for the sender, receiver, and the ties, one column for each type of relation. However, the \code{attr} option correspond to a actor and self-ties data frame file with the option to transform it into a diagonal matrix. When \code{toarray} is set to \code{FALSE}, options \code{attr} and \code{rownames} allow placing the first column of the data frame as the name of the table, which is the format of two-mode data, and compute for instance Galois transformations among the partite sets. If more than one isolate is added, then the data must be included as a vector.
 
 It is also possible to treat the input data as data frame object and manipulate it via e.g. the \code{\link[base:subset]{subset}} function with the \code{toarray} option.
 }
