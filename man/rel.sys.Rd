@@ -9,7 +9,7 @@ Create the Relation System of a multiple network.
 \usage{
 rel.sys(x, type = c("tolist", "toarray"), bonds = c("entire", "strong", "weak", 
         "asym", "recp", "txch", "tent", "mixd", "full"), sel = NULL, 
-        loops = FALSE, att = NULL, prsep)
+        loops = FALSE, att = NULL, sep)
 }
 \arguments{
   \item{x}{
@@ -30,7 +30,7 @@ rel.sys(x, type = c("tolist", "toarray"), bonds = c("entire", "strong", "weak",
   \item{att}{
    the arrays in \code{x} corresponding to attributes
 }
-  \item{prsep}{
+  \item{sep}{
    (optional) the pair separator for the pairwise relations
   }
 }
@@ -51,7 +51,7 @@ The items are:
    \item{bond.type}{the type of bonds used in the relational system creation}
    \item{size}{number of ties in the relational system}
    \item{Note}{(optional) note}
-   \item{prsep}{the pairwise separator of the relational system}
+   \item{sep}{the pairwise separator of the relational system}
    \item{Ties}{the ties in the relational system}
    \item{Attrs.ord}{if \code{att} is not \code{NULL}, the number of nodes with the chosen attribute(s) }
    \item{Attrs}{if \code{att} is not \code{NULL}, the actors with the chosen attribute(s)}
