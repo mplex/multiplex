@@ -1,8 +1,8 @@
 transf <-
 function (x, type = c("tolist", "toarray"), lb2lb = FALSE, labels = NULL, 
-    ord, prsep) 
+    ord, sep) 
 {
-    ifelse(missing(prsep) == TRUE, prsep <- ", ", NA)
+    ifelse(missing(sep) == TRUE, sep <- ", ", NA)
     if (match.arg(type) == "tolist") {
         if (isTRUE(is.character(x) == TRUE) == TRUE) 
             return(x)
@@ -38,8 +38,8 @@ function (x, type = c("tolist", "toarray"), lb2lb = FALSE, labels = NULL,
                     dim(x)[1], rws[i] <- (which((X) == 1L)%%dim(x)[1])[i])
                   ifelse(isTRUE(lb2lb == TRUE) == TRUE, inc[[length(inc) + 
                     1L]] <- paste(labelsr[rws[i]], labelsc[cls[i]], 
-                    sep = prsep), inc[[length(inc) + 1L]] <- paste(rws[i], 
-                    cls[i], sep = prsep))
+                    sep = sep), inc[[length(inc) + 1L]] <- paste(rws[i], 
+                    cls[i], sep = sep))
                 }
                 rm(i)
             }
@@ -47,7 +47,7 @@ function (x, type = c("tolist", "toarray"), lb2lb = FALSE, labels = NULL,
             return(sort(unlist(inc)))
         }
         else {
-            return(paste(0, 0, sep = prsep))
+            return(paste(0, 0, sep = sep))
         }
     }
     if (match.arg(type) == "toarray") {
