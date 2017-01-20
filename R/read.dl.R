@@ -1,10 +1,10 @@
-read.dl <- 
+read.dl <-
 function (file) 
 {
     arx <- scan(file, what = "character", nlines = -1, quiet = TRUE)
     if (isTRUE(arx[1] == "DL") == FALSE) 
         stop("Input file must have a DL format.")
-    tip <- dhc(arx[2:3], prsep = "=")
+    tip <- dhc(arx[2:3], sep = "=")
     if (isTRUE(tip[1] == "N") == TRUE) {
         if (any(tip == "NM") == TRUE) {
             arr <- array(NA, dim = c(as.numeric(rep(tip[2], 2)), 
