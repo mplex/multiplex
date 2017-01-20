@@ -24,8 +24,8 @@ function (x, rs, type = c("und", "inn", "out"), inclx = FALSE,
                   for (n in 1:length(x)) {
                     for (j in 1:length(rst[[i]])) {
                       if (x[n] %in% c(c(strsplit(rst[[i]][j], 
-                        rs$prsep)[[1]][1], strsplit(rst[[i]][j], 
-                        rs$prsep)[[1]][2]))) {
+                        rs$sep)[[1]][1], strsplit(rst[[i]][j], 
+                        rs$sep)[[1]][2]))) {
                         tmp <- append(tmp, rst[[i]][j])
                       }
                     }
@@ -42,12 +42,12 @@ function (x, rs, type = c("und", "inn", "out"), inclx = FALSE,
                 if (isTRUE(length(srs[[i]]) > 0L) == TRUE) {
                   for (j in 1:length(srs[[i]])) {
                     switch(match.arg(type), und = nrs <- append(nrs, 
-                      strsplit(srs[[i]][j], rs$prsep)[[1]][1]), 
+                      strsplit(srs[[i]][j], rs$sep)[[1]][1]), 
                       inn = nrs <- append(nrs, strsplit(srs[[i]][j], 
-                        rs$prsep)[[1]][1]), out = nrs <- append(nrs, 
-                        (strsplit(srs[[i]][j], rs$prsep)[[1]][2])))
+                        rs$sep)[[1]][1]), out = nrs <- append(nrs, 
+                        (strsplit(srs[[i]][j], rs$sep)[[1]][2])))
                     switch(match.arg(type), und = nrs <- append(nrs, 
-                      strsplit(srs[[i]][j], rs$prsep)[[1]][2]), 
+                      strsplit(srs[[i]][j], rs$sep)[[1]][2]), 
                       inn = NA, out = NA)
                   }
                   rm(j)
