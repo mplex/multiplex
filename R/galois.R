@@ -426,7 +426,7 @@ function (x, labeling = c("full", "reduced"))
             for (i in 1:length(dder)) {
                 ifelse(isTRUE(any(dhc(dder)[[i]] %in% dhc(eq0)[[k]]) == 
                   TRUE) == TRUE, dder[[i]] <- jnt(c(dhc(dder)[[i]], 
-                  dhc(eq0)[[k]]), prsep = ", "), NA)
+                  dhc(eq0)[[k]]), sep = ", "), NA)
             }
             rm(i)
         }
