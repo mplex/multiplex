@@ -1,8 +1,8 @@
 pacnet <-
 function (file, toarray = FALSE, uniq = FALSE, transp = FALSE, 
-    prsep) 
+    sep) 
 {
-    ifelse(missing(prsep) == TRUE, prsep <- ", ", NA)
+    ifelse(missing(sep) == TRUE, sep <- ", ", NA)
     arx <- scan(file, what = "character", nlines = -1, quiet = TRUE)
     if (isTRUE(length(grep("ALPHA", arx, fixed = TRUE)) == 0L) == 
         TRUE) {
@@ -59,7 +59,7 @@ function (file, toarray = FALSE, uniq = FALSE, transp = FALSE,
         for (j in 1:(length(lt[[i]])/2L)) {
             ii[[i]] <- append(ii[[i]], paste(lt[[i]][seq(1, length(lt[[i]]), 
                 by = 2)[j]], lt[[i]][seq(2, length(lt[[i]]), 
-                by = 2)[j]], sep = prsep))
+                by = 2)[j]], sep = sep))
         }
         rm(j)
     }
@@ -71,7 +71,7 @@ function (file, toarray = FALSE, uniq = FALSE, transp = FALSE,
         for (j in 1:(length(lt2[[i]])/2L)) {
             at[[i]] <- append(at[[i]], paste(lt2[[i]][seq(1, 
                 length(lt2[[i]]), by = 2)[j]], lt2[[i]][seq(2, 
-                length(lt2[[i]]), by = 2)[j]], sep = prsep))
+                length(lt2[[i]]), by = 2)[j]], sep = sep))
         }
         rm(j)
     }
@@ -153,8 +153,8 @@ function (file, toarray = FALSE, uniq = FALSE, transp = FALSE,
         for (i in 1:length(ii)) {
             ifelse(isTRUE(transp == TRUE) == TRUE, iiarrs[, , 
                 i] <- transf(t(ii[[i]]), type = "toarray", ord = n, 
-                prsep = prsep), iiarrs[, , i] <- transf(ii[[i]], 
-                type = "toarray", ord = n, prsep = prsep))
+                sep = sep), iiarrs[, , i] <- transf(ii[[i]], 
+                type = "toarray", ord = n, sep = sep))
         }
         rm(i)
         tmp <- data.frame(matrix(ncol = dim(iiarrs)[1] * dim(iiarrs)[2], 
@@ -176,8 +176,8 @@ function (file, toarray = FALSE, uniq = FALSE, transp = FALSE,
         for (i in 1:length(at)) {
             ifelse(isTRUE(transp == TRUE) == TRUE, atarrs[, , 
                 i] <- transf(t(at[[i]]), type = "toarray", ord = n, 
-                prsep = prsep), atarrs[, , i] <- transf(at[[i]], 
-                type = "toarray", ord = n, prsep = prsep))
+                sep = sep), atarrs[, , i] <- transf(at[[i]], 
+                type = "toarray", ord = n, sep = sep))
         }
         rm(i)
         tmp <- data.frame(matrix(ncol = dim(atarrs)[1] * dim(atarrs)[2], 
