@@ -1,8 +1,8 @@
 iinc <-
-function (inc, PO, print.eqs = FALSE, prsep) 
+function (inc, PO, print.eqs = FALSE, sep) 
 {
-    ifelse(missing(prsep) == TRUE, prsep <- ", ", NA)
-    Pi <- (transf(inc, type = "toarray", ord = dim(PO)[1], prsep = prsep) + 
+    ifelse(missing(sep) == TRUE, sep <- ", ", NA)
+    Pi <- (transf(inc, type = "toarray", ord = dim(PO)[1], sep = sep) + 
         PO)
     ls <- list()
     k <- 1
