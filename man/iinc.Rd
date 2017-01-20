@@ -7,7 +7,7 @@ Induced Inclusions
 Function to establish class membership of induced inclusions given a partial order structure
 }
 \usage{
-iinc(inc, PO, print.eqs = FALSE, prsep)
+iinc(inc, PO, print.eqs = FALSE, sep)
 }
 \arguments{
   \item{inc}{  an induced inclusion ('list' format)
@@ -16,7 +16,7 @@ iinc(inc, PO, print.eqs = FALSE, prsep)
 }
   \item{print.eqs}{  (logical) should the equations be printed in the outcome?
 }
-  \item{prsep}{  the pair separator
+  \item{sep}{  the pair separator
 }
 }
 \details{
