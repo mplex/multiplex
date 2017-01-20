@@ -7,7 +7,7 @@ internal function
 internal function
 }
 %\usage{
-%dhc(xd, prsep)
+%dhc(xd, sep)
 %}
 %
 \keyword{internal}
