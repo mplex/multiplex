@@ -22,7 +22,7 @@ summaryBundles(x, file = NULL, latex = FALSE, byties)
   \item{byties}{
    (logical) expand tie patterns and collapse tie labels?
 }
-%  \item{prsep}{
+%  \item{sep}{
 %   (optional) the pair separator for the pairwise relations
 %}
 %  \item{...}{
