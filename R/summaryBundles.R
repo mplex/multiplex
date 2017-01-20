@@ -3,7 +3,7 @@ function (x, file = NULL, latex = FALSE, byties)
 {
     if (isTRUE(attr(x, "class")[1] == "Rel.Bundles") == FALSE) 
         stop("Data must be a \"Rel.Bundles\" class.")
-    prsep <- dhc(attr(x, "class")[2], ": ")[2]
+    sep <- dhc(attr(x, "class")[2], ": ")[2]
     ifelse(missing(byties) == FALSE && isTRUE(byties == TRUE) == 
         TRUE, byties <- TRUE, byties <- FALSE)
     if (latex) {
@@ -18,7 +18,7 @@ function (x, file = NULL, latex = FALSE, byties)
     if (isTRUE(length(ulx) != 0) == TRUE) {
         lb <- vector()
         for (i in 1:length(ulx)) {
-            lb <- append(lb, strsplit(ulx[i], prsep)[[1]])
+            lb <- append(lb, strsplit(ulx[i], sep)[[1]])
         }
         rm(i)
         lb <- levels(factor(lb))
@@ -116,7 +116,7 @@ function (x, file = NULL, latex = FALSE, byties)
             rm(i)
         }
         else if (isTRUE(is.list(x[[k]])) == FALSE) {
-            tmp <- men(x[[k]], prsep = prsep)
+            tmp <- men(x[[k]], sep = sep)
             for (j in 1:length(tmp)) {
                 if (latex) {
                   recp[[q]] <- noquote(paste("\\stackrel{\\leftrightarrow}{", 
@@ -174,7 +174,7 @@ function (x, file = NULL, latex = FALSE, byties)
     k <- 4L
     if (length(unlist(x[[k]])) > 0) {
         q <- 1L
-        temp <- men(levels(factor(unlist(x[[k]]))), prsep = prsep)
+        temp <- men(levels(factor(unlist(x[[k]]))), sep = sep)
         tmp <- vector()
         for (l in 1:length(temp)) {
             for (i in 1:length(x[[k]])) {
@@ -224,7 +224,7 @@ function (x, file = NULL, latex = FALSE, byties)
     k <- 5L
     if (length(unlist(x[[k]])) > 0) {
         q <- 1L
-        temp <- men(levels(factor(unlist(x[[k]]))), prsep = prsep)
+        temp <- men(levels(factor(unlist(x[[k]]))), sep = sep)
         tmp <- vector()
         for (l in 1:length(temp)) {
             for (i in 1:length(x[[k]])) {
@@ -290,7 +290,7 @@ function (x, file = NULL, latex = FALSE, byties)
     k <- 6L
     if (length(unlist(x[[k]])) > 0) {
         q <- 1L
-        temp <- men(levels(factor(unlist(x[[k]]))), prsep = prsep)
+        temp <- men(levels(factor(unlist(x[[k]]))), sep = sep)
         tmp <- vector()
         for (l in 1:length(temp)) {
             for (i in 1:length(x[[k]])) {
@@ -487,7 +487,7 @@ function (x, file = NULL, latex = FALSE, byties)
             ltbndl <- list()
             length(ltbndl) <- nrow(dfbndl)
             for (i in 1:nrow(dfbndl)) {
-                ltbndl[[i]] <- dhc(as.vector(dfbndl[i, ]), prsep = " -- ")
+                ltbndl[[i]] <- dhc(as.vector(dfbndl[i, ]), sep = " -- ")
             }
             rm(i)
             attr(ltbndl, "names") <- attr(Bundles, "names")
