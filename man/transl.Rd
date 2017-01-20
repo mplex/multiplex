@@ -7,7 +7,7 @@ internal function
 internal function
 }
 %\usage{
-%transl(lt, prsep)
+%transl(lt, sep)
 %}
 %
 \keyword{internal}
