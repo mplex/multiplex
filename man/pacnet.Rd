@@ -8,7 +8,7 @@ A function to read output files from the Pacnet program with the full factorizat
 }
 \usage{
 pacnet(file, toarray = FALSE, uniq = FALSE, 
-            transp = FALSE, prsep)
+            transp = FALSE, sep)
 }
 \arguments{
   \item{file}{  character vector containing a file name or path
@@ -19,7 +19,7 @@ pacnet(file, toarray = FALSE, uniq = FALSE,
 }
   \item{transp}{  (logical) should the partially ordered structures be transposed?
 }
-  \item{prsep}{  (optional) pair separator
+  \item{sep}{  (optional) pair separator
 }
 }
 \details{
