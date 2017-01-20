@@ -1,9 +1,9 @@
 rel.sys <-
 function (x, type = c("tolist", "toarray"), bonds = c("entire", 
     "strong", "weak", "asym", "recp", "txch", "tent", "mixd", 
-    "full"), sel = NULL, loops = FALSE, att = NULL, prsep) 
+    "full"), sel = NULL, loops = FALSE, att = NULL, sep) 
 {
-    ifelse(missing(prsep) == TRUE, prsep <- ", ", NA)
+    ifelse(missing(sep) == TRUE, sep <- ", ", NA)
     ifelse(missing(bonds) == TRUE, bonds <- "entire", NA)
     if (isTRUE(att == 0L) == TRUE) {
         att <- NULL
@@ -51,7 +51,7 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
                   stop("Value of 'att' greater than dim(x)[3]")
             }
             ats <- bundles(x, collapse = FALSE, loops = TRUE, 
-                prsep = prsep)[[7]][att]
+                sep = sep)[[7]][att]
         }
         else if (is.null(att) == TRUE) {
             ats <- logical(0)
@@ -59,7 +59,7 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
         if (is.na(dim(x)[3]) == FALSE) {
             if (isTRUE(all(seq(dim(x)[3]) %in% att)) == FALSE) {
                 bd <- bundles(x[, , which(!(seq(dim(x)[3]) %in% 
-                  att))], collapse = FALSE, loops = loops, prsep = prsep)
+                  att))], collapse = FALSE, loops = loops, sep = sep)
             }
             else if (isTRUE(all(seq(dim(x)[3]) %in% att)) == 
                 TRUE) {
@@ -68,7 +68,7 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
         }
         else {
             bd <- bundles(x, collapse = FALSE, loops = loops, 
-                prsep = prsep)
+                sep = sep)
         }
         if (isTRUE(length(unlist(bd)) == 0) == TRUE) 
             stop("Relational system chosen is empty!")
@@ -165,7 +165,7 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
             for (k in 1:length(stb)) {
                 for (i in 1:length(stb[[k]])) {
                   if (isTRUE(length(stb[[k]]) > 0L) == TRUE) {
-                    ties <- append(ties, dhc(stb[[k]][i], prsep = prsep))
+                    ties <- append(ties, dhc(stb[[k]][i], sep = sep))
                   }
                 }
                 rm(i)
@@ -204,15 +204,15 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
                 incl = lbs[which(lbs %in% levels(factor(ties)))], 
                 excl = lbs[which(!(lbs %in% levels(factor(ties))))], 
                 bond.type = bonds, size = length(unlist(stb)), 
-                Note = note, prsep = prsep, Ties = stb, Attrs.ord = length(unlist(ats)), 
-                Attrs = jnt(dhc(ats, prsep = prsep), prsep = prsep))), 
+                Note = note, sep = sep, Ties = stb, Attrs.ord = length(unlist(ats)), 
+                Attrs = jnt(dhc(ats, sep = sep), sep = sep))), 
                 RS <- (list(ord = dim(x)[1], nodes = lbs, sel = sel, 
                   sys.ord = nlevels(factor(ties)), incl = lbs[which(lbs %in% 
                     levels(factor(ties)))], excl = lbs[which(!(lbs %in% 
                     levels(factor(ties))))], bond.type = bonds, 
-                  size = length(unlist(stb)), prsep = prsep, 
-                  Ties = stb, Attrs.ord = length(unlist(ats)), 
-                  Attrs = jnt(dhc(ats, prsep = prsep), prsep = prsep))))
+                  size = length(unlist(stb)), sep = sep, Ties = stb, 
+                  Attrs.ord = length(unlist(ats)), Attrs = jnt(dhc(ats, 
+                    sep = sep), sep = sep))))
         }
         else {
             ifelse(isTRUE(length(note) > 0L) == TRUE, RS <- (list(ord = dim(x)[1], 
@@ -220,12 +220,12 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
                 incl = lbs[which(lbs %in% levels(factor(ties)))], 
                 excl = lbs[which(!(lbs %in% levels(factor(ties))))], 
                 bond.type = bonds, size = length(unlist(stb)), 
-                Note = note, prsep = prsep, Ties = stb)), RS <- (list(ord = dim(x)[1], 
+                Note = note, sep = sep, Ties = stb)), RS <- (list(ord = dim(x)[1], 
                 nodes = lbs, sel = sel, sys.ord = nlevels(factor(ties)), 
                 incl = lbs[which(lbs %in% levels(factor(ties)))], 
                 excl = lbs[which(!(lbs %in% levels(factor(ties))))], 
                 bond.type = bonds, size = length(unlist(stb)), 
-                prsep = prsep, Ties = stb)))
+                sep = sep, Ties = stb)))
         }
         class(RS) <- "Rel.System"
         return(RS)
@@ -348,7 +348,7 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
                 if (isTRUE(n > 0) == TRUE) 
                   dimnames(arra)[[3]] <- attr(x$Attrs, "names")
                 for (i in 1:length(x$Attrs)) {
-                  act <- dhc(x$Attrs[[i]], prsep = prsep)
+                  act <- dhc(x$Attrs[[i]], sep = sep)
                   if (isTRUE(length(act) > 0) == TRUE) {
                     diag(arra[, , i])[which(lbs %in% dhc(x$Attrs[[i]]))] <- 1L
                   }
