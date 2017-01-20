@@ -8,7 +8,7 @@ Function to transform data from/to matrix/list formats representing a network.
 }
 \usage{
 transf(x, type = c("tolist", "toarray"), lb2lb = FALSE, 
-       labels = NULL, ord, prsep)
+       labels = NULL, ord, sep)
 }
 \arguments{
   \item{x}{
@@ -26,7 +26,7 @@ transf(x, type = c("tolist", "toarray"), lb2lb = FALSE,
   \item{ord}{
    (optional) the order of the resulted structure (`\code{toarray}' option, otherwise ignored)
   }
-  \item{prsep}{
+  \item{sep}{
    (optional) the pair separator for the pairwise relations
   }
 }
