@@ -20,6 +20,17 @@ Algebraic procedures for the analysis of multiple social networks are delivered 
 * * *
 <br />
 
+<br />
+
+Install **`multiplex`** beta version
+
+```{r }
+devtools::install_github("mplex/multiplex", ref="beta")
+```
+
+<br />
+
+
 ### Example: Partially Ordered Semigroup of Relations
 
 ```{r }
