@@ -33,7 +33,7 @@ read.srt(file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
   (logical) are rownames the labels of the nodes?
 }
   \item{add}{
-  (optional) isolates to be added 
+  (optional) isolates to be added to the network
 }
 }
 \details{

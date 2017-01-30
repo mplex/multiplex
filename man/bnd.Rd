@@ -7,7 +7,7 @@ internal function
 internal function
 }
 %\usage{
-%bnd((x, xd, lbs, TRD, r, m, mlt, prsep)
+%bnd((x, xd, lbs, TRD, r, m, mlt, sep)
 %}
 %
 \keyword{internal}

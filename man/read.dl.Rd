@@ -1,6 +1,5 @@
 \name{read.dl}
 \alias{read.dl}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Read \code{dl} Files
 }
@@ -10,17 +9,16 @@ A function to read files with the Ucinet \code{dl} format.
 \usage{
 read.dl(file)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{file}{
-   character vector containing a file name or path
+   character vector containing a file name or path of the data representing the network
 }
 }
 \details{
-\code{dl} files serve to represent multiple networks, and it is one of the formats used in Netdraw, which is a component of the Ucinet program.
+Files \code{dl} serve to represent multiple network structures, and it is one of the formats used in Netdraw, which is a component of the Ucinet program. Besides multiple networks, the function can read two-mode structures as well.
 }
 \value{
-a data frame or an array representing the multiple network.
+a data frame for two-mode networks, or an array representing the multiple networks with one set of actors.
 }
 \references{
 Borgatti, S.P., \code{NetDraw} Software for Network Visualization. Analytic Technologies. 2002.
@@ -30,9 +28,9 @@ Borgatti, S.P., Everett, M.G. and Freeman, L.C. \code{Ucinet for Windows}: Softw
 \author{
 Antonio Rivero Ostoic
 }
-%\note{
-%%  ~~further notes~~
-%}
+\note{
+The '\code{EDGELIST}' option in \code{DL} is not yet supported for reading.
+}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 

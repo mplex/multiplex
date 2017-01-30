@@ -8,18 +8,23 @@ A function to read output files from the Pacnet program with the full factorizat
 }
 \usage{
 pacnet(file, toarray = FALSE, uniq = FALSE, 
-            transp = FALSE, prsep)
+            transp = FALSE, sep)
 }
 \arguments{
-  \item{file}{  character vector containing a file name or path
+  \item{file}{  
+   character vector containing a file name or path
 }
-  \item{toarray}{  (logical) should the induced inclusions be transformed into arrays?
+  \item{toarray}{  
+   (logical) should the induced inclusions be transformed into arrays?
 }
-  \item{uniq}{  (logical) should only be considered the induced inclusions that are unique?
+  \item{uniq}{  
+   (logical) should only be considered the induced inclusions that are unique?
 }
-  \item{transp}{  (logical) should the partially ordered structures be transposed?
+  \item{transp}{  
+   (logical) should the partially ordered structures be transposed?
 }
-  \item{prsep}{  (optional) pair separator
+  \item{sep}{  
+   (optional) the pair separator for the pairwise relations
 }
 }
 \details{

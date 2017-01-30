@@ -8,7 +8,7 @@ Classify the Bundle class patterns in a system of multiple relations
 }
 \usage{
 bundles(x, loops = FALSE, smpl = FALSE, lb2lb = TRUE, 
-           collapse = FALSE, prsep)
+           collapse = FALSE, sep)
 }
 \arguments{
   \item{x}{
@@ -26,7 +26,7 @@ bundles(x, loops = FALSE, smpl = FALSE, lb2lb = TRUE,
   \item{collapse}{
    (logical) collapse the distinct levels of relations in the network? Default no.
 }
-  \item{prsep}{
+  \item{sep}{
    (optional) the pair separator for the pairwise relations
   }
 }

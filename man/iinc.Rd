@@ -7,16 +7,20 @@ Induced Inclusions
 Function to establish class membership of induced inclusions given a partial order structure
 }
 \usage{
-iinc(inc, PO, print.eqs = FALSE, prsep)
+iinc(inc, PO, print.eqs = FALSE, sep)
 }
 \arguments{
-  \item{inc}{  an induced inclusion ('list' format)
+  \item{inc}{  
+   an induced inclusion with a 'list' format
 }
-  \item{PO}{  a partial order structure
+  \item{PO}{  
+   matrix with the partial order structure
 }
-  \item{print.eqs}{  (logical) should the equations be printed in the outcome?
+  \item{print.eqs}{  
+   (logical) should the equations be printed in the outcome?
 }
-  \item{prsep}{  the pair separator
+  \item{sep}{  
+   (optional) the pair separator for the pairwise relations
 }
 }
 \details{

@@ -20,19 +20,16 @@ summaryBundles(x, file = NULL, latex = FALSE, byties)
    (logical) whether the output sholud be in latex format or not
 }
   \item{byties}{
-   (logical) expand tie patterns and collapse tie labels?
+   (optional and logical) expand tie patterns and collapse tie labels?
 }
-%  \item{prsep}{
+%  \item{sep}{
 %   (optional) the pair separator for the pairwise relations
-%}
-%  \item{...}{
-%   additional arguments
 %}
 }
 \details{
-This function prints the bundle census patterns existing in the network with an option to export such information in a friendly format. The dyadic bundle patterns are provide by the function \code{\link{bundles}}; however the outcome of this function provides a list of pair lists for each bundle with the involved types of relations and nodes in the network. This form for presentation, although is convenient for further computation, it is not always easy to read for a human eye. Naturally the pair separator chosen must match the one of \code{bundles}.
+This function prints the bundle census patterns existing in the network with an option to export such information in a friendly format. The dyadic bundle patterns are provide by the function \code{\link{bundles}}; however the outcome of this function provides a list of pair lists for each bundle with the involved types of relations and nodes in the network. This form for presentation, although is convenient for further computation, it is not always easy to read for a human eye. The pair separator used to print the bundle occurrences is taken from the output of the \code{bundles} function.
 
-If \code{latex} is set to \code{TRUE}, then the path file is activated to obtain a \code{tex} file with the different bundle class patterns.
+If \code{latex} is set to \code{TRUE}, then the path file is activated to obtain a \code{tex} file with the different bundle class patterns. Finally, \code{byties} provides more precise information of the patterned ties disregarding the relational content.
 }
 \value{
 The distinct bundle class patterns with a user friendly format.

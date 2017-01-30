@@ -41,6 +41,8 @@ The items included are:
 Harary, F, Z. Norman, and D. Cartwright  \emph{Structural Models: An Introduction to the Theory of Directed Graphs}. New York: John Wiley & Sons. 1965.
 
 Doreian, P., V. Batagelj and A. Ferligoj  \emph{Generalized Blockmodeling}. Cambridge University Press. 2004.
+
+Ostoic, J.A.R. Creating context for social influence processes in multiplex networks. \emph{Network Science}, (forthcoming), doi:10.1017/nws.2016.28.
 }
 \author{
 Antonio Rivero Ostoic
