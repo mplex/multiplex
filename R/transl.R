@@ -1,7 +1,7 @@
 transl <-
-function (lt, prsep) 
+function (lt, sep) 
 {
-    ifelse(missing(prsep) == TRUE, prsep <- ", ", NA)
+    ifelse(missing(sep) == TRUE, sep <- ", ", NA)
     llt <- levels(factor(lt))
     if (isTRUE(length(llt) == 1) == TRUE) {
         ifelse(isTRUE(length(jnt(llt)) == 1) == TRUE, return(jnt(llt)), 
@@ -10,10 +10,10 @@ function (lt, prsep)
     else {
         Ls <- as.list(llt)
         j <- 1L
-        tmp0 <- strsplit(Ls[[1]], prsep)[[1]]
+        tmp0 <- strsplit(Ls[[1]], sep)[[1]]
         attr(Ls[[1]], "names") <- j
         for (i in 2:length(Ls)) {
-            tmp2 <- strsplit(Ls[[i]], prsep)[[1]]
+            tmp2 <- strsplit(Ls[[i]], sep)[[1]]
             ifelse((any(tmp2 %in% tmp0)) | (any(tmp0 %in% tmp2)), 
                 attr(Ls[[i]], "names") <- as.integer(attr(Ls[[j]], 
                   "names")), NA)
@@ -22,7 +22,7 @@ function (lt, prsep)
         uno <- unlist(dhc(jnt(unlist(Ls)[which(attr(unlist(Ls), 
             "names") == j)])))
         for (i in which(attr(unlist(Ls), "names") == "")) {
-            tmp2 <- strsplit(Ls[[i]], prsep)[[1]]
+            tmp2 <- strsplit(Ls[[i]], sep)[[1]]
             ifelse((any(uno %in% tmp2)) | (any(tmp2 %in% uno)), 
                 attr(Ls[[i]], "names") <- j, NA)
             uno <- unlist(dhc(jnt(unlist(Ls)[which(attr(unlist(Ls), 
@@ -34,7 +34,7 @@ function (lt, prsep)
                 "names") == j)]))) == uno) == TRUE) {
                 for (i in which(attr(unlist(Ls), "names") == 
                   "")) {
-                  tmp2 <- strsplit(Ls[[i]], prsep)[[1]]
+                  tmp2 <- strsplit(Ls[[i]], sep)[[1]]
                   ifelse((any(uno %in% tmp2)) | (any(tmp2 %in% 
                     uno)), attr(Ls[[i]], "names") <- j, NA)
                 }
@@ -52,7 +52,7 @@ function (lt, prsep)
                   "names") == j)])))
                 for (i in which(attr(unlist(Ls), "names") == 
                   "")) {
-                  tmp2 <- strsplit(Ls[[i]], prsep)[[1]]
+                  tmp2 <- strsplit(Ls[[i]], sep)[[1]]
                   ifelse((any(tmp2 %in% tmp0)) | (any(tmp0 %in% 
                     tmp2)), attr(Ls[[i]], "names") <- j, NA)
                 }
@@ -61,7 +61,7 @@ function (lt, prsep)
                   "names") == j)])))
                 for (i in which(attr(unlist(Ls), "names") == 
                   "")) {
-                  tmp2 <- strsplit(Ls[[i]], prsep)[[1]]
+                  tmp2 <- strsplit(Ls[[i]], sep)[[1]]
                   ifelse((any(tmp0 %in% tmp2)) | (any(tmp2 %in% 
                     tmp0)), attr(Ls[[i]], "names") <- j, NA)
                 }

@@ -16,7 +16,7 @@ function (rs, classes = FALSE, allClasses = FALSE, allNodes = TRUE)
             rs$attrs[which(attr(rs$attrs, "names") == attr(rs$Attrs, 
                 "names")[dpl[i]])] <- jnt(dhc(unlist(rs$attrs[which(attr(rs$attrs, 
                 "names") == attr(rs$Attrs, "names")[dpl[i]])], 
-                rs$Attrs[dpl[i]]), prsep = rs$prsep), prsep = rs$prsep)
+                rs$Attrs[dpl[i]]), sep = rs$sep), sep = rs$sep)
         }
         rm(i)
     }
@@ -43,7 +43,7 @@ function (rs, classes = FALSE, allClasses = FALSE, allNodes = TRUE)
     colnames(At) <- rs$nodes
     rownames(At) <- unique(attr(rs$attrs2, "names"))
     for (i in 1:natt) {
-        At[i, which(colnames(At) %in% dhc(rs$attrs2[[i]], prsep = rs$prsep))] <- 1L
+        At[i, which(colnames(At) %in% dhc(rs$attrs2[[i]], sep = rs$sep))] <- 1L
     }
     rm(i)
     if (is.null(rs$incl) == FALSE) {
@@ -66,7 +66,7 @@ function (rs, classes = FALSE, allClasses = FALSE, allNodes = TRUE)
                 rownames(bnch) <- unique(attr(rs$attrs2, "names"))
                 colnames(bnch)[1] <- "Null"
                 for (i in 2:ncol(bnch)) colnames(bnch)[i] <- jnt(rownames(bnch)[which(bnch[, 
-                  i] == 1L)], prsep = ", ")
+                  i] == 1L)], sep = ", ")
                 rm(i)
                 bn <- bnch[, 2:(ncol(bnch) - 1L)]
                 tmp <- vector()
@@ -230,10 +230,10 @@ function (rs, classes = FALSE, allClasses = FALSE, allNodes = TRUE)
             rm(i)
             attr(clss, "names") <- ncls
         }
-        return(list(Classes = noquote(clss), Bonds=rs$bond.type, 
-          Exposure = exps))
+        return(list(Classes = noquote(clss), Bonds = rs$bond.type, 
+            Exposure = exps))
     }
     else {
-        return(list(Bonds=rs$bond.type, Exposure = exps))
+        return(list(Bonds = rs$bond.type, Exposure = exps))
     }
 }

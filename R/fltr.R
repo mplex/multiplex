@@ -6,9 +6,9 @@ function (x, PO, rclos = TRUE, ideal = FALSE)
     if (isTRUE(is.character(x) == TRUE) == TRUE) {
         lbs <- dimnames(PO)[[1]]
         tmp <- jnt(unlist(strsplit(lbs, "} {", fixed = TRUE)), 
-            prsep = ", ")
-        tmp <- sub("{", "", dhc(tmp, prsep = ", "), fixed = TRUE)
-        tmp <- sub("}", "", dhc(tmp, prsep = ", "), fixed = TRUE)
+            sep = ", ")
+        tmp <- sub("{", "", dhc(tmp, sep = ", "), fixed = TRUE)
+        tmp <- sub("}", "", dhc(tmp, sep = ", "), fixed = TRUE)
         if (isTRUE(length(tmp) != length(unique(tmp))) == TRUE) 
             stop("'PO' must be in a reduced form.")
         ifelse(all(x %in% tmp) == FALSE, x <- x[which(x %in% 
@@ -17,10 +17,10 @@ function (x, PO, rclos = TRUE, ideal = FALSE)
         for (k in 1:length(x)) {
             for (i in 1:length(lbs)) {
                 tmplb <- jnt(unlist(strsplit(lbs[i], "} {", fixed = TRUE)), 
-                  prsep = ", ")
-                tmplb <- sub("{", "", dhc(tmplb, prsep = ", "), 
+                  sep = ", ")
+                tmplb <- sub("{", "", dhc(tmplb, sep = ", "), 
                   fixed = TRUE)
-                tmplb <- sub("}", "", dhc(tmplb, prsep = ", "), 
+                tmplb <- sub("}", "", dhc(tmplb, sep = ", "), 
                   fixed = TRUE)
                 if (isTRUE(x[k] %in% tmplb) == TRUE) {
                   X <- append(X, i)

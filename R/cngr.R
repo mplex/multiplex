@@ -17,7 +17,7 @@ function (S, PO = NULL, unique = FALSE)
         }
         rm(i)
         inc <- levels(factor(transf(dichot(mat, c = 1), type = "tolist", 
-            prsep = ", ")))
+            sep = ", ")))
         clus <- data.frame(matrix(ncol = s$ord, nrow = 0))
         for (i in 1:length(inc)) {
             clus[i, ] <- as.vector(sprt(s$S, as.numeric(strsplit(inc[i], 

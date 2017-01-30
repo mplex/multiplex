@@ -1,10 +1,10 @@
 bnd <-
-function (x, xd, lbs, TRD, r, m, mlt, prsep) 
+function (x, xd, lbs, TRD, r, m, mlt, sep) 
 {
     DF <- data.frame(matrix(ncol = 2L, nrow = length(m)))
-    DF[, 1] <- dhc(m, prsep = prsep)[which(1:(length(m) * 2L)%%2L == 
+    DF[, 1] <- dhc(m, sep = sep)[which(1:(length(m) * 2L)%%2L == 
         1L)]
-    DF[, 2] <- dhc(m, prsep = prsep)[which(1:(length(m) * 2L)%%2L == 
+    DF[, 2] <- dhc(m, sep = sep)[which(1:(length(m) * 2L)%%2L == 
         0L)]
     DF <- DF[which(DF[, 1] != DF[, 2]), ]
     out <- list()
@@ -108,17 +108,17 @@ function (x, xd, lbs, TRD, r, m, mlt, prsep)
     for (i in seq(lbs)) {
         tmprcp <- vector()
         for (j in 1:length(sngl[[i]])) {
-            chk <- paste(sngl[[i]][j], i, sep = prsep)
+            chk <- paste(sngl[[i]][j], i, sep = sep)
             if (isTRUE(TRD == TRUE) == TRUE) {
                 for (k in 1:dim(x)[3]) {
-                  ifelse(isTRUE(all(c(chk, swp(chk, prsep = prsep)) %in% 
+                  ifelse(isTRUE(all(c(chk, swp(chk, sep = sep)) %in% 
                     mlt[[k]])) == TRUE, tmprcp <- append(tmprcp, 
                     sngl[[i]][j]), NA)
                 }
                 rm(k)
             }
             else {
-                ifelse(isTRUE(all(c(chk, swp(chk, prsep = prsep)) %in% 
+                ifelse(isTRUE(all(c(chk, swp(chk, sep = sep)) %in% 
                   m)) == TRUE, tmprcp <- append(tmprcp, sngl[[i]][j]), 
                   NA)
             }

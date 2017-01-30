@@ -1,7 +1,7 @@
 dhc <-
-function (xd, prsep) 
+function (xd, sep) 
 {
-    ifelse(missing(prsep) == TRUE, prsep <- ", ", NA)
+    ifelse(missing(sep) == TRUE, sep <- ", ", NA)
     if (isTRUE(length(xd) != 0L) == TRUE && isTRUE(is.na(xd)) == 
         FALSE) {
         Ltd <- FALSE
@@ -12,7 +12,7 @@ function (xd, prsep)
             if (isTRUE(length(xd[[i]]) != 0L) == TRUE) {
                 tmpd <- as.list(xd[[i]])
                 for (j in 1:length(xd[[i]])) Xd[[i]] <- append(Xd[[i]], 
-                  strsplit(tmpd[[j]], prsep)[[1]])
+                  strsplit(tmpd[[j]], sep)[[1]])
             }
         }
         attr(Xd, "names") <- attr(xd, "names")

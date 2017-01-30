@@ -5,7 +5,7 @@ function (x, loops = FALSE)
         stop("'x' sholud be an array.")
     if (isTRUE(dim(x)[1] == dim(x)[2]) == FALSE) 
         stop("'x' must be a square array.")
-    prsep <- ", "
+    sep <- ", "
     lb2lb <- TRUE
     ifelse(isTRUE(is.null(dimnames(x)[1]) == TRUE | is.null(dimnames(x)[1][[1]]) == 
         TRUE) == TRUE, LBS <- 1:nrow(x), LBS <- dimnames(x)[[1]])
@@ -23,7 +23,7 @@ function (x, loops = FALSE)
         mlt <- list()
         for (i in 1:dim(x)[3]) {
             mlt[[i]] <- transf(xd[, , i], type = "tolist", labels = lbs, 
-                prsep = prsep, lb2lb = lb2lb)
+                sep = sep, lb2lb = lb2lb)
         }
         rm(i)
         m <- unlist(mlt)
@@ -31,17 +31,17 @@ function (x, loops = FALSE)
     else {
         TRD <- FALSE
         r <- 1
-        m <- transf(xd, type = "tolist", labels = lbs, prsep = prsep, 
+        m <- transf(xd, type = "tolist", labels = lbs, sep = sep, 
             lb2lb = lb2lb)
     }
-    bd <- bnd(x, xd, lbs, TRD, r, m, mlt, prsep)
+    bd <- bnd(x, xd, lbs, TRD, r, m, mlt, sep)
     Et <- vector()
     if (isTRUE(TRD == TRUE) == TRUE) {
         for (i in 1:length(bd$Eout)) {
             for (j in 1:length(bd$Eout[[i]])) {
                 if (isTRUE(length(bd$Eout[[i]]) != 0L) == TRUE) {
                   Et <- append(Et, paste(lbs[i], bd$Eout[[i]][j], 
-                    sep = prsep))
+                    sep = sep))
                 }
             }
             rm(j)
@@ -51,7 +51,7 @@ function (x, loops = FALSE)
         for (k in 1:r) {
             tmp <- vector()
             for (i in which(Et %in% transf(xd[, , k], labels = lbs, 
-                prsep = prsep, lb2lb = lb2lb))) {
+                sep = sep, lb2lb = lb2lb))) {
                 tmp <- append(tmp, Et[i])
             }
             rm(i)
