@@ -1,5 +1,5 @@
 as.signed <-
-function (x, labels = NULL) 
+function (x, lbs) 
 {
     if (is.array(x) == FALSE) 
         stop("Data must be an array")
@@ -10,16 +10,12 @@ function (x, labels = NULL)
     else {
         sm <- x
     }
-    if (is.null(labels) == FALSE) {
-        ifelse(isTRUE(length(labels) == dim(sm)[1]) == TRUE, 
-            NA, labels <- 1:dim(sm)[1])
-        rownames(sm) <- colnames(sm) <- labels
-    }
-    else if (is.null(dimnames(sm)[1]) == TRUE) {
-        rownames(sm) <- colnames(sm) <- 1:dim(sm)[1]
+    if (missing(lbs) == FALSE && isTRUE(length(lbs) == dim(sm)[1]) == 
+        TRUE) {
+        rownames(sm) <- colnames(sm) <- lbs
     }
     else {
-        NA
+        rownames(sm) <- colnames(sm) <- seq_len(dim(sm)[1])
     }
     val <- levels(factor(sm))
     lst <- list(val = noquote(levels(stats::reorder(val, length(val):1))), 
