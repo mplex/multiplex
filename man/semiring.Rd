@@ -8,7 +8,7 @@ A function to construct semiring structures for the analysis of structural balan
 }
 \usage{
 semiring(x, type = c("balance", "cluster"), symclos = TRUE,
-            transclos = TRUE, labels = NULL, k = 2)
+            transclos = TRUE, k = 2, lbs)
 }
 \arguments{
   \item{x}{  an object of a `\code{Signed}' class
@@ -19,9 +19,9 @@ semiring(x, type = c("balance", "cluster"), symclos = TRUE,
 }
   \item{transclos}{  (logical) apply transitive closure?
 }
-  \item{labels}{  (optional) labels for the semiring output
-}
   \item{k}{  length of the cycle or the semicycle
+}
+  \item{lbs}{  (optional) labels for the semiring output
 }
 }
 \details{
@@ -42,7 +42,7 @@ Harary, F, Z. Norman, and D. Cartwright  \emph{Structural Models: An Introductio
 
 Doreian, P., V. Batagelj and A. Ferligoj  \emph{Generalized Blockmodeling}. Cambridge University Press. 2004.
 
-Ostoic, J.A.R. Creating context for social influence processes in multiplex networks. \emph{Network Science}, (forthcoming), doi:10.1017/nws.2016.28.
+Ostoic, J.A.R. `Creating context for social influence processes in multiplex networks.' \emph{Network Science}, 5(1), 1-29.
 }
 \author{
 Antonio Rivero Ostoic

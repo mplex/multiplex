@@ -7,7 +7,7 @@ Signed Network
 Construct the signed network of a system of contrasting relations
 }
 \usage{
-signed(P, N = NULL, labels = NULL)
+signed(P, N = NULL, lbs)
 }
 \arguments{
   \item{P}{
@@ -16,7 +16,7 @@ array with the positive ties and possible with negative ties (see Details)
   \item{N}{
 (optional) array with the negative ties
 }
-  \item{labels}{
+  \item{lbs}{
 (optional) labels for the signed matrix
 }
 }

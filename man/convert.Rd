@@ -7,14 +7,14 @@ Convert Format of a Semigroup Object
 A function to convert an object representing a semigroup of relations from Numerical to Symbolic format and vice versa.
 }
 \usage{
-convert(x, labels = NULL, SemigroupClass = FALSE)
+convert(x, lbs = NULL, SemigroupClass = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
    an object from the `\code{Semigroup}' class.
 }
-  \item{labels}{
+  \item{lbs}{
    (optional) the labels to be used in the conversion
 }
   \item{SemigroupClass}{
@@ -46,7 +46,7 @@ In case that the input data is in `\code{symbolic}' form, then \code{labels} is 
 s <- matrix(data=c(1, 1, 1, 3, 3, 3, 3, 3, 3), nrow=3, ncol=3, byrow=TRUE)
 
 ## make a semigroup object with labels
-S <- as.semigroup(s, labels=c('n', 'm', 'ñ'))
+S <- as.semigroup(s, lbs=c('n', 'm', 'ñ'))
 
 ## convert the semigroup to a symbolic form
 convert(S)

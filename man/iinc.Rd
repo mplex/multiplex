@@ -7,7 +7,7 @@ Induced Inclusions
 Function to establish class membership of induced inclusions given a partial order structure
 }
 \usage{
-iinc(inc, PO, print.eqs = FALSE, sep)
+iinc(inc, PO, equat = FALSE, sep)
 }
 \arguments{
   \item{inc}{  
@@ -16,7 +16,7 @@ iinc(inc, PO, print.eqs = FALSE, sep)
   \item{PO}{  
    matrix with the partial order structure
 }
-  \item{print.eqs}{  
+  \item{equat}{  
    (logical) should the equations be printed in the outcome?
 }
   \item{sep}{  

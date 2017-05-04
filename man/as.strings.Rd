@@ -8,13 +8,13 @@ Coerce an Object to a Strings Class
 A generic function for coercing an R object to a \code{Rel.Strings} class.
 }
 \usage{
-as.strings(x, labels = NULL)
+as.strings(x, lbs = NULL)
 }
 \arguments{
   \item{x}{
    an array; usually with three dimensions of stacked matrices where the multiple relations are placed.
 }
-  \item{labels}{
+  \item{lbs}{
    (optional) the labels of the strings
   }
 }

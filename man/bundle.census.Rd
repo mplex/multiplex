@@ -27,7 +27,7 @@ More detailed information about the bundle class occurrences is given by the fun
 
 }
 \references{
-Ostoic, J. A. R. `Dyadic Patterns in Multiple Networks,' \emph{International Conference on Advances in Social Networks Analysis and Mining}, 475-481. 2011.
+Ostoic, J. A. R. `Dyadic Patterns in Multiple Networks,' \emph{Advances in Social Networks Analysis and Mining, International Conference on}, 475-481. 2011.
 }
 \author{
 Antonio Rivero Ostoic

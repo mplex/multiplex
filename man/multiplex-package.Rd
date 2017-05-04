@@ -14,8 +14,8 @@ It is also possible to take the attributes of the actors in the analysis of mult
 \tabular{ll}{
 Package: \tab multiplex \cr
 Type: \tab Package \cr
-Version: \tab 2.5 \cr
-Date: \tab 24 January 2017 \cr
+Version: \tab 2.6 \cr
+Date: \tab 3 May 2017 \cr
 License: \tab GPL-3 \cr
 LazyLoad: \tab yes \cr
 }
@@ -48,7 +48,7 @@ Lorrain, François and Harrison C. White, `Structural Equivalence of Individuals 
 
 Boorman, Scott A. and Harrison C. White, `Social Structure from Multiple Networks. II. Role Structures.' \emph{American Journal of Sociology}, 81 (6), 1384-1446. 1976.
 
-Ostoic, J.A.R. Creating context for social influence processes in multiplex networks. \emph{Network Science}, (forthcoming), doi:10.1017/nws.2016.28.
+Ostoic, J.A.R. `Creating context for social influence processes in multiplex networks.' \emph{Network Science}, 5(1), 1-29.
 }
 
 \seealso{

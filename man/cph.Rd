@@ -8,14 +8,14 @@ Cumulated Person Hierarchy
 A function to calculate the Cumulated Person Hierarchy in networks of multiple relations
 }
 \usage{
-cph(W, labels = NULL)
+cph(W, lbs)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{W}{
     an object of the `\code{Rel.Box}' class.
   }
-  \item{labels}{
+  \item{lbs}{
    (optional) the labels of the relational system
   }
 }

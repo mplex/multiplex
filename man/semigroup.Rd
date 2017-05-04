@@ -8,8 +8,8 @@ Constructing the Semigroup of Relations
 Function to create the complete semigroup of multiple relations, where the multiplication table can be specified with either a numerical or a symbolic form.
 }
 \usage{
-semigroup(x, type = c("numerical", "symbolic"), labels = NULL, 
-           cmp = FALSE,  smpl = FALSE )
+semigroup(x, type = c("numerical", "symbolic"), lbs = NULL, 
+          cmp = FALSE, smpl = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,7 +19,7 @@ semigroup(x, type = c("numerical", "symbolic"), labels = NULL,
   \item{type}{
    does the semigroup should be given in a numerical (default) or in a symbolic form?
 }
-  \item{labels}{
+  \item{lbs}{
    (optional) a list of the labels of each distinct relation.
 }
   \item{cmp}{
