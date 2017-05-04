@@ -1,5 +1,5 @@
 rbox <-
-function (w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3) 
+function (w, transp = FALSE, smpl = FALSE, k = 3, tlbs) 
 {
     if (is.array(w) == FALSE) 
         stop("Data must be a stacked array of square matrices.")
@@ -9,34 +9,35 @@ function (w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
         stop("Only polynomial until length 9 is supported.")
     x <- w
     ifelse(is.null(dimnames(w)[[3]]) == FALSE, lbs <- dimnames(w)[[3]], 
-        lbs <- 1:dim(w)[3])
+        lbs <- seq_len(dim(w)[3]))
     if (smpl == TRUE) {
         olbs <- dimnames(w)[[3]]
         if (is.null(dimnames(w)[[3]]) == FALSE) {
             nlb <- list()
-            for (i in 1:length(lbs)) nlb[i] <- lbs[i]
-            for (i in 1:length(nlb)) lbs[i] <- (strsplit(nlb[[i]], 
+            for (i in seq_len(length(lbs))) nlb[i] <- lbs[i]
+            for (i in seq_len(length(nlb))) lbs[i] <- (strsplit(nlb[[i]], 
                 "")[[1]][1])
             dimnames(w)[[3]] <- lbs
         }
         nlbs <- dimnames(w)[[3]]
     }
     if (transp == TRUE) {
-        if (isTRUE(is.null(tlabels)) == TRUE) {
+        if (missing(tlbs) == TRUE) {
+                   ## Thanks to Eik Vettorazzi for making me aware of this function
             LBS <- chartr("a-zA-Z", "A-Za-z", lbs)
         }
         else {
-            if (isTRUE(length(tlabels) == dim(w)[3]) == TRUE) {
-                LBS <- tlabels
+            if (isTRUE(length(tlbs) == dim(w)[3]) == TRUE) {
+                LBS <- tlbs
             }
             else {
-                warning("\"tlabels\" has not equal length to dim(w)[3], use toggle case for labels instead...")
+                warning("\"tlbs\" has not equal length to dim(w)[3], use toggle case for labels instead...")
                 LBS <- chartr("a-zA-Z", "A-Za-z", lbs)
             }
         }
         Lbs <- as.vector(stats::na.exclude(LBS))
         tw <- array(dim = c(dim(w)[1], dim(w)[2], length(Lbs)))
-        for (i in 1:length(Lbs)) {
+        for (i in seq_len(length(Lbs))) {
             if (isTRUE(is.na(LBS)[i]) == FALSE) {
                 tw[, , i] <- t(w[, , i])
             }
@@ -58,8 +59,8 @@ function (w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
             nrow = (dim(w)[3]^2)))
         lb2 <- vector()
         h <- 1L
-        for (i in 1:dim(w)[3]) {
-            for (j in 1:dim(w)[3]) {
+        for (i in seq_len(dim(w)[3])) {
+            for (j in seq_len(dim(w)[3])) {
                 tmp2[h, ] <- replace(as.numeric(as.vector(w[, 
                   , i] %*% w[, , j])), as.numeric(as.vector(w[, 
                   , i] %*% w[, , j])) >= 1L, 1L)
@@ -69,8 +70,8 @@ function (w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
             }
         }
         w2 <- array(dim = c(dim(w)[1], dim(w)[2], nrow(tmp2)))
-        for (i in 1:nrow(tmp2)) {
-            w2[, , i][1:(dim(w)[1] * dim(w)[2])] <- as.numeric(tmp2[i, 
+        for (i in seq_len(nrow(tmp2))) {
+            w2[, , i][seq_len((dim(w)[1] * dim(w)[2]))] <- as.numeric(tmp2[i, 
                 ])
         }
         if (isTRUE(k > 2L) == TRUE) {
@@ -78,9 +79,9 @@ function (w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
                 nrow = (dim(w)[3]^3)))
             lb3 <- vector()
             h <- 1L
-            for (i in 1:dim(w)[3]) {
-                for (j in 1:dim(w)[3]) {
-                  for (l in 1:dim(w)[3]) {
+            for (i in seq_len(dim(w)[3])) {
+                for (j in seq_len(dim(w)[3])) {
+                  for (l in seq_len(dim(w)[3])) {
                     tmp3[h, ] <- replace(as.numeric(as.vector(w[, 
                       , i] %*% w[, , j] %*% w[, , l])), as.numeric(as.vector(w[, 
                       , i] %*% w[, , j] %*% w[, , l])) >= 1L, 
@@ -92,7 +93,7 @@ function (w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
                 }
             }
             w3 <- array(dim = c(dim(w)[1], dim(w)[2], nrow(tmp3)))
-            for (i in 1:nrow(tmp3)) {
+            for (i in seq_len(nrow(tmp3))) {
                 w3[, , i][1:(dim(w)[1] * dim(w)[2])] <- as.numeric(tmp3[i, 
                   ])
             }
@@ -101,10 +102,10 @@ function (w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
                   dim(w)[2]), nrow = (dim(w)[3]^4)))
                 lb4 <- vector()
                 h <- 1L
-                for (i in 1:dim(w)[3]) {
-                  for (j in 1:dim(w)[3]) {
-                    for (l in 1:dim(w)[3]) {
-                      for (m in 1:dim(w)[3]) {
+                for (i in seq_len(dim(w)[3])) {
+                  for (j in seq_len(dim(w)[3])) {
+                    for (l in seq_len(dim(w)[3])) {
+                      for (m in seq_len(dim(w)[3])) {
                         tmp4[h, ] <- replace(as.numeric(as.vector(w[, 
                           , i] %*% w[, , j] %*% w[, , l] %*% 
                           w[, , m])), as.numeric(as.vector(w[, 
@@ -119,7 +120,7 @@ function (w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
                   }
                 }
                 w4 <- array(dim = c(dim(w)[1], dim(w)[2], nrow(tmp4)))
-                for (i in 1:nrow(tmp4)) {
+                for (i in seq_len(nrow(tmp4))) {
                   w4[, , i][1:(dim(w)[1] * dim(w)[2])] <- as.numeric(tmp4[i, 
                     ])
                 }
@@ -128,11 +129,11 @@ function (w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
                     dim(w)[2]), nrow = (dim(w)[3]^5)))
                   lb5 <- vector()
                   h <- 1L
-                  for (i in 1:dim(w)[3]) {
-                    for (j in 1:dim(w)[3]) {
-                      for (l in 1:dim(w)[3]) {
-                        for (m in 1:dim(w)[3]) {
-                          for (n in 1:dim(w)[3]) {
+                  for (i in seq_len(dim(w)[3])) {
+                    for (j in seq_len(dim(w)[3])) {
+                      for (l in seq_len(dim(w)[3])) {
+                        for (m in seq_len(dim(w)[3])) {
+                          for (n in seq_len(dim(w)[3])) {
                             tmp5[h, ] <- replace(as.numeric(as.vector(w[, 
                               , i] %*% w[, , j] %*% w[, , l] %*% 
                               w[, , m] %*% w[, , n])), as.numeric(as.vector(w[, 
@@ -150,8 +151,8 @@ function (w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
                     }
                   }
                   w5 <- array(dim = c(dim(w)[1], dim(w)[2], nrow(tmp5)))
-                  for (i in 1:nrow(tmp5)) {
-                    w5[, , i][1:(dim(w)[1] * dim(w)[2])] <- as.numeric(tmp5[i, 
+                  for (i in seq_len(nrow(tmp5))) {
+                    w5[, , i][seq_len((dim(w)[1] * dim(w)[2]))] <- as.numeric(tmp5[i, 
                       ])
                   }
                   if (isTRUE(k > 5L) == TRUE) {
@@ -159,12 +160,12 @@ function (w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
                       dim(w)[2]), nrow = (dim(w)[3]^6)))
                     lb6 <- vector()
                     h <- 1L
-                    for (i in 1:dim(w)[3]) {
-                      for (j in 1:dim(w)[3]) {
-                        for (l in 1:dim(w)[3]) {
-                          for (m in 1:dim(w)[3]) {
-                            for (n in 1:dim(w)[3]) {
-                              for (o in 1:dim(w)[3]) {
+                    for (i in seq_len(dim(w)[3])) {
+                      for (j in seq_len(dim(w)[3])) {
+                        for (l in seq_len(dim(w)[3])) {
+                          for (m in seq_len(dim(w)[3])) {
+                            for (n in seq_len(dim(w)[3])) {
+                              for (o in seq_len(dim(w)[3])) {
                                 tmp6[h, ] <- replace(as.numeric(as.vector(w[, 
                                   , i] %*% w[, , j] %*% w[, , 
                                   l] %*% w[, , m] %*% w[, , n] %*% 
@@ -185,8 +186,8 @@ function (w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
                     }
                     w6 <- array(dim = c(dim(w)[1], dim(w)[2], 
                       nrow(tmp6)))
-                    for (i in 1:nrow(tmp6)) {
-                      w6[, , i][1:(dim(w)[1] * dim(w)[2])] <- as.numeric(tmp6[i, 
+                    for (i in seq_len(nrow(tmp6))) {
+                      w6[, , i][seq_len((dim(w)[1] * dim(w)[2]))] <- as.numeric(tmp6[i, 
                         ])
                     }
                     if (isTRUE(k > 6L) == TRUE) {
@@ -194,13 +195,13 @@ function (w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
                         dim(w)[2]), nrow = (dim(w)[3]^7)))
                       lb7 <- vector()
                       h <- 1L
-                      for (i in 1:dim(w)[3]) {
-                        for (j in 1:dim(w)[3]) {
-                          for (l in 1:dim(w)[3]) {
-                            for (m in 1:dim(w)[3]) {
-                              for (n in 1:dim(w)[3]) {
-                                for (o in 1:dim(w)[3]) {
-                                  for (q in 1:dim(w)[3]) {
+                      for (i in seq_len(dim(w)[3])) {
+                        for (j in seq_len(dim(w)[3])) {
+                          for (l in seq_len(dim(w)[3])) {
+                            for (m in seq_len(dim(w)[3])) {
+                              for (n in seq_len(dim(w)[3])) {
+                                for (o in seq_len(dim(w)[3])) {
+                                  for (q in seq_len(dim(w)[3])) {
                                     tmp7[h, ] <- replace(as.numeric(as.vector(w[, 
                                       , i] %*% w[, , j] %*% w[, 
                                       , l] %*% w[, , m] %*% w[, 
@@ -225,8 +226,8 @@ function (w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
                       }
                       w7 <- array(dim = c(dim(w)[1], dim(w)[2], 
                         nrow(tmp7)))
-                      for (i in 1:nrow(tmp7)) {
-                        w7[, , i][1:(dim(w)[1] * dim(w)[2])] <- as.numeric(tmp7[i, 
+                      for (i in seq_len(nrow(tmp7))) {
+                        w7[, , i][seq_len((dim(w)[1] * dim(w)[2]))] <- as.numeric(tmp7[i, 
                           ])
                       }
                       if (isTRUE(k > 7L) == TRUE) {
@@ -234,14 +235,14 @@ function (w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
                           dim(w)[2]), nrow = (dim(w)[3]^8)))
                         lb8 <- vector()
                         h <- 1L
-                        for (i in 1:dim(w)[3]) {
-                          for (j in 1:dim(w)[3]) {
-                            for (l in 1:dim(w)[3]) {
-                              for (m in 1:dim(w)[3]) {
-                                for (n in 1:dim(w)[3]) {
-                                  for (o in 1:dim(w)[3]) {
-                                    for (q in 1:dim(w)[3]) {
-                                      for (r in 1:dim(w)[3]) {
+                        for (i in seq_len(dim(w)[3])) {
+                          for (j in seq_len(dim(w)[3])) {
+                            for (l in seq_len(dim(w)[3])) {
+                              for (m in seq_len(dim(w)[3])) {
+                                for (n in seq_len(dim(w)[3])) {
+                                  for (o in seq_len(dim(w)[3])) {
+                                    for (q in seq_len(dim(w)[3])) {
+                                      for (r in seq_len(dim(w)[3])) {
                                         tmp8[h, ] <- replace(as.numeric(as.vector(w[, 
                                           , i] %*% w[, , j] %*% 
                                           w[, , l] %*% w[, , 
@@ -275,8 +276,8 @@ function (w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
                         }
                         w8 <- array(dim = c(dim(w)[1], dim(w)[2], 
                           nrow(tmp8)))
-                        for (i in 1:nrow(tmp8)) {
-                          w8[, , i][1:(dim(w)[1] * dim(w)[2])] <- as.numeric(tmp8[i, 
+                        for (i in seq_len(nrow(tmp8))) {
+                          w8[, , i][seq_len((dim(w)[1] * dim(w)[2]))] <- as.numeric(tmp8[i, 
                             ])
                         }
                         if (isTRUE(k > 8L) == TRUE) {
@@ -284,15 +285,15 @@ function (w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
                             dim(w)[2]), nrow = (dim(w)[3]^9)))
                           lb9 <- vector()
                           h <- 1L
-                          for (i in 1:dim(w)[3]) {
-                            for (j in 1:dim(w)[3]) {
-                              for (l in 1:dim(w)[3]) {
-                                for (m in 1:dim(w)[3]) {
-                                  for (n in 1:dim(w)[3]) {
-                                    for (o in 1:dim(w)[3]) {
-                                      for (q in 1:dim(w)[3]) {
-                                        for (r in 1:dim(w)[3]) {
-                                          for (s in 1:dim(w)[3]) {
+                          for (i in seq_len(dim(w)[3])) {
+                            for (j in seq_len(dim(w)[3])) {
+                              for (l in seq_len(dim(w)[3])) {
+                                for (m in seq_len(dim(w)[3])) {
+                                  for (n in seq_len(dim(w)[3])) {
+                                    for (o in seq_len(dim(w)[3])) {
+                                      for (q in seq_len(dim(w)[3])) {
+                                        for (r in seq_len(dim(w)[3])) {
+                                          for (s in seq_len(dim(w)[3])) {
                                             tmp9[h, ] <- replace(as.numeric(as.vector(w[, 
                                               , i] %*% w[, , 
                                               j] %*% w[, , l] %*% 
@@ -330,8 +331,8 @@ function (w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
                           }
                           w9 <- array(dim = c(dim(w)[1], dim(w)[2], 
                             nrow(tmp9)))
-                          for (i in 1:nrow(tmp9)) {
-                            w9[, , i][1:(dim(w)[1] * dim(w)[2])] <- as.numeric(tmp9[i, 
+                          for (i in seq_len(nrow(tmp9))) {
+                            w9[, , i][seq_len((dim(w)[1] * dim(w)[2]))] <- as.numeric(tmp9[i, 
                               ])
                           }
                         }
