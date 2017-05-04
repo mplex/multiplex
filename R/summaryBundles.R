@@ -4,6 +4,7 @@ function (x, file = NULL, latex = FALSE, byties)
     if (isTRUE(attr(x, "class")[1] == "Rel.Bundles") == FALSE) 
         stop("Data must be a \"Rel.Bundles\" class.")
     sep <- dhc(attr(x, "class")[2], ": ")[2]
+    ifelse(isTRUE(sep == " -- ") == TRUE, sep2 <- ", ", sep2 <- " -- ")
     ifelse(missing(byties) == FALSE && isTRUE(byties == TRUE) == 
         TRUE, byties <- TRUE, byties <- FALSE)
     if (latex) {
@@ -17,7 +18,7 @@ function (x, file = NULL, latex = FALSE, byties)
     ulx <- unlist(x)
     if (isTRUE(length(ulx) != 0) == TRUE) {
         lb <- vector()
-        for (i in 1:length(ulx)) {
+        for (i in seq_len(length(ulx))) {
             lb <- append(lb, strsplit(ulx[i], sep)[[1]])
         }
         rm(i)
@@ -27,8 +28,8 @@ function (x, file = NULL, latex = FALSE, byties)
     k <- 1L
     if (length(unlist(x[[k]])) > 0) {
         q <- 1L
-        for (i in 1:length(x[[k]])) {
-            for (j in 1:length(x[[k]][[i]])) {
+        for (i in seq_len(length(x[[k]]))) {
+            for (j in seq_len(length(x[[k]][[i]]))) {
                 if (isTRUE(length(x[[k]][[i]]) != 0) == TRUE) {
                   if (latex) {
                     if (isTRUE(is.null(attr(x[[k]], "names")) == 
@@ -69,16 +70,16 @@ function (x, file = NULL, latex = FALSE, byties)
     if (length(unlist(x[[k]])) > 0) {
         q <- 1L
         if (isTRUE(is.list(x[[k]])) == TRUE) {
-            for (i in 1:length(x[[k]])) {
+            for (i in seq_len(length(x[[k]]))) {
                 if (isTRUE(length(x[[k]][[i]]) != 0) == TRUE) {
-                  tmp <- transf(x[[k]][[i]], type = "toarray", 
-                    lb2lb = TRUE, labels = lb, ord = length(lb))
+                  tmp <- trnf(x[[k]][[i]], tolist = FALSE, lb2lb = TRUE, 
+                    lbs = lb, ord = length(lb), sep = sep)
                   tmp[lower.tri(tmp)] <- NA
                   tmp[is.na(tmp)] <- 0
                   if (isTRUE(sum(tmp) == 0) == FALSE) {
-                    tmp <- transf(tmp, type = "tolist", lb2lb = TRUE, 
-                      labels = lb)
-                    for (j in 1:length(tmp)) {
+                    tmp <- trnf(tmp, tolist = TRUE, lb2lb = TRUE, 
+                      lbs = lb, sep = sep)
+                    for (j in seq_len(length(tmp))) {
                       if (latex) {
                         if (isTRUE(is.null(attr(x[[k]], "names")) == 
                           FALSE)) {
@@ -92,8 +93,8 @@ function (x, file = NULL, latex = FALSE, byties)
                         }
                       }
                       else if (isTRUE(byties == TRUE) == TRUE) {
-                        recp[[q]] <- (paste0(c(tmp[j], swp(tmp[j])), 
-                          collapse = " -- "))
+                        recp[[q]] <- (paste0(c(tmp[j], swp(tmp[j], 
+                          sep = sep)), collapse = sep2))
                       }
                       else {
                         if (isTRUE(is.null(attr(x[[k]], "names")) == 
@@ -117,14 +118,14 @@ function (x, file = NULL, latex = FALSE, byties)
         }
         else if (isTRUE(is.list(x[[k]])) == FALSE) {
             tmp <- men(x[[k]], sep = sep)
-            for (j in 1:length(tmp)) {
+            for (j in seq_len(length(tmp))) {
                 if (latex) {
                   recp[[q]] <- noquote(paste("\\stackrel{\\leftrightarrow}{", 
                     "R", "} (", tmp[j], ")", sep = ""))
                 }
                 else if (isTRUE(byties == TRUE) == TRUE) {
-                  recp[[q]] <- (paste0(c(tmp[j], swp(tmp[j])), 
-                    collapse = " -- "))
+                  recp[[q]] <- (paste0(c(tmp[j], swp(tmp[j], 
+                    sep = sep)), collapse = sep2))
                 }
                 else {
                   recp[[q]] <- noquote(paste("<->", "{", "R", 
@@ -140,8 +141,8 @@ function (x, file = NULL, latex = FALSE, byties)
     if (length(unlist(x[[k]])) > 0) {
         q <- 1L
         tmp <- vector()
-        for (l in 1:length(levels(factor(unlist(x[[k]]))))) {
-            for (i in 1:length(x[[k]])) {
+        for (l in seq_len(length(levels(factor(unlist(x[[k]])))))) {
+            for (i in seq_len(length(x[[k]]))) {
                 if (isTRUE(levels(factor(unlist(x[[k]])))[l] %in% 
                   x[[k]][[i]]) == TRUE) {
                   if (latex) {
@@ -163,7 +164,7 @@ function (x, file = NULL, latex = FALSE, byties)
                 tent[[q]] <- noquote(paste(tmp, collapse = " "))
             }
             else if (isTRUE(byties == TRUE) == TRUE) {
-                tent[[q]] <- (paste0(tmp, collapse = " -- "))
+                tent[[q]] <- (paste0(tmp, collapse = sep2))
             }
             q <- q + 1L
             tmp <- vector()
@@ -176,8 +177,8 @@ function (x, file = NULL, latex = FALSE, byties)
         q <- 1L
         temp <- men(levels(factor(unlist(x[[k]]))), sep = sep)
         tmp <- vector()
-        for (l in 1:length(temp)) {
-            for (i in 1:length(x[[k]])) {
+        for (l in seq_len(length(temp))) {
+            for (i in seq_len(length(x[[k]]))) {
                 if (isTRUE(length(x[[k]][[i]]) != 0) == TRUE) {
                   if (isTRUE(temp[l] %in% x[[k]][[i]]) == TRUE) {
                     if (latex) {
@@ -191,7 +192,7 @@ function (x, file = NULL, latex = FALSE, byties)
                             "}", sep = "")))
                     }
                   }
-                  if (isTRUE(swp(temp[l]) %in% x[[k]][[i]]) == 
+                  if (isTRUE(swp(temp[l], sep = sep) %in% x[[k]][[i]]) == 
                     TRUE) {
                     if (latex) {
                       tmp <- append(tmp, paste("\\stackrel{\\leftarrow}{\\sf ", 
@@ -199,21 +200,20 @@ function (x, file = NULL, latex = FALSE, byties)
                     }
                     else {
                       ifelse(isTRUE(byties == TRUE) == TRUE, 
-                        tmp <- append(tmp, swp(temp[l])), tmp <- append(tmp, 
-                          paste("<-", "{", attr(x[[k]][i], "names"), 
-                            "}", sep = "")))
+                        tmp <- append(tmp, swp(temp[l], sep = sep)), 
+                        tmp <- append(tmp, paste("<-", "{", attr(x[[k]][i], 
+                          "names"), "}", sep = "")))
                     }
                   }
                 }
             }
             rm(i)
             if (isTRUE(byties == TRUE) == FALSE) {
-                tmp <- append(tmp, paste(" (", temp[l], ")", 
-                  sep = ""))
+                tmp <- append(tmp, paste("(", temp[l], ")", sep = ""))
                 txch[[q]] <- noquote(paste(tmp, collapse = " "))
             }
             else if (isTRUE(byties == TRUE) == TRUE) {
-                txch[[q]] <- (paste0(tmp, collapse = " -- "))
+                txch[[q]] <- (paste0(tmp, collapse = sep2))
             }
             q <- q + 1L
             tmp <- vector()
@@ -226,11 +226,11 @@ function (x, file = NULL, latex = FALSE, byties)
         q <- 1L
         temp <- men(levels(factor(unlist(x[[k]]))), sep = sep)
         tmp <- vector()
-        for (l in 1:length(temp)) {
-            for (i in 1:length(x[[k]])) {
+        for (l in seq_len(length(temp))) {
+            for (i in seq_len(length(x[[k]]))) {
                 if (isTRUE(length(x[[k]][[i]]) != 0) == TRUE) {
                   if (isTRUE(temp[l] %in% x[[k]][[i]]) == TRUE && 
-                    isTRUE(swp(temp[l]) %in% x[[k]][[i]]) == 
+                    isTRUE(swp(temp[l], sep = sep) %in% x[[k]][[i]]) == 
                       TRUE) {
                     if (latex) {
                       tmp <- append(tmp, paste("\\stackrel{\\leftrightarrow}{\\sf ", 
@@ -238,9 +238,10 @@ function (x, file = NULL, latex = FALSE, byties)
                     }
                     else {
                       ifelse(isTRUE(byties == TRUE) == TRUE, 
-                        tmp <- append(tmp, c(temp[l], swp(temp[l]))), 
-                        tmp <- append(tmp, paste("<->", "{", 
-                          attr(x[[k]][i], "names"), "}", sep = "")))
+                        tmp <- append(tmp, c(temp[l], swp(temp[l], 
+                          sep = sep))), tmp <- append(tmp, paste("<->", 
+                          "{", attr(x[[k]][i], "names"), "}", 
+                          sep = "")))
                     }
                   }
                   else {
@@ -256,7 +257,7 @@ function (x, file = NULL, latex = FALSE, byties)
                               "names"), "}", sep = "")))
                       }
                     }
-                    if (isTRUE(swp(temp[l]) %in% x[[k]][[i]]) == 
+                    if (isTRUE(swp(temp[l], sep = sep) %in% x[[k]][[i]]) == 
                       TRUE) {
                       if (latex) {
                         tmp <- append(tmp, paste("\\stackrel{\\leftarrow}{\\sf ", 
@@ -264,9 +265,9 @@ function (x, file = NULL, latex = FALSE, byties)
                       }
                       else {
                         ifelse(isTRUE(byties == TRUE) == TRUE, 
-                          tmp <- append(tmp, swp(temp[l])), tmp <- append(tmp, 
-                            paste("<-", "{", attr(x[[k]][i], 
-                              "names"), "}", sep = "")))
+                          tmp <- append(tmp, swp(temp[l], sep = sep)), 
+                          tmp <- append(tmp, paste("<-", "{", 
+                            attr(x[[k]][i], "names"), "}", sep = "")))
                       }
                     }
                   }
@@ -279,7 +280,7 @@ function (x, file = NULL, latex = FALSE, byties)
                 mixd[[q]] <- noquote(paste(tmp, collapse = " "))
             }
             else if (isTRUE(byties == TRUE) == TRUE) {
-                mixd[[q]] <- (paste0(tmp, collapse = " -- "))
+                mixd[[q]] <- (paste0(tmp, collapse = sep2))
             }
             q <- q + 1L
             tmp <- vector()
@@ -292,8 +293,8 @@ function (x, file = NULL, latex = FALSE, byties)
         q <- 1L
         temp <- men(levels(factor(unlist(x[[k]]))), sep = sep)
         tmp <- vector()
-        for (l in 1:length(temp)) {
-            for (i in 1:length(x[[k]])) {
+        for (l in seq_len(length(temp))) {
+            for (i in seq_len(length(x[[k]]))) {
                 if (isTRUE(length(x[[k]][[i]]) != 0) == TRUE) {
                   if (isTRUE(temp[l] %in% x[[k]][[i]]) == TRUE) {
                     if (latex) {
@@ -303,9 +304,10 @@ function (x, file = NULL, latex = FALSE, byties)
                     }
                     else {
                       ifelse(isTRUE(byties == TRUE) == TRUE, 
-                        tmp <- append(tmp, c(temp[l], swp(temp[l]))), 
-                        tmp <- append(tmp, paste("<->", "{", 
-                          attr(x[[k]][i], "names"), "}", sep = "")))
+                        tmp <- append(tmp, c(temp[l], swp(temp[l], 
+                          sep = sep))), tmp <- append(tmp, paste("<->", 
+                          "{", attr(x[[k]][i], "names"), "}", 
+                          sep = "")))
                     }
                   }
                 }
@@ -317,7 +319,7 @@ function (x, file = NULL, latex = FALSE, byties)
                 full[[q]] <- noquote(paste(tmp, collapse = " "))
             }
             else if (isTRUE(byties == TRUE) == TRUE) {
-                full[[q]] <- (paste0(tmp, collapse = " -- "))
+                full[[q]] <- (paste0(tmp, collapse = sep2))
             }
             q <- q + 1L
             tmp <- vector()
@@ -329,8 +331,8 @@ function (x, file = NULL, latex = FALSE, byties)
         k <- 7L
         if (length(unlist(x[[k]])) > 0) {
             q <- 1L
-            for (i in 1:length(x[[k]])) {
-                for (j in 1:length(x[[k]][[i]])) {
+            for (i in seq_len(length(x[[k]]))) {
+                for (j in seq_len(length(x[[k]][[i]]))) {
                   if (isTRUE(length(x[[k]][[i]]) != 0) == TRUE) {
                     if (latex) {
                       if (isTRUE(is.null(attr(x[[k]], "names")) == 
@@ -486,8 +488,8 @@ function (x, file = NULL, latex = FALSE, byties)
             dfbndl <- as.data.frame(Bundles)
             ltbndl <- list()
             length(ltbndl) <- nrow(dfbndl)
-            for (i in 1:nrow(dfbndl)) {
-                ltbndl[[i]] <- dhc(as.vector(dfbndl[i, ]), sep = " -- ")
+            for (i in seq_len(nrow(dfbndl))) {
+                ltbndl[[i]] <- dhc(as.vector(dfbndl[i, ]), sep = sep2)
             }
             rm(i)
             attr(ltbndl, "names") <- attr(Bundles, "names")
