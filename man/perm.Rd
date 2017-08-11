@@ -8,7 +8,7 @@ Array Permutation
 Function to permutate a given array of relation.
 }
 \usage{
-perm(x, clu, rev = FALSE)
+perm(x, clu, rev = FALSE, lbs)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -21,6 +21,9 @@ perm(x, clu, rev = FALSE)
   \item{rev}{
    (logical) whether the order in \code{clu} sholud be reverted.
 }
+  \item{lbs}{
+   (optional) the labels after the permutation
+  }
 }
 \details{
 This function serves to permutate an array representing relations according to a vector for the clustering membership.
