@@ -1,10 +1,10 @@
 Package: multiplex
 Type: Package
-Version: 2.7-beta
+Version: 2.7
 Depends: R (>= 3.3.1)
 Imports: methods
 Suggests: multigraph, Rgraphviz, knitr
-Title: Algebraic Tools for the Analysis of Multiple Social Networks
+Title: Algebraic Tools for the Analysis of Multiple Social Networks - beta version
 Description: Algebraic procedures for the analysis of multiple social networks are delivered with 
 	    this package. Among other things, it makes possible to create and manipulate multivariate 
 	    network data with different formats, and there are effective ways available to treat multiple 
