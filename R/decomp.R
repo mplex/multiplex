@@ -21,14 +21,14 @@ function (S, x, type = c("mc", "pi", "cc"), reduc = FALSE)
         clu <- list()
         lb <- list()
         length(lb) <- length(clu) <- dim(poi)[3]
-        for (i in 1:dim(poi)[3]) {
+        for (i in seq_len(dim(poi)[3])) {
             ifelse(isTRUE(all(as.vector(poi[, , i]) == 1L) == 
                 TRUE) == TRUE, clu[[i]] <- rep(1, S$ord), clu[[i]] <- stats::cutree(stats::hclust(stats::dist(poi[, 
                 , i])), k = length(cut(stats::as.dendrogram(stats::hclust(stats::dist(poi[, 
                 , i]))), h = 0L)$lower)))
             attr(clu[[i]], "names") <- S$st
             lb[[i]] <- list()
-            for (j in 1:length(tabulate(clu[[i]]))) {
+            for (j in seq_len(length(tabulate(clu[[i]])))) {
                 lb[[i]][[j]] <- noquote(attr(which(clu[[i]] == 
                   j), "names"))
             }
@@ -40,10 +40,10 @@ function (S, x, type = c("mc", "pi", "cc"), reduc = FALSE)
         clu <- x$clu
         lb <- list()
         length(lb) <- length(clu)
-        for (i in 1:length(clu)) {
+        for (i in seq_len(length(clu))) {
             attr(clu[[i]], "names") <- S$st
             lb[[i]] <- list()
-            for (j in 1:length(tabulate(clu[[i]]))) {
+            for (j in seq_len(length(tabulate(clu[[i]])))) {
                 lb[[i]][[j]] <- noquote(attr(which(clu[[i]] == 
                   j), "names"))
             }
@@ -56,16 +56,16 @@ function (S, x, type = c("mc", "pi", "cc"), reduc = FALSE)
         po <- list()
         dm <- vector()
         length(po) <- length(im) <- length(clu)
-        for (i in 1:length(clu)) {
+        for (i in seq_len(length(clu))) {
             im[[i]] <- reducs(S, clu = as.vector(clu[[i]]))
             if (isTRUE(attr(x, "class") == "Pi.rels") == TRUE) {
                 po[[i]] <- reduc(poi[, , i], clu = as.vector(clu[[i]]), 
-                  labels = dimnames(im[[i]])[[1]])
+                  lbs = dimnames(im[[i]])[[1]])
             }
             else if (isTRUE(attr(x, "class")[2] == "PO.Semigroup") == 
                 TRUE) {
                 po[[i]] <- reduc(poi, clu = as.vector(clu[[i]]), 
-                  labels = dimnames(im[[i]])[[1]])
+                  lbs = dimnames(im[[i]])[[1]])
             }
             else {
                 NA
@@ -73,13 +73,13 @@ function (S, x, type = c("mc", "pi", "cc"), reduc = FALSE)
             dm[length(dm) + 1] <- dim(im[[i]])[1]
         }
         rm(i)
-        for (k in 1:length(clu)) {
+        for (k in seq_len(length(clu))) {
             imm <- as.matrix(im[[k]])
-            for (i in 1:dim(imm)[1]) {
-                for (j in 1:dim(imm)[1]) {
+            for (i in seq_len(dim(imm)[1])) {
+                for (j in seq_len(dim(imm)[1])) {
                   if (isTRUE(imm[i, j] %in% dimnames(imm)[[1]]) == 
                     FALSE) {
-                    for (l in 1:length(lb[[k]])) {
+                    for (l in seq_len(length(lb[[k]]))) {
                       if (isTRUE(attr(S, "class")[2] == "symbolic") == 
                         TRUE) {
                         if (isTRUE(imm[i, j] %in% lb[[k]][[l]]) == 
@@ -102,7 +102,7 @@ function (S, x, type = c("mc", "pi", "cc"), reduc = FALSE)
             im[[k]] <- as.data.frame(imm)
         }
         rm(k)
-        for (i in 1:length(clu)) attr(clu[[i]], "names") <- NULL
+        for (i in seq_len(length(clu))) attr(clu[[i]], "names") <- NULL
         ifelse(isTRUE(attr(x, "class") == "Pi.rels" || attr(x, 
             "class")[2] == "PO.Semigroup") == TRUE, lst <- list(clu = clu, 
             eq = lb, IM = im, PO = po, dims = dm), lst <- list(clu = clu, 
@@ -114,7 +114,7 @@ function (S, x, type = c("mc", "pi", "cc"), reduc = FALSE)
         return(lst)
     }
     else {
-        for (i in 1:length(clu)) attr(clu[[i]], "names") <- NULL
+        for (i in seq_len(length(clu))) attr(clu[[i]], "names") <- NULL
         lst <- list(clu = clu, eq = lb)
         ifelse(isTRUE(attr(x, "class")[1] == "Congruence") == 
             TRUE, class(lst) <- c("Decomp", attr(x, "class")[1], 

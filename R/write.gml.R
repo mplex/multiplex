@@ -3,10 +3,10 @@ function (x, file = NULL)
 {
     if (isTRUE(is.na(dim(x)[3]) == TRUE) == FALSE) {
         if (isTRUE(is.null(dimnames(x)[[3]])) == TRUE) 
-            dimnames(x)[[3]] <- 1:dim(x)[3]
+            dimnames(x)[[3]] <- seq_len(dim(x)[3])
     }
     if (isTRUE(is.null(dimnames(x)[[1]])) == TRUE) 
-        dimnames(x)[[1]] <- dimnames(x)[[2]] <- 1:dim(x)[1]
+        dimnames(x)[[1]] <- dimnames(x)[[2]] <- seq_len(dim(x)[1])
     suppressWarnings(file.remove(file = file))
     cat(paste("Creator", "\"multiplex\"", sep = "\t"), file = file, 
         sep = "\n", append = TRUE)
@@ -21,7 +21,7 @@ function (x, file = NULL)
         sep = "\n", append = TRUE)
     cat(paste("", "directed", "1", sep = "\t"), file = file, 
         sep = "\n", append = TRUE)
-    for (i in 1:dim(x)[1]) {
+    for (i in seq_len(dim(x)[1])) {
         cat(paste("", "node", sep = "\t"), file = file, sep = "\n", 
             append = TRUE)
         cat(paste("", "[", sep = "\t"), file = file, sep = "\n", 
@@ -35,10 +35,10 @@ function (x, file = NULL)
             sep = "\n", append = TRUE)
         cat(paste("\t", "[", sep = "\t"), file = file, sep = "\n", 
             append = TRUE)
-        cat(paste("\t\t", "x", stats::runif(1) * 10, sep = "\t"), file = file, 
-            sep = "\n", append = TRUE)
-        cat(paste("\t\t", "y", stats::runif(1) * 10, sep = "\t"), file = file, 
-            sep = "\n", append = TRUE)
+        cat(paste("\t\t", "x", stats::runif(1) * 10, sep = "\t"), 
+            file = file, sep = "\n", append = TRUE)
+        cat(paste("\t\t", "y", stats::runif(1) * 10, sep = "\t"), 
+            file = file, sep = "\n", append = TRUE)
         cat(paste("\t\t", "type", "\"ellipse\"", sep = "\t"), 
             file = file, sep = "\n", append = TRUE)
         cat(paste("\t\t", "fill", "\"#3399FF\"", sep = "\t"), 
@@ -60,9 +60,9 @@ function (x, file = NULL)
             append = TRUE)
     }
     pat <- c("dotted", "line", "dashed")
-    for (j in 1:dim(x)[3]) {
-        tmp <- transf(x[, , j], lb2lb = FALSE, ord = dim(x)[1])
-        for (k in 1:length(tmp)) {
+    for (j in seq_len(dim(x)[3])) {
+        tmp <- trnf(x[, , j], tolist = TRUE, lb2lb = FALSE, ord = dim(x)[1])
+        for (k in seq_len(length(tmp))) {
             cat(paste("", "edge", sep = "\t"), file = file, sep = "\n", 
                 append = TRUE)
             cat(paste("", "[", sep = "\t"), file = file, sep = "\n", 

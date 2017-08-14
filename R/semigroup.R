@@ -1,12 +1,12 @@
 semigroup <-
-function (x, type = c("numerical", "symbolic"), labels = NULL, 
-    cmp = FALSE, smpl = FALSE) 
+function (x, type = c("numerical", "symbolic"), lbs = NULL, cmp = FALSE, 
+    smpl = FALSE) 
 {
     if (is.array(x) == FALSE) 
         stop("Data must be a stacked array of square matrices.")
     if (is.na(dim(x)[3]) == FALSE) {
-        if (is.null(labels) == FALSE) {
-            dimnames(x)[[3]] <- labels
+        if (is.null(lbs) == FALSE) {
+            dimnames(x)[[3]] <- lbs
         }
         else {
             if (is.null(dimnames(x)[[3]]) == TRUE) 

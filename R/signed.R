@@ -1,5 +1,5 @@
 signed <-
-function (P, N = NULL, labels = NULL) 
+function (P, N = NULL, lbs) 
 {
     if (is.array(P) == FALSE) 
         stop("Data must be an array")
@@ -33,10 +33,9 @@ function (P, N = NULL, labels = NULL)
     else {
         sm[which(N == 1L)] <- -1L
     }
-    if (is.null(labels) == FALSE) {
-        ifelse(isTRUE(length(labels) == dim(sm)[1]) == TRUE, 
-            NA, labels <- 1:dim(sm)[1])
-        rownames(sm) <- colnames(sm) <- labels
+    if (missing(lbs) == FALSE && isTRUE(length(lbs) == dim(sm)[1]) == 
+        TRUE) {
+        rownames(sm) <- colnames(sm) <- lbs
     }
     else if (is.null(dimnames(P)[1]) == FALSE) {
         rownames(sm) <- colnames(sm) <- dimnames(P)[[1]]

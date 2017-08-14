@@ -19,7 +19,7 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
         bnds <- "entire"
     }
     else if (isTRUE(any(c("entire", "weak", "strong") %in% bonds)) == 
-        FALSE | isTRUE(length(bonds) > 1) == TRUE) {
+        FALSE | isTRUE(length(bonds) > 1L) == TRUE) {
         bnds <- "Mixed"
     }
     else {
@@ -70,7 +70,7 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
             bd <- bundles(x, collapse = FALSE, loops = loops, 
                 sep = sep)
         }
-        if (isTRUE(length(unlist(bd)) == 0) == TRUE) 
+        if (isTRUE(length(unlist(bd)) == 0L) == TRUE) 
             stop("Relational system chosen is empty!")
         if ((bnds) == "entire") {
             lbd <- bd
@@ -97,9 +97,9 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
             if (is.na(dim(x)[3]) == FALSE && isTRUE((dim(x)[3] - 
                 length(att)) == 0L) == FALSE) {
                 stb <- list()
-                for (k in 1:(dim(x)[3] - length(att))) {
+                for (k in seq_len(dim(x)[3] - length(att))) {
                   tmp <- vector()
-                  for (i in 1:length(lbd)) {
+                  for (i in seq_len(length(lbd))) {
                     if (isTRUE(length(lbd[[i]]) > 0L) == TRUE) {
                       ifelse(is.na(dim(x[, , which(!(seq(dim(x)[3]) %in% 
                         att))])[3]) == TRUE, tmp <- append(tmp, 
@@ -113,7 +113,7 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
             }
             else {
                 stb <- vector()
-                for (i in 1:length(lbd)) {
+                for (i in seq_len(length(lbd))) {
                   stb <- append(stb, lbd[[i]])
                 }
                 rm(i)
@@ -137,11 +137,11 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
             }
             ntsel <- list()
             length(ntsel) <- length(stb)
-            for (k in 1:length(stb)) {
-                tss <- which(dhc(stb[[k]]) %in% Sel)
+            for (k in seq_len(length(stb))) {
+                tss <- which(dhc(stb[[k]], sep = sep) %in% Sel)
                 if (isTRUE(length(tss) > 0) == TRUE) {
                   tmpsel <- vector()
-                  for (i in 1:length(tss)) {
+                  for (i in seq_len(length(tss))) {
                     if (isTRUE((tss[i]%%2L) == 1L) == TRUE) {
                       tmpsel <- append(tmpsel, stb[[k]][ceiling(tss[i]/2L)])
                     }
@@ -162,8 +162,8 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
         }
         if (length(stb) > 0L) {
             ties <- vector()
-            for (k in 1:length(stb)) {
-                for (i in 1:length(stb[[k]])) {
+            for (k in seq_len(length(stb))) {
+                for (i in seq_len(length(stb[[k]]))) {
                   if (isTRUE(length(stb[[k]]) > 0L) == TRUE) {
                     ties <- append(ties, dhc(stb[[k]][i], sep = sep))
                   }
@@ -180,8 +180,8 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
         if (is.na(dim(x)[3]) == FALSE) {
             if (is.null(att) == TRUE) {
                 ifelse(is.null(dimnames(x)[[3]]) == TRUE, attr(stb, 
-                  "names") <- 1:(dim(x)[3] - length(att)), attr(stb, 
-                  "names") <- dimnames(x)[[3]])
+                  "names") <- seq_len(dim(x)[3] - length(att)), 
+                  attr(stb, "names") <- dimnames(x)[[3]])
             }
             else if (is.null(att) == FALSE) {
                 ifelse(is.null(dimnames(x)[[3]]) == TRUE, attr(stb, 
@@ -192,7 +192,7 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
         }
         if (is.null(dimnames(x)[[1]]) == TRUE) {
             note <- "Input labels in 'x' are NULL."
-            lbs <- 1:dim(x)[1]
+            lbs <- seq_len(dim(x)[1])
         }
         else {
             note <- NULL
@@ -237,7 +237,8 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
                 if (is.array(sel) == TRUE) {
                   ifelse(is.na(dim(sel)[3]) == TRUE | isTRUE(dim(sel)[3] == 
                     1L) == TRUE, sel <- diag(sel), sel <- diag(mnplx(sel)))
-                  sel <- as.vector(attr(which(!(sel == 0)), "names"))
+                  sel <- as.vector(attr(which(!(sel == 0L)), 
+                    "names"))
                 }
                 else {
                   NA
@@ -275,10 +276,12 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
             }
             else if (is.null(sel) == FALSE) {
                 if (isTRUE(sel == "att") == TRUE) {
-                  sel <- x$nodes[which(x$nodes %in% unlist(dhc(x$Attrs)))]
+                  sel <- x$nodes[which(x$nodes %in% unlist(dhc(x$Attrs, 
+                    sep = sep)))]
                 }
                 else if (isTRUE(sel == "noatt") == TRUE) {
-                  sel <- x$nodes[which(!(x$nodes %in% unlist(dhc(x$Attrs))))]
+                  sel <- x$nodes[which(!(x$nodes %in% unlist(dhc(x$Attrs, 
+                    sep = sep))))]
                 }
                 else if (isTRUE(any(sel %in% x$nodes)) == FALSE) {
                   warning("selection is not part of 'x'.")
@@ -289,11 +292,12 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
                 }
                 lbst <- vector()
                 ntsel <- list()
-                for (k in 1:length(x$Ties)) {
-                  tss <- which(dhc(x$Ties[[k]]) %in% sel)
-                  if (isTRUE(length(tss) > 0) == TRUE) {
+                for (k in seq_len(length(x$Ties))) {
+                  tss <- which(dhc(x$Ties[[k]], sep = sep) %in% 
+                    sel)
+                  if (isTRUE(length(tss) > 0L) == TRUE) {
                     tmpsel <- vector()
-                    for (i in 1:length(tss)) {
+                    for (i in seq_len(length(tss))) {
                       if (isTRUE((tss[i]%%2L) == 1L) == TRUE) {
                         tmpsel <- append(tmpsel, x$Ties[[k]][ceiling(tss[i]/2L)])
                       }
@@ -311,10 +315,10 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
                 }
                 rm(k)
                 ntsel <- ntsel[unlist(lapply(ntsel, length) != 
-                  0)]
+                  0L)]
                 attr(ntsel, "names") <- lbst
                 x$Ties <- ntsel
-                lbs <- unique(dhc(unlist(ntsel)))
+                lbs <- unique(dhc(unlist(ntsel), sep = sep))
                 n <- length(lbs)
                 r <- length(lbst)
             }
@@ -323,19 +327,19 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
             }
             else {
                 n <- length(x$sel)
-                r <- 1
+                r <- 1L
                 lbs <- x$sel
                 lbst <- NULL
             }
-            arr <- array(0, dim = c(n, n, r))
+            arr <- array(0L, dim = c(n, n, r))
             dimnames(arr)[[1]] <- dimnames(arr)[[2]] <- lbs
-            if (isTRUE(n > 0) == TRUE) 
+            if (isTRUE(n > 0L) == TRUE) 
                 dimnames(arr)[[3]] <- lbst
-            for (i in 1:r) {
-                if (isTRUE(length(x$Ties[[i]]) > 0) == TRUE && 
-                  isTRUE(n > 0) == TRUE) {
-                  arr[, , i] <- transf(x$Ties[[i]], type = "toarray", 
-                    ord = n, labels = lbs, lb2lb = TRUE)
+            for (i in seq_len(r)) {
+                if (isTRUE(length(x$Ties[[i]]) > 0L) == TRUE && 
+                  isTRUE(n > 0L) == TRUE) {
+                  arr[, , i] <- trnf(x$Ties[[i]], tolist = FALSE, 
+                    ord = n, lbs = lbs, lb2lb = TRUE)
                 }
                 else {
                   NA
@@ -343,20 +347,21 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
             }
             rm(i)
             if (is.null(x$Attrs) == FALSE) {
-                arra <- array(0, dim = c(n, n, length(x$Attrs)))
+                arra <- array(0L, dim = c(n, n, length(x$Attrs)))
                 dimnames(arra)[[1]] <- dimnames(arra)[[2]] <- lbs
-                if (isTRUE(n > 0) == TRUE) 
+                if (isTRUE(n > 0L) == TRUE) 
                   dimnames(arra)[[3]] <- attr(x$Attrs, "names")
-                for (i in 1:length(x$Attrs)) {
+                for (i in seq_len(length(x$Attrs))) {
                   act <- dhc(x$Attrs[[i]], sep = sep)
-                  if (isTRUE(length(act) > 0) == TRUE) {
-                    diag(arra[, , i])[which(lbs %in% dhc(x$Attrs[[i]]))] <- 1L
+                  if (isTRUE(length(act) > 0L) == TRUE) {
+                    diag(arra[, , i])[which(lbs %in% dhc(x$Attrs[[i]], 
+                      sep = sep))] <- 1L
                   }
                 }
                 rm(i)
                 attrs <- dim(arr)[3]
                 arr <- zbind(arr, arra)
-                if (isTRUE(dim(arra)[3] > 1) == TRUE) {
+                if (isTRUE(dim(arra)[3] > 1L) == TRUE) {
                   class(arr) <- c("array", paste("Attrs.", paste(attrs + 
                     1L, dim(arr)[3], sep = ","), sep = " : "))
                 }

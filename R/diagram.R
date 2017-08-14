@@ -2,9 +2,12 @@ diagram <-
 function (x, unord = TRUE, attrs = NULL, main = NULL, cex.main = graphics::par()$cex.main, 
     bg = graphics::par()$bg, ...) 
 {
+    if ((is.array(x) == FALSE | is.matrix(x) == FALSE) && isTRUE(attr(x, 
+        "class")[1] == "Partial.Order") == FALSE) 
+        stop("'x' must be either a matrix or an array object.")
     if (requireNamespace("Rgraphviz", quietly = TRUE)) {
         if (is.null(dimnames(x)[[1]]) == TRUE) 
-            rownames(x) <- colnames(x) <- as.character(utils::as.roman(c(1:dim(x)[1])))
+            rownames(x) <- colnames(x) <- as.character(utils::as.roman(c(seq_len(dim(x)[1]))))
         obg <- graphics::par()$bg
         graphics::par(bg = bg)
         if (is.null(attrs) == TRUE) 
@@ -27,7 +30,7 @@ function (x, unord = TRUE, attrs = NULL, main = NULL, cex.main = graphics::par()
             px <- po
             out <- vector()
             k <- 1L
-            for (i in 1:nrow(px)) {
+            for (i in seq_len(nrow(px))) {
                 if (sum(px[i, ] + px[, i]) == 0L) {
                   out[k] <- i
                   k <- k + 1L
@@ -36,7 +39,7 @@ function (x, unord = TRUE, attrs = NULL, main = NULL, cex.main = graphics::par()
             rm(i)
             d <- nrow(px)
             for (j in out) {
-                for (k in 1:d) {
+                for (k in seq_len(d)) {
                   px[, j] <- px[j, ] <- NA
                 }
             }
@@ -49,7 +52,7 @@ function (x, unord = TRUE, attrs = NULL, main = NULL, cex.main = graphics::par()
             npx <- data.frame(matrix(0L, ncol = (nrow(px) - length(out)), 
                 nrow = 0L))
             colnames(npx) <- as.vector(stats::na.exclude(lb))
-            for (i in 1:d) {
+            for (i in seq_len(d)) {
                 ifelse(isTRUE(all(is.na(px[i, ])) == FALSE) == 
                   TRUE, npx[i, ] <- as.vector(stats::na.exclude(px[i, 
                   ])), NA)

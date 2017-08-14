@@ -10,16 +10,16 @@ function (S, PO = NULL, unique = FALSE)
     else {
         NA
     }
-    if (isTRUE(s$ord == 1) == FALSE) {
-        mat <- matrix(0, nrow = s$ord, ncol = s$ord)
-        for (i in 1:s$ord) {
+    if (isTRUE(s$ord == 1L) == FALSE) {
+        mat <- matrix(0L, nrow = s$ord, ncol = s$ord)
+        for (i in seq_len(s$ord)) {
             mat[which(s$S == i)[1]] <- i
         }
         rm(i)
-        inc <- levels(factor(transf(dichot(mat, c = 1), type = "tolist", 
+        inc <- levels(factor(trnf(dichot(mat, c = 1), tolist = TRUE, 
             sep = ", ")))
         clus <- data.frame(matrix(ncol = s$ord, nrow = 0))
-        for (i in 1:length(inc)) {
+        for (i in seq_len(length(inc))) {
             clus[i, ] <- as.vector(sprt(s$S, as.numeric(strsplit(inc[i], 
                 ", ")[[1]][1]), as.numeric(strsplit(inc[i], ", ")[[1]][2])))
         }
@@ -33,7 +33,8 @@ function (S, PO = NULL, unique = FALSE)
         colnames(cls) <- rownames(cls) <- NULL
         cls <- data.matrix(cls)
         cg <- list()
-        for (i in 1:nrow(cls)) cg[[i]] <- as.vector(cls[i, ])
+        for (i in seq_len(nrow(cls))) cg[[i]] <- as.vector(cls[i, 
+            ])
     }
     else {
         cg <- rep(1, s$dim)

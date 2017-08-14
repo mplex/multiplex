@@ -1,6 +1,6 @@
 semiring <-
 function (x, type = c("balance", "cluster"), symclos = TRUE, 
-    transclos = TRUE, labels = NULL, k = 2) 
+    transclos = TRUE, k = 2, lbs) 
 {
     if (isTRUE(attr(x, "class") == "Signed") == FALSE) 
         stop("\"x\" should be an object of a \"Signed\" class.")
@@ -287,8 +287,9 @@ function (x, type = c("balance", "cluster"), symclos = TRUE,
             Q <- noquote(as.matrix(Q))
             if (isTRUE(is.null(dimnames(q)) == FALSE) == TRUE) 
                 rownames(Q) <- colnames(Q) <- dimnames(q)[[1]]
-            if (isTRUE(is.null(labels) == FALSE) == TRUE) 
-                rownames(Q) <- colnames(Q) <- labels
+            if (missing(lbs) == FALSE && isTRUE(length(lbs) == 
+                dim(Q)[1]) == TRUE) 
+                rownames(Q) <- colnames(Q) <- lbs
             lst <- list(val = x$val, s = x$s, Q = Q, k = k)
             class(lst) <- c("Rel.Q", match.arg(type))
             return(lst)
