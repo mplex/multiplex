@@ -60,7 +60,9 @@ function (x, lbs = NULL, lb2lb = FALSE, tolist = FALSE, ord,
             lbs))
         for (i in seq_len(length(x))) {
             mat[which(lbs == dhc(x[i], sep = sep)[1]), which(lbs == 
-                dhc(x[i], sep = sep)[2])] <- 1L
+                dhc(x[i], sep = sep)[2])] <- mat[which(lbs == 
+                dhc(x[i], sep = sep)[1]), which(lbs == dhc(x[i], 
+                sep = sep)[2])] + 1L
         }
         rm(i)
         return(mat)

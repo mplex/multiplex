@@ -1,5 +1,5 @@
 transf <-
-function (x, type = c("tolist", "toarray"), lb2lb = FALSE, lbs = NULL, 
+function (x, type = c("tolist", "toarray"), lbs = NULL, lb2lb, 
     sep, ord) 
 {
     ifelse(missing(sep) == TRUE, sep <- ", ", NA)
@@ -10,6 +10,8 @@ function (x, type = c("tolist", "toarray"), lb2lb = FALSE, lbs = NULL,
         if (isTRUE(sum(x) > 0L) == FALSE | isTRUE(max(x) < 1L) == 
             TRUE) 
             return(NULL)
+        ifelse(missing(lb2lb) == FALSE && isTRUE(lb2lb == TRUE) == 
+            TRUE, lb2lb <- TRUE, lb2lb <- FALSE)
         if (is.list(x) == TRUE && is.data.frame(x) == FALSE) {
             inc <- list()
             for (k in seq_len(length(x))) {
@@ -83,16 +85,21 @@ function (x, type = c("tolist", "toarray"), lb2lb = FALSE, lbs = NULL,
         }
     }
     if (match.arg(type) == "toarray") {
-        if (is.array(x) == TRUE | (is.character(x) == FALSE && 
-            is.list(x) == FALSE) | is.data.frame(x) == TRUE) 
-            return(x)
+        ifelse(missing(lb2lb) == FALSE && isTRUE(lb2lb == FALSE) == 
+            TRUE, lb2lb <- FALSE, lb2lb <- TRUE)
         if (missing(ord) == TRUE) {
-            ord <- length(dhc(jnt(unlist(x), sep = sep), sep = sep))
+            if (is.array(x) == TRUE | (is.character(x) == FALSE && 
+                is.list(x) == FALSE) | is.data.frame(x) == TRUE) 
+                return(x)
+            ifelse(is.null(lbs) == FALSE, ord <- length(lbs), 
+                ord <- length(dhc(jnt(unlist(x), sep = sep), 
+                  sep = sep)))
         }
         else {
             ord <- as.numeric(ord)
-            if (isTRUE(nlevels(factor(unlist(dhc(x, sep = sep)))) > 
-                ord) == TRUE) {
+            if ((is.array(x) == FALSE & is.data.frame(x) == FALSE) && 
+                isTRUE(nlevels(factor(unlist(dhc(x, sep = sep)))) > 
+                  ord) == TRUE) {
                 ord <- nlevels(factor(unlist(dhc(x, sep = sep))))
                 warning("'ord' is ignored, value is less than the number of factor levels in the pairwise list.")
             }
@@ -100,18 +107,17 @@ function (x, type = c("tolist", "toarray"), lb2lb = FALSE, lbs = NULL,
                 NA
             }
         }
-        flg <- FALSE
-        if (is.null(lbs) == TRUE | (is.null(lbs) == FALSE && 
-            isTRUE(lb2lb == TRUE) == TRUE)) {
-            Lbs <- levels(factor(unlist(dhc(x, sep = sep))))[seq_len(ord)]
-            ifelse(isTRUE(lb2lb == TRUE) == TRUE, NA, flg <- TRUE)
+        if (is.array(x) == TRUE) {
+            Lbs <- dimnames(x)[[1]][seq_len(ord)]
         }
-        else {
-            Lbs <- lbs[seq_len(ord)]
+        else if (is.array(x) == FALSE) {
+            ifelse(is.null(lbs) == FALSE | (is.null(lbs) == FALSE && 
+                isTRUE(lb2lb == TRUE) == TRUE), Lbs <- lbs[seq_len(ord)], 
+                Lbs <- levels(factor(unlist(dhc(x, sep = sep))))[seq_len(ord)])
         }
         if (is.list(x) == TRUE) {
-            mat <- array(0L, dim = c(ord, ord, length(x)))
-            dimnames(mat)[[1]] <- dimnames(mat)[[2]] <- Lbs
+            mat <- array(0L, dim = c(ord, ord, length(x)), dimnames = list(Lbs, 
+                Lbs, names(x)))
             for (i in seq_len(length(x))) {
                 mat[, , i] <- trnf(x[[i]], tolist = FALSE, ord = ord, 
                   lbs = Lbs)
@@ -123,19 +129,26 @@ function (x, type = c("tolist", "toarray"), lb2lb = FALSE, lbs = NULL,
                 Lbs))
             for (i in seq_len(length(x))) {
                 mat[which(Lbs == dhc(x[i], sep = sep)[1]), which(Lbs == 
-                  dhc(x[i], sep = sep)[2])] <- 1L
+                  dhc(x[i], sep = sep)[2])] <- mat[which(Lbs == 
+                  dhc(x[i], sep = sep)[1]), which(Lbs == dhc(x[i], 
+                  sep = sep)[2])] + 1L
             }
             rm(i)
         }
-        else {
-            stop("Input for 'toarray' must be a vector or a list.")
+        else if (is.array(x) == TRUE) {
+            lx <- trnf(x, tolist = TRUE, lb2lb = TRUE)
+            mat <- trnf(trnf(x, tolist = TRUE, lb2lb = TRUE), 
+                tolist = FALSE, ord = ord, lbs = Lbs)
         }
-        if (isTRUE(flg == TRUE) == TRUE) {
+        else {
+            stop("Input for 'toarray' must be a vector, a list, ar an array.")
+        }
+        if (isTRUE(lb2lb == TRUE) == FALSE && is.null(lbs) == 
+            TRUE) {
             dimnames(mat)[[1]] <- dimnames(mat)[[2]] <- NULL
         }
-        else if ((is.null(lbs) == FALSE && isTRUE(lb2lb == TRUE) == 
-            TRUE)) {
-            dimnames(mat)[[1]] <- dimnames(mat)[[2]] <- lbs[as.numeric(Lbs)]
+        else {
+            NA
         }
         return(mat)
     }
