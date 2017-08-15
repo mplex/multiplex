@@ -10,10 +10,25 @@ function (...)
         nrow = 0L))
     for (i in seq_len(length(argl))) {
         if (isTRUE(i < length(argl)) == TRUE) {
-            if (all.equal(dim(argl[[i + 1L]])[1:2], dim(pvt)[1:2]) != 
-                TRUE) 
-                stop("Dimmensions of arrays involved are not equal.")
             pvtlbs <- dimnames(pvt)[[1]]
+            if (all.equal(dim(argl[[i + 1L]])[1:2], dim(pvt)[1:2]) != 
+                TRUE) {
+                argl[[i + 1L]] <- transf(argl[[i + 1L]], type = "toarray", 
+                  ord = dim(pvt)[1])
+            }
+            else {
+                NA
+            }
+            if (is.null(pvtlbs) == FALSE) {
+                dimnames(argl[[i + 1L]])[[1]][which(is.na(attr(argl[[i + 
+                  1L]], "dimnames")[[1]]))] <- dimnames(argl[[i + 
+                  1L]])[[2]][which(is.na(attr(argl[[i + 1L]], 
+                  "dimnames")[[1]]))] <- pvtlbs[which(!(pvtlbs %in% 
+                  attr(argl[[i + 1L]], "dimnames")[[1]]))]
+            }
+            else {
+                warning("Dimnames in the pivot array are NULL.")
+            }
             if (any(dimnames(argl[[i + 1L]])[[1]] != pvtlbs) == 
                 TRUE && isTRUE(dim(argl[[1]])[1] == dim(argl[[1]])[2]) == 
                 TRUE) {
@@ -41,19 +56,13 @@ function (...)
         }
     }
     rm(i)
-    arr <- array(dim = c(dim(pvt)[1], dim(pvt)[2], nrow(tmp)))
+    arr <- array(dim = c(dim(pvt)[1], dim(pvt)[2], nrow(tmp)), 
+        dimnames = list(pvtlbs, pvtlbs))
     for (i in seq_len(nrow(tmp))) {
         arr[, , i][seq_len((dim(pvt)[1] * dim(pvt)[2]))] <- as.numeric(tmp[i, 
             ])
     }
     rm(i)
-    if (isTRUE(is.null(dimnames(arr)) == TRUE) == TRUE) {
-        dimnames(arr)[[1]] <- dimnames(pvt)[[1]]
-        dimnames(arr)[[2]] <- dimnames(pvt)[[2]]
-    }
-    else {
-        NA
-    }
     lbs <- vector()
     for (i in seq_len(length(argl))) {
         if (isTRUE(dim(argl[[i]])[3] > 1L) == TRUE) {
