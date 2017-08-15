@@ -8,15 +8,15 @@ Coerce to a Semigroup Object
 A generic function for coercing an R object to a \code{\link{semigroup}} class.
 }
 \usage{
-as.semigroup(x, labels = NULL)
+as.semigroup(x, lbs)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
 	an array representing the semigroup
 }
-  \item{labels}{
-	label strings for the semigroup
+  \item{lbs}{
+	(optional) label strings for the semigroup
 }
 }
 \details{

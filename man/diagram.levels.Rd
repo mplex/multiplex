@@ -32,10 +32,10 @@ A data frame with the elements of the partial order structure with the column na
 Antonio Rivero Ostoic
 }
 \note{
-This function requires that the \emph{Rgraphviz} package is available.
+This function requires that the \emph{Rgraphviz} package is available. Besides, since the \code{pictex} function from \code{grDevices} is inside this routine, it implies counting with administrator privileges for running.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%% ~Make other sections like Warning with \section{Warning }{...} ~
 
 \seealso{
 \code{\link{partial.order}}, \code{\link{diagram}}, \code{\link{perm}}

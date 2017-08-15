@@ -1,5 +1,5 @@
-\name{ngbs}
-\alias{ngbs}
+\name{trnf}
+\alias{trnf}
 \title{
 internal function
 }
@@ -7,7 +7,6 @@ internal function
 internal function
 }
 %\usage{
-%ngbs(x, type = c("und", "dir"))
+%trnf(x, lbs = NULL, lb2lb = FALSE, tolist = FALSE, ord, sep)
 %}
-%
 \keyword{internal}

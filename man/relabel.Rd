@@ -8,14 +8,14 @@ Relabel a Semigroup Object
 Function to relabel the elements of a `\code{Semigroup}' class object.
 }
 \usage{
-relabel(S, labels = NULL)
+relabel(S, lbs = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{S}{
    an object from the `\code{Semigroup}' class
 }
-  \item{labels}{
+  \item{lbs}{
    the new labels of the semigroup
 }
 }
@@ -42,10 +42,10 @@ For the set of equations in the relational structure see the \code{\link{strings
 s <- matrix(data=c(1, 1, 1, 3, 3, 3, 3, 3, 3), nrow=3, ncol=3, byrow=TRUE)
 
 ## make a semigroup object with labels
-S <- as.semigroup(s, labels=c('n', 'm', 'ñ'))
+S <- as.semigroup(s, lbs=c('n', 'm', 'ñ'))
 
 ## convert to a symbolic form a semigroup with relabeled strings
-convert(relabel(S, labels=c('a', 'b', 'c')))
+convert(relabel(S, lbs=c('a', 'b', 'c')))
 
 }
 \keyword{ manip }

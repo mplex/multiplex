@@ -1,6 +1,5 @@
 \name{rbox}
 \alias{rbox}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Construct the Relation-Box
 }
@@ -8,7 +7,7 @@ Construct the Relation-Box
 Function to construct the Relation-Box of a multiple network
 }
 \usage{
-rbox(w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
+rbox(w, transp = FALSE, smpl = FALSE, k = 3, tlbs)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -21,15 +20,15 @@ rbox(w, transp = FALSE, smpl = FALSE, tlabels = NULL, k = 3)
   \item{smpl}{
    (logical) whether to simplify or not the strings of relations
 }
-  \item{tlabels}{
-   (optional) a vector with the labels for the transpose relations.
-}
   \item{k}{
    length of the Relation-Box in \eqn{z}
 }
+  \item{tlbs}{
+   (optional) a vector with the labels for the transpose relations.
+}
 }
 \details{
-If \code{transp = TRUE} the labels of the transpose are toggle case of the labels of the original matrices, and in such case it is adviced to simplify the strings of relations. In order to prevent a transposed structure for a certain array of \code{w}, use \code{NA} in the vector the transpose labels \code{tlabels} corresponding to the respective matrix.
+If \code{transp = TRUE} the labels of the transpose are toggle case of the labels of the original matrices, and in such case it is adviced to simplify the strings of relations. In order to prevent a transposed structure for a certain array of \code{w}, use \code{NA} in the vector the transpose labels \code{tlbs} corresponding to the respective matrix.
 }
 \value{
 An object of the `\code{Rel.Box}' class.
