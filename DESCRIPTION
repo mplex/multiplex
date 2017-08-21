@@ -1,6 +1,6 @@
 Package: multiplex
 Type: Package
-Version: 2.6
+Version: 2.7
 Depends: R (>= 3.3.1)
 Imports: methods
 Suggests: multigraph, Rgraphviz, knitr
@@ -12,7 +12,7 @@ Description: Algebraic procedures for the analysis of multiple social networks a
 	    the semiring structure together with the relational bundles occurring in different types of 
 	    multivariate network data sets. It also provides an algebraic approach for two-mode networks 
 	    through Galois derivations between families of the pairs of subsets in the two domains.
-Date: 2017-05-03
+Date: 2017-08-16
 Authors@R: person(given = "Antonio", family = "Rivero Ostoic", role = c("aut", "cre"), email = "multiplex@post.com")
 Author: Antonio Rivero Ostoic [aut, cre]
 Maintainer: Antonio Rivero Ostoic <multiplex@post.com>
