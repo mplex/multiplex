@@ -22,45 +22,45 @@ Algebraic procedures for the analysis of multiple social networks are delivered 
 
 ### Example: Partially Ordered Semigroup of Relations
 
-```{r }
-#### create the data: two types of relations among three elements
+```r
+### create the data: two types of relations among three elements
 set.seed(123)
 arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
         c(3,3,2))>.5, 3 ) )
 ```
 
 
-```{r }
-#### dichotomize it with customized cutoff value
+```r
+### dichotomize it with customized cutoff value
 dichot(arr, c = 3)
 ```
 
 
-```{r }
-#### create the semigroup
+```r
+### create the semigroup
 semigroup(arr)
 semigroup(arr, type = "symbolic")
 ```
 
 
-```{r }
-#### look at the strings
+```r
+### look at the strings
 strings(arr)
 strings(arr, equat = TRUE, k = 3)
 ```
 
 
-```{r }
-#### create the partial order
+```r
+### create the partial order
 partial.order(strings(arr), type = "strings")
 ```
 
 
-```{r }
-#### plot the partial order (requires "Rgraphviz")
-if( require("Rgraphviz", quietly = TRUE)) {
-diagram(partial.order(strings(arr), type = "strings"))
-}
+```r
+### plot the partial order (requires "Rgraphviz")
+if(require("Rgraphviz", quietly = TRUE)) {
+   diagram(partial.order(strings(arr), type = "strings"))
+   }
 ```
 
 <br />
@@ -72,8 +72,8 @@ diagram(partial.order(strings(arr), type = "strings"))
 ### Example: Working with a Two-Mode Network data set
 <i>(taken from the multiplex [vignette](https://cran.r-project.org/web/packages/multiplex/vignettes/TwoModeNetworks.pdf))</i>
 
-```{r }
-#### Fruits data
+```r
+### Fruits data
 frt <- data.frame(yellow = c(0,1,0,0,1,0,0,0), green = c(0,0,1,0,0,0,0,1), 
                   red = c(1,0,0,1,0,0,0,0), orange = c(0,0,0,0,0,1,1,0), 
                   apple = c(1,1,1,1,0,0,0,0), citrus = c(0,0,0,0,1,1,1,1))
@@ -83,21 +83,22 @@ rownames(frt) <- c("PinkLady", "GrannySmith", "GoldenDelicious", "RedDelicious",
 ```
 
 
-```{r }
-#### Perform Galois connections among subsets with a reduced labeling
+```r
+### Perform Galois connections among subsets with a reduced labeling
 gc <- galois(frt, labeling = "reduced")
 ```
 
 
-```{r }
-#### Get the partial order of these "concepts"
+```r
+### Get the partial order of these "concepts"
 pogc <- partial.order(gc, type = "galois")
 ```
 
 
-```{r }
-#### Plot the concept lattice of the partial order
-if( require("Rgraphviz", quietly = TRUE)) {
-diagram(pogc)
-}
+```r
+### Plot the concept lattice of the partial order
+if(require("Rgraphviz", quietly = TRUE)) {
+   diagram(pogc)
+   }
 ```
+
