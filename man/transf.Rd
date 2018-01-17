@@ -7,7 +7,7 @@ Transform Data from/to Matrix/List Formats
 Function to transform data from/to matrix/list formats representing a network.
 }
 \usage{
-transf(x, type = c("tolist", "toarray"), lbs = NULL, lb2lb, 
+transf(x, type = c("toarray", "tolist", "toarray2"), lbs = NULL, lb2lb, 
     sep, ord)
 }
 \arguments{
@@ -15,10 +15,10 @@ transf(x, type = c("tolist", "toarray"), lbs = NULL, lb2lb,
    an array or a list of pair relations
   }
   \item{type}{
-   whether the transformation is from a matrix to a list of pair relations, or from a list of pair relations to an array format
+   whether the transformation is from a list of pair relations to an array format, or from a matrix to a list of pair relations, or else from a list of pair relations to a square array 
   }
   \item{lbs}{
-   (optional) the labels in the transformation
+   (optional) the labels in the transformation (disabled for `\code{toarray}')
   }
   \item{lb2lb}{
    (optional and logical) whether the transformation is label-to-label. Default TRUE for "toarray" and FALSE for "tolist"

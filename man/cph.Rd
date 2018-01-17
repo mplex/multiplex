@@ -45,15 +45,14 @@ If the length of the labels differ from the order of the relational system, then
 \code{\link{rbox}}, \code{\link{semigroup}}, \code{\link{diagram}}
 }
 \examples{
-## Create the data: two binary relations among three elements
-arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
-c(3,3,2))>.9, 3 ) )
+## load the data
+data("incubA")
 
-## Make the Relation Box
-rarr <- rbox(arr)
+## Make the Relation Box of the image matrices
+rb <- rbox(incubA$IM)
 
 ## Calculate the cumulated person hierarchy
-cph(rarr)
+cph(rb)
 
 }
 \keyword{ algebra }

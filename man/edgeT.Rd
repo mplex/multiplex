@@ -20,6 +20,7 @@ edgeT(x)
 The Edge Table is the complete right multiplication table of the semigroup having its elements for each of its generators.
 }
 \value{
+An object of the `\code{EdgeTable}' class
   \item{gens}{
   the generator relations
 }

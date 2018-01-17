@@ -7,14 +7,17 @@ Remove Isolates
 Function to remove isolate nodes in simple and multiple networks.
 }
 \usage{
-rm.isol(x, diag.incl = TRUE)
+rm.isol(x, diag, diag.incl)
 }
 \arguments{
   \item{x}{
    a matrix or array representing a network
 }
+  \item{diag}{
+   (optional and logical) if arrays, should the diagonals be included in the computation?
+}
   \item{diag.incl}{
-   (logical) if arrays, should the diagonals be included?
+   (optional and logical) if arrays, should the diagonals be included in the output?
 }
 }
 \details{
