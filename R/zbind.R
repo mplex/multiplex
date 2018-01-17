@@ -6,11 +6,11 @@ function (...)
         return(argl)
     ifelse(isTRUE(dim(argl[[1]])[3] > 1) == TRUE, pvt <- argl[[1]][, 
         , 1], pvt <- argl[[1]])
+    pvtlbs <- dimnames(pvt)[[1]]
     tmp <- data.frame(matrix(ncol = (dim(pvt)[1] * dim(pvt)[2]), 
         nrow = 0L))
     for (i in seq_len(length(argl))) {
         if (isTRUE(i < length(argl)) == TRUE) {
-            pvtlbs <- dimnames(pvt)[[1]]
             if (all.equal(dim(argl[[i + 1L]])[1:2], dim(pvt)[1:2]) != 
                 TRUE) {
                 argl[[i + 1L]] <- transf(argl[[i + 1L]], type = "toarray", 
@@ -19,7 +19,10 @@ function (...)
             else {
                 NA
             }
-            if (is.null(pvtlbs) == FALSE) {
+            if (is.null(pvtlbs) == TRUE) {
+                warning("Dimnames in the pivot array are NULL.")
+            }
+            else if (all(pvtlbs %in% dimnames(pvt)[[2]]) == TRUE) {
                 dimnames(argl[[i + 1L]])[[1]][which(is.na(attr(argl[[i + 
                   1L]], "dimnames")[[1]]))] <- dimnames(argl[[i + 
                   1L]])[[2]][which(is.na(attr(argl[[i + 1L]], 
@@ -27,7 +30,7 @@ function (...)
                   attr(argl[[i + 1L]], "dimnames")[[1]]))]
             }
             else {
-                warning("Dimnames in the pivot array are NULL.")
+                NA
             }
             if (any(dimnames(argl[[i + 1L]])[[1]] != pvtlbs) == 
                 TRUE && isTRUE(dim(argl[[1]])[1] == dim(argl[[1]])[2]) == 
@@ -57,7 +60,7 @@ function (...)
     }
     rm(i)
     arr <- array(dim = c(dim(pvt)[1], dim(pvt)[2], nrow(tmp)), 
-        dimnames = list(pvtlbs, pvtlbs))
+        dimnames = list(dimnames(pvt)[[1]], dimnames(pvt)[[2]]))
     for (i in seq_len(nrow(tmp))) {
         arr[, , i][seq_len((dim(pvt)[1] * dim(pvt)[2]))] <- as.numeric(tmp[i, 
             ])

@@ -15,7 +15,7 @@ function (x)
     if (is.na(dim(x)[3]) == FALSE) {
         tmp0 <- data.frame(matrix(ncol = (dim(x)[1] * dim(x)[2]), 
             nrow = 0))
-        for (i in 1:dim(x)[3]) {
+        for (i in seq_len(dim(x)[3])) {
             ifelse(isTRUE(dim(x)[3] > 1) == TRUE, tmp0[i, ] <- as.vector(x[, 
                 , i]), tmp0 <- as.vector(x))
         }
@@ -26,8 +26,8 @@ function (x)
             x <- array(tmp0, c(dim(x)[1], dim(x)[2]))
         if (isTRUE(dim(x)[3] > 1) == TRUE) {
             tmp <- array(dim = c(dim(x)[1], dim(x)[2], nrow(unique(tmp0))))
-            for (i in 1:nrow(unique(tmp0))) {
-                tmp[, , i][1:(dim(x)[1] * dim(x)[2])] <- as.numeric(unique(tmp0)[i, 
+            for (i in seq_len(nrow(unique(tmp0)))) {
+                tmp[, , i][seq_len(dim(x)[1] * dim(x)[2])] <- as.numeric(unique(tmp0)[i, 
                   ])
             }
             rm(i)
@@ -39,9 +39,9 @@ function (x)
             dimnames(x)[[3]] <- as.list(rownames(unique(tmp0)))
         }
         s0 <- data.frame(matrix(ncol = dim(x)[3], nrow = dim(x)[3]))
-        for (k in 1:dim(x)[3]) {
-            for (j in 1:dim(x)[3]) {
-                for (i in dim(x)[3]:1) {
+        for (k in seq_len(dim(x)[3])) {
+            for (j in seq_len(dim(x)[3])) {
+                for (i in rev(seq_len(dim(x)[3]))) {
                   if (isTRUE(all.equal(replace(x[, , j] %*% x[, 
                     , k], x[, , j] %*% x[, , k] >= 1, 1), x[, 
                     , i]) == TRUE)) 
@@ -51,14 +51,14 @@ function (x)
         }
         rm(i, j, k)
         rm(tmp0, tmp)
-        dimnames(s0)[[1]] <- 1:dim(x)[3]
-        dimnames(s0)[[2]] <- 1:dim(x)[3]
+        dimnames(s0)[[1]] <- seq_len(dim(x)[3])
+        dimnames(s0)[[2]] <- seq_len(dim(x)[3])
         if (sum(as.numeric(is.na(s0))) == 0) 
             Bx <- x
         if (sum(as.numeric(is.na(s0))) > 0) {
             Bx <- array(dim = c(dim(x)[1], dim(x)[2], 0))
-            for (i in 1:nrow(s0)) {
-                for (j in 1:length(which(is.na(s0[i, ])))) {
+            for (i in seq_len(nrow(s0))) {
+                for (j in seq_len(length(which(is.na(s0[i, ]))))) {
                   if (length(which(is.na(s0[i, ]))) > 0) 
                     Bx <- zbnd(Bx, (replace(x[, , i] %*% x[, 
                       , which(is.na(s0[i, ]))[j]], x[, , i] %*% 
@@ -68,13 +68,13 @@ function (x)
             rm(i, j)
             tmp <- data.frame(matrix(ncol = (dim(x)[1] * dim(x)[2]), 
                 nrow = 0))
-            for (i in 1:dim(Bx)[3]) {
+            for (i in seq_len(dim(Bx)[3])) {
                 tmp[i, ] <- as.vector(Bx[, , i])
             }
             rm(i)
             xBx <- array(dim = c(dim(x)[1], dim(x)[2], nrow(unique(tmp))))
-            for (i in 1:nrow(unique(tmp))) {
-                xBx[, , i][1:(dim(Bx)[1] * dim(Bx)[2])] <- as.numeric(unique(tmp)[i, 
+            for (i in seq_len(nrow(unique(tmp)))) {
+                xBx[, , i][seq_len(dim(Bx)[1] * dim(Bx)[2])] <- as.numeric(unique(tmp)[i, 
                   ])
             }
             rm(i)
@@ -87,8 +87,8 @@ function (x)
     }
     while (sum(as.numeric(is.na(s0))) > 0) {
         BBx <- Bx
-        for (i in 1:nrow(s0)) {
-            for (j in 1:length(which(is.na(s0[i, ])))) {
+        for (i in seq_len(nrow(s0))) {
+            for (j in seq_len(length(which(is.na(s0[i, ]))))) {
                 if (length(which(is.na(s0[i, ]))) > 0) 
                   BBx <- zbnd(BBx, (replace(Bx[, , i] %*% Bx[, 
                     , which(is.na(s0[i, ]))[j]], Bx[, , i] %*% 
@@ -98,21 +98,21 @@ function (x)
         rm(i, j)
         tmp <- data.frame(matrix(ncol = (dim(Bx)[1] * dim(Bx)[2]), 
             nrow = 0))
-        for (i in 1:dim(BBx)[3]) {
+        for (i in seq_len(dim(BBx)[3])) {
             tmp[i, ] <- as.vector(BBx[, , i])
         }
         rm(i)
         Bx <- array(dim = c(dim(x)[1], dim(x)[2], nrow(unique(tmp))))
-        for (i in 1:nrow(unique(tmp))) {
-            Bx[, , i][1:(dim(BBx)[1] * dim(BBx)[2])] <- as.numeric(unique(tmp)[i, 
+        for (i in seq_len(nrow(unique(tmp)))) {
+            Bx[, , i][seq_len(dim(BBx)[1] * dim(BBx)[2])] <- as.numeric(unique(tmp)[i, 
                 ])
         }
         rm(i)
         rm(tmp, BBx)
         if (is.na(dim(x)[3]) == TRUE) {
             s0 <- data.frame(matrix(ncol = 1, nrow = dim(Bx)[3]))
-            for (j in 1:dim(Bx)[3]) {
-                for (i in dim(Bx)[3]:1) {
+            for (j in seq_len(dim(Bx)[3])) {
+                for (i in rev(seq_len(dim(Bx)[3]))) {
                   if (isTRUE(all.equal(replace(Bx[, , j] %*% 
                     Bx[, , 1], Bx[, , j] %*% Bx[, , 1] >= 1, 
                     1), Bx[, , i]) == TRUE)) 
@@ -123,9 +123,9 @@ function (x)
         }
         if (is.na(dim(x)[3]) == FALSE) {
             s0 <- data.frame(matrix(ncol = dim(x)[3], nrow = dim(Bx)[3]))
-            for (k in 1:dim(x)[3]) {
-                for (j in 1:dim(Bx)[3]) {
-                  for (i in dim(Bx)[3]:1) {
+            for (k in seq_len(dim(x)[3])) {
+                for (j in seq_len(dim(Bx)[3])) {
+                  for (i in rev(seq_len(dim(Bx)[3]))) {
                     if (isTRUE(all.equal(replace(Bx[, , j] %*% 
                       Bx[, , k], Bx[, , j] %*% Bx[, , k] >= 1, 
                       1), Bx[, , i]) == TRUE)) 
@@ -137,6 +137,8 @@ function (x)
         }
     }
     ifelse(isTRUE(is.na(dim(x)[3])) == TRUE, dimnames(s0)[[2]] <- 1, 
-        dimnames(s0)[[2]] <- 1:dim(x)[3])
-    return(list(gens = x, ET = s0))
+        dimnames(s0)[[2]] <- seq_len(dim(x)[3]))
+    et <- list(gens = x, ET = s0)
+    class(et) <- "EdgeTable"
+    return(et)
 }

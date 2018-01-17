@@ -1,5 +1,5 @@
 pi.rels <-
-function (x, po, po.incl = FALSE) 
+function (x, po, po.incl) 
 {
     if (isTRUE(attr(x, "class")[1] == "Pacnet") == FALSE) 
         stop("\"x\" should be an object of a \"Pacnet\" class.")
@@ -40,9 +40,10 @@ function (x, po, po.incl = FALSE)
         }
         rm(i)
     }
+    ifelse(missing(po.incl) == FALSE && isTRUE(po.incl == TRUE) == 
+        TRUE, pisu <- zbnd(pisu, po), NA)
     dimnames(pisu)[[1]] <- dimnames(pisu)[[2]] <- as.list(seq_len(dim(po)[1]))
-    ifelse(isTRUE(po.incl == FALSE) == TRUE, lst <- list(pi = pisu, 
-        mc = x$mc), lst <- list(pi = pisu, mc = x$mc, po = po))
+    lst <- list(pi = pisu, mc = x$mc)
     class(lst) <- "Pi.rels"
     lst
 }

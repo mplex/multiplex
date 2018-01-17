@@ -1,5 +1,5 @@
 jnt <-
-function (xj, sep) 
+function (xj, unique = FALSE, sep) 
 {
     ifelse(missing(sep) == TRUE, sep <- ", ", NA)
     if (isTRUE(length(xj) != 0) == TRUE) {
@@ -7,10 +7,10 @@ function (xj, sep)
             Xj <- list()
             jt <- list()
             length(Xj) <- length(jt) <- length(xj)
-            for (i in 1:length(xj)) {
+            for (i in seq_len(length(xj))) {
                 if (isTRUE(length(xj[[i]]) != 0) == TRUE) {
                   tmpj <- as.list(xj[[i]])
-                  for (j in 1:length(xj[[i]])) {
+                  for (j in seq_len(length(xj[[i]]))) {
                     ifelse(isTRUE("." %in% strsplit(sep, "")[[1]]) == 
                       TRUE, Xj[[i]] <- append(Xj[[i]], tmpj[[j]]), 
                       Xj[[i]] <- append(Xj[[i]], strsplit(tmpj[[j]], 
@@ -37,11 +37,18 @@ function (xj, sep)
         }
         else if (isTRUE(is.vector(xj)) == TRUE) {
             vec <- vector()
-            for (i in 1:length(xj)) {
-                vec <- append(vec, strsplit(xj[i], sep)[[1]])
+            for (i in seq_len(length(xj))) {
+                ifelse(is.numeric(xj) == TRUE, vec <- append(vec, 
+                  strsplit(as.character(xj)[i], sep)[[1]]), vec <- append(vec, 
+                  strsplit(xj[i], sep)[[1]]))
             }
             rm(i)
-            vec <- levels(factor(vec))
+            if (isTRUE(unique == TRUE) == TRUE) {
+                vec <- unique(vec)
+            }
+            else {
+                vec <- levels(factor(vec))
+            }
             if (length(vec) == 1) 
                 jt <- vec
             if (length(vec) > 1) 

@@ -1,14 +1,17 @@
 dichot <-
-function (x, c = 1, diag.incl = TRUE) 
+function (x, c = 1, diag) 
 {
-    if (isTRUE(diag.incl == TRUE) == FALSE) {
+    ifelse(missing(diag) == FALSE && isTRUE(diag == FALSE) == 
+        TRUE, diag <- FALSE, diag <- TRUE)
+    if (isTRUE(diag == TRUE) == FALSE) {
         if (is.na(dim(x)[3]) == TRUE | isTRUE(dim(x)[3] == 1) == 
             TRUE) {
             dg <- diag(x)
         }
         else {
             dg <- list()
-            for (i in 1:dim(x)[3]) dg[[i]] <- diag(x[, , i])
+            for (i in seq_len(dim(x)[3])) dg[[i]] <- diag(x[, 
+                , i])
         }
     }
     else {
@@ -28,7 +31,7 @@ function (x, c = 1, diag.incl = TRUE)
             diag(x) <- dg
         }
         else {
-            for (i in 1:dim(x)[3]) diag(x[, , i]) <- dg[[i]]
+            for (i in seq_len(dim(x)[3])) diag(x[, , i]) <- dg[[i]]
         }
         x
     }

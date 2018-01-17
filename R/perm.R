@@ -1,31 +1,37 @@
 perm <-
-function (x, clu, rev = FALSE, lbs) 
+function (x, clu, rev, lbs) 
 {
     if (isTRUE(is.array(x) == TRUE) == FALSE) 
         stop("'x' must be an array object.")
-    if (isTRUE(length(clu) != dim(x)[1]) == TRUE) 
-        stop("'clu' does not match the order of 'x'.")
-    if (is.character(clu) == FALSE) {
-        ifelse(isTRUE(0L %in% as.numeric(levels(factor(clu)))) == 
-            TRUE, clu <- clu + 1L, NA)
-    }
-    else if (is.character(clu) == TRUE) {
-        tmp <- clu
+    if (missing(clu) == TRUE || isTRUE(length(unlist(clu)) != 
+        dim(x)[1]) == TRUE) 
+        stop("'clu' is missing or it does not match the order of 'x'.")
+    ifelse(missing(rev) == FALSE && isTRUE(rev == TRUE) == TRUE, 
+        rev <- TRUE, rev <- FALSE)
+    if (is.character(clu) == TRUE || is.factor(clu) == TRUE) {
+        tmp <- as.vector(clu)
         for (i in seq_len(nlevels(factor(clu)))) {
-            clu[which(levels(factor(tmp))[i] == clu)] <- i
+            tmp[which(levels(factor(clu))[i] == tmp)] <- i
         }
         rm(i)
-        clu <- methods::as(clu, "numeric")
+        cls <- as.numeric(tmp)
         rm(tmp)
     }
-    else {
-        NA
+    else if (is.numeric(clu) == TRUE) {
+        ifelse(isTRUE(0L %in% as.numeric(levels(factor(clu)))) == 
+            TRUE, cls <- clu + 1L, cls <- clu)
     }
-    clu[which(is.na(clu))] <- max(as.numeric(levels(factor(clu)))) + 
-        1L
+    else if (is.data.frame(clu) == TRUE || is.list(clu) == TRUE) {
+        cls <- as.vector(unlist(clu))
+    }
+    else {
+        cls <- clu
+    }
+    ifelse(NA %in% cls, cls[which(is.na(cls))] <- max(as.numeric(levels(factor(cls)))) + 
+        1L, NA)
     or <- list()
-    for (i in as.numeric(levels(factor(clu)))) {
-        or[[i]] <- which(clu == i)
+    for (i in as.numeric(unique(cls))) {
+        or[[i]] <- which(cls == i)
     }
     rm(i)
     if (isTRUE(any(is.na(unlist(or)))) == TRUE) {

@@ -13,7 +13,7 @@ function (x, clu)
     tmp <- x
     lb <- x$st
     ifelse(isTRUE(attr(tmp, "class")[2] == "symbolic") == TRUE, 
-        x <- convert(tmp), x <- tmp$S)
+        x <- as.semigroup(tmp, lbs = seq_len(tmp$ord)), x <- tmp$S)
     ifelse(isTRUE(is.array(x)) == TRUE, xa <- x, xa <- array(x, 
         dimnames = lb))
     px <- perm(xa, clu, rev = FALSE)

@@ -1,6 +1,6 @@
 transf <-
-function (x, type = c("tolist", "toarray"), lbs = NULL, lb2lb, 
-    sep, ord) 
+function (x, type = c("toarray", "tolist", "toarray2"), lbs = NULL, 
+    lb2lb, sep, ord) 
 {
     ifelse(missing(sep) == TRUE, sep <- ", ", NA)
     if (match.arg(type) == "tolist") {
@@ -48,7 +48,7 @@ function (x, type = c("tolist", "toarray"), lbs = NULL, lb2lb,
                 rm(i)
             }
             rm(l)
-            return(sort(unlist(inc)))
+            return(unlist(inc))
         }
         else {
             Inc <- list()
@@ -84,7 +84,8 @@ function (x, type = c("tolist", "toarray"), lbs = NULL, lb2lb,
             return(Inc)
         }
     }
-    if (match.arg(type) == "toarray") {
+    else if (match.arg(type) == "toarray" | match.arg(type) == 
+        "toarray2") {
         ifelse(missing(lb2lb) == FALSE && isTRUE(lb2lb == FALSE) == 
             TRUE, lb2lb <- FALSE, lb2lb <- TRUE)
         if (missing(ord) == TRUE) {
@@ -113,7 +114,7 @@ function (x, type = c("tolist", "toarray"), lbs = NULL, lb2lb,
         else if (is.array(x) == FALSE) {
             ifelse(is.null(lbs) == FALSE | (is.null(lbs) == FALSE && 
                 isTRUE(lb2lb == TRUE) == TRUE), Lbs <- lbs[seq_len(ord)], 
-                Lbs <- levels(factor(unlist(dhc(x, sep = sep))))[seq_len(ord)])
+                Lbs <- unique(unlist(dhc(x, sep = sep)))[seq_len(ord)])
         }
         if (is.list(x) == TRUE) {
             mat <- array(0L, dim = c(ord, ord, length(x)), dimnames = list(Lbs, 
@@ -136,9 +137,11 @@ function (x, type = c("tolist", "toarray"), lbs = NULL, lb2lb,
             rm(i)
         }
         else if (is.array(x) == TRUE) {
-            lx <- trnf(x, tolist = TRUE, lb2lb = TRUE)
             mat <- trnf(trnf(x, tolist = TRUE, lb2lb = TRUE), 
                 tolist = FALSE, ord = ord, lbs = Lbs)
+        }
+        else if (is.null(x) == TRUE) {
+            mat <- matrix(0L, nrow = ord, ncol = ord)
         }
         else {
             stop("Input for 'toarray' must be a vector, a list, ar an array.")
