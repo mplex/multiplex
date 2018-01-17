@@ -1,6 +1,6 @@
 neighb <-
-function (x, rs, type = c("und", "inn", "out"), inclx = FALSE, 
-    k = 1, expand = FALSE) 
+function (x, rs, type = c("und", "inn", "out"), k = 1, inclx = FALSE, 
+    expand) 
 {
     if (isTRUE(attr(rs, "class") == "Rel.System") == FALSE) {
         if (is.array(rs) == FALSE) {
@@ -13,16 +13,18 @@ function (x, rs, type = c("und", "inn", "out"), inclx = FALSE,
         stop("'k' must not be negative.")
     if (isTRUE(k == 0L) == TRUE) 
         ifelse((inclx), return(x), return(character(0)))
+    ifelse(missing(expand) == FALSE && isTRUE(expand == TRUE) == 
+        TRUE, expand <- TRUE, expand <- FALSE)
     if (isTRUE(all(x %in% unique(unlist(dhc(as.character(rs$nodes)))))) == 
         TRUE) {
         if (isTRUE(length(rs$Ties) > 0L) == TRUE) {
             rst <- as.list(unlist(rs$Ties))
             srs <- list()
-            for (i in 1:length(rst)) {
+            for (i in seq_len(length(rst))) {
                 tmp <- vector()
                 if (length(rst[[i]]) > 0L) {
-                  for (n in 1:length(x)) {
-                    for (j in 1:length(rst[[i]])) {
+                  for (n in seq_len(length(x))) {
+                    for (j in seq_len(length(rst[[i]]))) {
                       if (x[n] %in% c(c(strsplit(rst[[i]][j], 
                         rs$sep)[[1]][1], strsplit(rst[[i]][j], 
                         rs$sep)[[1]][2]))) {
@@ -31,16 +33,16 @@ function (x, rs, type = c("und", "inn", "out"), inclx = FALSE,
                     }
                     rm(j)
                   }
-                  rm(n)
+                  rm
                 }
                 srs[[i]] <- as.vector(unlist(tmp))
             }
             rm(i)
             attr(srs, "names") <- attr(rst, "names")
             nrs <- vector()
-            for (i in 1:length(srs)) {
+            for (i in seq_len(length(srs))) {
                 if (isTRUE(length(srs[[i]]) > 0L) == TRUE) {
-                  for (j in 1:length(srs[[i]])) {
+                  for (j in seq_len(length(srs[[i]]))) {
                     switch(match.arg(type), und = nrs <- append(nrs, 
                       strsplit(srs[[i]][j], rs$sep)[[1]][1]), 
                       inn = nrs <- append(nrs, strsplit(srs[[i]][j], 
@@ -54,8 +56,7 @@ function (x, rs, type = c("und", "inn", "out"), inclx = FALSE,
                 }
             }
             rm(i)
-            levels(factor(nrs))
-            nb <- levels(factor(nrs))
+            nb <- unique(nrs)
             if (isTRUE(k > 1L) == TRUE) {
                 if (isTRUE(expand == FALSE) == TRUE) {
                   for (K in 2:k) {
@@ -82,7 +83,7 @@ function (x, rs, type = c("und", "inn", "out"), inclx = FALSE,
                   }
                   rm(K)
                   ifelse(!(inclx), attr(nbk, "names") <- paste0("k=", 
-                    1:k), attr(nbk, "names") <- paste0("k=", 
+                    seq_len(k)), attr(nbk, "names") <- paste0("k=", 
                     seq_along((ink - 2L):k) - 1L))
                 }
             }

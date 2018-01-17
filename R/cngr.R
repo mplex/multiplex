@@ -5,7 +5,7 @@ function (S, PO = NULL, unique = FALSE)
         stop("\"S\" should be an object of a \"Semigroup\" class.")
     s <- S
     if (isTRUE(attr(S, "class")[2] == "symbolic") == TRUE) {
-        s <- convert(s, SemigroupClass = TRUE)
+        s <- as.semigroup(s, lbs = seq_len(s$ord))
     }
     else {
         NA

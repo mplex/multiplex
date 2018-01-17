@@ -10,7 +10,7 @@ function (x, loops = FALSE, smpl = FALSE, lb2lb = TRUE, collapse = FALSE,
     ifelse(isTRUE(is.null(dimnames(x)[1]) == TRUE | is.null(dimnames(x)[1][[1]]) == 
         TRUE) == TRUE, LBS <- seq_len(nrow(x)), LBS <- dimnames(x)[[1]])
     lbs <- seq(LBS)
-    xd <- dichot(x, c = 1L, diag.incl = TRUE)
+    xd <- dichot(x, c = 1L, diag = TRUE)
     ifelse(isTRUE(dim(xd)[3] == 1) == TRUE, xd <- xd[, , 1], 
         NA)
     if (is.na(dim(xd)[3]) == FALSE) {

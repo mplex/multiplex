@@ -5,24 +5,25 @@ function (x, clu, lbs = NULL)
         stop("'x' must be an array object.")
     if (isTRUE(length(clu) != dim(x)[1]) == TRUE) 
         stop("'clu' does not match the order of 'x'.")
-    if (is.character(clu) == FALSE) {
-        ifelse(isTRUE(0L %in% as.numeric(levels(factor(clu)))) == 
-            TRUE, clu <- clu + 1L, NA)
-    }
-    else if (is.character(clu) == TRUE) {
-        tmp <- clu
+    if (is.character(clu) == TRUE || is.factor(clu) == TRUE) {
+        tmp <- as.vector(clu)
         for (i in seq_len(nlevels(factor(clu)))) {
-            clu[which(levels(factor(tmp))[i] == clu)] <- i
+            tmp[which(levels(factor(clu))[i] == tmp)] <- i
         }
         rm(i)
-        clu <- as.numeric(clu)
+        clu <- as.numeric(tmp)
         rm(tmp)
+    }
+    else if (is.character(clu) == FALSE && is.factor(clu) == 
+        FALSE) {
+        ifelse(isTRUE(0L %in% as.numeric(levels(factor(clu)))) == 
+            TRUE, clu <- clu + 1L, NA)
     }
     else {
         NA
     }
-    clu[which(is.na(clu))] <- max(as.numeric(levels(factor(clu)))) + 
-        1L
+    ifelse(NA %in% clu, clu[which(is.na(clu))] <- max(as.numeric(levels(factor(clu)))) + 
+        1L, NA)
     lngt <- nlevels(factor(clu))
     or <- list()
     for (i in as.numeric(levels(factor(clu)))) {
@@ -70,8 +71,12 @@ function (x, clu, lbs = NULL)
         }
         rm(k)
         bm <- dichot(bm, c = 1L)
-        if (is.null(lbs) == FALSE) 
+        if (is.null(lbs) == FALSE) {
             dimnames(bm)[[1]] <- dimnames(bm)[[2]] <- lbs
+        }
+        else {
+            dimnames(bm)[[1]] <- dimnames(bm)[[2]] <- unique(clu)
+        }
         if (is.null(dimnames(x)[[3]]) == FALSE) 
             dimnames(bm)[[3]] <- dimnames(x)[[3]]
         return(bm)

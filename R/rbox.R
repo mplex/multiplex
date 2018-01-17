@@ -23,7 +23,6 @@ function (w, transp = FALSE, smpl = FALSE, k = 3, tlbs)
     }
     if (transp == TRUE) {
         if (missing(tlbs) == TRUE) {
-                   ## Thanks to Eik Vettorazzi for making me aware of this function
             LBS <- chartr("a-zA-Z", "A-Za-z", lbs)
         }
         else {
@@ -400,23 +399,26 @@ function (w, transp = FALSE, smpl = FALSE, k = 3, tlbs)
     }
     if (transp == TRUE) {
         if (smpl == TRUE) {
-            lst <- list(W = W, lbs = dimnames(x)[[1]], Note = c("Relation labels have been simplified and the transpose relations are included."), 
+            lst <- list(w = w, W = W, lbs = dimnames(x)[[1]], 
+                Note = c("Relation labels have been simplified and the transpose relations are included."), 
                 Orels = olbs, Srels = nlbs, Trels = Lbs, k = k, 
                 z = dim(W)[3])
         }
         else {
-            lst <- list(W = W, lbs = dimnames(x)[[1]], Note = c("Transpose relations are included"), 
+            lst <- list(w = w, W = W, lbs = dimnames(x)[[1]], 
+                Note = c("Transpose relations are included"), 
                 Trels = Lbs, k = k, z = dim(W)[3])
         }
     }
     else if (transp == FALSE) {
         if (smpl == TRUE) {
-            lst <- list(W = W, lbs = dimnames(x)[[1]], Note = c("Relation labels have been simplified"), 
+            lst <- list(w = w, W = W, lbs = dimnames(x)[[1]], 
+                Note = c("Relation labels have been simplified"), 
                 Orels = olbs, Srels = nlbs, k = k, z = dim(W)[3])
         }
         else if (smpl == FALSE) {
-            lst <- list(W = W, lbs = dimnames(x)[[1]], k = k, 
-                z = dim(W)[3])
+            lst <- list(w = w, W = W, lbs = dimnames(x)[[1]], 
+                k = k, z = dim(W)[3])
         }
     }
     class(lst) <- "Rel.Box"

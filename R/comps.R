@@ -2,8 +2,8 @@ comps <-
 function (x, bonds = c("entire", "strong", "weak")) 
 {
     ifelse(isTRUE(is.null(dimnames(x)[1]) == TRUE | is.null(dimnames(x)[1][[1]]) == 
-        TRUE) == TRUE, lbs <- 1:nrow(x), lbs <- dimnames(x)[[1]])
-    if (isTRUE(sum(mnplx(x, diag.incl = FALSE)) > 0) == TRUE) {
+        TRUE) == TRUE, lbs <- seq_len(nrow(x)), lbs <- dimnames(x)[[1]])
+    if (isTRUE(sum(mnplx(x, diag = FALSE)) > 0) == TRUE) {
         bd <- bundles(x, lb2lb = FALSE, collapse = TRUE)
         switch(match.arg(bonds), entire = lbd <- bd, strong = lbd <- list(bd$recp, 
             bd$txch, bd$mixd, bd$full), weak = lbd <- list(bd$asym, 
