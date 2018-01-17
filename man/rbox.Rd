@@ -33,6 +33,7 @@ If \code{transp = TRUE} the labels of the transpose are toggle case of the label
 \value{
 An object of the `\code{Rel.Box}' class.
 %%  If it is a LIST, use
+  \item{w}{the primitive relations in the Relation-Box}
   \item{W}{the structure of the Relation-Box}
   \item{lbs}{the labels in the relational system}
   \item{Note}{(optional) Notes indicating the particularities in the input}
@@ -58,12 +59,11 @@ Values of \code{k} until 9 is supported. With many types of relations, and when 
  \code{\link{cph}}, \code{\link{semigroup}}, \code{\link{hierar}}
 }
 \examples{
-## Create the data: 2 binary relations among 3 elements
-arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
-       c(3,3,2))>.5, 1 ) )
+## load the data
+data("incubA")
 
-## The relation box
-rbox(arr, k=1)
+## The relation box of the image matrices
+rbox(incubA$IM)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

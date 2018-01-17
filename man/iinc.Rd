@@ -47,7 +47,7 @@ data("incubA")
 po <- partial.order(strings(incubA$IM))
 
 ## Get a cluster vector given induced inclusion on the PO
-iinc(transf(1-po), po)
+iinc(transf(1-po, type="tolist"), po)
 }
 \keyword{ algebra }
 \keyword{ manip }

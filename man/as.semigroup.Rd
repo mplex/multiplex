@@ -8,12 +8,15 @@ Coerce to a Semigroup Object
 A generic function for coercing an R object to a \code{\link{semigroup}} class.
 }
 \usage{
-as.semigroup(x, lbs)
+as.semigroup(x, gens=NA, lbs)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
 	an array representing the semigroup
+}
+  \item{gens}{
+	array or vector representing the semigroup generators
 }
   \item{lbs}{
 	(optional) label strings for the semigroup
@@ -24,6 +27,9 @@ Since many of the functions in the \code{multiplex} package require an object of
 }
 \value{
 An object of the `\code{Semigroup}' class
+  \item{gens}{
+  the semigroup generators
+}
   \item{ord}{
   a number with the dimension of the semigroup
   }
@@ -40,14 +46,14 @@ An object of the `\code{Semigroup}' class
 \author{
 Antonio Rivero Ostoic
 }
-\note{
-In this function the input object typically comes from the \code{\link{convert}} function.
-}
+%\note{
+%In this function the input object typically comes from the \code{\link{convert}} function.
+%}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{convert}}, \code{\link{semigroup}}
+\code{\link{semigroup}}
 }
 \examples{
 ## scan the multiplication table data

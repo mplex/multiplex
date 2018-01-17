@@ -74,7 +74,7 @@ For medium size or bigger sets (having e.g. more the 4 relation types), the semi
 }
 
 \seealso{
-\code{\link{prev}}, \code{\link{strings}}, \code{\link{edgeT}}, \code{\link{wordT}}, \code{\link{relabel}}, \code{\link{dichot}}, \code{\link{ltlw}}, \code{\link{cngr}}.
+\code{\link{prev}}, \code{\link{strings}}, \code{\link{edgeT}}, \code{\link{wordT}}, \code{\link{dichot}}, \code{\link{ltlw}}, \code{\link{cngr}}.
 }
 
 \examples{

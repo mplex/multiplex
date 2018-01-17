@@ -8,8 +8,8 @@ Plot the Hasse Diagram of a set of ordered relations
 A function to plot the Hasse Diagram of partially ordered relations.
 }
 \usage{
-diagram(x, unord = TRUE, attrs = NULL, main = NULL, cex.main = graphics::par()$cex.main, 
-        bg = graphics::par()$bg, ...)
+diagram(x, unord = TRUE, attrs = NULL, main = NULL, cex.main, bg, mar, shape, tcex, col, 
+        col0, tcol, ecol, lty, lbs, ...)
 }
 \arguments{
   \item{x}{
@@ -29,6 +29,33 @@ diagram(x, unord = TRUE, attrs = NULL, main = NULL, cex.main = graphics::par()$c
 }
   \item{bg}{
    (optional) the background color of the diagram
+}
+  \item{mar}{
+   (optional) the margins of the plot
+}
+  \item{shape}{
+   (optional) the shape of the vertices
+}
+  \item{tcex}{
+   (optional) the size of the vertex labels
+}
+  \item{col}{
+   (optional) the color of the vertices
+}
+  \item{col0}{
+   (optional) the color of the vertices' contour
+}
+  \item{tcol}{
+   (optional) the color of the text's vertices
+}
+  \item{ecol}{
+   (optional) the color of the edges
+}
+  \item{lty}{
+   (optional) the shape of the edges
+}
+  \item{lbs}{
+   (optional) labels of the elements in the partially ordered set
 }
   \item{...}{
    (optional) other graphical items

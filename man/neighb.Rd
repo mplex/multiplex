@@ -7,7 +7,7 @@ Neighborhood of an actor or group of actors
 A function to find the neighborhood of an actor or group of actors with a customized distance.
 }
 \usage{
-neighb(x, rs, type = c("und", "inn", "out"), inclx = FALSE, k = 1, expand = FALSE)
+neighb(x, rs, type = c("und", "inn", "out"), k = 1, inclx = FALSE, expand)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,16 +18,16 @@ the reference actor labeled in \code{rs} or a vector of several actors
 the relational system of the network
 }
   \item{type}{
-whether the network is \emph{undirected} (default) \code{und}; directed with \emph{incoming node}'s ties \code{inn} to the the reference actor, or else with \emph{outgoing} arcs \code{out}
-}
-  \item{inclx}{
-(logical) should the reference actor be included in the output
+  whether the network is \emph{undirected} (default) \code{und}; directed with \emph{incoming node}'s ties \code{inn} to the the reference actor, or else with \emph{outgoing} arcs \code{out}
 }
   \item{k}{
-the ``distance'' of the neighbor nodes to the reference actor (where \code{k=1} gives the adjacent nodes)
+  the ``distance'' of the neighbor nodes to the reference actor (where \code{k=1} gives the adjacent nodes)
+}
+  \item{inclx}{
+  (logical) should the reference actor be included in the output?
 }
   \item{expand}{
-(logical) should the output be given by \code{k} (it only makes sense when \code{k>1})
+  (optional and logical) should the output be given by \code{k} (it only makes sense when \code{k>1})
 }
 }
 \details{

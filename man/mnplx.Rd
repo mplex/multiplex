@@ -8,7 +8,7 @@ Make a multiple network as monoplex structure
 A function to transform multiple networks into a monoplex structure
 }
 \usage{
-mnplx(net, directed = TRUE, dichot = TRUE, diag.incl = FALSE)
+mnplx(net, directed = TRUE, dichot, diag, clu)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -21,8 +21,11 @@ mnplx(net, directed = TRUE, dichot = TRUE, diag.incl = FALSE)
   \item{dichot}{
    (optional) should the output be dichotomized?
 }
-  \item{diag.incl}{
+  \item{diag}{
    (optional) should the diagonals be included?
+}
+  \item{clu}{
+   (optional) a vector with the cluster for the permutation
 }
 }
 \details{
