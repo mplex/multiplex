@@ -1,28 +1,51 @@
 reduc <-
-function (x, clu, lbs = NULL) 
+function (x, clu, lbs, slbs) 
 {
     if (isTRUE(is.array(x) == TRUE) == FALSE) 
         stop("'x' must be an array object.")
     if (isTRUE(length(clu) != dim(x)[1]) == TRUE) 
         stop("'clu' does not match the order of 'x'.")
-    if (is.character(clu) == FALSE) {
-        ifelse(isTRUE(0L %in% as.numeric(levels(factor(clu)))) == 
-            TRUE, clu <- clu + 1L, NA)
+    if ((missing(lbs) == FALSE && isTRUE(length(lbs) != dim(x)[1]) == 
+        TRUE)) {
+        warning("'lbs' does not match the order of 'x' and it will be ignored.")
+        lbs <- NULL
     }
-    else if (is.character(clu) == TRUE) {
-        tmp <- clu
-        for (i in seq_len(nlevels(factor(clu)))) {
-            clu[which(levels(factor(tmp))[i] == clu)] <- i
-        }
-        rm(i)
-        clu <- as.numeric(clu)
-        rm(tmp)
+    else if (missing(lbs) == TRUE) {
+        lbs <- NULL
     }
     else {
         NA
     }
-    clu[which(is.na(clu))] <- max(as.numeric(levels(factor(clu)))) + 
-        1L
+    if ((missing(slbs) == FALSE && isTRUE(length(slbs) != dim(x)[3]) == 
+        TRUE)) {
+        warning("'slbs' does not match the number of relations in 'x' and it will be ignored.")
+        slbs <- NULL
+    }
+    else if (missing(slbs) == TRUE) {
+        slbs <- NULL
+    }
+    else {
+        NA
+    }
+    if (is.character(clu) == TRUE || is.factor(clu) == TRUE) {
+        tmp <- as.vector(clu)
+        for (i in seq_len(nlevels(factor(clu)))) {
+            tmp[which(levels(factor(clu))[i] == tmp)] <- i
+        }
+        rm(i)
+        clu <- as.numeric(tmp)
+        rm(tmp)
+    }
+    else if (is.character(clu) == FALSE && is.factor(clu) == 
+        FALSE) {
+        ifelse(isTRUE(0L %in% as.numeric(levels(factor(clu)))) == 
+            TRUE, clu <- clu + 1L, NA)
+    }
+    else {
+        NA
+    }
+    ifelse(NA %in% clu, clu[which(is.na(clu))] <- max(as.numeric(levels(factor(clu)))) + 
+        1L, NA)
     lngt <- nlevels(factor(clu))
     or <- list()
     for (i in as.numeric(levels(factor(clu)))) {
@@ -70,10 +93,19 @@ function (x, clu, lbs = NULL)
         }
         rm(k)
         bm <- dichot(bm, c = 1L)
-        if (is.null(lbs) == FALSE) 
+        if (is.null(lbs) == FALSE) {
             dimnames(bm)[[1]] <- dimnames(bm)[[2]] <- lbs
-        if (is.null(dimnames(x)[[3]]) == FALSE) 
-            dimnames(bm)[[3]] <- dimnames(x)[[3]]
+        }
+        else {
+            dimnames(bm)[[1]] <- dimnames(bm)[[2]] <- unique(clu)
+        }
+        if (is.null(slbs) == FALSE) {
+            dimnames(bm)[[3]] <- as.list(slbs)
+        }
+        else {
+            if (is.null(dimnames(x)[[3]]) == FALSE) 
+                dimnames(bm)[[3]] <- dimnames(x)[[3]]
+        }
         return(bm)
     }
 }
