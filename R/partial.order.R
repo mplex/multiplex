@@ -90,7 +90,8 @@ function (x, type = c("strings", "galois", "pi.rels"), lbs, sel,
                 }
             }
             else {
-                if (is.null(sel) == TRUE) {
+                if (missing(sel) == FALSE && is.null(sel) == 
+                  TRUE) {
                   stop("Selection in 'sel' is NULL.")
                 }
                 else {
