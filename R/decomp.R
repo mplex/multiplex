@@ -78,7 +78,7 @@ function (S, pr, type = c("mc", "pi", "at", "cc"), reduc)
         im <- list()
         po <- list()
         length(po) <- length(im) <- length(clu)
-        dm <- vector()
+        ord <- vector()
         for (i in seq_along(clu)) {
             if (isTRUE("symbolic" %in% attr(S, "class")) == TRUE) {
                 im[[i]] <- reducs(S, cl = as.vector(clu[[i]]))
@@ -98,13 +98,13 @@ function (S, pr, type = c("mc", "pi", "at", "cc"), reduc)
             else {
                 NA
             }
-            dm <- append(dm, dim(im[[i]])[1])
+            ord <- append(ord, dim(im[[i]])[1])
         }
         rm(i)
         ifelse(isTRUE(attr(pr, "class") == "Pi.rels" || attr(pr, 
             "class")[2] == "PO.Semigroup") == TRUE, lst <- list(clu = clu, 
-            eq = lb, IM = im, PO = po, dims = dm), lst <- list(clu = clu, 
-            eq = lb, IM = im, dims = dm))
+            eq = lb, IM = im, PO = po, ord = ord), lst <- list(clu = clu, 
+            eq = lb, IM = im, ord = ord))
     }
     else {
         lst <- list(clu = clu, eq = lb)
