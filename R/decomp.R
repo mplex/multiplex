@@ -31,7 +31,7 @@ function (S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac)
             warning("Other type options than \"cc\" are not suitable for the \"Congruence\" class object")
         }
         ifelse(isTRUE(attr(pr, "class")[2] == "PO.Semigroup") == 
-            TRUE, poi <- pr$PO, poi <- NA)
+            TRUE, poi <- pr$PO, NA)
     }
     if (isTRUE("symbolic" %in% attr(S, "class")) == TRUE || isTRUE("Semigroup" %in% 
         attr(S, "class")) == FALSE) {
@@ -104,9 +104,8 @@ function (S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac)
         }
     }
     if (missing(reduc) == FALSE && isTRUE(reduc == TRUE) == TRUE) {
-        if (is.na(poi) == TRUE || is.na(dim(poi)[3]) == TRUE) {
+        if (isTRUE(nlevels(factor(as.matrix(s$S))) == 1) == TRUE) {
             im <- S$S
-            po <- pr$po
             ord <- S$ord
         }
         else {
