@@ -7,15 +7,21 @@
 A function to establish the \eqn{\pi}-relations of a partially ordered structure comming from a 'Pacnet' class
 }
 \usage{
-pi.rels(x, po, po.incl = FALSE)
+pi.rels(x, po.incl, vc, po)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{  an object of a `\code{Pacnet}' class
+  \item{x}{
+  an object of a `\code{Pacnet}' class
 }
-  \item{po}{  a partial order structure
+  \item{po.incl}{
+  (optional and logical) should the partial order be included in the outcome?
 }
-  \item{po.incl}{  (logical) should the partial order be included in the outcome?
+  \item{vc}{
+  (optional) vector of the induced inclusions to be computed
+}
+  \item{po}{
+  (optional) the partial order structure
 }
 }
 \details{
@@ -24,9 +30,8 @@ This function process the outcome of the Pacnet report by adding induced inclusi
 \value{
 An object of the `\code{Pi.rels}' class
 
-  \item{pi }{the \eqn{\pi}-relations}
+  \item{pi }{the \eqn{\pi}-relations, eventually with the partial order}
   \item{mc }{the meet-complements}
-  \item{po }{the partial order}
 }
 \references{
 Pattison, Philippa E. \emph{Algebraic Models for Social Networks}. Cambridge University Press. 1993.

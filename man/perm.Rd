@@ -8,7 +8,7 @@ Array Permutation
 Function to permutate a given array of relation.
 }
 \usage{
-perm(x, clu, rev = FALSE, lbs)
+perm(x, clu, rev, lbs)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,7 +19,7 @@ perm(x, clu, rev = FALSE, lbs)
    the cluster for the permutation
 }
   \item{rev}{
-   (logical) whether the order in \code{clu} sholud be reverted.
+   (optional and logical) whether the order in \code{clu} sholud be reverted.
 }
   \item{lbs}{
    (optional) the labels after the permutation

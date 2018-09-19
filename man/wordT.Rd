@@ -22,6 +22,7 @@ wordT(x)
   In terms of the Cayley graph of the semigroup, the collection of unique relations (both compound an generators) are represented by nodes, and the generators are edges that record the result of post-multiplying the compound relations by the generators (Pattison, 1993).
 }
 \value{
+An object of the `\code{WordTable}' class
   \item{gens}{
    the generator relations
 }

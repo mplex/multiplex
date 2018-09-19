@@ -7,7 +7,7 @@ Congruence Relations
 Find the congruence relations of a given abstract or a partially ordered semigroup.
 }
 \usage{
-cngr(S, PO = NULL, unique = FALSE)
+cngr(S, PO = NULL, uniq = FALSE)
 }
 \arguments{
   \item{S}{
@@ -16,7 +16,7 @@ cngr(S, PO = NULL, unique = FALSE)
   \item{PO}{
    (optional) the partial order table
 }
-  \item{unique}{
+  \item{uniq}{
    (logical) whether or not return the unique congruence relations
 }
 }

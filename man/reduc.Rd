@@ -25,7 +25,7 @@ reduc(x, clu, lbs = NULL)
 Given a partition, this function serves to reduce either a matrix representing e.g. a partial order structure. However the reduction is also generalized a three-dimensional arrays representing multiple relations.
 }
 \value{
-The reduced matrix or a three-dimensional array.
+The reduced matrix or a reduced three-dimensional array of the input data according to the clustering information.
 }
 %\references{
 %No hay...
