@@ -31,7 +31,7 @@ function (S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac)
             warning("Other type options than \"cc\" are not suitable for the \"Congruence\" class object")
         }
         ifelse(isTRUE(attr(pr, "class")[2] == "PO.Semigroup") == 
-            TRUE, poi <- pr$PO, NA)
+            TRUE, poi <- pr$PO, poi <- NA)
     }
     if (isTRUE("symbolic" %in% attr(S, "class")) == TRUE || isTRUE("Semigroup" %in% 
         attr(S, "class")) == FALSE) {
@@ -82,23 +82,33 @@ function (S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac)
     }
     else {
         clu <- pr$clu
-        lb <- list()
-        length(lb) <- length(clu)
-        for (i in seq_along(clu)) {
-            ifelse(isTRUE("symbolic" %in% attr(S, "class")) == 
-                TRUE, attr(clu[[i]], "names") <- S$st, attr(clu[[i]], 
-                "names") <- rownames(S))
-            lb[[i]] <- list()
-            for (j in seq_along(tabulate(clu[[i]]))) {
-                lb[[i]][[j]] <- noquote(attr(which(clu[[i]] == 
-                  j), "names"))
+        if (isTRUE(nlevels(factor(clu)) != 1) == TRUE) {
+            lb <- list()
+            length(lb) <- length(clu)
+            for (i in seq_along(clu)) {
+                ifelse(isTRUE("symbolic" %in% attr(S, "class")) == 
+                  TRUE, attr(clu[[i]], "names") <- S$st, attr(clu[[i]], 
+                  "names") <- rownames(S))
+                lb[[i]] <- list()
+                for (j in seq_along(tabulate(clu[[i]]))) {
+                  lb[[i]][[j]] <- noquote(attr(which(clu[[i]] == 
+                    j), "names"))
+                }
+                rm(j)
             }
-            rm(j)
+            rm(i)
         }
-        rm(i)
+        else {
+            lb <- S$st
+        }
     }
     if (missing(reduc) == FALSE && isTRUE(reduc == TRUE) == TRUE) {
-        if (is.na(dim(poi)[3]) == FALSE) {
+        if (is.na(poi) == TRUE || is.na(dim(poi)[3]) == TRUE) {
+            im <- S$S
+            po <- pr$po
+            ord <- S$ord
+        }
+        else {
             im <- list()
             po <- list()
             length(po) <- length(im) <- length(clu)
@@ -127,11 +137,6 @@ function (S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac)
                 ord <- append(ord, dim(im[[i]])[1])
             }
             rm(i)
-        }
-        else {
-            im <- S$S
-            po <- pr$po
-            ord <- S$ord
         }
         ifelse(isTRUE(attr(pr, "class") == "Pi.rels" || attr(pr, 
             "class")[2] == "PO.Semigroup") == TRUE, lst <- list(clu = clu, 
