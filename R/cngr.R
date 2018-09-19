@@ -19,11 +19,7 @@ function (S, PO = NULL, uniq)
         inc <- levels(factor(trnf(dichot(mat, c = 1), tolist = TRUE, 
             sep = ", ")))
         clus <- data.frame(matrix(ncol = ns, nrow = 0))
-        if (isTRUE(length(inc) == 1) == TRUE) {
-            clus[1, ] <- as.vector(sprt(s$S, as.numeric(dhc(inc[1])[1]), 
-                as.numeric(dhc(inc[1])[1])))
-        }
-        else if (isTRUE(length(inc) > 1) == TRUE) {
+        if (isTRUE(nlevels(factor(s$S)) != 1) == TRUE) {
             for (k in as.vector(mat)[which(as.vector(mat) > 0)]) {
                 for (i in seq_along(inc)) {
                   clus[i, ] <- as.vector(sprt(s$S, as.numeric(dhc(inc[i])[1]), 
