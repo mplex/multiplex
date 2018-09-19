@@ -82,7 +82,11 @@ function (S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac)
     }
     else {
         clu <- pr$clu
-        if (isTRUE(nlevels(factor(clu)) != 1) == TRUE) {
+        if (is.list(clu) == FALSE && isTRUE(nlevels(factor(clu)) == 
+            1) == TRUE) {
+            lb <- S$st
+        }
+        else {
             lb <- list()
             length(lb) <- length(clu)
             for (i in seq_along(clu)) {
@@ -97,9 +101,6 @@ function (S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac)
                 rm(j)
             }
             rm(i)
-        }
-        else {
-            lb <- S$st
         }
     }
     if (missing(reduc) == FALSE && isTRUE(reduc == TRUE) == TRUE) {
