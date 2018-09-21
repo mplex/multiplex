@@ -1,35 +1,11 @@
 partial.order <-
-function (x, type = c("strings", "galois"), lbs, labels) 
+function (x, type = c("strings", "galois", "pi.rels"), lbs, sel, 
+    po.incl) 
 {
     if (match.arg(type) == "strings") {
         if (isTRUE(attr(x, "class") == "Strings") == TRUE) {
-            x <- x$wt
-            if (is.array(x) == FALSE) 
-                stop("Data must be a stacked array of square matrices if a product of 'strings'.")
-            if (is.na(dim(x)[3]) == FALSE) {
-                tmp <- data.frame(matrix(ncol = (dim(x)[1] * 
-                  dim(x)[2]), nrow = 0))
-                for (i in seq_len(dim(x)[3])) {
-                  tmp[i, ] <- as.vector(x[, , i])
-                }
-                rm(i)
-                po <- as.matrix(array(0L, dim = c(dim(x)[3], 
-                  dim(x)[3])))
-                for (j in seq_len(dim(x)[3])) {
-                  for (i in seq_len(dim(x)[3])) {
-                    if ((as.numeric(any(tmp[i, ] < tmp[j, ])) == 
-                      1 && as.numeric(any(tmp[j, ] < tmp[i, ])) == 
-                      0) | as.numeric(all(tmp[i, ] == tmp[j, 
-                      ])) == 1) 
-                      po[i, j] <- 1L
-                  }
-                }
-                rm(i, j)
-                rownames(po) <- colnames(po) <- dimnames(x)[[3]]
-            }
-            else if (is.na(dim(x)[3]) == TRUE) {
-                po <- 1L
-            }
+            X <- x$wt
+            po <- strng(X)
         }
         else if (isTRUE(attr(x, "class") == "Strings") == FALSE) {
             stop("\"x\" should be an object of a \"Strings\" class.")
@@ -39,8 +15,8 @@ function (x, type = c("strings", "galois"), lbs, labels)
         if (isTRUE(attr(x, "class")[1] == "Galois") == TRUE) {
             if (isTRUE(attr(x, "class")[2] == "full") == TRUE) {
                 po <- matrix(0L, nrow = length(x), ncol = length(x))
-                for (j in seq_len(length(x))) {
-                  for (i in seq_len(length(x))) {
+                for (j in seq_along(x)) {
+                  for (i in seq_along(x)) {
                     ifelse(isTRUE(all(dhc(x[[i]], sep = ", ") %in% 
                       dhc(x[[j]], sep = ", "))) == TRUE, po[i, 
                       j] <- 1L, NA)
@@ -51,8 +27,8 @@ function (x, type = c("strings", "galois"), lbs, labels)
             else if (isTRUE(attr(x, "class")[2] == "reduced") == 
                 TRUE) {
                 po <- matrix(0L, nrow = length(x$full), ncol = length(x$full))
-                for (j in seq_len(length(x$full))) {
-                  for (i in seq_len(length(x$full))) {
+                for (j in seq_along(x$full)) {
+                  for (i in seq_along(x$full)) {
                     ifelse(isTRUE(all(dhc(x$full[[i]], sep = ", ") %in% 
                       dhc(x$full[[j]], sep = ", "))) == TRUE, 
                       po[i, j] <- 1L, NA)
@@ -63,7 +39,7 @@ function (x, type = c("strings", "galois"), lbs, labels)
             lb <- list()
             if (isTRUE(attr(x, "class")[2] == "full") == TRUE) {
                 length(lb) <- length(x)
-                for (i in seq_len(length(x))) {
+                for (i in seq_along(x)) {
                   if (isTRUE(is.na(attr(x, "names")[i])) == FALSE) {
                     lb[[i]] <- paste(paste("{", x[[i]], sep = ""), 
                       paste(attr(x, "names")[i], "}", sep = ""), 
@@ -80,7 +56,7 @@ function (x, type = c("strings", "galois"), lbs, labels)
             else if (isTRUE(attr(x, "class")[2] == "reduced") == 
                 TRUE) {
                 length(lb) <- length(x$reduc)
-                for (i in seq_len(length(x$reduc))) {
+                for (i in seq_along(x$reduc)) {
                   if (isTRUE(is.na(attr(x$reduc, "names")[i])) == 
                     FALSE) {
                     lb[[i]] <- paste(paste("{", attr(x$reduc, 
@@ -102,17 +78,50 @@ function (x, type = c("strings", "galois"), lbs, labels)
             stop("\"x\" should be an object of a \"Galois\" class.")
         }
     }
-    if (missing(lbs) == FALSE && isTRUE(length(lbs) == dim(po)[1]) == 
-        TRUE) {
-        dimnames(po)[[2]] <- dimnames(po)[[1]] <- lbs
+    if (match.arg(type) == "pi.rels") {
+        if (isTRUE(attr(x, "class")[1] == "Pi.rels") == TRUE) {
+            if (missing(sel) == FALSE && isTRUE(is.vector(sel) == 
+                TRUE) == TRUE) {
+                if (isTRUE(sel <= 0) == TRUE) {
+                  stop("Value of \"sel\" must be positive integer.")
+                }
+                else {
+                  NA
+                }
+            }
+            else {
+                if (missing(sel) == FALSE && is.null(sel) == 
+                  TRUE) {
+                  stop("Selection in 'sel' is NULL.")
+                }
+                else {
+                  sel <- FALSE
+                }
+            }
+            if (isTRUE(sel == FALSE) == TRUE) {
+                xpi <- x$pi
+            }
+            else {
+                xpi <- x$pi[, , unique(sel)]
+            }
+            if (missing(po.incl) == FALSE && isTRUE(po.incl == 
+                TRUE) == TRUE) {
+                ifelse(is.null(x$po) == TRUE, po <- strng(xpi), 
+                  po <- strng(suppressWarnings(zbind(xpi, x$po))))
+                dimnames(po)[[2]][dim(po)[2]] <- dimnames(po)[[1]][dim(po)[1]] <- "PO"
+            }
+            else {
+                po <- strng(xpi)
+            }
+        }
+        else if (isTRUE(attr(x, "class")[1] == "Pi.rels") == 
+            FALSE) {
+            stop("\"x\" should be an object of a \"Pi.rels\" class.")
+        }
     }
-    else if (missing(labels) == FALSE && isTRUE(length(labels) == 
-        dim(po)[1]) == TRUE) {
-        dimnames(po)[[2]] <- dimnames(po)[[1]] <- labels
-    }
-    else {
-        NA
-    }
+    ifelse(missing(lbs) == FALSE && isTRUE(length(lbs) == dim(po)[1]) == 
+        TRUE, dimnames(po)[[2]] <- dimnames(po)[[1]] <- lbs, 
+        NA)
     class(po) <- c("Partial.Order", match.arg(type))
     po
 }

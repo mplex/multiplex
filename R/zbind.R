@@ -9,12 +9,12 @@ function (...)
     pvtlbs <- dimnames(pvt)[[1]]
     tmp <- data.frame(matrix(ncol = (dim(pvt)[1] * dim(pvt)[2]), 
         nrow = 0L))
-    for (i in seq_len(length(argl))) {
+    for (i in seq_along(argl)) {
         if (isTRUE(i < length(argl)) == TRUE) {
             if (all.equal(dim(argl[[i + 1L]])[1:2], dim(pvt)[1:2]) != 
                 TRUE) {
                 argl[[i + 1L]] <- transf(argl[[i + 1L]], type = "toarray", 
-                  ord = dim(pvt)[1])
+                  ord = dim(pvt)[1], lbs = pvtlbs)
             }
             else {
                 NA
@@ -36,12 +36,20 @@ function (...)
                 TRUE && isTRUE(dim(argl[[1]])[1] == dim(argl[[1]])[2]) == 
                 TRUE) {
                 prm <- seq(dim(pvt)[1])
-                for (m in which(dimnames(argl[[i + 1L]])[[1]] != 
-                  pvtlbs)) {
-                  prm[m] <- which(dimnames(argl[[i + 1L]])[[1]][m] == 
-                    pvtlbs)
+                if (isTRUE(all(dimnames(argl[[i + 1L]])[[1]] == 
+                  pvtlbs) == FALSE) == FALSE) {
+                  for (m in which(dimnames(argl[[i + 1L]])[[1]] != 
+                    pvtlbs)) {
+                    prm[m] <- which(dimnames(argl[[i + 1L]])[[1]][m] == 
+                      pvtlbs)
+                  }
+                  rm(m)
                 }
-                rm(m)
+                else {
+                  warning("Dimnames in the input are different, use from the first array.")
+                  dimnames(argl[[i + 1L]])[[1]] <- dimnames(argl[[i + 
+                    1L]])[[2]] <- pvtlbs
+                }
                 argl[[i + 1L]] <- perm(argl[[i + 1L]], clu = prm, 
                   rev = FALSE)
             }
@@ -67,7 +75,7 @@ function (...)
     }
     rm(i)
     lbs <- vector()
-    for (i in seq_len(length(argl))) {
+    for (i in seq_along(argl)) {
         if (isTRUE(dim(argl[[i]])[3] > 1L) == TRUE) {
             ifelse(is.null(dimnames(argl[[i]])[[3]]) == FALSE, 
                 lbs <- append(lbs, dimnames(argl[[i]])[[3]]), 
