@@ -1,125 +1,153 @@
 decomp <-
-function (S, x, type = c("mc", "pi", "cc"), reduc = FALSE) 
+function (S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac) 
 {
-    if (isTRUE(attr(S, "class")[1] == "Semigroup") == FALSE) 
-        stop("\"S\" should be an object of a \"Semigroup\" class.")
-    if (isTRUE(attr(x, "class") == "Pi.rels" || attr(x, "class")[1] == 
+    if (isTRUE(attr(pr, "class") == "Pi.rels" || attr(pr, "class")[1] == 
         "Congruence") == FALSE) 
-        stop("\"x\" should be an object either of a \"Pi.rels\" or a \"Congruence\" class.")
-    if (isTRUE(attr(x, "class") == "Pi.rels") == TRUE) {
-        switch(match.arg(type), mc = poi <- x$mc, pi = poi <- x$pi, 
-            cc = stop("Type options for a \"Pi.rels\" class object should be either \"pi\" or \"mc\""))
+        stop("\"pr\" should be an object either of a \"Pi.rels\" or a \"Congruence\" class.")
+    if (missing(fac) == FALSE && isTRUE(attr(pr, "class") == 
+        "Pi.rels") == FALSE) 
+        warning("'fac' is ignored since it requires a \"Pi.rels\" class object as inpu.")
+    if (isTRUE(attr(pr, "class") == "Pi.rels") == TRUE) {
+        if (missing(fac) == FALSE && isTRUE("Decomp" %in% attr(S, 
+            "class")) == TRUE) {
+            if (is.numeric(fac) == FALSE || isTRUE(fac > length(S$IM)) == 
+                TRUE) {
+                warning("'fac' must be an integer no larger than the number of factors in the input. First factor is taken.")
+                S <- S$IM[[1]]
+            }
+            else {
+                S <- S$IM[[fac]]
+            }
+        }
+        else {
+            NA
+        }
+        switch(match.arg(type), mc = poi <- pr$mc, pi = poi <- pr$pi, 
+            at = poi <- pr$at, cc = stop("Type options for a \"Pi.rels\" class object should be either \"pi\", \"at\" or \"mc\""))
     }
-    else if (isTRUE(attr(x, "class")[1] == "Congruence") == TRUE) {
+    else if (isTRUE(attr(pr, "class")[1] == "Congruence") == 
+        TRUE) {
         if (match.arg(type) != "cc") {
             warning("Other type options than \"cc\" are not suitable for the \"Congruence\" class object")
         }
-        ifelse(isTRUE(attr(x, "class")[2] == "PO.Semigroup") == 
-            TRUE, poi <- x$PO, NA)
+        ifelse(isTRUE(attr(pr, "class")[2] == "PO.Semigroup") == 
+            TRUE, poi <- pr$PO, NA)
     }
-    if (isTRUE(attr(x, "class") == "Pi.rels") == TRUE) {
-        clu <- list()
-        lb <- list()
-        length(lb) <- length(clu) <- dim(poi)[3]
-        for (i in seq_len(dim(poi)[3])) {
-            ifelse(isTRUE(all(as.vector(poi[, , i]) == 1L) == 
-                TRUE) == TRUE, clu[[i]] <- rep(1, S$ord), clu[[i]] <- stats::cutree(stats::hclust(stats::dist(poi[, 
-                , i])), k = length(cut(stats::as.dendrogram(stats::hclust(stats::dist(poi[, 
-                , i]))), h = 0L)$lower)))
-            attr(clu[[i]], "names") <- S$st
-            lb[[i]] <- list()
-            for (j in seq_len(length(tabulate(clu[[i]])))) {
-                lb[[i]][[j]] <- noquote(attr(which(clu[[i]] == 
-                  j), "names"))
-            }
-            rm(j)
-        }
-        rm(i)
+    if (isTRUE("symbolic" %in% attr(S, "class")) == TRUE || isTRUE("Semigroup" %in% 
+        attr(S, "class")) == FALSE) {
+        s <- as.semigroup(S, numerical = TRUE)
     }
     else {
-        clu <- x$clu
-        lb <- list()
-        length(lb) <- length(clu)
-        for (i in seq_len(length(clu))) {
-            attr(clu[[i]], "names") <- S$st
-            lb[[i]] <- list()
-            for (j in seq_len(length(tabulate(clu[[i]])))) {
-                lb[[i]][[j]] <- noquote(attr(which(clu[[i]] == 
-                  j), "names"))
-            }
-            rm(j)
-        }
-        rm(i)
+        s <- S
     }
-    if (reduc) {
-        im <- list()
-        po <- list()
-        dm <- vector()
-        length(po) <- length(im) <- length(clu)
-        for (i in seq_len(length(clu))) {
-            im[[i]] <- reducs(S, clu = as.vector(clu[[i]]))
-            if (isTRUE(attr(x, "class") == "Pi.rels") == TRUE) {
-                po[[i]] <- reduc(poi[, , i], clu = as.vector(clu[[i]]), 
-                  lbs = dimnames(im[[i]])[[1]])
+    if (isTRUE(attr(pr, "class") == "Pi.rels") == TRUE) {
+        if (is.list(poi) == TRUE) {
+            tmp <- poi
+            poi <- array(NA, dim = c(dim(tmp[[1]]), length(tmp)), 
+                dimnames = dimnames(tmp[[1]]))
+            for (k in seq_along(tmp)) {
+                poi[, , k] <- tmp[[k]]
             }
-            else if (isTRUE(attr(x, "class")[2] == "PO.Semigroup") == 
-                TRUE) {
-                po[[i]] <- reduc(poi, clu = as.vector(clu[[i]]), 
-                  lbs = dimnames(im[[i]])[[1]])
-            }
-            else {
-                NA
-            }
-            dm[length(dm) + 1] <- dim(im[[i]])[1]
+            rm(k)
+            rm(tmp)
         }
-        rm(i)
-        for (k in seq_len(length(clu))) {
-            imm <- as.matrix(im[[k]])
-            for (i in seq_len(dim(imm)[1])) {
-                for (j in seq_len(dim(imm)[1])) {
-                  if (isTRUE(imm[i, j] %in% dimnames(imm)[[1]]) == 
-                    FALSE) {
-                    for (l in seq_len(length(lb[[k]]))) {
-                      if (isTRUE(attr(S, "class")[2] == "symbolic") == 
-                        TRUE) {
-                        if (isTRUE(imm[i, j] %in% lb[[k]][[l]]) == 
-                          TRUE) 
-                          imm[i, j] <- lb[[k]][[l]][1]
-                      }
-                      else if (isTRUE(attr(S, "class")[2] == 
-                        "numerical") == TRUE) {
-                        if (isTRUE(attr(clu[[k]], "names")[imm[i, 
-                          j]] %in% lb[[k]][[l]]) == TRUE) 
-                          imm[i, j] <- which(attr(clu[[k]], "names") == 
-                            lb[[k]][[l]][1])
-                      }
-                    }
-                  }
+        else {
+            NA
+        }
+        if (is.na(dim(poi)[3]) == FALSE) {
+            clu <- list()
+            lb <- list()
+            length(lb) <- length(clu) <- dim(poi)[3]
+            for (i in seq_len(dim(poi)[3])) {
+                ifelse(isTRUE(all(as.vector(poi[, , i]) == 1L) == 
+                  TRUE) == TRUE, clu[[i]] <- rep(1, s$ord), clu[[i]] <- stats::cutree(stats::hclust(stats::dist(poi[, 
+                  , i])), k = length(cut(stats::as.dendrogram(stats::hclust(stats::dist(poi[, 
+                  , i]))), h = 0L)$lower)))
+                ifelse(isTRUE("symbolic" %in% attr(S, "class")) == 
+                  TRUE, attr(clu[[i]], "names") <- S$st, attr(clu[[i]], 
+                  "names") <- s$st)
+                lb[[i]] <- list()
+                for (j in seq_along(tabulate(clu[[i]]))) {
+                  lb[[i]][[j]] <- noquote(attr(which(clu[[i]] == 
+                    j), "names"))
                 }
                 rm(j)
             }
             rm(i)
-            im[[k]] <- as.data.frame(imm)
         }
-        rm(k)
-        for (i in seq_len(length(clu))) attr(clu[[i]], "names") <- NULL
-        ifelse(isTRUE(attr(x, "class") == "Pi.rels" || attr(x, 
-            "class")[2] == "PO.Semigroup") == TRUE, lst <- list(clu = clu, 
-            eq = lb, IM = im, PO = po, dims = dm), lst <- list(clu = clu, 
-            eq = lb, IM = im, dims = dm))
-        ifelse(isTRUE(attr(x, "class")[1] == "Congruence") == 
-            TRUE, class(lst) <- c("Decomp", "Reduc", attr(x, 
-            "class")[1], "cc"), class(lst) <- c("Decomp", "Reduc", 
-            attr(x, "class")[1], match.arg(type)))
-        return(lst)
+        else {
+            clu <- seq_len(S$ord)
+            lb <- S$st
+        }
     }
     else {
-        for (i in seq_len(length(clu))) attr(clu[[i]], "names") <- NULL
-        lst <- list(clu = clu, eq = lb)
-        ifelse(isTRUE(attr(x, "class")[1] == "Congruence") == 
-            TRUE, class(lst) <- c("Decomp", attr(x, "class")[1], 
-            "cc"), class(lst) <- c("Decomp", attr(x, "class")[1], 
-            match.arg(type)))
-        return(lst)
+        clu <- pr$clu
+        if (is.list(clu) == FALSE && isTRUE(nlevels(factor(clu)) == 
+            1) == TRUE) {
+            lb <- S$st
+        }
+        else {
+            lb <- list()
+            length(lb) <- length(clu)
+            for (i in seq_along(clu)) {
+                ifelse(isTRUE("symbolic" %in% attr(S, "class")) == 
+                  TRUE, attr(clu[[i]], "names") <- S$st, attr(clu[[i]], 
+                  "names") <- rownames(S))
+                lb[[i]] <- list()
+                for (j in seq_along(tabulate(clu[[i]]))) {
+                  lb[[i]][[j]] <- noquote(attr(which(clu[[i]] == 
+                    j), "names"))
+                }
+                rm(j)
+            }
+            rm(i)
+        }
     }
+    if (missing(reduc) == FALSE && isTRUE(reduc == TRUE) == TRUE) {
+        if (isTRUE(nlevels(factor(as.matrix(s$S))) == 1) == TRUE) {
+            im <- S$S
+            ord <- S$ord
+        }
+        else {
+            im <- list()
+            po <- list()
+            length(po) <- length(im) <- length(clu)
+            ord <- vector()
+            for (i in seq_along(clu)) {
+                if (isTRUE("symbolic" %in% attr(S, "class")) == 
+                  TRUE) {
+                  im[[i]] <- reducs(S, cl = as.vector(clu[[i]]))
+                }
+                else {
+                  im[[i]] <- reducs(as.semigroup(S), cl = as.vector(clu[[i]]))
+                }
+                if (isTRUE(attr(pr, "class") == "Pi.rels") == 
+                  TRUE) {
+                  po[[i]] <- reduc(poi[, , i], clu = as.vector(clu[[i]]), 
+                    lbs = dimnames(im[[i]])[[1]])
+                }
+                else if (isTRUE(attr(pr, "class")[2] == "PO.Semigroup") == 
+                  TRUE) {
+                  po[[i]] <- reduc(poi, clu = as.vector(clu[[i]]), 
+                    lbs = dimnames(im[[i]])[[1]])
+                }
+                else {
+                  NA
+                }
+                ord <- append(ord, dim(im[[i]])[1])
+            }
+            rm(i)
+        }
+        ifelse(isTRUE(attr(pr, "class") == "Pi.rels" || attr(pr, 
+            "class")[2] == "PO.Semigroup") == TRUE, lst <- list(clu = clu, 
+            eq = lb, IM = im, PO = po, ord = ord), lst <- list(clu = clu, 
+            eq = lb, IM = im, ord = ord))
+    }
+    else {
+        lst <- list(clu = clu, eq = lb)
+    }
+    ifelse(isTRUE(attr(pr, "class")[1] == "Congruence") == TRUE, 
+        class(lst) <- c("Decomp", attr(pr, "class")[1], "cc"), 
+        class(lst) <- c("Decomp", attr(pr, "class")[1], match.arg(type)))
+    return(lst)
 }

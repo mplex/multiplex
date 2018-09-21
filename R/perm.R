@@ -1,8 +1,9 @@
 perm <-
 function (x, clu, rev, lbs) 
 {
-    if (isTRUE(is.array(x) == TRUE) == FALSE) 
-        stop("'x' must be an array object.")
+    if (isTRUE(is.array(x) == TRUE) == FALSE && isTRUE(is.data.frame(x) == 
+        TRUE) == FALSE && isTRUE(is.matrix(x) == TRUE) == FALSE) 
+        stop("'x' must be an array, matrix, or a data frame object.")
     if (missing(clu) == TRUE || isTRUE(length(unlist(clu)) != 
         dim(x)[1]) == TRUE) 
         stop("'clu' is missing or it does not match the order of 'x'.")
