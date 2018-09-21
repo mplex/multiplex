@@ -7,20 +7,20 @@ Strings of Relations
 Function to get the labels of the unique relations of the semigroup; that is the generators and compound relations that are the elements of the complete semigroup.
 }
 \usage{
-strings(x, smpl = FALSE, equat = FALSE, k = 2)
+strings(x, equat = FALSE, k = 2, smpl)
 }
 \arguments{
   \item{x}{
    an array; usually with three dimensions of stacked matrices where the multiple relations are placed.
 }
-  \item{smpl}{
-(logical) whether to simplify or not the strings of relations
-}
   \item{equat}{
-(logical) should the equations be included in the output?
+   (logical) should the equations be included in the output?
 }
   \item{k}{
-length of the strings
+   length of the strings in the equations
+}
+  \item{smpl}{
+   (optional and logical) whether to simplify or not the string relations
 }
 }
 \details{
@@ -50,7 +50,7 @@ Boorman, S.A. and H.C. White, `Social Structure from Multiple Networks. II. Role
 Antonio Rivero Ostoic
 }
 \note{
-The maximum length of the strings in the equations is currently 3.
+The maximum length of the strings in the equations is currently 4.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
