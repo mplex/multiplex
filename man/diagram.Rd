@@ -8,21 +8,21 @@ Plot the Hasse Diagram of a set of ordered relations
 A function to plot the Hasse Diagram of partially ordered relations.
 }
 \usage{
-diagram(x, unord = TRUE, attrs = NULL, main = NULL, cex.main, bg, mar, shape, tcex, col, 
-        col0, tcol, ecol, lty, lbs, ...)
+diagram(x, attrs = NULL, main = NULL, incmp, cex.main, bg, mar, shape, 
+        col, col0, fcol, ecol, lty, lbs, ffamily, fstyle, fsize, ...)
 }
 \arguments{
   \item{x}{
    a matrix representing ordered relations
-}
-  \item{unord}{
-   (logical) whether or not the elements not belonging in the order should be included in the diagram
 }
   \item{attrs}{
    (optional) attributes of the diagram
 }
   \item{main}{
    (optional) title of the diagram
+}
+  \item{incmp}{
+   (optional and logical) whether or not the incomparable elements should be included in the lattice diagram
 }
   \item{cex.main}{
    (optional) size of the diagram's title
@@ -36,16 +36,13 @@ diagram(x, unord = TRUE, attrs = NULL, main = NULL, cex.main, bg, mar, shape, tc
   \item{shape}{
    (optional) the shape of the vertices
 }
-  \item{tcex}{
-   (optional) the size of the vertex labels
-}
   \item{col}{
    (optional) the color of the vertices
 }
   \item{col0}{
    (optional) the color of the vertices' contour
 }
-  \item{tcol}{
+  \item{fcol}{
    (optional) the color of the text's vertices
 }
   \item{ecol}{
@@ -57,8 +54,17 @@ diagram(x, unord = TRUE, attrs = NULL, main = NULL, cex.main, bg, mar, shape, tc
   \item{lbs}{
    (optional) labels of the elements in the partially ordered set
 }
+  \item{ffamily}{
+   (optional) the font family of the vertex labels
+}
+  \item{fstyle}{
+   (optional) the font style of the vertex labels with options: `bold', `italic', `bolditalic'
+}
+  \item{fsize}{
+   (optional) the font size of the vertex labels
+}
   \item{...}{
-   (optional) other graphical items
+   (optional) additional graphical items
 }
 
 }

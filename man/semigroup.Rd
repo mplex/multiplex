@@ -17,13 +17,13 @@ semigroup(x, type = c("numerical", "symbolic"), lbs = NULL,
    an array; usually with three dimensions of stacked matrices where the multiple relations are placed.
 }
   \item{type}{
-   does the semigroup should be given in a numerical (default) or in a symbolic form?
+   does the semigroup should be given in a \code{numerical} (default) or in a \code{symbolic} form?
 }
   \item{lbs}{
    (optional) a list of the labels of each distinct relation.
 }
   \item{cmp}{
-   (optional) a logical to indicate whether the composite matrices should be also given.
+   (optional) a logical to indicate whether the composite matrices should be also given in the output.
 }
   \item{smpl}{
    (logical) whether to simplify or not the strings of relations.

@@ -7,17 +7,24 @@ Decomposition of a Semigroup Structure
 A function to perform the decomposition of a semigroup structure
 }
 \usage{
-decomp(S, x, type = c("mc", "pi", "cc"), reduc = FALSE)
+decomp(S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{S}{  an object of a `\code{Semigroup}' class
+  \item{S}{  
+     an object of a `\code{Semigroup}' class
 }
-  \item{x}{  either an object of a `\code{Congruence}' class or an object of a `\code{Pi.rels}' class
+  \item{pr}{  
+     either an object of a `\code{Congruence}' class or an object of a `\code{Pi.rels}' class
 }
-  \item{type}{  whether the reduction is based on a a congruence class or rather on a \eqn{\pi}-relation or a meet-complement in the `\code{Pi.rels}' class
+  \item{type}{  
+     whether the reduction is based on a a congruence class (option \code{"cc"}) or rather on a \eqn{\pi}-relation, atoms, or a meet-complement in the `\code{Pi.rels}' class
 }
-  \item{reduc}{  (logical) does the return object should include the reduced structures?
+  \item{reduc}{  
+     (optional and logical) does the return object should include the reduced structures?
+}
+  \item{fac}{  
+     (optional) the factor that should be decomposed
 }
 }
 \details{
@@ -29,11 +36,13 @@ An object of `\code{Decomp}' class having:
   \item{eq }{the equations in the decomposition}
   \item{IM }{(optional) the image matrices}
   \item{PO }{(optional) the partial order table}
-  \item{dims}{(optional) a vector with the dimensions of the image matrices}
+  \item{ord}{(optional) a vector with the order of the image matrices}
 %% ...
 }
 \references{
 Pattison, Philippa E. \emph{Algebraic Models for Social Networks}. Cambridge University Press. 1993.
+
+Hartmanis, J. and R.E. Stearns \emph{Algebraic Structure Theory of Sequential Machines}. Prentice-Hall. 1966.
 }
 \author{
 Antonio Rivero Ostoic
@@ -45,7 +54,7 @@ Reduction of the partial order table should be made by the \code{\link{reduc}} f
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{cngr}}, \code{\link{reduc}}, \code{\link{pi.rels}}, \code{\link{semigroup}}, \code{\link{partial.order}}
+\code{\link{fact}}, \code{\link{cngr}}, \code{\link{reduc}}, \code{\link{pi.rels}}, \code{\link{semigroup}}, \code{\link{partial.order}}
 }
 %\examples{
 %

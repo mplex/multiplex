@@ -7,20 +7,23 @@ The Partial Order of String relations or of Galois derivations
 Construct the partial order table of unique relations of the semigroup, or else of the concepts produced by Galois derivations.
 }
 \usage{
-partial.order(x, type = c("strings", "galois"), lbs, labels)
+partial.order(x, type = c("strings", "galois", "pi.rels"), lbs, sel, po.incl)
 }
 \arguments{
   \item{x}{
    an object of a `\code{Strings}' or a `\code{Galois}' class
 }
   \item{type}{
-   whether the object corresponds to strings of relations or Galois derivations
+   whether the object corresponds to string relations, Galois derivations, or \eqn{\pi}-relations
 }
   \item{lbs}{
    (optional) the labels of the unique relations
 }
-  \item{labels}{
-   same as \code{lbs} for backward compatibility only
+  \item{sel}{
+   (optional) selected elements in `x' for the partial order
+}
+  \item{po.incl}{
+   (optional, works only with type \code{"pi.rels"}) should the partial order in the \eqn{\pi}-relations be included
 }
 }
 \details{
