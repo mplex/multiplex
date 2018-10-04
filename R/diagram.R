@@ -89,7 +89,7 @@ function (x, attrs = NULL, main = NULL, incmp, cex.main, bg,
         ifelse(is.null(main) == TRUE, graphics::par(mar = mar), 
             graphics::par(mar = mar + c(0, 0, cex.main, 0)))
         ifelse(missing(ffamily) == FALSE && isTRUE(ffamily %in% 
-            names(grDevices::postscriptFonts())) == TRUE, par(family = ffamily), 
+            names(grDevices::postscriptFonts())) == TRUE, graphics::par(family = ffamily), 
             NA)
         if (missing(lbs) == FALSE) {
             X <- Rgraphviz::plot(methods::as(po, "graphNEL"), 
