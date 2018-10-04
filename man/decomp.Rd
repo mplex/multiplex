@@ -54,7 +54,7 @@ Reduction of the partial order table should be made by the \code{\link{reduc}} f
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{cngr}}, \code{\link{reduc}}, \code{\link{pi.rels}}, \code{\link{semigroup}}, \code{\link{partial.order}}
+\code{\link{fact}}, \code{\link{cngr}}, \code{\link{reduc}}, \code{\link{pi.rels}}, \code{\link{semigroup}}, \code{\link{partial.order}}
 }
 %\examples{
 %

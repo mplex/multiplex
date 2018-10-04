@@ -15,8 +15,7 @@ zbind(...)
 }
 }
 \details{
-This function is for stacking two-dimensional arrays into a single three-dimensional object to represent a multivariate system structure. Both square and rectangular arrays are supported provided that the dimensions in the input are equal. The \code{dimnames} in the output correspond to the first array in the input, and a Warning message is given when these are NULL.
-% This function represents an extension to both the \code{\link[base:cbind]{cbind}} and the \code{\link[base:rbind]{rbind}} functions, and it is especially useful in constructing a single object to represent a multivariate system structure. Both square and rectangular arrays are supported provided that the dimensions in the input are equal.
+This function represents an extension to both the \code{\link[base:cbind]{cbind}} and the \code{\link[base:rbind]{rbind}} functions, and it is especially useful in constructing a single object to represent a multivariate system structure. Both square and rectangular arrays are supported provided that the dimensions in the input are equal.
 }
 \value{
 Usually a three dimensional array

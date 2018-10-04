@@ -5,8 +5,12 @@
 \alias{incubB}
 \alias{incubC}
 \alias{incubD}
+\alias{incA}
+\alias{incB}
+\alias{incC}
+\alias{incD}
 \title{
-Business Incubators Data Sets
+Business Network Incubators Data Sets
 }
 \description{
 These are four data sets collected in year 2010 (see `source' for the details) of multiple relations between entrepreneurial firms working in business incubators in Denmark.
@@ -21,6 +25,10 @@ data("incubA")
 data("incubB")
 data("incubC")
 data("incubD")
+data("incA")
+data("incB")
+data("incC")
+data("incD")
 }
 \format{
 Each data set is a list with a pair of three dimensioanl arrays.
@@ -34,6 +42,19 @@ For \code{incubC}, the dimensions of \code{net} are \eqn{22 \times 22 \times 5},
 For \code{incubD}, the dimensions of \code{net} are \eqn{15 \times 15 \times 5}, and of \code{IM} are \eqn{4 \times 4 \times 6}.
 
 All four networks are putted in together in \code{incubs}.
+
+In order to plot automatically actor attributes in the graph with function \code{\link[multigraph:multigraph]{multigraph}}, another version of these data sets are given in \code{incA}, \code{incB}, \code{incC}, and \code{incD}, which  are \code{"Data.Set"} objects class having:
+
+  \code{net} for the network data
+
+  \code{atnet} a vector that indicates whether or not the arrays in \code{'net'} is attribute data
+
+  \code{IM} for the Image Matrices of the reduced network data
+
+  \code{atIM} a vector that indicates whether or not the array in \code{'IM'} is attribute data
+
+  \code{cite} citation and useful information
+
 
 }
 \source{
