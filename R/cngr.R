@@ -1,8 +1,10 @@
 cngr <-
 function (S, PO = NULL, uniq) 
 {
-    if (isTRUE(attr(S, "class")[1] == "Semigroup") == FALSE || 
-        isTRUE(attr(S, "class")[2] == "symbolic") == TRUE) {
+    if (isTRUE(attr(S, "class")[1] == "Semigroup") == FALSE) {
+        s <- semigroup(S, type = "numerical")
+    }
+    else if (isTRUE(attr(S, "class")[2] == "symbolic") == TRUE) {
         s <- as.semigroup(S, numerical = TRUE)
     }
     else {
@@ -39,14 +41,14 @@ function (S, PO = NULL, uniq)
         else {
             cg <- rep(1, s$dim)
         }
-        ifelse(isTRUE(is.null(PO)) == FALSE, lst <- list(S = S$S, 
-            PO = PO, clu = cg), lst <- list(S = S$S, clu = cg))
+        ifelse(isTRUE(is.null(PO)) == FALSE, lst <- list(S = s$S, 
+            PO = PO, clu = cg), lst <- list(S = s$S, clu = cg))
         ifelse(isTRUE(is.null(PO)) == FALSE, class(lst) <- c("Congruence", 
-            "PO.Semigroup", attr(S, "class")[2]), class(lst) <- c("Congruence", 
-            "A.Semigroup", attr(S, "class")[2]))
+            "PO.Semigroup", attr(s, "class")[2]), class(lst) <- c("Congruence", 
+            "A.Semigroup", attr(s, "class")[2]))
         return(lst)
     }
     else {
-        S
+        s
     }
 }

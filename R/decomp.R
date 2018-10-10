@@ -90,9 +90,7 @@ function (S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac)
             lb <- list()
             length(lb) <- length(clu)
             for (i in seq_along(clu)) {
-                ifelse(isTRUE("symbolic" %in% attr(S, "class")) == 
-                  TRUE, attr(clu[[i]], "names") <- S$st, attr(clu[[i]], 
-                  "names") <- rownames(S))
+                attr(clu[[i]], "names") <- S$st
                 lb[[i]] <- list()
                 for (j in seq_along(tabulate(clu[[i]]))) {
                   lb[[i]][[j]] <- noquote(attr(which(clu[[i]] == 
@@ -109,18 +107,13 @@ function (S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac)
             ord <- S$ord
         }
         else {
-            im <- list()
-            po <- list()
-            length(po) <- length(im) <- length(clu)
             ord <- vector()
+            po <- list()
+            length(po) <- length(clu)
+            im <- list()
+            length(im) <- length(clu)
             for (i in seq_along(clu)) {
-                if (isTRUE("symbolic" %in% attr(S, "class")) == 
-                  TRUE) {
-                  im[[i]] <- reducs(S, cl = as.vector(clu[[i]]))
-                }
-                else {
-                  im[[i]] <- reducs(as.semigroup(S), cl = as.vector(clu[[i]]))
-                }
+                im[[i]] <- reducs(S, cl = as.vector(clu[[i]]))
                 if (isTRUE(attr(pr, "class") == "Pi.rels") == 
                   TRUE) {
                   po[[i]] <- reduc(poi[, , i], clu = as.vector(clu[[i]]), 
