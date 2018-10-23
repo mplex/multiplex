@@ -1,6 +1,8 @@
 as.semigroup <-
 function (x, gens = NA, lbs, numerical, edgeT) 
 {
+    ifelse(is.list(x) == TRUE && isTRUE(length(x) == 1L) == TRUE, 
+        x <- x[[1]], NA)
     if (is.null(dimnames(x)) == TRUE && isTRUE("Semigroup" %in% 
         attr(x, "class")) == FALSE && missing(numerical) == TRUE) 
         stop("Dimnames in \"x\" must be provided.")

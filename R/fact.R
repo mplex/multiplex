@@ -22,7 +22,11 @@ function (S, P, uniq = TRUE, fac, atoms, mc, atmc, patm, k)
     }
     if (isTRUE("symbolic" %in% attr(S, "class")) == TRUE || isTRUE("Semigroup" %in% 
         attr(S, "class")) == FALSE) {
+        ifelse(is.list(S) == TRUE && isTRUE(length(S) == 1L) == 
+            TRUE, S <- S[[1]], NA)
         S <- as.semigroup(S, numerical = TRUE)
+        ifelse(is.list(P) == TRUE && isTRUE(length(P) == 1L) == 
+            TRUE, P <- P[[1]], NA)
         rownames(P) <- colnames(P) <- S$st
     }
     else {
