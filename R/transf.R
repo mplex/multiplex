@@ -108,8 +108,10 @@ function (x, type = c("toarray", "tolist", "toarray2"), lbs = NULL,
             }
         }
         if ((is.vector(x) == FALSE && isTRUE(dim(x)[1] == dim(x)[2]) == 
-            FALSE) || is.list(x) == TRUE && isTRUE(length(x) > 
-            1L) == TRUE) 
+            FALSE)) 
+            return(x)
+        if ((is.list(x) == TRUE && isTRUE(length(x) > 1L) == 
+            TRUE) && is.matrix(x[[1]]) == TRUE) 
             return(x)
         if (missing(ord) == TRUE) {
             if (is.vector(x) == TRUE) {
