@@ -6,7 +6,7 @@ function (S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac)
         stop("\"pr\" should be an object either of a \"Pi.rels\" or a \"Congruence\" class.")
     if (missing(fac) == FALSE && isTRUE(attr(pr, "class") == 
         "Pi.rels") == FALSE) 
-        warning("'fac' is ignored since it requires a \"Pi.rels\" class object as inpu.")
+        warning("'fac' is ignored since it requires a \"Pi.rels\" class object as input.")
     if (isTRUE(attr(pr, "class") == "Pi.rels") == TRUE) {
         if (missing(fac) == FALSE && isTRUE("Decomp" %in% attr(S, 
             "class")) == TRUE) {

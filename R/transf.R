@@ -3,6 +3,8 @@ function (x, type = c("toarray", "tolist", "toarray2"), lbs = NULL,
     lb2lb, sep, ord, sort, add, adc) 
 {
     ifelse(missing(sep) == TRUE, sep <- ", ", NA)
+    ifelse(is.list(x) == TRUE && isTRUE(length(x) == 1L) == TRUE, 
+        x <- x[[1]], NA)
     if (match.arg(type) == "tolist") {
         if (isTRUE(is.character(x) == TRUE) == TRUE | is.null(dim(x)[3]) == 
             TRUE) 
