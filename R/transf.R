@@ -6,12 +6,14 @@ function (x, type = c("toarray", "tolist", "toarray2"), lbs = NULL,
     ifelse(is.list(x) == TRUE && isTRUE(length(x) == 1L) == TRUE, 
         x <- x[[1]], NA)
     if (match.arg(type) == "tolist") {
-        if (isTRUE(is.character(x) == TRUE) == TRUE | is.null(dim(x)[3]) == 
-            TRUE) 
+        if (isTRUE(is.character(x) == TRUE) == TRUE | (is.array(x) == 
+            TRUE && is.null(dim(x)[3]) == TRUE)) 
             return(x)
-        if (isTRUE(sum(x) > 0L) == FALSE | isTRUE(max(x) < 1L) == 
-            TRUE) 
-            return(NULL)
+        if (is.array(x) == TRUE) {
+            if (isTRUE(sum(x) > 0L) == FALSE | isTRUE(max(x) < 
+                1L) == TRUE) 
+                return(NULL)
+        }
         ifelse(missing(lb2lb) == FALSE && isTRUE(lb2lb == TRUE) == 
             TRUE, lb2lb <- TRUE, lb2lb <- FALSE)
         if (is.list(x) == TRUE && is.data.frame(x) == FALSE) {
@@ -106,7 +108,8 @@ function (x, type = c("toarray", "tolist", "toarray2"), lbs = NULL,
             }
         }
         if ((is.vector(x) == FALSE && isTRUE(dim(x)[1] == dim(x)[2]) == 
-            FALSE)) 
+            FALSE) || is.list(x) == TRUE && isTRUE(length(x) > 
+            1L) == TRUE) 
             return(x)
         if (missing(ord) == TRUE) {
             if (is.vector(x) == TRUE) {
