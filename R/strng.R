@@ -1,9 +1,21 @@
 strng <-
 function (x) 
 {
-    if (is.array(x) == FALSE) 
-        stop("Data must be a stacked array of square matrices if a product of 'strings'.")
-    if (is.na(dim(x)[3]) == FALSE) {
+    if (is.list(x) == TRUE && isTRUE(length(x) > 1L) == TRUE) {
+        xl <- x
+        x <- array(dim = c(dim(xl[[1]]), length(xl)))
+        for (k in seq_len(length(xl))) {
+            x[, , k] <- xl[[k]]
+        }
+        rm(k)
+        dimnames(x)[[1]] <- dimnames(x)[[2]] <- dimnames(xl[[1]])[[1]]
+        dimnames(x)[[3]] <- names(xl)
+    }
+    else {
+        if (is.array(x) == FALSE) 
+            stop("Data must be a stacked array of square matrices of a product of 'strings' or a list of of square matrices.")
+    }
+    if (is.array(x) == TRUE && (is.na(dim(x)[3]) == FALSE)) {
         tmp <- data.frame(matrix(ncol = (dim(x)[1] * dim(x)[2]), 
             nrow = 0))
         for (i in seq_len(dim(x)[3])) {
@@ -23,7 +35,8 @@ function (x)
         rm(i, j)
         rownames(po) <- colnames(po) <- dimnames(x)[[3]]
     }
-    else if (is.na(dim(x)[3]) == TRUE) {
+    else if (is.array(x) == TRUE && is.na(dim(x)[3]) == TRUE || 
+        (is.list(x) == TRUE && isTRUE(length(x) == 1L) == TRUE)) {
         po <- 1L
     }
     po
