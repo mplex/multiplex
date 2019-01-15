@@ -7,7 +7,7 @@ Decomposition of a Semigroup Structure
 A function to perform the decomposition of a semigroup structure
 }
 \usage{
-decomp(S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac)
+decomp(S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac, force)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -26,9 +26,14 @@ decomp(S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac)
   \item{fac}{  
      (optional) the factor that should be decomposed
 }
+  \item{force}{  
+     (optional and logical) force further reduction of the semigroup when \code{S} has \code{NA}s? (see details)
+}
 }
 \details{
 The \code{decomp} function is a reduction form of an algebraic structure like the semigroup that verifies which of the class members in the system are congruent to each other. The decomposed object then is made of congruent elements, which form part of the lattice of congruence classes in the algebraic structure. In case that the input data comes from the Pacnet program, then such elements are in form of \eqn{\pi}-relations or the  meet-complements of the atoms; otherwise these are simply equivalent elements satisfying the substitution property.
+
+Sometimes a `\code{Semigroup}' class object contains not available data in the multiplication table, typically when it is an image from the \code{\link{fact}} function. In such case, it is possible to perform a reduction of the semigroup structure with the \code{force} option, which performs additional equations to the string relations in order to get rid of \code{NA}s in the semigroup data.
 }
 \value{
 An object of `\code{Decomp}' class having:
