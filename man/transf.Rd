@@ -8,7 +8,7 @@ Function to transform data from/to matrix/list formats representing a network.
 }
 \usage{
 transf(x, type = c("toarray", "tolist", "toarray2"), lbs = NULL, lb2lb, 
-    sep, ord, sort, add, adc)
+    sep, ord, sort, sym, add, adc)
 }
 \arguments{
   \item{x}{
@@ -31,6 +31,9 @@ transf(x, type = c("toarray", "tolist", "toarray2"), lbs = NULL, lb2lb,
   }
   \item{sort}{
    (optional and logical) sort the arrays in the output?
+  }
+  \item{sym}{
+   (optional and logical) symmetrize the arrays? (`\code{toarray}' option, otherwise ignored)
   }
   \item{add}{
    (optional) add elements in the array's `domain'
