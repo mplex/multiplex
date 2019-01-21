@@ -1,6 +1,6 @@
 transf <-
 function (x, type = c("toarray", "tolist", "toarray2"), lbs = NULL, 
-    lb2lb, sep, ord, sort, add, adc) 
+    lb2lb, sep, ord, sort, sym, add, adc) 
 {
     ifelse(missing(sep) == TRUE, sep <- ", ", NA)
     ifelse(is.list(x) == TRUE && isTRUE(length(x) == 1L) == TRUE, 
@@ -190,6 +190,17 @@ function (x, type = c("toarray", "tolist", "toarray2"), lbs = NULL,
         }
         else {
             NA
+        }
+        if (missing(sym) == FALSE && isTRUE(sym == TRUE) == TRUE) {
+            if (is.na(dim(mat)[3]) == TRUE) {
+                mat <- mat + t(mat)
+            }
+            else {
+                for (i in seq_len(dim(mat)[3])) {
+                  mat[, , i] <- mat[, , i] + t(mat[, , i])
+                }
+                rm(i)
+            }
         }
         return(mat)
     }
