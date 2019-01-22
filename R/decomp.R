@@ -42,6 +42,8 @@ function (S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac,
         s <- S
     }
     if (isTRUE(attr(pr, "class") == "Pi.rels") == TRUE) {
+        if (isTRUE(s$ord == dim(poi)[1]) == FALSE) 
+            stop("Semigroup order and dimension of partial order differ.")
         if (is.list(poi) == TRUE) {
             tmp <- poi
             poi <- array(NA, dim = c(dim(tmp[[1]]), length(tmp)), 
