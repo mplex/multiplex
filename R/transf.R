@@ -115,15 +115,13 @@ function (x, type = c("toarray", "tolist", "toarray2"), lbs = NULL,
             return(x)
         if (missing(ord) == TRUE) {
             if (is.vector(x) == TRUE) {
-                ifelse(is.null(lbs) == FALSE && isTRUE(length(lbs) > 
-                  length(dhc(jnt(unlist(x), sep = sep), sep = sep))) == 
-                  TRUE, ord <- length(dhc(lbs, sep = sep)), ord <- length(dhc(jnt(unlist(x), 
+                ifelse(is.null(lbs) == FALSE, ord <- length(dhc(lbs, 
+                  sep = sep)), ord <- length(dhc(jnt(unlist(x), 
                   sep = sep), sep = sep)))
             }
             else {
-                ifelse(is.null(lbs) == FALSE && isTRUE(length(lbs) > 
-                  length(dhc(jnt(unlist(x), sep = sep), sep = sep))) == 
-                  TRUE, ord <- length(dhc(lbs, sep = sep)), ord <- dim(x)[1])
+                ifelse(is.null(lbs) == FALSE, ord <- length(dhc(lbs, 
+                  sep = sep)), ord <- dim(x)[1])
             }
         }
         else {
