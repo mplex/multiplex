@@ -62,9 +62,10 @@ Values of \code{k} until 9 is supported. With many types of relations, and when 
 data("incubA")
 
 ## The relation box of the image matrices
-## Not run:
+\dontrun{
 rbox(incubA$IM)
-## End(**Not run**)
+}
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
