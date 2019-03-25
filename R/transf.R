@@ -143,7 +143,7 @@ function (x, type = c("toarray", "tolist", "toarray2"), lbs = NULL,
         else if (is.array(x) == FALSE) {
             if (is.null(lbs) == FALSE | (is.null(lbs) == FALSE && 
                 isTRUE(lb2lb == TRUE) == TRUE)) {
-                Lbs <- dhc(lbs, sep = sep)[seq_len(ord)]
+                Lbs <- lbs[seq_len(ord)]
             }
             else {
                 ifelse(missing(sort) == FALSE && isTRUE(sort == 
