@@ -519,6 +519,10 @@ function (x, labeling = c("full", "reduced"), sep)
     derr <- exts
     attr(derr, "names") <- ints
     attr(derr, "names")[which(is.na(attr(derr, "names")) == TRUE)] <- ""
+    for (i in which(derr == "")) {
+        derr[[i]] <- character(0)
+    }
+    rm(i)
     lst <- (red = redl(dder, derr))
     class(lst) <- c("Galois", "reduced")
     switch(match.arg(labeling), full = Lst <- list(sep = sep, 
