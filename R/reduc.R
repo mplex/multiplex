@@ -14,9 +14,6 @@ function (x, clu, lbs = NULL, slbs = NULL, valued, row, col)
         TRUE) {
         if (isTRUE(is.array(x) == TRUE) == FALSE) 
             stop("'x' must be an array object.")
-        if (is.null(lbs) == FALSE && isTRUE(length(lbs) == dim(x)[1]) == 
-            FALSE) 
-            stop("Length of 'lbs' differ dimensions in 'x'.")
     }
     if (is.character(clu) == TRUE || is.factor(clu) == TRUE) {
         tmp <- as.vector(clu)
