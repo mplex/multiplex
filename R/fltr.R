@@ -1,26 +1,28 @@
 fltr <-
-function (x, PO, rclos = TRUE, ideal = FALSE) 
+function (x, PO, ideal = FALSE, rclos) 
 {
     if (is.null(dimnames(PO)[[1]]) == TRUE) 
         stop("Dimnames in 'PO' are NULL")
+    ifelse(missing(rclos) == FALSE && isTRUE(rclos == FALSE) == 
+        TRUE, rclos <- FALSE, rclos <- TRUE)
     if (isTRUE(is.character(x) == TRUE) == TRUE) {
         lbs <- dimnames(PO)[[1]]
         tmp <- jnt(unlist(strsplit(lbs, "} {", fixed = TRUE)), 
-            sep = ", ")
-        tmp <- sub("{", "", dhc(tmp, sep = ", "), fixed = TRUE)
-        tmp <- sub("}", "", dhc(tmp, sep = ", "), fixed = TRUE)
+            sep = ",, ")
+        tmp <- sub("{", "", dhc(tmp, sep = ",, "), fixed = TRUE)
+        tmp <- sub("}", "", dhc(tmp, sep = ",, "), fixed = TRUE)
         if (isTRUE(length(tmp) != length(unique(tmp))) == TRUE) 
             stop("'PO' must be in a reduced form.")
         ifelse(all(x %in% tmp) == FALSE, x <- x[which(x %in% 
             tmp)], NA)
         X <- vector()
-        for (k in 1:length(x)) {
-            for (i in 1:length(lbs)) {
+        for (k in seq_len(length(x))) {
+            for (i in seq_len(length(lbs))) {
                 tmplb <- jnt(unlist(strsplit(lbs[i], "} {", fixed = TRUE)), 
-                  sep = ", ")
-                tmplb <- sub("{", "", dhc(tmplb, sep = ", "), 
+                  sep = ",, ")
+                tmplb <- sub("{", "", dhc(tmplb, sep = ",, "), 
                   fixed = TRUE)
-                tmplb <- sub("}", "", dhc(tmplb, sep = ", "), 
+                tmplb <- sub("}", "", dhc(tmplb, sep = ",, "), 
                   fixed = TRUE)
                 if (isTRUE(x[k] %in% tmplb) == TRUE) {
                   X <- append(X, i)
@@ -43,8 +45,8 @@ function (x, PO, rclos = TRUE, ideal = FALSE)
     }
     ifelse(isTRUE(ideal == TRUE) == TRUE, po <- t(PO), po <- PO)
     pfl <- vector()
-    for (i in 1:nrow(po)) {
-        for (k in 1:length(X)) {
+    for (i in seq_len(nrow(po))) {
+        for (k in seq_len(length(X))) {
             ifelse(isTRUE(po[X[k], i] == 1L) == TRUE && isTRUE(po[i, 
                 X[k]] == 0L) == TRUE, pfl <- append(pfl, i), 
                 NA)
@@ -52,8 +54,11 @@ function (x, PO, rclos = TRUE, ideal = FALSE)
         rm(k)
     }
     rm(i)
-    if (rclos) {
+    if (isTRUE(rclos == TRUE) == TRUE) {
         pfl <- append(X, pfl)
+    }
+    else {
+        NA
     }
     if (isTRUE(length(pfl) > 0L) == TRUE) {
         pfl <- unique(pfl)
