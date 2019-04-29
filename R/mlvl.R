@@ -2,6 +2,37 @@ mlvl <-
 function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2"), symCdm, 
     diag, lbs) 
 {
+    if (match.arg(type) == "cn" || match.arg(type) == "cn2") {
+        if (is.null(y) == FALSE && (is.matrix(y) == TRUE || is.array(y) == 
+            TRUE || is.data.frame(y) == TRUE)) {
+            cdmat <- array(0, dim = c(nrow(y), nrow(y)), dimnames = list(rownames(y), 
+                rownames(y)))
+            for (k in seq_len(ncol(y))) {
+                af <- which(y[, k] > 0)
+                for (i in af) {
+                  for (j in seq_len(length(af))) {
+                    cdmat[i, af[j]] <- cdmat[i, af[j]] + 1L
+                  }
+                  rm(j)
+                }
+                rm(i)
+            }
+            rm(k)
+            ifelse(missing(diag) == FALSE && isTRUE(diag == TRUE) == 
+                TRUE, NA, diag(cdmat) <- 0L)
+        }
+        else {
+            stop("\"y\" is missing or has a not valid format.")
+        }
+        if (match.arg(type) == "cn2") {
+            ifelse(is.matrix(x) == TRUE || is.array(x) == TRUE || 
+                is.null(x) == FALSE, cdmat <- zbind(x, cdmat), 
+                stop("\"x\" is missing or has a not valid format."))
+            ifelse(missing(lbs) == FALSE && isTRUE(length(lbs) == 
+                dim(cdmat)[3]) == TRUE, dimnames(cdmat)[[3]] <- lbs, 
+                NA)
+        }
+    }
     qmd <- vector()
     if (is.array(x) == TRUE && is.na(dim(x)[3]) == FALSE) {
         xx <- list()
@@ -52,56 +83,26 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2"), symCdm,
     else {
         stop("A 2-mode network should be placed in \"y\".")
     }
-    if (match.arg(type) == "cn" || match.arg(type) == "cn2") {
-        if ((is.matrix(y) == TRUE || is.array(y) == TRUE || is.data.frame(y) == 
-            TRUE) || is.null(y) == TRUE) {
-            cdmat <- array(0, dim = c(nrow(y), nrow(y)), dimnames = list(rownames(y), 
-                rownames(y)))
-            for (k in seq_len(ncol(y))) {
-                af <- which(y[, k] > 0)
-                for (i in af) {
-                  for (j in seq_len(length(af))) {
-                    cdmat[i, af[j]] <- cdmat[i, af[j]] + 1L
-                  }
-                  rm(j)
-                }
-                rm(i)
-            }
-            rm(k)
-            ifelse(missing(diag) == FALSE && isTRUE(diag == TRUE) == 
-                TRUE, NA, diag(cdmat) <- 0L)
-        }
-        else {
-            stop("\"y\" is missing or has a not valid format.")
-        }
-        if (match.arg(type) == "cn2") {
-            ifelse(is.matrix(x) == TRUE || is.array(x) == TRUE || 
-                is.null(x) == FALSE, cdmat <- zbind(x, cdmat), 
-                stop("\"x\" is missing or has a not valid format."))
-            ifelse(missing(lbs) == FALSE && isTRUE(length(lbs) == 
-                dim(cdmat)[3]) == TRUE, dimnames(cdmat)[[3]] <- lbs, 
-                NA)
-        }
-    }
+    ifelse(match.arg(type) == "cn", qmd <- "1M", NA)
     if (is.list(y) == TRUE && is.data.frame(y) == FALSE) {
         ifelse(any(rownames(yy[[1]]) %in% colnames(yy[[2]])) == 
-            TRUE, Lbs <- list(dm = sort(unique(c(colnames(yy[[1]]), 
-            rownames(yy[[2]])))), cdm = sort(unique(c(rownames(yy[[1]]), 
-            colnames(yy[[2]]))))), Lbs <- list(dm = sort(unique(c(rownames(yy[[1]]), 
-            rownames(yy[[2]])))), cdm = sort(unique(c(colnames(yy[[1]]), 
+            TRUE, Lbs <- list(dm = (unique(c(colnames(yy[[1]]), 
+            rownames(yy[[2]])))), cdm = (unique(c(rownames(yy[[1]]), 
+            colnames(yy[[2]]))))), Lbs <- list(dm = (unique(c(rownames(yy[[1]]), 
+            rownames(yy[[2]])))), cdm = (unique(c(colnames(yy[[1]]), 
             colnames(yy[[2]]))))))
     }
     else {
         if (isTRUE(length(yy) > 1) == TRUE) {
             ifelse(any(rownames(X[[which(qmd == "2M")]]) %in% 
-                rownames(X[[which(qmd == "1M")]])) == TRUE, Lbs <- list(dm = sort(unique(rownames(X[[which(qmd == 
-                "1M")]]))), cdm = sort(unique(rownames(t(X[[which(qmd == 
-                "2M")]]))))), Lbs <- list(dm = sort(unique(rownames(X[[which(qmd == 
-                "2M")]]))), cdm = sort(unique(rownames(X[[which(qmd == 
+                rownames(X[[which(qmd == "1M")]])) == TRUE, Lbs <- list(dm = (unique(rownames(X[[which(qmd == 
+                "1M")]]))), cdm = (unique(rownames(t(X[[which(qmd == 
+                "2M")]]))))), Lbs <- list(dm = (unique(rownames(X[[which(qmd == 
+                "2M")]]))), cdm = (unique(rownames(X[[which(qmd == 
                 "1M")]])))))
         }
         else {
-            Lbs <- list(dm = sort(rownames(y)), cdm = sort(colnames(y)))
+            Lbs <- list(dm = (rownames(y)), cdm = (colnames(y)))
         }
     }
     X <- list(xx, yy)
