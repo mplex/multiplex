@@ -13,7 +13,6 @@ function (x, labeling = c("full", "reduced"), sep)
             stop("Data in \"x\" must be an array or a vector")
         }
     }
-    eq0 <- list()
     if ("f" %in% colnames(x) == TRUE) {
         cnx <- colnames(x)
         X <- x
@@ -25,21 +24,38 @@ function (x, labeling = c("full", "reduced"), sep)
         wdx <- which(duplicated(x))
         flgf <- FALSE
     }
-    for (i in wdx) {
+    eq0 <- list()
+    if (isTRUE(length(wdx) > 1L) == TRUE) {
+        for (i in wdx) {
+            tmp <- vector()
+            for (j in seq_len(nrow(x))) {
+                if (isTRUE(all(x[i, ] == x[j, ]) == TRUE) == 
+                  TRUE) {
+                  tmp <- append(tmp, rownames(x)[j])
+                }
+                else {
+                  NA
+                }
+            }
+            rm(j)
+            eq0[[length(eq0) + 1L]] <- paste(rownames(x)[i], 
+                jnt(tmp, sep = sep), sep = sep)
+        }
+        rm(i)
+    }
+    else if (isTRUE(length(wdx) == 1L) == TRUE) {
         tmp <- vector()
         for (j in seq_len(nrow(x))) {
-            if (isTRUE(all(x[i, ] == x[j, ]) == TRUE) == TRUE) {
-                tmp <- append(tmp, rownames(x)[j])
-            }
-            else {
-                NA
-            }
+            ifelse(isTRUE(all(x[wdx, ] == x[j, ]) == TRUE) == 
+                TRUE, tmp <- append(tmp, rownames(x)[j]), NA)
         }
         rm(j)
-        eq0[[length(eq0) + 1L]] <- paste(rownames(x)[i], jnt(tmp, 
+        eq0[[length(eq0) + 1L]] <- paste(rownames(x)[wdx], jnt(tmp, 
             sep = sep), sep = sep)
     }
-    rm(i)
+    else {
+        NA
+    }
     ifelse(isTRUE(flgf == TRUE) == TRUE, colnames(x) <- cnx, 
         NA)
     if (isTRUE(length(eq0) > 0L) == TRUE) {
@@ -480,8 +496,17 @@ function (x, labeling = c("full", "reduced"), sep)
     if (isTRUE(length(eq0) > 0L) == TRUE) {
         for (k in seq_len(length(eq0))) {
             cmb <- which(exts %in% dhc(eq0, sep = sep)[[k]])
-            ifelse(isTRUE(length(cmb) > 0) == TRUE, exts[[cmb]] <- eq0[[k]], 
-                NA)
+            if (isTRUE(length(cmb) == 0) == TRUE) {
+                cmb <- which(unlist(dhc(exts, sep = sep)) %in% 
+                  dhc(eq0, sep = sep)[[k]])
+                ifelse(isTRUE(length(cmb) > 0) == TRUE, exts[[cmb]] <- jnt(unique(c(dhc(exts[[cmb]], 
+                  sep = sep), dhc(eq0[[k]], sep = sep))), sep = sep), 
+                  NA)
+            }
+            else {
+                ifelse(isTRUE(length(cmb) > 0) == TRUE, exts[[cmb]] <- eq0[[k]], 
+                  NA)
+            }
             for (i in seq_len(length(dder))) {
                 ifelse(isTRUE(any(dhc(dder, sep = sep)[[i]] %in% 
                   dhc(eq0, sep = sep)[[k]]) == TRUE) == TRUE, 
