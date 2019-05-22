@@ -9,6 +9,8 @@ function (x, PO, ideal = FALSE, rclos)
         lbs <- dimnames(PO)[[1]]
         tmp <- jnt(unlist(strsplit(lbs, "} {", fixed = TRUE)), 
             sep = ",, ")
+        tmp <- sub("{}{", "", dhc(tmp, sep = ",, "), fixed = TRUE)
+        tmp <- sub("}{}", "", dhc(tmp, sep = ",, "), fixed = TRUE)
         tmp <- sub("{", "", dhc(tmp, sep = ",, "), fixed = TRUE)
         tmp <- sub("}", "", dhc(tmp, sep = ",, "), fixed = TRUE)
         if (isTRUE(length(tmp) != length(unique(tmp))) == TRUE) 
@@ -20,6 +22,10 @@ function (x, PO, ideal = FALSE, rclos)
             for (i in seq_len(length(lbs))) {
                 tmplb <- jnt(unlist(strsplit(lbs[i], "} {", fixed = TRUE)), 
                   sep = ",, ")
+                tmplb <- sub("{}{", "", dhc(tmplb, sep = ",, "), 
+                  fixed = TRUE)
+                tmplb <- sub("}{}", "", dhc(tmplb, sep = ",, "), 
+                  fixed = TRUE)
                 tmplb <- sub("{", "", dhc(tmplb, sep = ",, "), 
                   fixed = TRUE)
                 tmplb <- sub("}", "", dhc(tmplb, sep = ",, "), 
