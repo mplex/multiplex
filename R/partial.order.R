@@ -3,11 +3,12 @@ function (x, type = c("strings", "galois", "pi.rels"), lbs, sel,
     po.incl) 
 {
     if (match.arg(type) == "strings") {
-        if (isTRUE(attr(x, "class") == "Strings") == TRUE) {
+        if (isTRUE(attr(x, "class")[1] == "Strings") == TRUE) {
             X <- x$wt
             po <- strng(X)
         }
-        else if (isTRUE(attr(x, "class") == "Strings") == FALSE) {
+        else if (isTRUE(attr(x, "class")[1] == "Strings") == 
+            FALSE) {
             stop("\"x\" should be an object of a \"Strings\" class.")
         }
     }
@@ -124,6 +125,11 @@ function (x, type = c("strings", "galois", "pi.rels"), lbs, sel,
     ifelse(missing(lbs) == FALSE && isTRUE(length(lbs) == dim(po)[1]) == 
         TRUE, dimnames(po)[[2]] <- dimnames(po)[[1]] <- lbs, 
         NA)
-    class(po) <- c("Partial.Order", match.arg(type))
+    if (match.arg(type) == "galois") {
+        class(po) <- c("Partial.Order", match.arg(type), x$sep)
+    }
+    else {
+        class(po) <- c("Partial.Order", match.arg(type))
+    }
     po
 }

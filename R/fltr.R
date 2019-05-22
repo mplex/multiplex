@@ -1,18 +1,23 @@
 fltr <-
 function (x, PO, ideal = FALSE, rclos) 
 {
+    if (isTRUE(attr(PO, "class")[2] == "galois") == FALSE) 
+        stop("\"PO\" should be an object of a \"galois\" class.")
     if (is.null(dimnames(PO)[[1]]) == TRUE) 
         stop("Dimnames in 'PO' are NULL")
     ifelse(missing(rclos) == FALSE && isTRUE(rclos == FALSE) == 
         TRUE, rclos <- FALSE, rclos <- TRUE)
     if (isTRUE(is.character(x) == TRUE) == TRUE) {
         lbs <- dimnames(PO)[[1]]
-        tmp <- jnt(unlist(strsplit(lbs, "} {", fixed = TRUE)), 
-            sep = ",, ")
+        ifelse(isTRUE(attr(PO, "class")[3] == ", ") == FALSE, 
+            tmp <- jnt(unlist(strsplit(lbs, "}{", fixed = TRUE)), 
+                sep = ",, "), tmp <- jnt(unlist(strsplit(lbs, 
+                "} {", fixed = TRUE)), sep = ",, "))
         tmp <- sub("{}{", "", dhc(tmp, sep = ",, "), fixed = TRUE)
         tmp <- sub("}{}", "", dhc(tmp, sep = ",, "), fixed = TRUE)
         tmp <- sub("{", "", dhc(tmp, sep = ",, "), fixed = TRUE)
         tmp <- sub("}", "", dhc(tmp, sep = ",, "), fixed = TRUE)
+        tmp <- dhc(tmp, sep = attr(PO, "class")[3])
         if (isTRUE(length(tmp) != length(unique(tmp))) == TRUE) 
             stop("'PO' must be in a reduced form.")
         ifelse(all(x %in% tmp) == FALSE, x <- x[which(x %in% 
@@ -20,8 +25,10 @@ function (x, PO, ideal = FALSE, rclos)
         X <- vector()
         for (k in seq_len(length(x))) {
             for (i in seq_len(length(lbs))) {
-                tmplb <- jnt(unlist(strsplit(lbs[i], "} {", fixed = TRUE)), 
-                  sep = ",, ")
+                ifelse(isTRUE(attr(PO, "class")[3] == ", ") == 
+                  FALSE, tmplb <- jnt(unlist(strsplit(lbs[i], 
+                  "}{", fixed = TRUE)), sep = ",, "), tmplb <- jnt(unlist(strsplit(lbs[i], 
+                  "} {", fixed = TRUE)), sep = ",, "))
                 tmplb <- sub("{}{", "", dhc(tmplb, sep = ",, "), 
                   fixed = TRUE)
                 tmplb <- sub("}{}", "", dhc(tmplb, sep = ",, "), 
@@ -30,6 +37,7 @@ function (x, PO, ideal = FALSE, rclos)
                   fixed = TRUE)
                 tmplb <- sub("}", "", dhc(tmplb, sep = ",, "), 
                   fixed = TRUE)
+                tmplb <- dhc(tmplb, sep = attr(PO, "class")[3])
                 if (isTRUE(x[k] %in% tmplb) == TRUE) {
                   X <- append(X, i)
                   break
