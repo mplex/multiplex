@@ -1,15 +1,19 @@
 transf <-
 function (x, type = c("toarray", "tolist", "toarray2"), lbs = NULL, 
-    lb2lb, sep, ord, sort, add, adc) 
+    lb2lb, sep, ord, sort, sym, add, adc) 
 {
     ifelse(missing(sep) == TRUE, sep <- ", ", NA)
+    ifelse(is.list(x) == TRUE && isTRUE(length(x) == 1L) == TRUE, 
+        x <- x[[1]], NA)
     if (match.arg(type) == "tolist") {
-        if (isTRUE(is.character(x) == TRUE) == TRUE | is.null(dim(x)[3]) == 
-            TRUE) 
+        if (isTRUE(is.character(x) == TRUE) == TRUE | (is.array(x) == 
+            TRUE && is.null(dim(x)[3]) == TRUE)) 
             return(x)
-        if (isTRUE(sum(x) > 0L) == FALSE | isTRUE(max(x) < 1L) == 
-            TRUE) 
-            return(NULL)
+        if (is.array(x) == TRUE) {
+            if (isTRUE(sum(x) > 0L) == FALSE | isTRUE(max(x) < 
+                1L) == TRUE) 
+                return(NULL)
+        }
         ifelse(missing(lb2lb) == FALSE && isTRUE(lb2lb == TRUE) == 
             TRUE, lb2lb <- TRUE, lb2lb <- FALSE)
         if (is.list(x) == TRUE && is.data.frame(x) == FALSE) {
@@ -106,15 +110,18 @@ function (x, type = c("toarray", "tolist", "toarray2"), lbs = NULL,
         if ((is.vector(x) == FALSE && isTRUE(dim(x)[1] == dim(x)[2]) == 
             FALSE)) 
             return(x)
+        if ((is.list(x) == TRUE && isTRUE(length(x) > 1L) == 
+            TRUE) && is.matrix(x[[1]]) == TRUE) 
+            return(x)
         if (missing(ord) == TRUE) {
             if (is.vector(x) == TRUE) {
-                ifelse(is.null(lbs) == FALSE, ord <- length(lbs), 
-                  ord <- length(dhc(jnt(unlist(x), sep = sep), 
-                    sep = sep)))
+                ifelse(is.null(lbs) == FALSE, ord <- length(dhc(lbs, 
+                  sep = sep)), ord <- length(dhc(jnt(unlist(x), 
+                  sep = sep), sep = sep)))
             }
             else {
-                ifelse(is.null(lbs) == FALSE, ord <- length(lbs), 
-                  ord <- dim(x)[1])
+                ifelse(is.null(lbs) == FALSE, ord <- length(dhc(lbs, 
+                  sep = sep)), ord <- dim(x)[1])
             }
         }
         else {
@@ -183,6 +190,17 @@ function (x, type = c("toarray", "tolist", "toarray2"), lbs = NULL,
         }
         else {
             NA
+        }
+        if (missing(sym) == FALSE && isTRUE(sym == TRUE) == TRUE) {
+            if (is.na(dim(mat)[3]) == TRUE) {
+                mat <- mat + t(mat)
+            }
+            else {
+                for (i in seq_len(dim(mat)[3])) {
+                  mat[, , i] <- mat[, , i] + t(mat[, , i])
+                }
+                rm(i)
+            }
         }
         return(mat)
     }

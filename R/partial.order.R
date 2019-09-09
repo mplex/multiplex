@@ -3,78 +3,81 @@ function (x, type = c("strings", "galois", "pi.rels"), lbs, sel,
     po.incl) 
 {
     if (match.arg(type) == "strings") {
-        if (isTRUE(attr(x, "class") == "Strings") == TRUE) {
+        if (isTRUE(attr(x, "class")[1] == "Strings") == TRUE) {
             X <- x$wt
             po <- strng(X)
         }
-        else if (isTRUE(attr(x, "class") == "Strings") == FALSE) {
+        else if (isTRUE(attr(x, "class")[1] == "Strings") == 
+            FALSE) {
             stop("\"x\" should be an object of a \"Strings\" class.")
         }
     }
     if (match.arg(type) == "galois") {
-        if (isTRUE(attr(x, "class")[1] == "Galois") == TRUE) {
-            if (isTRUE(attr(x, "class")[2] == "full") == TRUE) {
-                po <- matrix(0L, nrow = length(x), ncol = length(x))
-                for (j in seq_along(x)) {
-                  for (i in seq_along(x)) {
-                    ifelse(isTRUE(all(dhc(x[[i]], sep = ", ") %in% 
-                      dhc(x[[j]], sep = ", "))) == TRUE, po[i, 
-                      j] <- 1L, NA)
-                  }
-                }
-                rm(i, j)
-            }
-            else if (isTRUE(attr(x, "class")[2] == "reduced") == 
-                TRUE) {
-                po <- matrix(0L, nrow = length(x$full), ncol = length(x$full))
-                for (j in seq_along(x$full)) {
-                  for (i in seq_along(x$full)) {
-                    ifelse(isTRUE(all(dhc(x$full[[i]], sep = ", ") %in% 
-                      dhc(x$full[[j]], sep = ", "))) == TRUE, 
+        if (isTRUE(attr(x$gc, "class")[1] == "Galois") == TRUE) {
+            ifelse(isTRUE(x$sep == ", ") == TRUE, sep2 <- "} {", 
+                sep2 <- "}{")
+            if (isTRUE(attr(x$gc, "class")[2] == "full") == TRUE) {
+                po <- matrix(0L, nrow = length(x$gc), ncol = length(x$gc))
+                for (j in seq_along(x$gc)) {
+                  for (i in seq_along(x$gc)) {
+                    ifelse(isTRUE(all(dhc(x$gc[[i]], sep = x$sep) %in% 
+                      dhc(x$gc[[j]], sep = x$sep))) == TRUE, 
                       po[i, j] <- 1L, NA)
                   }
                 }
                 rm(i, j)
-            }
-            lb <- list()
-            if (isTRUE(attr(x, "class")[2] == "full") == TRUE) {
-                length(lb) <- length(x)
-                for (i in seq_along(x)) {
-                  if (isTRUE(is.na(attr(x, "names")[i])) == FALSE) {
-                    lb[[i]] <- paste(paste("{", x[[i]], sep = ""), 
-                      paste(attr(x, "names")[i], "}", sep = ""), 
-                      sep = "} {")
+                lb <- list()
+                length(lb) <- length(x$gc)
+                for (i in seq_along(x$gc)) {
+                  if (isTRUE(is.na(attr(x$gc, "names")[i])) == 
+                    FALSE) {
+                    lb[[i]] <- paste(paste("{", attr(x$gc, "names")[i], 
+                      sep = ""), paste(x$gc[[i]], "}", sep = ""), 
+                      sep = sep2)
                   }
                   else {
-                    lb[[i]] <- paste(paste("{", x[[i]], sep = ""), 
-                      paste(" ", "}", sep = ""), sep = "} {")
+                    lb[[i]] <- paste(paste("{", x$gc[[i]], sep = ""), 
+                      paste(" ", "}", sep = ""), sep = sep2)
                   }
                 }
                 rm(i)
                 colnames(po) <- rownames(po) <- lb
             }
-            else if (isTRUE(attr(x, "class")[2] == "reduced") == 
+            else if (isTRUE(attr(x$gc, "class")[2] == "reduced") == 
                 TRUE) {
-                length(lb) <- length(x$reduc)
-                for (i in seq_along(x$reduc)) {
-                  if (isTRUE(is.na(attr(x$reduc, "names")[i])) == 
+                po <- matrix(0L, nrow = length(x$gc$reduc), ncol = length(x$gc$reduc))
+                for (j in seq_along(x$gc$reduc)) {
+                  for (i in seq_along(x$gc$reduc)) {
+                    ifelse(isTRUE(all(dhc(x$gc$full[[i]], sep = x$sep) %in% 
+                      dhc(x$gc$full[[j]], sep = x$sep))) == TRUE, 
+                      po[i, j] <- 1L, NA)
+                  }
+                }
+                rm(i, j)
+                lb <- list()
+                length(lb) <- length(x$gc$reduc)
+                for (i in seq_along(x$gc$reduc)) {
+                  if (isTRUE(is.na(attr(x$gc$reduc, "names")[i])) == 
                     FALSE) {
-                    lb[[i]] <- paste(paste("{", attr(x$reduc, 
-                      "names")[i], sep = ""), paste(x$reduc[[i]], 
-                      "}", sep = ""), sep = "} {")
+                    lb[[i]] <- paste(paste("{", attr(x$gc$reduc, 
+                      "names")[i], sep = ""), paste(x$gc$reduc[[i]], 
+                      "}", sep = ""), sep = sep2)
                   }
                   else {
                     lb[[i]] <- paste(paste("{", " ", sep = ""), 
-                      paste(x$reduc[[i]], "}", sep = ""), sep = "} {")
+                      paste(x$gc$reduc[[i]], "}", sep = ""), 
+                      sep = sep2)
                   }
                 }
                 rm(i)
                 colnames(po) <- rownames(po) <- lb
             }
-            cp <- which(dimnames(po)[[1]] == "{} {}")
+            ifelse(isTRUE(x$sep == ", ") == TRUE, cp <- which(dimnames(po)[[1]] == 
+                "{} {}"), cp <- which(dimnames(po)[[1]] == "{}{}"))
             dimnames(po)[[1]][cp] <- dimnames(po)[[2]][cp] <- cp
         }
-        else if (isTRUE(attr(x, "class")[1] == "Galois") == FALSE) {
+        else if (isTRUE(attr(x$gc, "class")[1] == "Galois") == 
+            FALSE) {
             stop("\"x\" should be an object of a \"Galois\" class.")
         }
     }
@@ -122,6 +125,11 @@ function (x, type = c("strings", "galois", "pi.rels"), lbs, sel,
     ifelse(missing(lbs) == FALSE && isTRUE(length(lbs) == dim(po)[1]) == 
         TRUE, dimnames(po)[[2]] <- dimnames(po)[[1]] <- lbs, 
         NA)
-    class(po) <- c("Partial.Order", match.arg(type))
+    if (match.arg(type) == "galois") {
+        class(po) <- c("Partial.Order", match.arg(type), x$sep)
+    }
+    else {
+        class(po) <- c("Partial.Order", match.arg(type))
+    }
     po
 }
