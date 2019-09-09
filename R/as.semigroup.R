@@ -1,6 +1,8 @@
 as.semigroup <-
 function (x, gens = NA, lbs, numerical, edgeT) 
 {
+    ifelse(is.list(x) == TRUE && isTRUE(length(x) == 1L) == TRUE, 
+        x <- x[[1]], NA)
     if (is.null(dimnames(x)) == TRUE && isTRUE("Semigroup" %in% 
         attr(x, "class")) == FALSE && missing(numerical) == TRUE) 
         stop("Dimnames in \"x\" must be provided.")
@@ -76,7 +78,7 @@ function (x, gens = NA, lbs, numerical, edgeT)
             stop("Data must be a square matrix or data frame")
         s <- as.matrix(x, rownames.force = TRUE)
         if (all(as.character(s) %in% unlist(dimnames(s))) == 
-            TRUE) {
+            TRUE || any(is.na(s)) == TRUE) {
             Sst <- rownames(s)
         }
         else {
@@ -94,9 +96,15 @@ function (x, gens = NA, lbs, numerical, edgeT)
     if (is.null(lbs) == FALSE) {
         z <- vector()
         for (i in seq_along(as.matrix(s))) {
-            ifelse(isTRUE(numerical == TRUE) == TRUE && isTRUE("Semigroup" %in% 
-                attr(x, "class")) == TRUE, z[i] <- lbs[which(x$st == 
-                as.matrix(s)[i])], z[i] <- lbs[which(Sst == as.matrix(s)[i])])
+            if (isTRUE(numerical == TRUE) == TRUE && isTRUE("Semigroup" %in% 
+                attr(x, "class")) == TRUE) {
+                ifelse(is.na(as.matrix(s)[i]) == TRUE, NA, z[i] <- lbs[which(x$st == 
+                  as.matrix(s)[i])])
+            }
+            else {
+                ifelse(is.na(as.matrix(s)[i]) == TRUE, NA, z[i] <- lbs[which(Sst == 
+                  as.matrix(s)[i])])
+            }
         }
         rm(i)
         s <- matrix(z, nrow = nrow(s), ncol = ncol(s))

@@ -573,12 +573,12 @@ function (x, equat = FALSE, k = 2, smpl)
                 rm(j)
             }
             rm(i)
-            for (k in seq_along(lbl)) {
-                ifelse(isTRUE(length(dhc(lbl[k], sep = "")) == 
-                  2) == TRUE, eq4 <- append(eq4, paste(lbl[k], 
-                  lbl[k], sep = "")), NA)
+            for (i in seq_along(lbl)) {
+                ifelse(isTRUE(length(dhc(lbl[i], sep = "")) == 
+                  2) == TRUE, eq4 <- append(eq4, paste(lbl[i], 
+                  lbl[i], sep = "")), NA)
             }
-            rm(k)
+            rm(i)
             if (length(gn) > 3) {
                 warning("Just generators up to three letters are supported.")
             }
