@@ -1,40 +1,33 @@
 semigroup <-
-function (x, type = c("numerical", "symbolic"), lbs = NULL, cmp = FALSE, 
-    smpl = FALSE) 
+function (x, type = c("numerical", "symbolic"), cmp, smpl) 
 {
     if (is.array(x) == FALSE) 
         stop("Data must be a stacked array of square matrices.")
-    if (is.na(dim(x)[3]) == FALSE) {
-        if (is.null(lbs) == FALSE) {
-            dimnames(x)[[3]] <- lbs
-        }
-        else {
-            if (is.null(dimnames(x)[[3]]) == TRUE) 
-                dimnames(x)[[3]] <- 1:dim(x)[3]
-        }
-    }
     x <- replace(x, x < 1, 0)
     x <- replace(x, x >= 1, 1)
-    if (smpl == TRUE) {
-        ifelse(is.null(dimnames(x)[[3]]) == FALSE, lbs <- dimnames(x)[[3]], 
-            lbs <- 1:dim(x)[3])
+    if (missing(smpl) == FALSE && isTRUE(smpl == TRUE) == TRUE) {
         if (is.null(dimnames(x)[[3]]) == FALSE) {
+            lbs <- dimnames(x)[[3]]
             nlb <- list()
-            for (i in 1:length(lbs)) {
+            for (i in seq_len(length(lbs))) {
                 nlb[i] <- lbs[i]
             }
             rm(i)
-            for (i in 1:length(nlb)) {
-                lbs[i] <- (strsplit(nlb[[i]], "")[[1]][1])
+            for (i in seq_len(length(nlb))) {
+                lbs[i] <- strsplit(nlb[[i]], "")[[1]][1]
             }
+            rm(i)
             dimnames(x)[[3]] <- lbs
+        }
+        else {
+            lbs <- seq_len(dim(x)[3])
         }
     }
     if (is.na(dim(x)[3]) == TRUE) {
-        s0 <- data.frame(matrix(ncol = 1, nrow = 1))
+        E <- data.frame(matrix(ncol = 1, nrow = 1))
         if (isTRUE(all.equal(replace(x %*% x, x %*% x >= 1, 1), 
             x) == TRUE)) 
-            s0[1, 1] <- 1
+            E[1, 1] <- 1
         Bx <- array(dim = c(dim(x)[1], dim(x)[2], 2))
         Bx[, , 1] <- as.matrix(x)
         Bx[, , 2] <- replace(x %*% x, x %*% x >= 1, 1)
@@ -42,7 +35,7 @@ function (x, type = c("numerical", "symbolic"), lbs = NULL, cmp = FALSE,
     if (is.na(dim(x)[3]) == FALSE) {
         tmpo <- data.frame(matrix(ncol = (dim(x)[1] * dim(x)[2]), 
             nrow = 0))
-        for (i in 1:dim(x)[3]) {
+        for (i in seq_len(dim(x)[3])) {
             ifelse(isTRUE(dim(x)[3] > 1) == TRUE, tmpo[i, ] <- as.vector(x[, 
                 , i]), tmpo <- as.vector(x))
         }
@@ -70,36 +63,36 @@ function (x, type = c("numerical", "symbolic"), lbs = NULL, cmp = FALSE,
             dimnames(x)[[3]] <- as.list(rownames(tmpu))
         }
         rm(tmp)
-        s0 <- data.frame(matrix(ncol = dim(x)[3], nrow = dim(x)[3]))
-        for (k in 1:dim(x)[3]) {
-            for (j in 1:dim(x)[3]) {
+        E <- data.frame(matrix(ncol = dim(x)[3], nrow = dim(x)[3]))
+        for (k in seq_len(dim(x)[3])) {
+            for (j in seq_len(dim(x)[3])) {
                 tmp <- x[, , j] %*% x[, , k]
                 tmp <- replace(tmp, tmp >= 1, 1)
                 for (i in dim(x)[3]:1) {
                   if (isTRUE(all.equal(tmp, x[, , i]) == TRUE)) 
-                    s0[j, k] <- i
+                    E[j, k] <- i
                 }
             }
         }
         rm(i, j, k)
-        dimnames(s0)[[1]] <- 1:dim(x)[3]
-        dimnames(s0)[[2]] <- 1:dim(x)[3]
-        if (sum(as.numeric(is.na(s0))) == 0) 
+        dimnames(E)[[1]] <- seq_len(dim(x)[3])
+        dimnames(E)[[2]] <- seq_len(dim(x)[3])
+        if (sum(as.numeric(is.na(E))) == 0) 
             Bx <- x
-        if (sum(as.numeric(is.na(s0))) > 0) {
+        if (sum(as.numeric(is.na(E))) > 0) {
             Bx <- array(dim = c(dim(x)[1], dim(x)[2], 0))
-            for (i in 1:nrow(s0)) {
-                for (j in 1:length(which(is.na(s0[i, ])))) {
-                  if (length(which(is.na(s0[i, ]))) > 0) 
+            for (i in seq_len(nrow(E))) {
+                for (j in 1:length(which(is.na(E[i, ])))) {
+                  if (length(which(is.na(E[i, ]))) > 0) 
                     Bx <- zbnd(Bx, (replace(x[, , i] %*% x[, 
-                      , which(is.na(s0[i, ]))[j]], x[, , i] %*% 
-                      x[, , which(is.na(s0[i, ]))[j]] >= 1, 1)))
+                      , which(is.na(E[i, ]))[j]], x[, , i] %*% 
+                      x[, , which(is.na(E[i, ]))[j]] >= 1, 1)))
                 }
             }
             rm(i, j)
             tmp <- data.frame(matrix(ncol = (dim(x)[1] * dim(x)[2]), 
                 nrow = 0))
-            for (i in 1:dim(Bx)[3]) {
+            for (i in seq_len(dim(Bx)[3])) {
                 tmp[i, ] <- as.vector(Bx[, , i])
             }
             rm(i)
@@ -116,14 +109,14 @@ function (x, type = c("numerical", "symbolic"), lbs = NULL, cmp = FALSE,
             rm(xBx, tmp)
         }
     }
-    while (sum(as.numeric(is.na(s0))) > 0) {
+    while (sum(as.numeric(is.na(E))) > 0) {
         BBx <- Bx
-        for (i in 1:nrow(s0)) {
-            for (j in 1:length(which(is.na(s0[i, ])))) {
-                if (length(which(is.na(s0[i, ]))) > 0) 
+        for (i in seq_len(nrow(E))) {
+            for (j in 1:length(which(is.na(E[i, ])))) {
+                if (length(which(is.na(E[i, ]))) > 0) 
                   BBx <- zbnd(BBx, (replace(Bx[, , i] %*% Bx[, 
-                    , which(is.na(s0[i, ]))[j]], Bx[, , i] %*% 
-                    Bx[, , which(is.na(s0[i, ]))[j]] >= 1, 1)))
+                    , which(is.na(E[i, ]))[j]], Bx[, , i] %*% 
+                    Bx[, , which(is.na(E[i, ]))[j]] >= 1, 1)))
             }
         }
         rm(i, j)
@@ -141,37 +134,37 @@ function (x, type = c("numerical", "symbolic"), lbs = NULL, cmp = FALSE,
         rm(i)
         rm(tmp, BBx)
         if (is.na(dim(x)[3]) == TRUE) {
-            s0 <- data.frame(matrix(ncol = 1, nrow = dim(Bx)[3]))
-            for (j in 1:dim(Bx)[3]) {
+            E <- data.frame(matrix(ncol = 1, nrow = dim(Bx)[3]))
+            for (j in seq_len(dim(Bx)[3])) {
                 tmp <- Bx[, , j] %*% Bx[, , 1]
                 tmp <- replace(tmp, tmp >= 1, 1)
                 for (i in dim(Bx)[3]:1) {
                   if (isTRUE(all.equal(tmp, Bx[, , i]) == TRUE)) 
-                    s0[j, 1] <- i
+                    E[j, 1] <- i
                 }
             }
             rm(i, j)
         }
         if (is.na(dim(x)[3]) == FALSE) {
-            s0 <- data.frame(matrix(ncol = dim(x)[3], nrow = dim(Bx)[3]))
-            for (k in 1:dim(x)[3]) {
-                for (j in 1:dim(Bx)[3]) {
+            E <- data.frame(matrix(ncol = dim(x)[3], nrow = dim(Bx)[3]))
+            for (k in seq_len(dim(x)[3])) {
+                for (j in seq_len(dim(Bx)[3])) {
                   tmp <- Bx[, , j] %*% Bx[, , k]
                   tmp <- replace(tmp, tmp >= 1, 1)
                   for (i in dim(Bx)[3]:1) {
                     if (isTRUE(all.equal(tmp, Bx[, , i]) == TRUE)) 
-                      s0[j, k] <- i
+                      E[j, k] <- i
                   }
                 }
             }
             rm(i, j, k)
         }
     }
-    ifelse(isTRUE(is.na(dim(x)[3])) == TRUE, dimnames(s0)[[2]] <- 1, 
-        dimnames(s0)[[2]] <- 1:dim(x)[3])
+    ifelse(isTRUE(is.na(dim(x)[3])) == TRUE, dimnames(E)[[2]] <- 1, 
+        dimnames(E)[[2]] <- seq_len(dim(x)[3]))
     tmpO <- data.frame(matrix(ncol = (dim(Bx)[1] * dim(Bx)[2]), 
         nrow = 0))
-    for (i in 1:dim(Bx)[3]) {
+    for (i in seq_len(dim(Bx)[3])) {
         tmpO[i, ] <- as.vector(Bx[, , i])
     }
     rm(i)
@@ -185,10 +178,8 @@ function (x, type = c("numerical", "symbolic"), lbs = NULL, cmp = FALSE,
     rm(i)
     Bx <- tmp
     dimnames(Bx)[[3]] <- as.list(rownames(tmpU))
-    E <- s0
-    rm(s0)
     if (dim(Bx)[3] == ncol(E)) {
-        W <- rbind(cbind(1:ncol(E), NA, NA))
+        W <- rbind(cbind(seq_len(ncol(E)), NA, NA))
         colnames(W) <- c("", "n", "g")
     }
     if (dim(Bx)[3] > ncol(E)) {
@@ -209,18 +200,18 @@ function (x, type = c("numerical", "symbolic"), lbs = NULL, cmp = FALSE,
                 n[i] <- ((z[i]%/%ncol(E)) + 1))
         }
         rm(i)
-        W <- rbind(cbind(1:ncol(E), NA, NA), cbind(((ncol(E) + 
+        W <- rbind(cbind(seq_len(ncol(E)), NA, NA), cbind(((ncol(E) + 
             1):nrow(E)), n, g))
         rm(z, n, g)
     }
     rm(tmp)
     if (is.na(dim(x)[3]) == TRUE) {
-        ifelse(is.null(dimnames(Bx)[[3]]) == TRUE, lbl <- 1:dim(Bx)[3], 
+        ifelse(is.null(dimnames(Bx)[[3]]) == TRUE, lbl <- seq_len(dim(Bx)[3]), 
             lbl <- dimnames(Bx)[[3]])
     }
     if (is.na(dim(x)[3]) == FALSE) {
         if (is.null(dimnames(x)[[3]]) == TRUE) 
-            lbl <- 1:dim(Bx)[3]
+            lbl <- seq_len(dim(Bx)[3])
         if (is.null(dimnames(x)[[3]]) == FALSE) {
             if (isTRUE(dim(Bx)[3] == dim(x)[3]) == TRUE) 
                 lbl <- dimnames(x)[[3]]
@@ -349,8 +340,8 @@ function (x, type = c("numerical", "symbolic"), lbs = NULL, cmp = FALSE,
     switch(match.arg(type), numerical = S <- cbind(E, data.frame(matrix(ncol = (nrow(E) - 
         ncol(E)), nrow = nrow(E)))), symbolic = {
         e <- E
-        for (i in 1:nrow(E)) {
-            for (j in 1:ncol(E)) {
+        for (i in seq_len(nrow(E))) {
+            for (j in seq_len(ncol(E))) {
                 e[i, j] <- lbl[as.matrix(E[i, j])]
             }
             rm(j)
@@ -361,15 +352,15 @@ function (x, type = c("numerical", "symbolic"), lbs = NULL, cmp = FALSE,
         rm(e)
     })
     if (ncol(S) != ncol(E)) {
-        for (j in (ncol(E) + 1):nrow(E)) {
-            for (i in 1:nrow(E)) {
+        for (j in (ncol(E) + 1L):nrow(E)) {
+            for (i in seq_len(nrow(E))) {
                 tmp <- replace(Bx[, , i] %*% (Bx[, , as.numeric(which(E == 
                   j, arr.ind = TRUE)[1, ][1])] %*% Bx[, , as.numeric(which(E == 
                   j, arr.ind = TRUE)[1, ][2])]), Bx[, , i] %*% 
                   (Bx[, , as.numeric(which(E == j, arr.ind = TRUE)[1, 
                     ][1])] %*% Bx[, , as.numeric(which(E == j, 
-                    arr.ind = TRUE)[1, ][2])]) >= 1, 1)
-                for (k in 1:dim(Bx)[3]) {
+                    arr.ind = TRUE)[1, ][2])]) >= 1L, 1L)
+                for (k in seq_len(dim(Bx)[3])) {
                   if (isTRUE(all.equal(Bx[, , k], tmp)) == TRUE) {
                     switch(match.arg(type), numerical = S[i, 
                       j] <- k, symbolic = S[i, j] <- lbl[k])
@@ -386,28 +377,27 @@ function (x, type = c("numerical", "symbolic"), lbs = NULL, cmp = FALSE,
     else {
         NA
     }
-    switch(match.arg(type), numerical = dimnames(S)[[1]] <- dimnames(S)[[2]] <- 1:dim(Bx)[3], 
+    switch(match.arg(type), numerical = dimnames(S)[[1]] <- dimnames(S)[[2]] <- seq_len(dim(Bx)[3]), 
         symbolic = dimnames(S)[[1]] <- dimnames(S)[[2]] <- lbl)
     switch(match.arg(type), numerical = S <- as.matrix(S), symbolic = NA)
-    if (isTRUE(dim(x)[3] < dim(Bx)[3]) == TRUE) 
-        Bx <- Bx[, , (dim(x)[3] + 1):dim(Bx)[3]]
+    if (missing(cmp) == FALSE && isTRUE(cmp == TRUE) == TRUE) {
+        cmps <- Bx[, , (dim(x)[3] + 1L):dim(Bx)[3]]
+    }
+    else {
+        cmp <- FALSE
+    }
     if (is.na(dim(x)[3]) == FALSE) {
         if (isTRUE(nrow(tmpo) == nrow(tmpu)) == TRUE) {
             ifelse(cmp == TRUE, lst <- list(dim = dim(x)[1], 
-                gens = x, cmps = Bx, ord = nrow(S), st = lbl, 
+                gens = x, cmps = cmps, ord = nrow(S), st = lbl, 
                 S = S), lst <- list(dim = dim(x)[1], gens = x, 
                 ord = nrow(S), st = lbl, S = S))
         }
         else {
             ifelse(cmp == TRUE, lst <- list(dim = dim(x)[1], 
-                gens = x, cmps = Bx, ord = nrow(S), Note = paste("Relation ", 
-                  dimnames(x)[[3]][which(duplicated(tmpo) == 
-                    TRUE)], " is repeated in the input data and has been equated", 
-                  sep = "'"), st = lbl, S = S), lst <- list(dim = dim(x)[1], 
-                gens = x, ord = nrow(S), Note = paste("Relation ", 
-                  dimnames(x)[[3]][which(duplicated(tmpo) == 
-                    TRUE)], " is repeated in the input data and has been equated", 
-                  sep = "'"), st = lbl, S = S))
+                gens = x, cmps = cmps, ord = nrow(S), st = lbl, 
+                S = S), lst <- list(dim = dim(x)[1], gens = x, 
+                ord = nrow(S), st = lbl, S = S))
         }
     }
     else if (is.na(dim(x)[3]) == TRUE) {

@@ -1,10 +1,10 @@
 reducs <-
-function (x, cl) 
+function (s, cl) 
 {
-    if (isTRUE(attr(x, "class")[1] == "Semigroup") == FALSE) 
-        stop("\"x\" should be an object of a \"Semigroup\" class.")
-    ifelse(isTRUE(attr(x, "class")[2] == "symbolic") == TRUE, 
-        sx <- as.semigroup(x, numerical = TRUE)$S, sx <- x$S)
+    if (isTRUE(attr(s, "class")[1] == "Semigroup") == FALSE) 
+        stop("\"s\" should be an object of a \"Semigroup\" class.")
+    ifelse(isTRUE(attr(s, "class")[2] == "symbolic") == TRUE, 
+        sx <- as.semigroup(s, numerical = TRUE), sx <- s)
     n <- nlevels(factor(cl))
     cls <- list()
     for (i in seq_len(n)) {
@@ -16,17 +16,11 @@ function (x, cl)
         k <- seq_along(cls[[i]])
         for (j in seq_len(n)) {
             for (q in seq_along(cls)) {
-                if (all(unique(as.vector(unlist(sx[which(cl == 
+                if (all(unique(as.vector(unlist(sx$S[which(cl == 
                   i), which(cl == j)]))) %in% cls[[q]]) == TRUE) {
-                  if (isTRUE("symbolic" %in% attr(x, "class")) == 
-                    TRUE) {
-                    bm[i, j] <- bm[i, j] <- x$st[min(cls[[q]])]
-                  }
-                  else if (isTRUE(attr(x, "class")[2] == "numerical") == 
-                    TRUE) {
-                    bm[i, j] <- min(as.numeric(dimnames(sx[which(cl == 
-                      i), which(cl == j)])[[1]]))
-                  }
+                  ifelse(isTRUE(attr(s, "class")[2] == "symbolic") == 
+                    TRUE, bm[i, j] <- bm[i, j] <- s$st[min(cls[[q]])], 
+                    bm[i, j] <- bm[i, j] <- as.numeric(dimnames(sx$S)[[1]])[min(cls[[q]])])
                   break
                 }
                 else {
@@ -40,9 +34,9 @@ function (x, cl)
     rm(i)
     lbs <- vector()
     for (i in seq_along(tabulate(cl))) {
-        ifelse(isTRUE(attr(x, "class")[2] == "symbolic") == TRUE, 
-            lbs <- append(lbs, x$st[which(cl == i)[1]]), lbs <- append(lbs, 
-                as.numeric(dimnames(sx)[[1]])[which(cl == i)[1]]))
+        ifelse(isTRUE(attr(s, "class")[2] == "symbolic") == TRUE, 
+            lbs <- append(lbs, s$st[which(cl == i)[1]]), lbs <- append(lbs, 
+                as.numeric(dimnames(sx$S)[[1]])[which(cl == i)[1]]))
     }
     rm(i)
     dimnames(bm)[[1]] <- dimnames(bm)[[2]] <- as.list(lbs)

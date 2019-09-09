@@ -1,9 +1,13 @@
 cngr <-
 function (S, PO = NULL, uniq) 
 {
-    if (isTRUE(attr(S, "class")[1] == "Semigroup") == FALSE || 
-        isTRUE(attr(S, "class")[2] == "symbolic") == TRUE) {
+    flgnum <- FALSE
+    if (isTRUE(attr(S, "class")[1] == "Semigroup") == FALSE) {
+        s <- semigroup(S, type = "numerical")
+    }
+    else if (isTRUE(attr(S, "class")[2] == "symbolic") == TRUE) {
         s <- as.semigroup(S, numerical = TRUE)
+        flgnum <- TRUE
     }
     else {
         s <- S
@@ -33,20 +37,27 @@ function (S, PO = NULL, uniq)
             colnames(clus) <- rownames(clus) <- NULL
             cls <- data.matrix(clus)
             cg <- list()
-            for (i in seq_len(nrow(cls))) cg[[i]] <- as.vector(cls[i, 
-                ])
+            for (i in seq_len(nrow(cls))) {
+                cg[[i]] <- as.vector(cls[i, ])
+                ifelse(isTRUE(flgnum == TRUE) == TRUE, attr(cg[[i]], 
+                  "names") <- S$st, attr(cg[[i]], "names") <- dimnames(S)[[1]])
+            }
+            rm(i)
         }
         else {
             cg <- rep(1, s$dim)
         }
-        ifelse(isTRUE(is.null(PO)) == FALSE, lst <- list(S = S$S, 
-            PO = PO, clu = cg), lst <- list(S = S$S, clu = cg))
+        ifelse(isTRUE(flgnum == TRUE) == TRUE, sS <- S$S, sS <- s$S)
+        ifelse(isTRUE(is.null(PO)) == FALSE, lst <- list(S = sS, 
+            PO = PO, clu = cg), lst <- list(S = sS, clu = cg))
+        ifelse(isTRUE(flgnum == TRUE) == TRUE, Sclss <- "symbolic", 
+            Sclss <- attr(s, "class")[2])
         ifelse(isTRUE(is.null(PO)) == FALSE, class(lst) <- c("Congruence", 
-            "PO.Semigroup", attr(S, "class")[2]), class(lst) <- c("Congruence", 
-            "A.Semigroup", attr(S, "class")[2]))
+            "PO.Semigroup", Sclss), class(lst) <- c("Congruence", 
+            "A.Semigroup", Sclss))
         return(lst)
     }
     else {
-        S
+        s
     }
 }
