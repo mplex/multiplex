@@ -1,11 +1,16 @@
 partial.order <-
 function (x, type = c("strings", "galois", "pi.rels"), lbs, sel, 
-    po.incl) 
+    po.incl, dichot) 
 {
     if (match.arg(type) == "strings") {
         if (isTRUE(attr(x, "class")[1] == "Strings") == TRUE) {
-            X <- x$wt
-            po <- strng(X)
+            if (missing(dichot) == FALSE && isTRUE(dichot == 
+                TRUE) == TRUE) {
+                po <- strng(strings(dichot(x$wt, c = 1))$wt)
+            }
+            else {
+                po <- strng(x$wt)
+            }
         }
         else if (isTRUE(attr(x, "class")[1] == "Strings") == 
             FALSE) {

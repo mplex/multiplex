@@ -5,7 +5,7 @@ function (x, po.incl, vc, po)
         "class")[1] == "Pacnet") == FALSE) 
         stop("\"x\" should be an \"Ind.incl\" or \"Pacnet\" object class.")
     po <- x$po
-    Po <- po[1:nrow(po), 1:ncol(po)]
+    Po <- po[seq_len(nrow(po)), seq_len(ncol(po))]
     if (isTRUE(attr(x, "class") == "Ind.incl") == TRUE) {
         if (missing(vc) == FALSE) {
             pii <- array(dim = c(nrow(po), ncol(po), length(vc)))
@@ -47,13 +47,13 @@ function (x, po.incl, vc, po)
         }
         else {
             piis <- dichot(pii)
-            warning("There is no meet-complements of the atom in the input, and use atom itself.")
+            warning("There is no meet-complement of the atom in \"x\", then use atom itself.")
             xmc <- pat
         }
     }
     if (isTRUE(attr(x, "class")[1] == "Pacnet") == TRUE) {
         if (missing(po) == TRUE) 
-            stop("\"po\" is required for the Pacnet option.")
+            stop("The partial order in \"po\" is required for the Pacnet option.")
         ifelse(isTRUE(attr(x, "class")[length(attr(x, "class"))] == 
             "transp") == TRUE, Po <- (po), Po <- t(po))
         pii <- array(dim = c(nrow(po), ncol(po), length(x$ii)))
