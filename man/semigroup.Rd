@@ -8,7 +8,8 @@ Constructing the Semigroup of Relations
 Function to create the complete semigroup of multiple relations, where the multiplication table can be specified with either a numerical or a symbolic form.
 }
 \usage{
-semigroup(x, type = c("numerical", "symbolic"), cmp, smpl)
+semigroup(x, type = c("numerical", "symbolic"), cmps, 
+          smpl, valued)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -16,19 +17,24 @@ semigroup(x, type = c("numerical", "symbolic"), cmp, smpl)
    an array; usually with three dimensions of stacked matrices where the multiple relations are placed.
 }
   \item{type}{
-   does the semigroup should be given in a \code{numerical} (default) or in a \code{symbolic} form?
+   whether the semigroup should be returned with a \code{numerical} (default) or in a \code{symbolic} form?
 }
-  \item{cmp}{
+  \item{cmps}{
    (optional and logical) a logical to indicate whether the composite matrices should be also given in the output.
 }
   \item{smpl}{
    (logical and logical) whether to simplify or not the strings of relations.
 }
+  \item{valued}{
+   (logical) whether the semigroup should be with a valued format
+  }
 }
 \details{
 A multiple relation can be defined by square matrices of 0's and 1's indicating the presence and absence of ties among a set of actors. If there is more than one relation type, the matrices must preserve the label ordering of its elements and stacked into an object array in order to be effectively applied to this function.
 
-The semigroup, which is an algebraic structure having a set with an associative operation on it, is calculated considering binary matrices only. This means that if the provided matrices are valued, the function will dichotomise the input data automatically; values higher or equal to a unit are converted to one, otherwise they are set to zero. If you are not happy with that, you can go to \code{\link{dichot}} and specify your own cutoff value for the dichotomization.
+The semigroup, which is an algebraic structure having a set with an associative operation on it, is calculated considering binary matrices only. This means that if the provided matrices are valued, the function will dichotomise the input data automatically; values higher or equal to a unit are converted to one, otherwise they are set to zero. If you are not happy with that, you can go to \code{\link{dichot}} and specify your own cutoff value for the dichotomization. 
+
+Semigroup structures for valued relations apply the max min operation in the composition of generators and strings. 
 }
 \value{
 An object of `\code{Semigroup}' class.
@@ -70,7 +76,7 @@ For medium size or bigger sets (having e.g. more the 4 relation types), the semi
 }
 
 \seealso{
-\code{\link{prev}}, \code{\link{strings}}, \code{\link{edgeT}}, \code{\link{wordT}}, \code{\link{dichot}}, \code{\link{ltlw}}, \code{\link{cngr}}.
+\code{\link{prev}}, \code{\link{strings}}, \code{\link{edgeT}}, \code{\link{wordT}}, \code{\link{dichot}}, \code{\link{cngr}}.
 }
 
 \examples{

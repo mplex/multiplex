@@ -7,7 +7,8 @@ Galois derivations between subsets
 Function to perform Galois derivations between partially ordered subsets
 }
 \usage{
-galois(x, labeling = c("full", "reduced"), sep)
+galois(x, labeling = c("full", "reduced"), sep, valued, scl, 
+    sep2)
 }
 \arguments{
   \item{x}{
@@ -17,15 +18,23 @@ galois(x, labeling = c("full", "reduced"), sep)
 	whether the derivations should be with full or reduced labeling
 }
   \item{sep}{
-	(optional) the pair separator for the intents and extents
-}
+   (optional) the pair separator for the pairwise relations
+  }
+  \item{valued}{
+   (logical) whether the galois derivation is on a many-valued formal context
+  }
+  \item{scl}{
+   (optional, only for valued) the scale to be used in the galois derivation
+  }
+  \item{sep2}{
+   (optional, only for valued) the separator in the formal concept
+  }
 }
 \details{
 Galois derivations (or connections) are mappings between families of partially ordered subsets of elements. Such derivations are useful to analyse the structure of both subsets, whichin a social network are typically the actors and their corresponding affiliations or events, i.e. two-mode networks, or else a group of objects with a list of different attributes used in formal concept analysis.
 }
 \value{
-A labelled list with Galois derivations of objects and attributes, and the pair separator. Both full and reduced labeling options produces the objects sets and then the attributes sets to the left.
-
+A labelled list with Galois derivations of objects and attributes
 }
 \references{
 Ganter, B. and R. Wille  \emph{Formal Concept Analysis -- Mathematical Foundations}. Springer. 1996.
@@ -34,7 +43,7 @@ Ganter, B. and R. Wille  \emph{Formal Concept Analysis -- Mathematical Foundatio
 Antonio Rivero Ostoic
 }
 \note{
-In case of \code{labeling} is \code{"reduced"} then the full option is also part of the output.
+Full labeling implies first objects and then attributes, whereas the reduced option is given the other way around.
 }
 
 \seealso{
@@ -44,7 +53,7 @@ In case of \code{labeling} is \code{"reduced"} then the full option is also part
 ## Create a data frame
 dfr <- data.frame(x=1:3, y=5:7)
 
-## Find Galois derivations in 'dfr'
+## Find Galois derivations
 galois(dfr)
 }
 \keyword{ algebra }

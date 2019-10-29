@@ -7,7 +7,8 @@ The Partial Order of String relations or of Galois derivations
 Construct the partial order table of unique relations of the semigroup, or else of the concepts produced by Galois derivations.
 }
 \usage{
-partial.order(x, type = c("strings", "galois", "pi.rels"), lbs, sel, po.incl)
+partial.order(x, type = c("strings", "galois", "pi.rels"), 
+              lbs, sel, po.incl, dichot)
 }
 \arguments{
   \item{x}{
@@ -24,6 +25,9 @@ partial.order(x, type = c("strings", "galois", "pi.rels"), lbs, sel, po.incl)
 }
   \item{po.incl}{
    (optional, works only with type \code{"pi.rels"}) should the partial order in the \eqn{\pi}-relations be included
+}
+  \item{dichot}{
+   (optional) should the string relations in \code{x} be dichotomized?
 }
 }
 \details{

@@ -7,7 +7,7 @@ Principal filters
 A function to find principal filters in a partial order
 }
 \usage{
-fltr(x, PO, rclos = TRUE, ideal = FALSE)
+fltr(x, PO, ideal = FALSE, rclos)
 }
 \arguments{
   \item{x}{
@@ -16,11 +16,11 @@ the reference element in the partial order (integer or character)
   \item{PO}{
 the partial order
 }
-  \item{rclos}{
-(logical) apply reflexive closure?
-}
   \item{ideal}{
 (logical) whether or not the ``filter'' is an ideal
+}
+  \item{rclos}{
+(optional and logical) apply reflexive closure?
 }
 }
 \details{

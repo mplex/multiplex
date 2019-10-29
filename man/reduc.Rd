@@ -7,7 +7,7 @@ Reduce a matrix or array
 Function to reduce a matrix or array with a given clustering vector
 }
 \usage{
-reduc(x, clu, lbs = NULL)
+reduc(x, clu, lbs = NULL, slbs = NULL, valued, row, col)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,6 +19,18 @@ reduc(x, clu, lbs = NULL)
 }
   \item{lbs}{
    (optional) the labels to be used in the reduction
+}
+  \item{slbs}{
+   (optional) the string labels to be used in the reduction
+}
+  \item{valued}{
+   (logical) whether the reduction should preserve valued data?
+  }
+  \item{row}{
+   (optional) the reduction by rows
+}
+  \item{col}{
+   (optional) the reduction by columns
 }
 }
 \details{
