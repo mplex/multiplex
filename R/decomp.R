@@ -1,5 +1,5 @@
 decomp <-
-function (S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac, 
+function (S, pr, type = c("mca", "pi", "at", "cc"), reduc, fac, 
     force) 
 {
     if (isTRUE(attr(pr, "class") == "Pi.rels" || attr(pr, "class")[1] == 
@@ -23,7 +23,7 @@ function (S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac,
         else {
             NA
         }
-        switch(match.arg(type), mc = poi <- pr$mc, pi = poi <- pr$pi, 
+        switch(match.arg(type), mca = poi <- pr$mca, pi = poi <- pr$pi, 
             at = poi <- pr$at, cc = stop("Type options for a \"Pi.rels\" class object should be either \"pi\", \"at\" or \"mc\""))
     }
     else if (isTRUE(attr(pr, "class")[1] == "Congruence") == 

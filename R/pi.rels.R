@@ -36,14 +36,14 @@ function (x, po.incl, vc, po)
         }
         rm(i)
         dimnames(pat)[[1]] <- dimnames(pat)[[2]] <- as.list(seq_len(dim(po)[1]))
-        if (isTRUE(length(unlist(x$mc)) != 0) == TRUE) {
-            pmc <- array(dim = c(nrow(po), ncol(po), length(x$mc)))
-            for (i in seq_len(length(x$mc))) {
-                pmc[, , i] <- x$mc[[i]]
+        if (isTRUE(length(unlist(x$mca)) != 0) == TRUE) {
+            pmc <- array(dim = c(nrow(po), ncol(po), length(x$mca)))
+            for (i in seq_len(length(x$mca))) {
+                pmc[, , i] <- x$mca[[i]]
             }
             rm(i)
             piis <- zbnd(dichot(pii), pmc)
-            xmc <- x$mc
+            xmc <- x$mca
         }
         else {
             piis <- dichot(pii)
@@ -69,9 +69,9 @@ function (x, po.incl, vc, po)
         }
         rm(i)
         dimnames(pat)[[1]] <- dimnames(pat)[[2]] <- as.list(seq_len(dim(po)[1]))
-        pmc <- array(dim = c(nrow(po), ncol(po), dim(x$mc)[3]))
-        for (i in seq_len(dim(x$mc)[3])) {
-            pmc[, , i] <- x$mc[, , i]
+        pmc <- array(dim = c(nrow(po), ncol(po), dim(x$mca)[3]))
+        for (i in seq_len(dim(x$mca)[3])) {
+            pmc[, , i] <- x$mca[, , i]
         }
         rm(i)
         piis <- zbnd(pii, zbnd(pat, pmc))
@@ -105,10 +105,10 @@ function (x, po.incl, vc, po)
     dimnames(pisu)[[1]] <- dimnames(pisu)[[2]] <- as.list(seq_len(dim(po)[1]))
     if (missing(po.incl) == FALSE && isTRUE(po.incl == TRUE) == 
         TRUE) {
-        lst <- list(pi = pisu, at = pat, mc = xmc, po = Po)
+        lst <- list(pi = pisu, at = pat, mca = xmc, po = Po)
     }
     else {
-        lst <- list(pi = pisu, at = pat, mc = xmc)
+        lst <- list(pi = pisu, at = pat, mca = xmc)
     }
     class(lst) <- "Pi.rels"
     lst
