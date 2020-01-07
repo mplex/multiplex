@@ -20,10 +20,13 @@ function (net)
                 if (isTRUE(length(pck) > 2) == TRUE && isTRUE(x[pck, 
                   pck][1, 3] != 0) == TRUE) {
                   tri <- net[pck, pck]
-                  ifelse(isTRUE(sum(tri[1, 2] + tri[2, 3]) < 
-                    tri[1, 3]) == TRUE, x[pck, pck] <- replace(x[pck, 
-                    pck], x[pck, pck] == max(x[pck, pck]), 0), 
-                    NA)
+                  if (isTRUE(sum(tri[1, 2] + tri[2, 3]) < tri[1, 
+                    3]) == TRUE) {
+                    x[pck[c(1, 3)][1], pck[c(1, 3)][2]] <- 0L
+                  }
+                  else {
+                    NA
+                  }
                 }
                 else {
                   NA
@@ -43,10 +46,13 @@ function (net)
                 if (isTRUE(length(pck) > 2) == TRUE && isTRUE(x[pck, 
                   pck][1, 3] != 0) == TRUE) {
                   tri <- x[pck, pck]
-                  ifelse(isTRUE(sum(tri[1, 2] + tri[2, 3]) < 
-                    tri[1, 3]) == TRUE, x[pck, pck] <- replace(x[pck, 
-                    pck], x[pck, pck] == max(x[pck, pck]), 0), 
-                    NA)
+                  if (isTRUE(sum(tri[1, 2] + tri[2, 3]) < tri[1, 
+                    3]) == TRUE) {
+                    x[pck[c(1, 3)][1], pck[c(1, 3)][2]] <- 0L
+                  }
+                  else {
+                    NA
+                  }
                 }
                 else {
                   NA
