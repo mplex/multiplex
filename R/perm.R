@@ -12,7 +12,10 @@ function (x, clu, rev, lbs, sort)
     if (missing(sort) == TRUE && (missing(clu) == TRUE || isTRUE(length(unlist(clu)) != 
         dim(x)[1]) == TRUE)) 
         stop("'clu' is missing or it does not match the order of 'x'.")
-    if (missing(sort) == FALSE && isTRUE(sort == TRUE) == TRUE) {
+    if (missing(sort) == FALSE && is.null(dimnames(x)) == TRUE) 
+        return(x)
+    if (missing(sort) == FALSE && isTRUE(sort == TRUE) == TRUE && 
+        is.null(dimnames(x)) == FALSE) {
         clu <- vector()
         lb <- dimnames(x)[[1]]
         for (i in seq(length(lb))) {
@@ -21,7 +24,8 @@ function (x, clu, rev, lbs, sort)
         rm(i)
         cls <- clu
     }
-    else if (missing(sort) == TRUE) {
+    else if (missing(sort) == TRUE | is.null(dimnames(x)) == 
+        TRUE) {
         if (is.character(clu) == TRUE || is.factor(clu) == TRUE) {
             tmp <- as.vector(clu)
             for (i in seq_len(nlevels(factor(clu)))) {
