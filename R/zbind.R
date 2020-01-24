@@ -4,9 +4,28 @@ function (...)
     argl <- list(...)
     if (isTRUE(length(argl) < 2L) == TRUE) 
         return(argl)
-    ifelse(isTRUE(dim(argl[[1]])[3] > 1) == TRUE, pvt <- argl[[1]][, 
-        , 1], pvt <- argl[[1]])
-    pvtlbs <- dimnames(pvt)[[1]]
+    pvtlbs <- vector()
+    for (k in seq_len(length(argl))) {
+        if (all(dimnames(argl[[k]])[[1]] == dimnames(argl[[k]])[[2]]) == 
+            TRUE) {
+            pvtlbs <- append(pvtlbs, dimnames(argl[[k]])[[1]])
+        }
+        else {
+            stop("Dimensions 'x', 'y' must be equal")
+        }
+    }
+    rm(k)
+    pvtlbs <- unique(pvtlbs)
+    if (isTRUE(dim(argl[[1]])[3] > 1) == TRUE) {
+        pvt <- argl[[1]][, , 1]
+        argl[[1]][, , 1] <- pvt <- transf(pvt, type = "toarray", 
+            ord = length(pvtlbs), lbs = pvtlbs)
+    }
+    else {
+        pvt <- argl[[1]]
+        argl[[1]] <- pvt <- transf(pvt, type = "toarray", ord = length(pvtlbs), 
+            lbs = pvtlbs)
+    }
     tmp <- data.frame(matrix(ncol = (dim(pvt)[1] * dim(pvt)[2]), 
         nrow = 0L))
     for (i in seq_along(argl)) {
