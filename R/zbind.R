@@ -4,9 +4,37 @@ function (...)
     argl <- list(...)
     if (isTRUE(length(argl) < 2L) == TRUE) 
         return(argl)
-    ifelse(isTRUE(dim(argl[[1]])[3] > 1) == TRUE, pvt <- argl[[1]][, 
-        , 1], pvt <- argl[[1]])
-    pvtlbs <- dimnames(pvt)[[1]]
+    pvtlbs <- vector()
+    for (k in seq_len(length(argl))) {
+        if (all(dimnames(argl[[k]])[[1]] == dimnames(argl[[k]])[[2]]) == 
+            TRUE) {
+            pvtlbs <- append(pvtlbs, dimnames(argl[[k]])[[1]])
+        }
+        else {
+            stop("Dimensions 'x', 'y' must be equal")
+        }
+    }
+    rm(k)
+    pvtlbs <- unique(pvtlbs)
+    if (isTRUE(dim(argl[[1]])[3] > 1) == TRUE) {
+        argl1 <- array(dim = c(length(pvtlbs), length(pvtlbs), 
+            dim(argl[[1]])[3]), dimnames = list(pvtlbs, pvtlbs))
+        for (k in seq_len(dim(argl[[1]])[3])) {
+            argl1[, , k] <- transf(argl[[1]][, , k], type = "toarray", 
+                ord = length(pvtlbs), lbs = pvtlbs)
+        }
+        rm(k)
+        argl[[1]] <- argl1
+        pvt <- argl[[1]][, , 1]
+        pvt <- transf(pvt, type = "toarray", ord = length(pvtlbs), 
+            lbs = pvtlbs)
+        rm(argl1)
+    }
+    else {
+        pvt <- argl[[1]]
+        argl[[1]] <- pvt <- transf(pvt, type = "toarray", ord = length(pvtlbs), 
+            lbs = pvtlbs)
+    }
     tmp <- data.frame(matrix(ncol = (dim(pvt)[1] * dim(pvt)[2]), 
         nrow = 0L))
     for (i in seq_along(argl)) {
