@@ -1,7 +1,16 @@
 galois <-
-function (x, labeling = c("full", "reduced"), sep) 
+function (x, labeling = c("full", "reduced"), sep, valued, scl, 
+    sep2) 
 {
     ifelse(missing(sep) == TRUE, sep <- ", ", NA)
+    if (missing(valued) == FALSE && isTRUE(valued == TRUE) == 
+        TRUE) {
+        ifelse(missing(sep2) == TRUE, sep2 <- "_", NA)
+        x <- cscl(x, scl = scl, sep = sep2)
+    }
+    else {
+        NA
+    }
     if (is.data.frame(x) == FALSE) {
         if (is.vector(x) == TRUE) {
             x <- t(as.data.frame(x))

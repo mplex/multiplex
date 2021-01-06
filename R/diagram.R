@@ -1,7 +1,7 @@
 diagram <-
 function (x, attrs = NULL, main = NULL, incmp, cex.main, bg, 
     mar, shape, col, col0, fcol, ecol, lty, lbs, ffamily, fstyle, 
-    fsize, ...) 
+    fsize, col.main, ...) 
 {
     if ((is.array(x) == FALSE | is.matrix(x) == FALSE) && isTRUE(attr(x, 
         "class")[1] == "Partial.Order") == FALSE) 
@@ -25,7 +25,7 @@ function (x, attrs = NULL, main = NULL, incmp, cex.main, bg,
             colort <- "transparent"
         }
         if (missing(fsize) == TRUE) {
-            ifelse(missing(lbs) == TRUE, fsize <- 14, fsize <- 2.33/(length(dhc(as.character(lbs), 
+            ifelse(missing(lbs) == TRUE, fsize <- 16, fsize <- 2.33/(length(dhc(as.character(lbs), 
                 sep = ""))/length(lbs)))
         }
         else {
@@ -74,6 +74,8 @@ function (x, attrs = NULL, main = NULL, incmp, cex.main, bg,
         }
         ifelse(missing(cex.main) == TRUE, cex.main <- graphics::par()$cex.main, 
             NA)
+        ifelse(missing(col.main) == TRUE, col.main <- graphics::par()$col.main, 
+            NA)
         omr <- graphics::par()$mar
         omi <- graphics::par()$mai
         if (missing(mar) == TRUE) {
@@ -94,7 +96,7 @@ function (x, attrs = NULL, main = NULL, incmp, cex.main, bg,
         if (missing(lbs) == FALSE) {
             X <- Rgraphviz::plot(methods::as(po, "graphNEL"), 
                 attrs = attrs, main = main, cex.main = cex.main, 
-                ...)
+                col.main = col.main, ...)
             yp <- vector()
             xp <- vector()
             for (i in seq_along(X@AgNode)) {
@@ -158,7 +160,8 @@ function (x, attrs = NULL, main = NULL, incmp, cex.main, bg,
         }
         else if (missing(lbs) == TRUE) {
             Rgraphviz::plot(methods::as(po, "graphNEL"), attrs = attrs, 
-                main = main, cex.main = cex.main, ...)
+                main = main, cex.main = cex.main, col.main = col.main, 
+                ...)
         }
         graphics::par(mar = omr)
         graphics::par(bg = obg)
