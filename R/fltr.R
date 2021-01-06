@@ -1,8 +1,8 @@
 fltr <-
 function (x, PO, ideal = FALSE, rclos) 
 {
-    if (isTRUE(attr(PO, "class")[2] == "galois") == FALSE) 
-        stop("\"PO\" should be an object of a \"galois\" class.")
+    if (isTRUE("Partial.Order" %in% attr(PO, "class")) == FALSE) 
+        stop("\"PO\" should be an object of a \"Partial.Order\" class.")
     if (is.null(dimnames(PO)[[1]]) == TRUE) 
         stop("Dimnames in 'PO' are NULL")
     ifelse(missing(rclos) == FALSE && isTRUE(rclos == FALSE) == 

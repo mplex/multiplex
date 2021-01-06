@@ -1,11 +1,16 @@
 partial.order <-
 function (x, type = c("strings", "galois", "pi.rels"), lbs, sel, 
-    po.incl) 
+    po.incl, dichot) 
 {
     if (match.arg(type) == "strings") {
         if (isTRUE(attr(x, "class")[1] == "Strings") == TRUE) {
-            X <- x$wt
-            po <- strng(X)
+            if (missing(dichot) == FALSE && isTRUE(dichot == 
+                TRUE) == TRUE) {
+                po <- strng(strings(dichot(x$wt, c = 1))$wt)
+            }
+            else {
+                po <- strng(x$wt)
+            }
         }
         else if (isTRUE(attr(x, "class")[1] == "Strings") == 
             FALSE) {
@@ -82,7 +87,7 @@ function (x, type = c("strings", "galois", "pi.rels"), lbs, sel,
         }
     }
     if (match.arg(type) == "pi.rels") {
-        if (isTRUE(attr(x, "class")[1] == "Pi.rels") == TRUE) {
+        if (isTRUE("Pi.rels" %in% attr(x, "class")) == TRUE) {
             if (missing(sel) == FALSE && isTRUE(is.vector(sel) == 
                 TRUE) == TRUE) {
                 if (isTRUE(sel <= 0) == TRUE) {
@@ -127,6 +132,9 @@ function (x, type = c("strings", "galois", "pi.rels"), lbs, sel,
         NA)
     if (match.arg(type) == "galois") {
         class(po) <- c("Partial.Order", match.arg(type), x$sep)
+    }
+    else if (match.arg(type) == "pi.rels") {
+        class(po) <- c("Partial.Order", "Pi.rels")
     }
     else {
         class(po) <- c("Partial.Order", match.arg(type))
