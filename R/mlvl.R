@@ -142,8 +142,8 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
             dimnames = list(bmlbs, bmlbs))
         if (isTRUE(dim(X[[1]][[1]])[1] < n) == TRUE) {
             for (k in seq_len(length(X[[1]]))) {
-                bmat[, , k] <- transf(X[[1]][[k]], ord = length(bmlbs), 
-                  lbs = bmlbs)
+                bmat[which(bmlbs %in% Lbs[[1]]), which(bmlbs %in% 
+                  Lbs[[1]]), k] <- X[[1]][[k]]
             }
             rm(k)
         }
@@ -153,13 +153,8 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
             }
             rm(k)
         }
-        if (isTRUE(length(X[[2]]) == 1L) == TRUE) {
-            bmat[, , which(qmd == "2M")] <- transf(transf(X[[2]], 
-                type = "tolist", lb2lb = TRUE), ord = length(bmlbs), 
-                lbs = bmlbs)
-        }
-        else if (isTRUE(dim(X[[2]][[1]])[1] != n) == TRUE || 
-            isTRUE(dim(X[[2]][[1]])[2] != n) == TRUE) {
+        if (isTRUE(dim(X[[2]][[1]])[1] != n) == TRUE || isTRUE(dim(X[[2]][[1]])[2] != 
+            n) == TRUE) {
             for (k in seq_len(length(X[[2]]))) {
                 bmat[, , length(X[[1]]) + k][which(dimnames(bmat)[[1]] %in% 
                   Lbs$dm), which(dimnames(bmat)[[2]] %in% Lbs$cdm)] <- X[[2]][[k]]
