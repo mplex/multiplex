@@ -1,3 +1,4 @@
 exportPattern("^[[:alpha:]]+")
+importFrom("graphics", "par")
 S3method(print, reduced)
 S3method(print, gml)
