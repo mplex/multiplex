@@ -18,7 +18,7 @@ write.gml(x, file = NULL)
   }
 }
 \details{
-The \code{gml} format, an acronym for \emph{graph modelling language}, provides capabilities to represent multiple networks and add arguments both to the nodes and the edges for visualization purposes.
+The \code{gml} format, an acronym for \emph{graph modelling language}, provides capabilities to represent multiple networks and add arguments to both the nodes and the edges for visualization purposes. 
 }
 \value{
 A file with the data with a graph modelling language format.

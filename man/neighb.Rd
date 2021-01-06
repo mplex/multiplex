@@ -32,11 +32,11 @@ the relational system of the network
 }
 \details{
 The relational system serves to represent either the entire multiple network, or else just the relational bundles having a mutual or an asymmetric character. 
-In this sense, this function detects the adjacent nodes to \code{x} according to the specified relational system, but as well the neighbours of the adjacent nodes with a customized length. 
+In this sense, this function detects the adjacent nodes to \code{x} according to the specified relational system, but as well the neighbors of the adjacent nodes with a customized length. 
 Eventually, when the longest path or chain is reached, adding more value to \code{k} obviously will not produce more nodes in the graph system.
 }
 \value{
-Depending on \code{expand}, either a vector or a list with the neighbour nodes to the reference actor(s).
+Depending on \code{expand}, the output is either a vector or a list with the neighbor nodes to the reference actor(s).
 }
 %\references{
 %% ~put references to the literature/web site here ~

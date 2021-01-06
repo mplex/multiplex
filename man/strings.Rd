@@ -7,7 +7,7 @@ Strings of Relations
 Function to get the labels of the unique relations of the semigroup; that is the generators and compound relations that are the elements of the complete semigroup.
 }
 \usage{
-strings(x, equat = FALSE, k = 2, smpl)
+strings(x, equat = FALSE, k = 2, smpl, valued)
 }
 \arguments{
   \item{x}{
@@ -22,9 +22,12 @@ strings(x, equat = FALSE, k = 2, smpl)
   \item{smpl}{
    (optional and logical) whether to simplify or not the string relations
 }
+  \item{valued}{
+   (logical) whether the strings are with a valued format
+  }
 }
 \details{
-The strings are the unique relations which constitutes the elements of the complete semigroup. These are both the generators and the compound relations after applying the Axiom of Quality, which means that even some generators can be disregarded.
+The strings are the unique relations, which constitutes the elements of the complete semigroup. These are both the generators and the compound relations after applying the Axiom of Quality, which means that even some generators can be disregarded.
 
 This function is especially useful to construct the partial order of relations, and to establish the set of equations in the relational structure.
 }
@@ -56,7 +59,7 @@ The maximum length of the strings in the equations is currently 4.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{partial.order}}, \code{\link{semigroup}}, \code{\link{ltlw}}.
+\code{\link{partial.order}}, \code{\link{semigroup}}.
 }
 \examples{
 ## Create the data: 2 binary relations among 3 elements

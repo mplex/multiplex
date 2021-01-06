@@ -8,7 +8,7 @@ Array Permutation
 Function to permutate a given array of relation.
 }
 \usage{
-perm(x, clu, rev, lbs)
+perm(x, clu, rev, lbs, sort)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -24,9 +24,12 @@ perm(x, clu, rev, lbs)
   \item{lbs}{
    (optional) the labels after the permutation
   }
+  \item{sort}{
+   (optional and logical) permut the array by sorting dimnames?
+  }
 }
 \details{
-This function serves to permutate an array representing relations according to a vector for the clustering membership.
+This function serves to permutate an array representing relations according to a vector for the clustering membership. By activating the \code{sort} argument to \code{TRUE}, all other arguments will be ignored.
 }
 \value{
 A permuted matrix or array
@@ -50,6 +53,7 @@ s <- matrix(data=c(1, 1, 1, 3, 3, 3, 3, 3, 3), nrow=3, ncol=3, byrow=TRUE)
 
 ## the permutation as an endomorphism
 perm(s, clu = c(1,2,3))
+perm(s, sort = TRUE)
 
 }
 \keyword{ algebra }

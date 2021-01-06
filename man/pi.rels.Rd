@@ -31,7 +31,7 @@ This function process the outcome of the Pacnet report by adding induced inclusi
 An object of the `\code{Pi.rels}' class
 
   \item{pi }{the \eqn{\pi}-relations, eventually with the partial order}
-  \item{mc }{the meet-complements}
+  \item{mca}{the meet-complements of atoms}
 }
 \references{
 Pattison, Philippa E. \emph{Algebraic Models for Social Networks}. Cambridge University Press. 1993.

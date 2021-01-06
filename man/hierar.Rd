@@ -1,3 +1,4 @@
+
 \name{hierar}
 \alias{hierar}
 %- Also NEED an '\alias' for EACH other topic documented here.
@@ -19,7 +20,7 @@ hierar(W, x, type = c("person", "relation"))
    (integer or character) the actor of reference, either by its location in the adjacency matrix or by the label.
 }
   \item{type}{
-   whether the hierachy is for the `\code{person}s' or for the `\code{relation}s' in the network with respecto to `x'
+   whether the hierarchy is for the `\code{person}s' or for the `\code{relation}s' in the network with respect to `\code{x}'
 }
 }
 \details{
@@ -35,7 +36,7 @@ Breiger, R.L. and P.E. Pattison, `Cumulated social roles: The duality of persons
 Antonio Rivero Ostoic
 }
 \note{
-The cumulation of the person hierarchy is obtained through the \code{\link{cph}} function.
+The cumulative person hierarchy is obtained through the \code{\link{cph}} function.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

@@ -8,7 +8,7 @@ Function to transform data from/to matrix/list formats representing a network.
 }
 \usage{
 transf(x, type = c("toarray", "tolist", "toarray2"), lbs = NULL, lb2lb, 
-    sep, ord, sort, add, adc)
+    sep, ord, sort, sym, add, adc)
 }
 \arguments{
   \item{x}{
@@ -32,6 +32,9 @@ transf(x, type = c("toarray", "tolist", "toarray2"), lbs = NULL, lb2lb,
   \item{sort}{
    (optional and logical) sort the arrays in the output?
   }
+  \item{sym}{
+   (optional and logical) symmetrize the arrays? (`\code{toarray}' option, otherwise ignored)
+  }
   \item{add}{
    (optional) add elements in the array's `domain'
   }
@@ -40,9 +43,9 @@ transf(x, type = c("toarray", "tolist", "toarray2"), lbs = NULL, lb2lb,
   }
 }
 \details{
-`\code{tolist}' is the option to transform a matrix or an array to a list of pair elements. In case that the \code{lb2lb} is enabled in this type of transformation, then \code{lbs} must be provided, whereas the pair separator is optional. On the other hand `\code{toarray}' will produce a matrix from a list of pair elements, and in this case is advisable to specify the order of the structure. Three dimensional structures are now supported.
+`\code{tolist}' is the option to transform a matrix or an array to a list of pair elements. In case that the \code{lb2lb} is enabled in this type of transformation, then \code{lbs} must be provided, whereas the pair separator is optional. On the other hand, `\code{toarray}' will produce a matrix from a list of pair elements, and in this case is advisable to specify the order of the structure. Three-dimensional structures are now supported.
 
-Data frames are also accepted for the `\code{tolist}' option, but in case that this information is given as a list of pair relations the output will be a square matrix.
+Data frames are also accepted for the `\code{tolist}' option, , but in case that such information is given as a list of pair relations, the output will be a square matrix.
 
 }
 \value{
@@ -55,7 +58,7 @@ Depending on the input data, the result is either a list of pair relations or a 
 Antonio Rivero Ostoic
 }
 \note{
-For high dimensional arrays, the \code{\link{rel.sys}} function privides additional information other than the list of pair relations of the entire structure.
+For high dimensional arrays, the \code{\link{rel.sys}} function provides additional information other than the list of pair relations of the entire structure.
 }
 \seealso{
 \code{\link{read.srt}}, \code{\link{bundles}}, \code{\link{reduc}}, \code{\link{rel.sys}}
