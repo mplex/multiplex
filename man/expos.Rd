@@ -25,9 +25,10 @@ expos(rs, classes = FALSE, allClasses = FALSE, allNodes = TRUE)
 }
 \details{
 This is a generalization of the network exposure measure for multiple networks with the characteristics chosen for the representative relational system. 
-Such system can be the entire network or configuration with strong or weak bonds among the actors.
-It is possible to specify different behaviours of the nodes representing social actors, which are indicated in the form of a relational system. 
-The network exposure measure is calculated according to the immediate neighbours to the reference actor.
+Such system can be the entire network or configuration with strong or weak bonds among the actors. 
+It is possible to specify different behaviors of the nodes representing social actors, which are indicated in the form of a relational system. 
+The network exposure measure is calculated according to the immediate neighbors to the reference actor. 
+
 }
 \value{
 %%

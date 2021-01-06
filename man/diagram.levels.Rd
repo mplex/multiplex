@@ -5,7 +5,7 @@
 Levels in the Lattice Diagram
 }
 \description{
-This is a function that reads the different levels in the lattice diagram of the partial order structure among actors and ties in the network
+This function reads the different levels in the lattice diagram of the partial order structure among actors and ties in the network.
 }
 \usage{
 diagram.levels(x, perm = FALSE)

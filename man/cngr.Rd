@@ -21,7 +21,7 @@ cngr(S, PO = NULL, uniq)
 }
 }
 \details{
-Congruences are equivalence relations that preserve the operation between the correspondent classes in the algebraic structure. In this case the different congruence classes are based on the substitution property of the semigroup object.
+Congruencies are equivalence relations that preserve the operation between the correspondent classes in the algebraic structure. In this case, the different congruence classes are based on the substitution property of the semigroup object.
 
 }
 \value{
