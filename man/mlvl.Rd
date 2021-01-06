@@ -5,7 +5,7 @@
 Constructing multilevel structures
 }
 \description{
-Function to create a multilevel structure of .
+Function to create a multilevel structure from a one- and a two-mode network.
 }
 \usage{
 mlvl(x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"), 

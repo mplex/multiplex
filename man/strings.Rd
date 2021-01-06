@@ -27,7 +27,7 @@ strings(x, equat = FALSE, k = 2, smpl, valued)
   }
 }
 \details{
-The strings are the unique relations which constitutes the elements of the complete semigroup. These are both the generators and the compound relations after applying the Axiom of Quality, which means that even some generators can be disregarded.
+The strings are the unique relations, which constitutes the elements of the complete semigroup. These are both the generators and the compound relations after applying the Axiom of Quality, which means that even some generators can be disregarded.
 
 This function is especially useful to construct the partial order of relations, and to establish the set of equations in the relational structure.
 }

@@ -2,14 +2,14 @@
 \alias{diagram}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Plot the Hasse Diagram of a set of ordered relations
+Plot a Hasse Diagram of a set of ordered relations
 }
 \description{
-A function to plot the Hasse Diagram of partially ordered relations.
+A function to plot a Hasse Diagram of partially ordered relations.
 }
 \usage{
 diagram(x, attrs = NULL, main = NULL, incmp, cex.main, bg, mar, shape, 
-        col, col0, fcol, ecol, lty, lbs, ffamily, fstyle, fsize, ...)
+        col, col0, fcol, ecol, lty, lbs, ffamily, fstyle, fsize, col.main,...)
 }
 \arguments{
   \item{x}{
@@ -62,6 +62,9 @@ diagram(x, attrs = NULL, main = NULL, incmp, cex.main, bg, mar, shape,
 }
   \item{fsize}{
    (optional) the font size of the vertex labels
+}
+  \item{col.main}{
+   (optional) the color of the diagram's title
 }
   \item{...}{
    (optional) additional graphical items

@@ -31,7 +31,7 @@ galois(x, labeling = c("full", "reduced"), sep, valued, scl,
   }
 }
 \details{
-Galois derivations (or connections) are mappings between families of partially ordered subsets of elements. Such derivations are useful to analyse the structure of both subsets, whichin a social network are typically the actors and their corresponding affiliations or events, i.e. two-mode networks, or else a group of objects with a list of different attributes used in formal concept analysis.
+Galois derivations (or connections) are mappings between families of partially ordered subsets of elements. Such derivations are useful to analyze the structure of both subsets, which in a social network are typically the actors and their corresponding affiliations or events. That is, two-mode networks, but also a group of objects with a list of different attributes as used in formal concept analysis. 
 }
 \value{
 A labelled list with Galois derivations of objects and attributes

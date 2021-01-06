@@ -29,7 +29,7 @@ mnplx(net, directed = TRUE, dichot, diag, clu)
 }
 }
 \details{
-With this function it is possible to collapse multiple types of tie into a matrix representation with monoplex relations.
+With this function, it is possible to collapse multiple types of tie into a matrix representation with monoplex relations.
 }
 \value{
 A matrix of monoplex relations

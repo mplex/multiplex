@@ -4,7 +4,7 @@
 Bundle Census
 }
 \description{
-A function to perform the Bundle Census in a given multiple network.
+A function to perform the Bundle Census in multiple networks.
 }
 \usage{
 bundle.census(x, loops = FALSE)
@@ -18,12 +18,13 @@ bundle.census(x, loops = FALSE)
 }
 }
 \details{
-This function calculates the number of occurrences for each bundle class pattern in the multiple network. A bundle is a special type of pattern made of relations at different levels that is binding a pair of nodes or actors. Depending on the direction and occurrence of each possible tie, then it is possible to count with seven dyadic configuration classes, which are included in the census.
+This function calculates the number of occurrences for each bundle class pattern in multiple networks. A bundle is a particular type of pattern made of relations at different levels that is binding a pair of nodes or actors. Depending on the direction and occurrence of each possible tie, then it is possible to count with seven dyadic configuration classes in the census. 
 }
 \value{
-A table with the occurrences in the distinct bundle class patterns. The first column in the output gives the number of bundles in the network excluding the null pattern, and then the totals for each bundle class pattern are specified in the following columns. If loops were considered, these are at the end of the table.
+A table with the occurrences in the distinct bundle class patterns. The first column in the output gives the number of bundles in the network, excluding the null pattern, and then the totals for each bundle class pattern are specified in the following columns. The last column of the table hosts loops in case these are activated in the input. 
 
-More detailed information about the bundle class occurrences is given by the function \code{\link{bundles}}.
+Functions \code{\link{bundles}} and \code{\link{summaryBundles}} provide bundle class occurrences in the network with a more detailed information. 
+
 
 }
 \references{
@@ -32,9 +33,9 @@ Ostoic, J. A. R. `Dyadic Patterns in Multiple Networks,' \emph{Advances in Socia
 \author{
 Antonio Rivero Ostoic
 }
-\note{
-Neither loops or null dyads are regarded as properly bundle classes.
-}
+%\note{
+%Neither loops or null dyads are regarded as properly bundle classes.
+%}
 
 \seealso{
 \code{\link{bundles}}, \code{\link{summaryBundles}}

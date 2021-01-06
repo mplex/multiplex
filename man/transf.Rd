@@ -43,9 +43,9 @@ transf(x, type = c("toarray", "tolist", "toarray2"), lbs = NULL, lb2lb,
   }
 }
 \details{
-`\code{tolist}' is the option to transform a matrix or an array to a list of pair elements. In case that the \code{lb2lb} is enabled in this type of transformation, then \code{lbs} must be provided, whereas the pair separator is optional. On the other hand `\code{toarray}' will produce a matrix from a list of pair elements, and in this case is advisable to specify the order of the structure. Three dimensional structures are now supported.
+`\code{tolist}' is the option to transform a matrix or an array to a list of pair elements. In case that the \code{lb2lb} is enabled in this type of transformation, then \code{lbs} must be provided, whereas the pair separator is optional. On the other hand, `\code{toarray}' will produce a matrix from a list of pair elements, and in this case is advisable to specify the order of the structure. Three-dimensional structures are now supported.
 
-Data frames are also accepted for the `\code{tolist}' option, but in case that this information is given as a list of pair relations the output will be a square matrix.
+Data frames are also accepted for the `\code{tolist}' option, , but in case that such information is given as a list of pair relations, the output will be a square matrix.
 
 }
 \value{
@@ -58,7 +58,7 @@ Depending on the input data, the result is either a list of pair relations or a 
 Antonio Rivero Ostoic
 }
 \note{
-For high dimensional arrays, the \code{\link{rel.sys}} function privides additional information other than the list of pair relations of the entire structure.
+For high dimensional arrays, the \code{\link{rel.sys}} function provides additional information other than the list of pair relations of the entire structure.
 }
 \seealso{
 \code{\link{read.srt}}, \code{\link{bundles}}, \code{\link{reduc}}, \code{\link{rel.sys}}

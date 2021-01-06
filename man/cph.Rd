@@ -1,6 +1,5 @@
 \name{cph}
 \alias{cph}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Cumulated Person Hierarchy
 }
@@ -10,7 +9,6 @@ A function to calculate the Cumulated Person Hierarchy in networks of multiple r
 \usage{
 cph(W, lbs)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{W}{
     an object of the `\code{Rel.Box}' class.
@@ -36,7 +34,7 @@ Mandel, M.J. `Roles and networks: A local approach'. B.A. Honours thesis, Harvar
 Antonio Rivero Ostoic
 }
 \note{
-If the length of the labels differ from the order of the relational system, then labels will be ignored.
+If the length of the labels differs from the order of the relational system, then labels will be ignored.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

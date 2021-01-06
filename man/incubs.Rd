@@ -10,14 +10,14 @@
 \alias{incC}
 \alias{incD}
 \title{
-Business Network Incubators Data Sets
+Incubator networks dataset
 }
 \description{
 These are four data sets collected in year 2010 (see `source' for the details) of multiple relations between entrepreneurial firms working in business incubators in Denmark.
 
-Each data set contains the adjacency matrices of the three social relations, coded as \code{C}, \code{F}, and \code{K} for working collaboration, informal friendship, and perceived competition among the firms. There are also two actor attributes corresponding to the adoption of a Web innovations at that time by the firms where \code{A} stands for Linkedin and \code{B} for Facebook.
+Each data set contains the adjacency matrices of the three social relations, coded as \code{C}, \code{F}, and \code{K} for working collaboration, informal friendship, and perceived competition among the firms. There are also two actor attributes corresponding to adoption of two Web innovations in year 2010 by the firms where \code{A} stands for Linkedin, and \code{B} for Facebook.
 
-In addition, there is a blockmodel attached to each data set that is product of Compositional Equivalence (cf. \code{\link{cph}}) with transposes for each type of social tie labelled with the following letter in the Latin alphabet; i.e. \code{D} for collaboration, etc.
+In addition, there is a blockmodel attached to each data set that is product of Compositional Equivalence (cf. \code{\link{cph}}) with transposes for each type of social tie labelled with the following letter in the Latin alphabet; i.e. \code{D} for collaboration, \code{G} for friendship, and \code{L} for perceived competition.
 }
 \usage{
 data("incubs")
@@ -45,15 +45,15 @@ All four networks are putted in together in \code{incubs}.
 
 In order to plot automatically actor attributes in the graph with function \code{\link[multigraph:multigraph]{multigraph}}, another version of these data sets are given in \code{incA}, \code{incB}, \code{incC}, and \code{incD}, which  are \code{"Data.Set"} objects class having:
 
-  \code{net} for the network data
+  -- \code{net} for the network data
 
-  \code{atnet} a vector that indicates whether or not the arrays in \code{'net'} is attribute data
+  -- \code{atnet} a vector that indicates whether or not the arrays in \code{'net'} is attribute data
 
-  \code{IM} for the Image Matrices of the reduced network data
+  -- \code{IM} for the Image Matrices of the reduced network data
 
-  \code{atIM} a vector that indicates whether or not the array in \code{'IM'} is attribute data
+  -- \code{atIM} a vector that indicates whether or not the array in \code{'IM'} is attribute data
 
-  \code{cite} citation and useful information
+  -- \code{cite} relational content of the ties
 
 
 }

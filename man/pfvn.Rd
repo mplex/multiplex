@@ -5,7 +5,7 @@
 Pathfinder valued network and triangle inequality
 }
 \description{
-A function to establish the skeleton of a valued network with the pathfinder algortihm and triangle inequality
+A function to establish the skeleton of a valued network with the pathfinder algorithm and triangle inequality
 }
 \usage{
 pfvn(x, r, q)

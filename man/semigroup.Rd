@@ -32,7 +32,7 @@ semigroup(x, type = c("numerical", "symbolic"), cmps,
 \details{
 A multiple relation can be defined by square matrices of 0's and 1's indicating the presence and absence of ties among a set of actors. If there is more than one relation type, the matrices must preserve the label ordering of its elements and stacked into an object array in order to be effectively applied to this function.
 
-The semigroup, which is an algebraic structure having a set with an associative operation on it, is calculated considering binary matrices only. This means that if the provided matrices are valued, the function will dichotomise the input data automatically; values higher or equal to a unit are converted to one, otherwise they are set to zero. If you are not happy with that, you can go to \code{\link{dichot}} and specify your own cutoff value for the dichotomization. 
+The semigroup, which is an algebraic structure having a set with an associative operation on it, is calculated considering binary matrices only. This means that if the provided matrices are valued, the function will dichotomize the input data automatically; values higher or equal to a unit are converted to one, otherwise they are set to zero. If you are not happy with that, you can go to \code{\link{dichot}} and specify your own cutoff value for the dichotomization. 
 
 Semigroup structures for valued relations apply the max min operation in the composition of generators and strings. 
 }

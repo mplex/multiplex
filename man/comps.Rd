@@ -1,16 +1,14 @@
 \name{comps}
 \alias{comps}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Find components in multiple networks
 }
 \description{
-Function to find different components in the network plus isolates
+Function to find different components in the multiple network including isolates
 }
 \usage{
 comps(x, bonds = c("entire", "strong", "weak"))
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
   array representing the network
@@ -20,7 +18,7 @@ comps(x, bonds = c("entire", "strong", "weak"))
 }
 }
 \details{
-The network's different components are obtained by means of transitive closure of the bundle ties. By default the `entire' network is chosen, but the option \code{bonds} allows to discriminate different types of relational bundles.
+The network's different components are obtained through the transitive closure of the bundle ties. By default, the ``entire'' system is chosen, but the option \code{bonds} allow discriminating different types of relational bundles for the components. 
 }
 \value{
 A list with two possible ``components''
