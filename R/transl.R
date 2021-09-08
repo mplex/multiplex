@@ -10,8 +10,8 @@ function (lt, sep)
     else {
         Ls <- as.list(llt)
         j <- 1L
+        names(Ls)[1] <- j
         tmp0 <- strsplit(Ls[[1]], sep)[[1]]
-        attr(Ls[[1]], "names") <- j
         for (i in 2:length(Ls)) {
             tmp2 <- strsplit(Ls[[i]], sep)[[1]]
             ifelse((any(tmp2 %in% tmp0)) | (any(tmp0 %in% tmp2)), 
@@ -21,19 +21,16 @@ function (lt, sep)
         rm(i)
         uno <- unlist(dhc(jnt(unlist(Ls)[which(attr(unlist(Ls), 
             "names") == j)])))
-        for (i in which(attr(unlist(Ls), "names") == "")) {
+        for (i in which(is.na(names(Ls)))) {
             tmp2 <- strsplit(Ls[[i]], sep)[[1]]
             ifelse((any(uno %in% tmp2)) | (any(tmp2 %in% uno)), 
-                attr(Ls[[i]], "names") <- j, NA)
-            uno <- unlist(dhc(jnt(unlist(Ls)[which(attr(unlist(Ls), 
-                "names") == j)])))
+                names(Ls)[i] <- j, NA)
         }
         rm(i)
         if (isTRUE(length(uno) > 1) == TRUE) {
             while (isTRUE(unlist(dhc(jnt(unlist(Ls)[which(attr(unlist(Ls), 
                 "names") == j)]))) == uno) == TRUE) {
-                for (i in which(attr(unlist(Ls), "names") == 
-                  "")) {
+                for (i in which(is.na(names(Ls)))) {
                   tmp2 <- strsplit(Ls[[i]], sep)[[1]]
                   ifelse((any(uno %in% tmp2)) | (any(tmp2 %in% 
                     uno)), attr(Ls[[i]], "names") <- j, NA)
@@ -41,17 +38,13 @@ function (lt, sep)
                 rm(i)
             }
         }
-        while (length(which(attr(unlist(Ls), "names") == "")) != 
-            0) {
+        while (length(which(is.na(names(Ls)))) != 0) {
             j <- (j + 1L)
-            attr(Ls[[which(attr(unlist(Ls), "names") == "")[1]]], 
-                "names") <- j
-            if (length(which(attr(unlist(Ls), "names") == "")) != 
-                0) {
+            names(Ls)[which(is.na(names(Ls)))] <- j
+            if (length(which(is.na(names(Ls)))) != 0) {
                 tmp0 <- unlist(dhc(jnt(unlist(Ls)[which(attr(unlist(Ls), 
                   "names") == j)])))
-                for (i in which(attr(unlist(Ls), "names") == 
-                  "")) {
+                for (i in which(is.na(names(Ls)))) {
                   tmp2 <- strsplit(Ls[[i]], sep)[[1]]
                   ifelse((any(tmp2 %in% tmp0)) | (any(tmp0 %in% 
                     tmp2)), attr(Ls[[i]], "names") <- j, NA)
@@ -59,8 +52,7 @@ function (lt, sep)
                 rm(i)
                 tmp0 <- unlist(dhc(jnt(unlist(Ls)[which(attr(unlist(Ls), 
                   "names") == j)])))
-                for (i in which(attr(unlist(Ls), "names") == 
-                  "")) {
+                for (i in which(is.na(names(Ls)))) {
                   tmp2 <- strsplit(Ls[[i]], sep)[[1]]
                   ifelse((any(tmp0 %in% tmp2)) | (any(tmp2 %in% 
                     tmp0)), attr(Ls[[i]], "names") <- j, NA)
@@ -69,10 +61,9 @@ function (lt, sep)
             }
         }
         clu <- vector()
-        for (i in 1:length(Ls)) clu[i] <- as.numeric(attr(Ls[[i]], 
-            "names")[1])
+        for (i in seq_len(length(Ls))) clu[i] <- as.numeric(names(Ls)[i])
         tls <- vector()
-        for (i in 1:nlevels(factor(clu))) tls <- append(tls, 
+        for (i in seq_len(nlevels(factor(clu)))) tls <- append(tls, 
             jnt(llt[clu == i]))
         return(levels(factor(tls)))
     }
