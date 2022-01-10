@@ -1,4 +1,5 @@
 exportPattern("^[[:alpha:]]+")
 importFrom("graphics", "par")
+importFrom("stats", "complete.cases")
 S3method(print, reduced)
 S3method(print, gml)
