@@ -1,7 +1,7 @@
 \name{expos}
 \alias{expos}
 \title{
-Network Exposure for Multiple Networks
+Network exposure for multiple networks
 }
 \description{
 Function to measure the network exposure of the nodes according to a chosen relational system representing the multiple network.

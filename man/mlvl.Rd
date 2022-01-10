@@ -1,26 +1,24 @@
 \name{mlvl}
 \alias{mlvl}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Constructing multilevel structures
+Construct multilevel structures
 }
 \description{
-Function to create a multilevel structure from a one- and a two-mode network.
+Function to construct multilevel structures from a one- and a two-mode network.
 }
 \usage{
 mlvl(x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"), 
     symCdm, diag, lbs)
 }
-%%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-  the domain data
+  domain data
 }
   \item{y}{
-  the codomain data
+  codomain data
 }
   \item{type}{
-  the type of multilevel structure
+  type of multilevel structure
 }
   \item{symCdm}{
   (optional and logical, only for \code{bpn}) whether or not symmetrize the codomain structure
@@ -33,13 +31,14 @@ mlvl(x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
 }
 }
 \details{
-The default multilevel structure is \code{bpn} that requires data for the two domains. However, option \code{cn} does need \code{x} since returns the co-affiliation network of the codomain structure. 
+The default multilevel structure is \code{bpn} that requires data for the two domains. 
+However, option \code{cn} does need \code{x} since returns the co-affiliation network of the codomain structure. 
 
-Many times is convenient to specify the domain and codomain labels, and since these are different components in the multilevel structure, then the labels have to be be specified as a list object. 
+Many times is convenient to specify the domain and codomain labels. 
+Since these are different components in the multilevel structure, then the components' labels have to be be specified as a list object. 
 }
 \value{
 An object of `\code{Multilevel}' class of chosen type.
-%%%  If it is a LIST, use
   \item{mlnet}{
   the multilevel network
   }
@@ -57,18 +56,25 @@ An object of `\code{Multilevel}' class of chosen type.
 \author{
 Antonio Rivero Ostoic
 }
-%\note{
-%%%  ~~further notes~~
-%}
+\note{
+Function may need further testing of exceptions.
+}
 %
 %%% ~Make other sections like Warning with \section{Warning }{....} ~
 %
 \seealso{
-\code{\link[multigraph:multigraph]{multigraph}}
+\code{\link[multigraph:mlgraph]{mlgraph}}, \code{\link[multigraph:multigraph]{multigraph}}
 }
-%\examples{
-%
-%}
+\examples{
+# array for the domain
+arr1 <- round( replace( array(runif(18), c(3,3,2)), array(runif(18), c(3,3,2))>.9, 3 ) )
+
+# rectangle array for the co-domain
+arr2 <- round( replace( array(runif(12), c(3,2,2)), array(runif(12), c(3,2,2))>.9, 3 ) )
+
+# multilevel structure with default type
+mlvl(arr1, arr2)
+}
 %
 \keyword{models}
 \keyword{data}
