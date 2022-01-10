@@ -106,6 +106,14 @@ function (x, type = c("toarray", "tolist", "toarray2"), lbs = NULL,
                 ifelse(is.vector(add) == TRUE, x <- c(x, add), 
                   NA)
             }
+            else if (is.array(x) == TRUE && is.na(dim(x)[3]) == 
+                TRUE) {
+                ord <- nrow(x) + length(add)
+                lbs <- c(dimnames(x)[[1]], add)
+            }
+            else {
+                NA
+            }
         }
         if ((is.vector(x) == FALSE && isTRUE(dim(x)[1] == dim(x)[2]) == 
             FALSE)) 

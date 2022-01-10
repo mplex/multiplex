@@ -1,11 +1,17 @@
 diagram <-
 function (x, attrs = NULL, main = NULL, incmp, cex.main, bg, 
     mar, shape, col, col0, fcol, ecol, lty, lbs, ffamily, fstyle, 
-    fsize, col.main, ...) 
+    fsize, col.main, sep, ...) 
 {
     if ((is.array(x) == FALSE | is.matrix(x) == FALSE) && isTRUE(attr(x, 
-        "class")[1] == "Partial.Order") == FALSE) 
-        stop("'x' must be either a matrix or an array object.")
+        "class")[1] == "Partial.Order") == FALSE) {
+        if (is.matrix(x[[1]]) == TRUE) {
+            x <- x[[1]]
+        }
+        else {
+            stop("'x' must be matrix, array, or a \"Partial.Order\" class object.")
+        }
+    }
     if (requireNamespace("Rgraphviz", quietly = TRUE)) {
         ifelse(missing(shape) == TRUE || shape %in% c("rectangle", 
             "rect", "circle", "box", "ellipse") == FALSE, shape <- "rectangle", 
@@ -19,17 +25,12 @@ function (x, attrs = NULL, main = NULL, incmp, cex.main, bg,
         ifelse(missing(lty) == TRUE, lty <- "solid", NA)
         if (missing(lbs) == TRUE) {
             label <- ""
+            ifelse(missing(fsize) == TRUE, fsize <- 16L, NA)
         }
         else {
             label <- " "
             colort <- "transparent"
-        }
-        if (missing(fsize) == TRUE) {
-            ifelse(missing(lbs) == TRUE, fsize <- 16, fsize <- 2.33/(length(dhc(as.character(lbs), 
-                sep = ""))/length(lbs)))
-        }
-        else {
-            fsize <- fsize/10
+            ifelse(missing(fsize) == TRUE, fsize <- 1.6, fsize <- fsize/10L)
         }
         if (is.null(attrs) == TRUE) {
             attrs = list(graph = list(rankdir = "BT"), edge = list(arrowsize = "0", 
@@ -45,6 +46,19 @@ function (x, attrs = NULL, main = NULL, incmp, cex.main, bg,
             rownames(po) <- colnames(po) <- as.character(utils::as.roman(c(seq_len(dim(x)[1]))))
         }
         else if (missing(lbs) == FALSE) {
+            if (isTRUE(length(lbs) == 1L) == TRUE && isTRUE(dim(x)[1] > 
+                1L) == TRUE) {
+                tlbs <- vector("list", length = dim(x)[1])
+                for (i in seq_len(dim(x)[1])) tlbs[[i]] <- lbs[[1]][[i]]
+                lbs <- tlbs
+                rm(tlbs)
+            }
+            else {
+                NA
+            }
+            ifelse(missing(sep) == TRUE, sep <- ",", NA)
+            ifelse(is.list(lbs) == TRUE, lbs <- unlist(jnt(lbs, 
+                sep = sep)), NA)
             rownames(po) <- colnames(po) <- NULL
         }
         if (isTRUE(ncol(x) == nrow(x)) == TRUE) {
@@ -94,7 +108,7 @@ function (x, attrs = NULL, main = NULL, incmp, cex.main, bg,
             names(grDevices::postscriptFonts())) == TRUE, graphics::par(family = ffamily), 
             NA)
         if (missing(lbs) == FALSE) {
-            X <- Rgraphviz::plot(methods::as(po, "graphNEL"), 
+            X <- Rgraphviz::plot(methods::as(po, Class = "graphNEL"), 
                 attrs = attrs, main = main, cex.main = cex.main, 
                 col.main = col.main, ...)
             yp <- vector()
@@ -159,9 +173,9 @@ function (x, attrs = NULL, main = NULL, incmp, cex.main, bg,
             graphics::par(new = FALSE)
         }
         else if (missing(lbs) == TRUE) {
-            Rgraphviz::plot(methods::as(po, "graphNEL"), attrs = attrs, 
-                main = main, cex.main = cex.main, col.main = col.main, 
-                ...)
+            Rgraphviz::plot(methods::as(po, Class = "graphNEL"), 
+                attrs = attrs, main = main, cex.main = cex.main, 
+                col.main = col.main, ...)
         }
         graphics::par(mar = omr)
         graphics::par(bg = obg)

@@ -10,7 +10,7 @@ function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
         ifelse(isTRUE(rownames == FALSE) == TRUE, x <- as.data.frame(cbind(as.vector(x[, 
             1]), as.vector(x[, 1]), as.vector(x[, 2:ncol(x)]))), 
             x <- as.data.frame(cbind(rownames(x), rownames(x), 
-                x[, 1:ncol(x)])))
+                x[, seq_len(ncol(x))])))
         attr(x, "names")[1:2] <- c("n", "n")
     }
     else {
@@ -19,41 +19,42 @@ function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
     if (is.null(add) == FALSE) {
         levels(x[, 1]) <- c(levels(x[, 1]), add)
         levels(x[, 2]) <- c(levels(x[, 2]), add)
-        for (i in 1:length(add)) {
+        for (i in seq_len(length(add))) {
             x <- rbind(x, c(add[i], add[i], NA))
         }
         rm(i)
     }
     if (isTRUE(toarray == TRUE) == TRUE) {
-        R <- (ncol(x) - 2L)
-        if (R == 0L) 
+        r <- (ncol(x) - 2L)
+        if (r == 0L) 
             stop("You must specify at least one relation.")
+        x <- x[complete.cases(x[, seq_len(2)]), ]
         lbs <- unique(c(as.vector(x[, 1]), as.vector(x[, 2])))
         if (isTRUE(lbs == "") == TRUE) {
             warning("Node labels in the input are empty!")
-            lbs <- 1:nrow(x)
+            lbs <- seq_len(nrow(x))
         }
         else {
             NA
         }
         n <- length(lbs)
-        ifelse(isTRUE(R == 1L) == TRUE, MAT <- array(0L, dim = c(n, 
-            n)), MAT <- array(0L, dim = c(n, n, R)))
+        ifelse(isTRUE(r == 1L) == TRUE, MAT <- array(0L, dim = c(n, 
+            n)), MAT <- array(0L, dim = c(n, n, r)))
         dimnames(MAT)[[1]] <- dimnames(MAT)[[2]] <- lbs
-        ifelse(isTRUE(R == 1L) == FALSE, dimnames(MAT)[[3]] <- attr(x, 
+        ifelse(isTRUE(r > 1L) == TRUE, dimnames(MAT)[[3]] <- attr(x, 
             "names")[3:ncol(x)], NA)
         if (isTRUE(ncol(x) > 3L) == TRUE) {
-            for (k in 1:R) {
+            for (k in seq_len(r)) {
                 rel <- which(x[, (k + 2L)] != 0L)
                 rrel <- x[rel, ]
                 X <- n
-                for (i in 1:n) {
+                for (i in seq_len(n)) {
                   X[i] <- sum(as.numeric(rrel[, 1] == lbs[i]))
                 }
                 rm(i)
                 attr(X, "names") <- lbs
                 xx <- vector()
-                for (i in 1:n) {
+                for (i in seq_len(n)) {
                   ifelse(X[i] != 0L, xx[i] <- i, xx[i] <- NA)
                 }
                 rm(i)
@@ -67,7 +68,7 @@ function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
                     YY <- rrel[, 2][which(rrel[, 1] == attr(nX, 
                       "names")[i])]
                     if (isTRUE(length(YY) > 1L) == TRUE) {
-                      for (j in 1:length(YY)) {
+                      for (j in seq_len(length(YY))) {
                         tmp <- MAT[(which((as.vector(rownames(MAT)) == 
                           xx[i]), arr.ind = TRUE)), (which(as.vector(colnames(MAT) == 
                           YY[j]), arr.ind = TRUE)), (k)]
@@ -97,7 +98,7 @@ function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
                   YY <- rrel[, 2][which(rrel[, 1] == attr(nX, 
                     "names"))]
                   if (isTRUE(length(YY) > 1L) == TRUE) {
-                    for (j in 1:length(YY)) {
+                    for (j in seq_len(length(YY))) {
                       MAT[(which((as.vector(rownames(MAT)) == 
                         xx), arr.ind = TRUE)), (which(as.vector(colnames(MAT) == 
                         YY[j]), arr.ind = TRUE)), (k)] <- as.numeric(as.vector(rrel[, 
@@ -121,13 +122,13 @@ function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
             rel <- which(x[, 3] != 0L)
             rrel <- x[rel, ]
             X <- integer(n)
-            for (i in 1:n) {
+            for (i in seq_len(n)) {
                 X[i] <- sum(as.numeric(rrel[, 1] == lbs[i]))
             }
             rm(i)
             attr(X, "names") <- lbs
             xx <- vector()
-            for (i in 1:n) {
+            for (i in seq_len(n)) {
                 ifelse(X[i] != 0L, xx[i] <- i, xx[i] <- NA)
             }
             rm(i)
@@ -135,13 +136,13 @@ function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
             xx <- (stats::na.omit(xx))
             xx <- as.vector(attr(xx, "names"))
             nX <- X[which(X > 0L)]
-            YY <- vector()
             if (isTRUE(length(xx) > 1L) == TRUE) {
-                for (i in 1:length(xx)) {
+                YY <- vector()
+                for (i in seq_len(length(xx))) {
                   YY <- rrel[, 2][which(rrel[, 1] == attr(nX, 
                     "names")[i])]
                   if (isTRUE(length(YY) > 1L) == TRUE) {
-                    for (j in 1:length(YY)) {
+                    for (j in seq_len(length(YY))) {
                       tmp <- MAT[(which((as.vector(rownames(MAT)) == 
                         xx[i]), arr.ind = TRUE)), (which(as.vector(colnames(MAT) == 
                         YY[j]), arr.ind = TRUE))]
@@ -167,7 +168,7 @@ function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
             else if (isTRUE(length(xx) == 1L) == TRUE) {
                 YY <- rrel[, 2][which(rrel[, 1] == attr(nX, "names"))]
                 if (isTRUE(length(YY) > 1L) == TRUE) {
-                  for (j in 1:length(YY)) {
+                  for (j in seq_len(length(YY))) {
                     MAT[(which((as.vector(rownames(MAT)) == xx), 
                       arr.ind = TRUE)), (which(as.vector(colnames(MAT) == 
                       YY[j]), arr.ind = TRUE)), 1] <- as.numeric(as.vector(rrel[, 
@@ -185,14 +186,15 @@ function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
         if (isTRUE(dichot == TRUE) == TRUE) {
             MAT <- dichot(MAT)
         }
-        return(MAT)
+        return(MAT[, sort(colnames(MAT))][sort(rownames(MAT)), 
+            ])
     }
     else if (isTRUE(toarray == FALSE) == TRUE) {
         if (isTRUE(attr == TRUE) == TRUE) {
             if (isTRUE(dichot == TRUE) == TRUE) {
                 ifelse(isTRUE(rownames == TRUE) == TRUE, xa[, 
-                  1:ncol(xa)] <- dichot(xa[, 1:ncol(xa)]), x[, 
-                  3:ncol(x)] <- dichot(x[, 3:ncol(x)]))
+                  seq_len(ncol(xa))] <- dichot(xa[, seq_len(ncol(xa))]), 
+                  x[, 3:ncol(x)] <- dichot(x[, 3:ncol(x)]))
             }
             if (isTRUE(rownames == TRUE) == TRUE) {
                 rownames(xa) <- xa[, 1]

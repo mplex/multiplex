@@ -8,6 +8,10 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
     else {
         NA
     }
+    ifelse(is.null(dimnames(x)[[1]]) == TRUE, dimnames(x)[[1]] <- seq_len(dim(x)[1]), 
+        NA)
+    ifelse(is.null(dimnames(x)[[2]]) == TRUE, dimnames(x)[[2]] <- seq_len(dim(x)[2]), 
+        NA)
     qmd <- vector()
     if (is.array(x) == TRUE && is.na(dim(x)[3]) == FALSE) {
         xx <- list()
@@ -40,6 +44,10 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
         rm(k)
     }
     if (is.null(y) == FALSE) {
+        ifelse(is.null(dimnames(y)[[1]]) == TRUE, dimnames(y)[[1]] <- seq_len(dim(y)[1]), 
+            NA)
+        ifelse(is.null(dimnames(y)[[2]]) == TRUE, dimnames(y)[[2]] <- seq_len(dim(y)[2]), 
+            NA)
         if (is.array(y) == TRUE && is.na(dim(y)[3]) == FALSE) {
             yy <- list()
             for (i in seq_len(dim(y)[3])) {
@@ -67,6 +75,8 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
             qmd <- append(qmd, rep("2M", length(y)))
         }
         else {
+            ifelse(is.data.frame(y) == TRUE, y <- as.matrix(y), 
+                NA)
             yy <- zbind(y)
             attr(yy, "names") <- length(xx) + 1L
             qmd <- append(qmd, "2M")
@@ -123,7 +133,7 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
             colnames(yy[[2]]))))))
     }
     else {
-        if (isTRUE(length(yy) > 1) == TRUE) {
+        if (isTRUE(length(yy) > 1) == TRUE && is.list(y) == TRUE) {
             ifelse(any(rownames(X[[which(qmd == "2M")]]) %in% 
                 rownames(X[[which(qmd == "1M")]])) == TRUE, Lbs <- list(dm = (unique(rownames(X[[which(qmd == 
                 "1M")]]))), cdm = (unique(rownames(t(X[[which(qmd == 
@@ -167,7 +177,8 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
             }
             rm(k)
         }
-        dimnames(bmat)[[3]] <- attr(c(xx, yy), "names")
+        lbs3d <- attr(c(xx, yy), "names")
+        dimnames(bmat)[[3]] <- lbs3d
         if (missing(symCdm) == FALSE && isTRUE(symCdm == TRUE) == 
             TRUE) {
             for (i in which(qmd == "2M")) {
