@@ -2,6 +2,11 @@ read.srt <-
 function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE, 
     attr = FALSE, rownames = FALSE, add = NULL) 
 {
+    if (is.vector(file) == TRUE || isTRUE(ncol(file) == 1L) == 
+        TRUE) {
+        return(matrix(0L, nrow = length(file), ncol = length(file), 
+            dimnames = list(file, file)))
+    }
     ifelse(is.array(file) == TRUE | is.data.frame(file) == TRUE, 
         x <- file, x <- utils::read.table(file, header = header, 
             sep = sep))
@@ -25,9 +30,11 @@ function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
         rm(i)
     }
     if (isTRUE(toarray == TRUE) == TRUE) {
+        if (isTRUE((ncol(x) - 2L) == 0L) == TRUE) {
+            warning("One type of relation assumed.")
+            x <- cbind(x, tie = rep(1L, nrow(x)))
+        }
         r <- (ncol(x) - 2L)
-        if (r == 0L) 
-            stop("You must specify at least one relation.")
         x <- x[complete.cases(x[, seq_len(2)]), ]
         lbs <- unique(c(as.vector(x[, 1]), as.vector(x[, 2])))
         if (isTRUE(lbs == "") == TRUE) {
@@ -186,8 +193,8 @@ function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
         if (isTRUE(dichot == TRUE) == TRUE) {
             MAT <- dichot(MAT)
         }
-        return(MAT[, sort(colnames(MAT))][sort(rownames(MAT)), 
-            ])
+        ifelse(isTRUE(attr == FALSE) == TRUE, return(MAT[, sort(colnames(MAT))][sort(rownames(MAT)), 
+            ]), return(MAT))
     }
     else if (isTRUE(toarray == FALSE) == TRUE) {
         if (isTRUE(attr == TRUE) == TRUE) {
