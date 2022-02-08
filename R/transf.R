@@ -1,13 +1,66 @@
 transf <-
-function (x, type = c("toarray", "tolist", "toarray2"), lbs = NULL, 
-    lb2lb, sep, ord, sort, sym, add, adc) 
+function (x, type = c("toarray", "tolist", "toarray2", "toedgel"), 
+    lbs = NULL, lb2lb, sep, ord, sort, sym, add, adc) 
 {
     ifelse(missing(sep) == TRUE, sep <- ", ", NA)
     ifelse(is.list(x) == TRUE && isTRUE(length(x) == 1L) == TRUE, 
         x <- x[[1]], NA)
+    if (match.arg(type) == "toarray" && is.data.frame(x) == TRUE) {
+        return(suppressWarnings(read.srt(x)))
+    }
+    if (match.arg(type) == "toedgel") {
+        if (is.array(x) == TRUE) {
+            if (is.na(dim(x)[3]) == TRUE) {
+                tmp <- trnf(x, tolist = TRUE, lb2lb = TRUE, lbs = dimnames(x)[[1]], 
+                  sep = sep)
+                tmp2 <- sapply(tmp, function(z) {
+                  strsplit(z, sep)
+                })
+                rm(tmp)
+                edgl <- data.frame(matrix(nrow = 0, ncol = 3))
+                colnames(edgl) <- c("s", "r", "t")
+                for (i in seq_len(length(tmp2))) {
+                  edgl[nrow(edgl) + 1L, ] <- c(strsplit(tmp2[[i]], 
+                    sep)[[1]], strsplit(tmp2[[i]], sep)[[2]], 
+                    "1")
+                }
+                rm(i)
+            }
+            else {
+                tmpl <- trnf(x, tolist = TRUE, lb2lb = TRUE, 
+                  lbs = dimnames(x)[[1]], sep = sep)
+                tmp <- trnf(x, tolist = TRUE, lb2lb = FALSE, 
+                  sep = sep)
+                tmp2 <- sapply(tmp, function(z) {
+                  strsplit(z, sep)
+                })
+                rm(tmp)
+                edgl <- data.frame(matrix(nrow = 0, ncol = (dim(x)[3]) + 
+                  2))
+                colnames(edgl) <- c("s", "r", dimnames(x)[[3]])
+                for (k in seq_len(dim(x)[3])) {
+                  for (l in seq_len(length(tmp2[[k]]))) {
+                    ifelse(isTRUE(length(unique(tmp2[[k]][l][[1]])) == 
+                      1) == TRUE, edgl[nrow(edgl) + 1L, (k + 
+                      2)] <- 1L, edgl[nrow(edgl) + 1L, (k + 2)] <- 1L)
+                    edgl[nrow(edgl), 1:2] <- strsplit(tmpl[[k]][[l]], 
+                      sep)[[1]]
+                  }
+                  rm(l)
+                }
+                rm(k)
+                edgl[sapply(edgl, is.na)] <- 0
+            }
+            return(edgl)
+        }
+        else {
+            warning("Only arrays in \"x\" are supported for 'toedgel' type option.")
+            return(x)
+        }
+    }
     if (match.arg(type) == "tolist") {
         if (isTRUE(is.character(x) == TRUE) == TRUE | (is.array(x) == 
-            TRUE && is.null(dim(x)[3]) == TRUE)) 
+            TRUE && is.na(dim(x)[3]) == TRUE)) 
             return(x)
         if (is.array(x) == TRUE) {
             if (isTRUE(sum(x) > 0L) == FALSE | isTRUE(max(x) < 
@@ -30,8 +83,10 @@ function (x, type = c("toarray", "tolist", "toarray2"), lbs = NULL,
             lbsr <- lbsc <- lbs
         }
         else {
-            lbsr <- dimnames(x)[[1]]
-            lbsc <- dimnames(x)[[2]]
+            ifelse(is.null(dimnames(x)[[1]]) == TRUE, lbsr <- seq_len(dim(x)[1]), 
+                lbsr <- dimnames(x)[[1]])
+            ifelse(is.null(dimnames(x)[[2]]) == TRUE, lbsr <- seq_len(dim(x)[2]), 
+                lbsc <- dimnames(x)[[2]])
         }
         rws <- vector()
         cls <- vector()
@@ -55,8 +110,7 @@ function (x, type = c("toarray", "tolist", "toarray2"), lbs = NULL,
             return(unlist(inc))
         }
         else {
-            Inc <- list()
-            length(Inc) <- dim(x)[3]
+            Inc <- vector("list", length = dim(x)[3])
             names(Inc) <- dimnames(x)[[3]]
             for (k in seq_len(dim(x)[3])) {
                 inc <- list()
