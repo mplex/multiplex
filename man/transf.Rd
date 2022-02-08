@@ -17,7 +17,8 @@ transf(x, type = c("toarray", "tolist", "toarray2", "toedgel"), lbs = NULL,
   \item{type}{
    whether the transformation is from a list of pair relations to an array format (\code{"toarray"}), 
    from a matrix to a list of pair relations (\code{"tolist"}), from a list of pair relations to a square array (\code{"toarray2"}), 
-   or else from a matrix or array into an edge list (\code{"toedgel"}). 
+   or else from a matrix or array into an edge list (\code{"toedgel"}).
+  }
   \item{lbs}{
    (optional) the labels in the transformation (disabled for \code{"toarray"})
   }
@@ -70,7 +71,7 @@ For high dimensional arrays, the \code{\link{rel.sys}} function provides additio
 s <- matrix(data=c(1, 1, 1, 3, 3, 3, 3, 3, 3), nrow=3, ncol=3, byrow=TRUE)
 
 ## transform the matrix to a list format
-transf(s, lb2lb = TRUE, lbs = c('n','m','ñ'))
+transf(s, lb2lb = TRUE, lbs = c('n','m','Ã±'))
 }
 \keyword{ manip }
 \keyword{ array }
