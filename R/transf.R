@@ -59,11 +59,12 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
         }
     }
     if (match.arg(type) == "tolist") {
-        if (is.array(x) == TRUE) {
-            if (isTRUE(sum(x) > 0L) == FALSE | isTRUE(max(x) < 
-                1L) == TRUE) 
-                return(NULL)
-        }
+        if (isTRUE(is.character(x) == TRUE) == TRUE | (is.array(x) == 
+            TRUE && is.null(dim(x)) == TRUE)) 
+            return(x)
+        if ((isTRUE(sum(x) > 0L) == FALSE | isTRUE(max(x) < 1L) == 
+            TRUE) && is.array(x) == TRUE) 
+            return(NULL)
         ifelse(missing(lb2lb) == FALSE && isTRUE(lb2lb == TRUE) == 
             TRUE, lb2lb <- TRUE, lb2lb <- FALSE)
         if (is.list(x) == TRUE && is.data.frame(x) == FALSE) {
@@ -82,7 +83,7 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
         else {
             ifelse(is.null(dimnames(x)[[1]]) == TRUE, lbsr <- seq_len(dim(x)[1]), 
                 lbsr <- dimnames(x)[[1]])
-            ifelse(is.null(dimnames(x)[[2]]) == TRUE, lbsr <- seq_len(dim(x)[2]), 
+            ifelse(is.null(dimnames(x)[[2]]) == TRUE, lbsc <- seq_len(dim(x)[2]), 
                 lbsc <- dimnames(x)[[2]])
         }
         rws <- vector()
