@@ -1,13 +1,31 @@
 transf <-
 function (x, type = c("toarray", "tolist", "toarray2", "toedgel"), 
-    lbs = NULL, lb2lb, sep, ord, sort, sym, add, adc) 
+    lbs = NULL, lb2lb, sep, ord, sort, sym, add, adc, na.rm) 
 {
-    ifelse(missing(sep) == TRUE, sep <- ", ", NA)
     ifelse(is.list(x) == TRUE && isTRUE(length(x) == 1L) == TRUE, 
         x <- x[[1]], NA)
     if (match.arg(type) == "toarray" && is.data.frame(x) == TRUE) {
-        return(suppressWarnings(read.srt(x)))
+        if (missing(na.rm) == FALSE && isTRUE(na.rm == FALSE) == 
+            TRUE) {
+            if (any(is.na(x)) == TRUE) 
+                warning("Missing information in 'x' recorded as 'NA'.")
+            x[, 1] <- as.factor(x[, 1])
+            levels(x[, 1]) <- c(levels(x[, 1]), "NA")
+            x[, 1][is.na(x[, 1])] <- "NA"
+            x[, 2] <- as.factor(x[, 2])
+            levels(x[, 2]) <- c(levels(x[, 2]), "NA")
+            x[, 2][is.na(x[, 2])] <- "NA"
+        }
+        if (missing(add) == FALSE) {
+            xadd <- suppressWarnings(read.srt(x, add = add))
+            diag(xadd)[which(dimnames(xadd)[[1]] %in% add)] <- 0
+            return(xadd)
+        }
+        else {
+            return(suppressWarnings(read.srt(x)))
+        }
     }
+    ifelse(missing(sep) == TRUE, sep <- ", ", NA)
     if (match.arg(type) == "toedgel") {
         if (is.array(x) == TRUE) {
             if (is.na(dim(x)[3]) == TRUE) {

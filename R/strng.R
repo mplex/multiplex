@@ -32,7 +32,7 @@ function (x)
                   po[i, j] <- 1L
             }
         }
-        rm(i, j)
+        rm(j)
         rownames(po) <- colnames(po) <- dimnames(x)[[3]]
     }
     else if (is.array(x) == TRUE && is.na(dim(x)[3]) == TRUE || 

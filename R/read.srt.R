@@ -30,7 +30,7 @@ function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
             x <- cbind(x, t = rep(1L, nrow(x)))
         }
         r <- (ncol(x) - 2L)
-        x <- x[complete.cases(x[, seq_len(2)]), ]
+        x <- x[stats::complete.cases(x[, seq_len(2)]), ]
         lbs <- unique(c(as.vector(x[, 1]), as.vector(x[, 2])))
         if (isTRUE(lbs == "") == TRUE) {
             warning("Node labels in the input are empty!")
