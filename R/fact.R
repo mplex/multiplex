@@ -34,6 +34,10 @@ function (S, P, uniq = TRUE, fac, atoms, mca, atmc, patm, k)
     }
     NS <- S$ord
     TAB <- as.matrix(S$S)
+    if (isTRUE(length(unique(as.vector(TAB))) == 1) == TRUE) {
+        return(list(po = P[1:NS, 1:NS], iin = transf(1 - P, type = "tolist", 
+            lb2lb = TRUE), note = "1-element semigroup found."))
+    }
     ifelse(missing(atoms) == FALSE && isTRUE(atoms == FALSE) == 
         TRUE, atoms <- FALSE, atoms <- TRUE)
     ifelse(missing(mca) == FALSE && isTRUE(mca == FALSE) == TRUE, 
@@ -126,7 +130,7 @@ function (S, P, uniq = TRUE, fac, atoms, mca, atmc, patm, k)
         }
         if (isTRUE(nrow(COMP) != 0) == TRUE) {
             vec <- vector()
-            for (i in 1:nrow(COMP)) {
+            for (i in seq_len(nrow(COMP))) {
                 vec <- append(vec, jnt(as.character(COMP[i, ]), 
                   unique = T))
             }
