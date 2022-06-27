@@ -1,22 +1,32 @@
 \name{zbind}
 \alias{zbind}
 \title{
-Combine Arrays 
-}
-\description{
 Combine multidimensional arrays.
 }
-\usage{
-zbind(...)
+\description{
+A function to combine arrays with equal or unequal dimensions.
 }
+\usage{
+zbind(..., sort, force)
+}
+%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{\dots}{
-   One or more arrays with two or three dimensions
-}
+arrays to bind
+  }
+  \item{sort}{
+(optional and logical) sort dimnames in output array?
+  }
+  \item{force}{
+(optional and logical) force bind for unequal dimensions arrays?
+  }
 }
 \details{
-This function is for stacking two-dimensional arrays into a single three-dimensional object to represent a multivariate system structure. Both square and rectangular arrays are supported provided that the dimensions in the input are equal. The \code{dimnames} in the output correspond to the first array in the input, and a Warning message is given when these are NULL.
-% This function represents an extension to both the \code{\link[base:cbind]{cbind}} and the \code{\link[base:rbind]{rbind}} functions, and it is especially useful in constructing a single object to represent a multivariate system structure. Both square and rectangular arrays are supported provided that the dimensions in the input are equal.
+This function is for stacking two- or three-dimensional arrays into a single object to represent a multivariate system structure. 
+Both square and rectangular arrays are supported provided that the dimensions in the input are equal, but data frames need to be transformed into arrays. 
+The \code{dimnames} in the output correspond to the first array in the input, and a Warning message is given when these are NULL.
+
+Activate \code{force} when two or more arrays have different dimensions to generate a three-dimanesional array that includes all elements.
 }
 \value{
 Usually a three dimensional array
@@ -28,7 +38,7 @@ Usually a three dimensional array
 Antonio Rivero Ostoic
 }
 \note{
-Data frames should be transformed into arrays
+This routine is an extension of both \code{\link[base:cbind]{cbind}} and \code{\link[base:rbind]{rbind}} functions. 
 }
 \seealso{
 \code{\link{mnplx}}, \code{\link{dichot}}, \code{\link{strings}}

@@ -8,7 +8,7 @@ Function to transform data from/to matrix/list formats representing a network.
 }
 \usage{
 transf(x, type = c("toarray", "tolist", "toarray2", "toedgel"), lbs = NULL, 
-       lb2lb, sep, ord, sort, sym, add, adc)
+       lb2lb, sep, ord, sort, sym, add, adc, na.rm)
 }
 \arguments{
   \item{x}{
@@ -17,7 +17,7 @@ transf(x, type = c("toarray", "tolist", "toarray2", "toedgel"), lbs = NULL,
   \item{type}{
    whether the transformation is from a list of pair relations to an array format (\code{"toarray"}), 
    from a matrix to a list of pair relations (\code{"tolist"}), from a list of pair relations to a square array (\code{"toarray2"}), 
-   or else from a matrix or array into an edge list (\code{"toedgel"}).
+   or else from a matrix or array into an edge list (\code{"toedgel"}). 
   }
   \item{lbs}{
    (optional) the labels in the transformation (disabled for \code{"toarray"})
@@ -42,6 +42,9 @@ transf(x, type = c("toarray", "tolist", "toarray2", "toedgel"), lbs = NULL,
   }
   \item{adc}{
    (optional) add elements in the array's ``codomain''
+  }
+  \item{na.rm}{
+   (optional and logical) remove NAs?
   }
 }
 \details{
@@ -71,7 +74,7 @@ For high dimensional arrays, the \code{\link{rel.sys}} function provides additio
 s <- matrix(data=c(1, 1, 1, 3, 3, 3, 3, 3, 3), nrow=3, ncol=3, byrow=TRUE)
 
 ## transform the matrix to a list format
-transf(s, lb2lb = TRUE, lbs = c('n','m','Ã±'))
+transf(s, lb2lb = TRUE, lbs = c('n','m','ñ'))
 }
 \keyword{ manip }
 \keyword{ array }
