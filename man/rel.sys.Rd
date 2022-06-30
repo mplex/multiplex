@@ -4,7 +4,7 @@
 Relational System
 }
 \description{
-Create the Relation System of a multiple network.
+Create the Relation System of a multiplex network.
 }
 \usage{
 rel.sys(x, type = c("tolist", "toarray"), bonds = c("entire", "strong", "weak", 
@@ -35,9 +35,9 @@ rel.sys(x, type = c("tolist", "toarray"), bonds = c("entire", "strong", "weak",
   }
 }
 \details{
-When the type of bonds chosen is \code{entire} then the nodes with ties are considered in the relational system without isolated nodes. \code{strong} bonds are relational bundles with a mutual character, whereas \code{weak} bonds are those pattern exclusively without mutual character.
+When the type of bonds chosen is \code{entire} then the nodes with ties are considered in the relational system without isolated nodes. \code{strong} bonds are relational bundles with a mutual character, whereas \code{weak} bonds are those patterns exclusively without mutual character.
 
-When selecting from a list with actor attributes, it is also possible to select the network members having or \emph{not} the attribute that is specified in the \code{Attrs} output. Use \code{att} or \code{noatt} for the two options.
+When choosing from a list with actor attributes, it is also possible to select the network members having or \emph{not} having the attribute that is specified in the \code{Attrs} output by using in argument \code{sel} for the two options \code{att} or \code{noatt}.
 }
 \value{
 An object of `\code{Rel.System}' class for the \code{type = "tolist"} (default) option.

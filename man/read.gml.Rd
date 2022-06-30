@@ -31,7 +31,7 @@ Both ``style'' and ``fill'' are supported here and the former has priority over 
 The function separates up to a couple of relational levels when several pairwise ties are specified.
 }
 \value{
-Depending the option chosen, the output is either a data frame or an array representing the multigraph. If the coordinates are chosen then these are part of the object structure, but they are not visible.
+Depending on the option chosen, the output is either a data frame or an array representing the multigraph. If the coordinates are chosen then these are part of the object structure, but they are not visible.
 }
 \references{
 \code{visone} Software for the analysis and visualization of social networks. \emph{http://visone.info}

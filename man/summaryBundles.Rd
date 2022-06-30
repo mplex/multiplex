@@ -28,11 +28,14 @@ summaryBundles(x, file = NULL, latex = FALSE, byties)
 }
 \details{
 This function prints the bundle census patterns existing in the network with an option to export such information in a friendly format. 
-The dyadic bundle patterns are provide by the function \code{\link{bundles}}; however the outcome of this function provides a list of pair lists for each bundle with the involved types of relations and nodes in the network. 
-This form for presentation, although is convenient for further computation, it is not always easy to read for a human eye. The pair separator used to print the bundle occurrences is taken from the output of the \code{bundles} function.
+The dyadic bundle patterns are provided by the function \code{\link{bundles}}; however, the outcome of this function provides a list of pair lists for 
+each bundle with the involved types of relations and nodes in the network. 
+This form for presentation, although is convenient for further computation, it is not always easy to read for the human eye. 
+The pair separator used to print the bundle occurrences is taken from the output of the \code{\link{bundles}} function.
+
 
 If \code{latex} is set to \code{TRUE}, then the path file is activated to obtain a \code{tex} file with the different bundle class patterns. 
-Finally, the optional argument \code{byties} provides a more precise information of the patterned ties disregarding the relational content.
+Finally, the optional argument \code{byties} provide more precise information about the patterned ties disregarding the relational content.
 }
 \value{
 The distinct bundle class patterns with a user friendly format.

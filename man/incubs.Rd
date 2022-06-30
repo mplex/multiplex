@@ -13,11 +13,11 @@
 Incubator networks dataset
 }
 \description{
-These are four data sets collected in year 2010 (see `source' for the details) of multiple relations between entrepreneurial firms working in business incubators in Denmark.
+These are four data sets collected in the year 2010 (see `source' for the details) of multiple relations between entrepreneurial firms working in business incubators in Denmark.
 
-Each data set contains the adjacency matrices of the three social relations, coded as \code{C}, \code{F}, and \code{K} for working collaboration, informal friendship, and perceived competition among the firms. There are also two actor attributes corresponding to adoption of two Web innovations in year 2010 by the firms where \code{A} stands for Linkedin, and \code{B} for Facebook.
+Each data set contains the adjacency matrices of the three social relations, coded as \code{C}, \code{F}, and \code{K} for working collaboration, informal friendship, and perceived competition among the firms. There are also a pair of actor attributes corresponding to the adoption of two Web innovations in the year 2010 by the firms where \code{A} stands for Linkedin and \code{B} for Facebook.
 
-In addition, there is a blockmodel attached to each data set that is product of Compositional Equivalence (cf. \code{\link{cph}}) with transposes for each type of social tie labelled with the following letter in the Latin alphabet; i.e. \code{D} for collaboration, \code{G} for friendship, and \code{L} for perceived competition.
+In addition, there is a blockmodel attached to each data set that is a product of Compositional Equivalence (cf. \code{\link{cph}}) with transposes for each type of social tie labelled with the following letter in the Latin alphabet; i.e. \code{D} for collaboration, \code{G} for friendship, and \code{L} for perceived competition.
 }
 \usage{
 data("incubs")
@@ -31,7 +31,7 @@ data("incC")
 data("incD")
 }
 \format{
-Each data set is a list with a pair of three dimensioanl arrays.
+Each data set is a list with a pair of three-dimensional arrays.
 
 For \code{incubA}, the dimensions of \code{net} are \eqn{26 \times 26 \times 5}, and of \code{IM} are \eqn{4 \times 4 \times 7} (the two attributes led to the identity matrix).
 
@@ -41,9 +41,9 @@ For \code{incubC}, the dimensions of \code{net} are \eqn{22 \times 22 \times 5},
 
 For \code{incubD}, the dimensions of \code{net} are \eqn{15 \times 15 \times 5}, and of \code{IM} are \eqn{4 \times 4 \times 6}.
 
-All four networks are putted in together in \code{incubs}.
+All four networks are together in \code{incubs}.
 
-In order to plot automatically actor attributes in the graph with function \code{\link[multigraph:multigraph]{multigraph}}, another version of these data sets are given in \code{incA}, \code{incB}, \code{incC}, and \code{incD}, which  are \code{"Data.Set"} objects class having:
+To plot automatically actor attributes in the graph with function \code{\link[multigraph:multigraph]{multigraph}}, another version of these data sets are given in \code{incA}, \code{incB}, \code{incC}, and \code{incD}, which  are \code{"Data.Set"} objects class having:
 
   -- \code{net} for the network data
 

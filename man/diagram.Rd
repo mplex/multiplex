@@ -76,8 +76,8 @@ diagram(x, attrs = NULL, main = NULL, incmp, cex.main, bg, mar, shape,
 
 }
 \details{
-An example of ordered relations is found in the partial order table of relations, which is product of the `\code{strings}' option in the \code{\link{partial.order}} function. Another set of ordered relations comes from the table produced on Galois derivations in the mentioned function.
-In either case this function plot either the partial order or a linear order diagram, depending on the results as Hasse diagrams. 
+An example of ordered relations is found in the partial order table of relations, which is a product of the `\code{strings}' option in the \code{\link{partial.order}} function. Another set of ordered relations comes from the table produced on Galois derivations in the mentioned function.
+In either case, this function plot either the partial order or a linear order diagram, depending on the results as Hasse diagrams. 
 
 When the partial order structure is from a decomposition process, string equations can be placed as labels with an equality separator. 
 }

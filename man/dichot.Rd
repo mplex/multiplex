@@ -2,7 +2,7 @@
 \alias{dichot}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Dichotomize data with a cutoff
+Dichotomize data with a cutoff value
 }
 \description{
 Function to dichotomize the input data for the semigroup construction with a cutoff value.
@@ -23,7 +23,8 @@ dichot(x, c = 1, diag)
 }
 }
 \details{
-This is a convenient function (or wrapper if you like) of the \code{\link[base:replace]{replace}} function. In this case the function is aimed to specify a cutoff value for the dichotomization of the data where the values equal or higher to the cutoff are converted to one, while the others are set to zero. The cutoff can be any real number.
+This is a convenient function (or wrapper if you like) of the \code{\link[base:replace]{replace}} function. 
+In this case, the function is aimed to specify a cutoff value for the dichotomization of the data where the values equal or higher to the cutoff are converted to one, while the others are set to zero. The cutoff can be any real number.
 }
 \value{
 Binary values of the input data.

@@ -34,7 +34,7 @@ reduc(x, clu, lbs = NULL, slbs = NULL, valued, row, col)
 }
 }
 \details{
-Given a partition, this function serves to reduce either a matrix representing e.g. a partial order structure. However the reduction is also generalized a three-dimensional arrays representing multiple relations.
+Given a partition, this function serves to reduce either a matrix representing e.g. a partial order structure. However, the reduction is also generalized to three-dimensional arrays representing multiple relations.
 }
 \value{
 The reduced matrix or a reduced three-dimensional array of the input data according to the clustering information.

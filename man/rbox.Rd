@@ -27,7 +27,7 @@ rbox(w, transp = FALSE, smpl = FALSE, k = 3, tlbs)
 }
 }
 \details{
-If \code{transp = TRUE} the labels of the transpose are toggle case of the labels of the original matrices, and in such case it is adviced to simplify the strings of relations. In order to prevent a transposed structure for a certain array of \code{w}, use \code{NA} in the vector the transpose labels \code{tlbs} corresponding to the respective matrix.
+If \code{transp = TRUE} the labels of the transpose are toggle case of the labels of the original matrices, and in such case, it is advised to simplify the strings of relations. To prevent a transposed structure for a certain array of \code{w}, use \code{NA} in the vector the transpose labels \code{tlbs} corresponding to the respective matrix.
 }
 \value{
 An object of the `\code{Rel.Box}' class.
@@ -50,7 +50,7 @@ Winship, C. and M.J. Mandel `Roles and positions: A critique and extension of th
 Antonio Rivero Ostoic
 }
 \note{
-Values of \code{k} until 9 is supported. With many types of relations, and when the order of the multiple network is high, turning \code{k} to more than three may take a long time of computation.
+Values of \code{k} until 9 are supported. With many types of relations, and when the order of the multiplex network is high, turning \code{k} to more than three may take a long time of computation.
 }
 %\Warning{}
 

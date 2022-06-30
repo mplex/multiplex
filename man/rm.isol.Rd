@@ -4,7 +4,7 @@
 Remove Isolates
 }
 \description{
-Function to remove isolate nodes in simple and multiple networks.
+Function to remove isolated nodes in simple and multiple networks.
 }
 \usage{
 rm.isol(x, diag, diag.incl)
@@ -21,10 +21,10 @@ rm.isol(x, diag, diag.incl)
 }
 }
 \details{
-Isolated nodes do not have any edges in the network, and in a multivariate system, there is no edges adjacent to these kinds of nodes at any level.
+Isolated nodes do not have any edges in the network, and in a multivariate system, there are no edges adjacent to these kinds of nodes at any level.
 }
 \value{
-The matrix or array representing a multiple network without the isolated actors.
+Matrix or array that represents a multiplex network without the isolated actors.
 }
 %\references{
 %
