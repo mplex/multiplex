@@ -24,12 +24,13 @@ arrays to bind
 \details{
 This function is for stacking two- or three-dimensional arrays into a single object to represent a multivariate system structure. 
 Both square and rectangular arrays are supported provided that the dimensions in the input are equal, but data frames need to be transformed into arrays. 
-The \code{dimnames} in the output correspond to the first array in the input, and a Warning message is given when these are NULL.
+The \code{dimnames} in the output correspond to the first array in the input, and a \code{Warning} message is given when these labels are \code{NULL}.
 
-Activate \code{force} Activate \code{force} when two or more arrays have different dimensions to generate a three-dimanesional array that includes all elements.
+Activate \code{force} when two or more arrays have different dimensions to generate a three-dimensional array that includes all elements. 
+This is the default option that is needed for working with temporal or dynamic networks with changing size and order.
 }
 \value{
-Usually a three-dimensional array
+Usually a three-dimensional array representing a multiplex network.
 }
 %\references{
 %
@@ -38,10 +39,10 @@ Usually a three-dimensional array
 Antonio Rivero Ostoic
 }
 \note{
-This routine is an extension of both \code{\link[base:cbind]{cbind}} and \code{\link[base:rbind]{rbind}} functions. 
+This routine is an extension of both \code{\link[base:cbind]{cbind}} and \code{rbind} functions. 
 }
 \seealso{
-\code{\link{mnplx}}, \code{\link{dichot}}, \code{\link{strings}}
+\code{\link{mnplx}}, \code{\link{dichot}}, \code{\link{strings}}, \code{\link[base:cbind]{cbind}}
 }
 \examples{
 ## Create the data: two sets with a pair of binary relations 
