@@ -13,7 +13,7 @@ Description: Algebraic procedures for the analysis of multiple social networks a
 	    structure with the relational bundles occurring in different types of multivariate network 
 	    data sets. It also provides an algebraic approach for affiliation networks through Galois 
 	    derivations between families of the pairs of subsets in the two domains.
-Date: 2022-06-27
+Date: 2022-06-30
 Authors@R: person(given = "Antonio", family = "Rivero Ostoic", role = c("aut", "cre"), email = "multiplex@post.com")
 Author: Antonio Rivero Ostoic [aut, cre]
 Maintainer: Antonio Rivero Ostoic <multiplex@post.com>
