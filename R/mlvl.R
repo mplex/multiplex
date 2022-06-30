@@ -191,7 +191,9 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
             rm(k)
         }
         lbs3d <- attr(c(xx, yy), "names")
-        dimnames(bmat)[[3]] <- lbs3d
+        ifelse(missing(lbs) == FALSE && isTRUE(length(lbs) == 
+            dim(bmat)[3]) == TRUE, dimnames(bmat)[[3]] <- lbs, 
+            dimnames(bmat)[[3]] <- lbs3d)
         if (missing(symCdm) == FALSE && isTRUE(symCdm == TRUE) == 
             TRUE) {
             for (i in which(qmd == "2M")) {
