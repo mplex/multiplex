@@ -15,7 +15,7 @@ In conjunction with the \CRANpkg{multigraph} package, it is possible to visualiz
 Package: \tab multiplex \cr
 Type: \tab Package \cr
 Version: \tab 2.9.9 \cr
-Date: \tab 27 June 2022 \cr
+Date: \tab 30 June 2022 \cr
 License: \tab GPL-3 \cr
 LazyLoad: \tab yes \cr
 }

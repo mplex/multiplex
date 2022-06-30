@@ -26,10 +26,10 @@ This function is for stacking two- or three-dimensional arrays into a single obj
 Both square and rectangular arrays are supported provided that the dimensions in the input are equal, but data frames need to be transformed into arrays. 
 The \code{dimnames} in the output correspond to the first array in the input, and a Warning message is given when these are NULL.
 
-Activate \code{force} when two or more arrays have different dimensions to generate a three-dimanesional array that includes all elements.
+Activate \code{force} Activate \code{force} when two or more arrays have different dimensions to generate a three-dimanesional array that includes all elements.
 }
 \value{
-Usually a three dimensional array
+Usually a three-dimensional array
 }
 %\references{
 %

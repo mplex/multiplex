@@ -21,7 +21,11 @@ array with the positive ties and possible with negative ties (see Details)
 }
 }
 \details{
-This function coerce an array(s) to become a `\code{Signed}' object. Positive ties are always in the first argument, and in case that this array has three dimensions, the second dimension is considered as the negative ties, provided that \code{N} still \code{NULL}. If ambivalent ties are present in the structure then the signed matrix represent positive, negative, ambivalent, and null ties as \code{p}, \code{n}, \code{a}, and \code{o} respectively; otherwise the values are \code{1}, \code{-1}, and \code{0}.
+This function coerces an array(s) to become a `\code{Signed}' object. 
+Positive ties are always in the first argument, and in case that this array has three dimensions, 
+the second dimension is considered as the negative ties, provided that \code{N} is still \code{NULL}. 
+If ambivalent ties are present in the structure then the signed matrix represent positive, negative, ambivalent, and null ties 
+as \code{p}, \code{n}, \code{a}, and \code{o} respectively; otherwise, the values are \code{1}, \code{-1}, and \code{0}.
 
 }
 \value{

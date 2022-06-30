@@ -1,14 +1,14 @@
 \name{mlvl}
 \alias{mlvl}
 \title{
-Construct multilevel structures
+Construct multilevel networks
 }
 \description{
-Function to construct multilevel structures from a one- and a two-mode network.
+Function to construct multilevel networks from multimodal structures.
 }
 \usage{
 mlvl(x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"), 
-    symCdm, diag, lbs)
+     symCdm, diag, lbs)
 }
 \arguments{
   \item{x}{
@@ -18,7 +18,15 @@ mlvl(x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
   codomain data
 }
   \item{type}{
-  type of multilevel structure
+  type of multilevel system: 
+
+     - \code{bpn} for binomial projection
+
+     - \code{cn} for common membership network
+
+     - \code{cn2} for co-affiliation of network members
+
+     - \code{list} for the multimodal structures as a list
 }
   \item{symCdm}{
   (optional and logical, only for \code{bpn}) whether or not symmetrize the codomain structure
@@ -31,11 +39,15 @@ mlvl(x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
 }
 }
 \details{
-The default multilevel structure is \code{bpn} that requires data for the two domains. 
-However, option \code{cn} does need \code{x} since returns the co-affiliation network of the codomain structure. 
+The default multilevel system is a binomial projection \code{bpn} that requires data for the two domains, as with 
+\code{cn2} as well. 
+Option \code{cn} does not need the domain in \code{x} since returns the co-affiliation of network members from the codomain structure. 
 
-Many times is convenient to specify the domain and codomain labels. 
-Since these are different components in the multilevel structure, then the components' labels have to be be specified as a list object. 
+Since these are different components in the multilevel system for co-affiliation of network members, 
+it is possible to specify the domain and codomain labels in \code{lbs} as a list object. 
+
+
+Making symmetric the codomain structure with \code{symCdm} is many times convenient for visualization purposes.
 }
 \value{
 An object of `\code{Multilevel}' class of chosen type.
@@ -56,9 +68,9 @@ An object of `\code{Multilevel}' class of chosen type.
 \author{
 Antonio Rivero Ostoic
 }
-\note{
-Function may need further testing of exceptions.
-}
+%\note{
+%
+%}
 %
 %%% ~Make other sections like Warning with \section{Warning }{....} ~
 %
@@ -72,7 +84,7 @@ arr1 <- round( replace( array(runif(18), c(3,3,2)), array(runif(18), c(3,3,2))>.
 # rectangle array for the co-domain
 arr2 <- round( replace( array(runif(12), c(3,2,2)), array(runif(12), c(3,2,2))>.9, 3 ) )
 
-# multilevel structure with default type
+# multilevel system with default type
 mlvl(arr1, arr2)
 }
 %

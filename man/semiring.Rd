@@ -27,7 +27,7 @@ semiring(x, type = c("balance", "cluster"), symclos = TRUE,
 \details{
 Semiring structures are based on signed networks, and this function provides the capabilities to handle either the balance semiring or the cluster semiring within the structural balance theory.
 %
-A semiring combines two different kinds of operations with a single underlying set, and it can be seen as an abstract semigroup with identity under multiplication and a commutative monoid under addition. Semirings are useful to determinate whether a given signed network is balanced or clusterable. The symmetric closure evaluates this by looking at semicycles in the system; otherwise the evaluation is through closed paths. 
+A semiring combines two different kinds of operations with a single underlying set, and it can be seen as an abstract semigroup with identity under multiplication and a commutative monoid under addition. Semirings are useful to determine whether a given signed network is balanced or clusterable. The symmetric closure evaluates this by looking at semicycles in the system; otherwise, the evaluation is through closed paths. 
 }
 \value{
 An object of `\code{Semiring}' class. 

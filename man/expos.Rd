@@ -14,7 +14,7 @@ expos(rs, classes = FALSE, allClasses = FALSE, allNodes = TRUE)
    an object of `\code{Rel.System}', typically with node attributes.
 }
   \item{classes}{
-   (optional) whether or not should be included in the outputthe categories of adopters 
+   (optional) whether or not should be included in the output the categories of adopters 
 }
   \item{allClasses}{
    (optional) whether or not to include empty classes within the categories of adopters. Ignored if \code{classes} is \code{FALSE}
@@ -25,15 +25,15 @@ expos(rs, classes = FALSE, allClasses = FALSE, allNodes = TRUE)
 }
 \details{
 This is a generalization of the network exposure measure for multiple networks with the characteristics chosen for the representative relational system. 
-Such system can be the entire network or configuration with strong or weak bonds among the actors. 
+Such a system can be the entire network or configuration with strong or weak bonds among the actors. 
 It is possible to specify different behaviors of the nodes representing social actors, which are indicated in the form of a relational system. 
-The network exposure measure is calculated according to the immediate neighbors to the reference actor. 
+The network exposure measure is calculated according to the immediate neighbours to the reference actor. 
 
 }
 \value{
 %%
 \item{Classes}{
-        if \code{classes} is set to \code{TRUE}, the adoption membership for the type of relational system chosen, including isolated actors in the system. 
+        if option \code{classes} is set to \code{TRUE}, the adoption membership for the type of relational system chosen, including isolated actors in the system. 
 }
 \item{Bonds}{
         the type of bonds of the relational system (cf. \code{\link{rel.sys}})
