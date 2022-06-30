@@ -8,6 +8,7 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
     else {
         NA
     }
+    ifelse(match.arg(type) == "cn", qmd <- "1M", NA)
     if (is.null(x) == FALSE) {
         ifelse(is.null(dimnames(x)[[1]]) == TRUE, dimnames(x)[[1]] <- seq_len(dim(x)[1]), 
             NA)
@@ -36,7 +37,6 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
                 qmd <- append(qmd, "1M")
             }
         }
-        ifelse(match.arg(type) == "cn", qmd <- "1M", NA)
         if (match.arg(type) == "bpn") {
             vcn <- vector()
             for (k in seq_len(length(xx))) {
@@ -45,6 +45,9 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
             }
             rm(k)
         }
+    }
+    else {
+        NA
     }
     if (is.null(y) == FALSE) {
         ifelse(is.null(dimnames(y)[[1]]) == TRUE, dimnames(y)[[1]] <- seq_len(dim(y)[1]), 
@@ -80,8 +83,8 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
         else {
             ifelse(is.data.frame(y) == TRUE, y <- as.matrix(y), 
                 NA)
+            yy <- zbind(y)
             if (is.null(x) == FALSE) {
-                yy <- zbind(y)
                 attr(yy, "names") <- length(xx) + 1L
             }
             qmd <- append(qmd, "2M")
