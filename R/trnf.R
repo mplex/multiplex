@@ -5,7 +5,7 @@ function (x, lbs = NULL, lb2lb = FALSE, tolist = FALSE, ord,
     ifelse(missing(sep) == TRUE, sep <- ", ", NA)
     if (isTRUE(tolist == TRUE) == TRUE) {
         ifelse(is.na(dim(x)[3]) == FALSE, return(rel.sys(x, type = "tolist", 
-            sep = sep)$Ties), NA)
+            sep = sep, loops = TRUE)$Ties), NA)
         if (isTRUE(sum(x) > 0L) == FALSE) 
             return(paste(0, 0, sep = sep))
         if (isTRUE(is.matrix(x) == TRUE) == FALSE) 

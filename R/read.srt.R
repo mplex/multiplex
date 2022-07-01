@@ -40,8 +40,12 @@ function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
             NA
         }
         n <- length(lbs)
-        ifelse(isTRUE(r == 1L) == TRUE, MAT <- array(0L, dim = c(n, 
-            n)), MAT <- array(0L, dim = c(n, n, r)))
+        if (isTRUE(r == 1L) == TRUE) {
+            MAT <- array(0L, dim = c(n, n))
+        }
+        else {
+            MAT <- array(0L, dim = c(n, n, r))
+        }
         dimnames(MAT)[[1]] <- dimnames(MAT)[[2]] <- lbs
         ifelse(isTRUE(r > 1L) == TRUE, dimnames(MAT)[[3]] <- attr(x, 
             "names")[3:ncol(x)], NA)
@@ -189,8 +193,14 @@ function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
         if (isTRUE(dichot == TRUE) == TRUE) {
             MAT <- dichot(MAT)
         }
-        ifelse(isTRUE(attr == FALSE) == TRUE, return(MAT[, sort(colnames(MAT))][sort(rownames(MAT)), 
-            ]), return(MAT))
+        if (isTRUE(attr == FALSE) == TRUE && isTRUE(r == 1L) == 
+            TRUE) {
+            return(MAT[, sort(colnames(MAT))][sort(rownames(MAT)), 
+                ])
+        }
+        else {
+            return(MAT)
+        }
     }
     else if (isTRUE(toarray == FALSE) == TRUE) {
         if (isTRUE(attr == TRUE) == TRUE) {

@@ -22,7 +22,7 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
             return(xadd)
         }
         else {
-            return(suppressWarnings(read.srt(x)))
+            return(suppressWarnings(read.srt(x, toarray = TRUE)))
         }
     }
     ifelse(missing(sep) == TRUE, sep <- ", ", NA)
@@ -58,9 +58,7 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
                 colnames(edgl) <- c("s", "r", dimnames(x)[[3]])
                 for (k in seq_len(dim(x)[3])) {
                   for (l in seq_len(length(tmp2[[k]]))) {
-                    ifelse(isTRUE(length(unique(tmp2[[k]][l][[1]])) == 
-                      1) == TRUE, edgl[nrow(edgl) + 1L, (k + 
-                      2)] <- 1L, edgl[nrow(edgl) + 1L, (k + 2)] <- 1L)
+                    edgl[nrow(edgl) + 1L, (k + 2)] <- 1L
                     edgl[nrow(edgl), 1:2] <- strsplit(tmpl[[k]][[l]], 
                       sep)[[1]]
                   }
