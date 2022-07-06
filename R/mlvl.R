@@ -121,7 +121,7 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
             if ((is.matrix(x) == TRUE || is.array(x) == TRUE || 
                 is.null(x) == FALSE) && isTRUE(dim(cdmat)[1] == 
                 dim(x)[1]) == TRUE) {
-                cdmat <- zbind(x, cdmat)
+                cdmat <- zbind(x, cdmat, force = TRUE)
             }
             else {
                 stop("\"x\" is missing or it has an invalid format.")
