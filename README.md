@@ -16,7 +16,7 @@
 
 Algebraic procedures for the analysis of multiple social networks are delivered with 
 [this package](https://cran.r-project.org/web/packages/multiplex/index.html) 
-as described in Ostoic (2020) <DOI:10.18637/jss.v092.i11>.. 
+as described in Ostoic (2020) <DOI:10.18637/jss.v092.i11>. 
 
 * `"multiplex"` makes possible, among other things, to create and manipulate multiplex, multimode, and 
 multilevel network data with different formats. 
