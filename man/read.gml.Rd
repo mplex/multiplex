@@ -20,18 +20,16 @@ read.gml(file, as = c("srt", "array"), directed = TRUE, coords = FALSE)
    (logical) whether the graph is directed or undirected.
 }
   \item{coords}{
-   (logical) whether the coordinates in the \code{gml} file should be included.
+   (logical) whether the coordenates in the \code{gml} file should be included.
 }
 }
 \details{
-The \code{gml} format, an acronym for \emph{graph modelling language}, provides capabilities to represent multiple networks and add arguments to both the nodes and the edges for visualization purposes.
+The \code{gml} format, an acronym for \emph{graph modelling language}, provides capabilities to represent multiple networks and add arguments both to the nodes and the edges for visualization purposes.
 
-For the multiplexity in the ties, the \code{gml} file distinguishes ``graphics'' arguments inside ``edge''. 
-Both ``style'' and ``fill'' are supported here and the former has priority over the latter in case the two are given; otherwise when these arguments are absent. 
-The function separates up to a couple of relational levels when several pairwise ties are specified.
+For the multiplexity in the ties the \code{gml} file distinguishes ``graphics'' arguments inside ``edge''. Both ``style'' and ``fill'' are supported here and the former has priority over the latter in case the two are given; otherwise when these arguments are absent, the function separates up to a couple of relational levels when several pairwise ties are specified.
 }
 \value{
-Depending on the option chosen, the output is either a data frame or an array representing the multigraph. If the coordinates are chosen then these are part of the object structure, but they are not visible.
+Depending the option chosen, the output is either a data frame or an array representing the multigraph. If the coordenates are chosen then these are part of the obejct structure, but they are not visible.
 }
 \references{
 \code{visone} Software for the analysis and visualization of social networks. \emph{http://visone.info}
@@ -40,10 +38,10 @@ Depending on the option chosen, the output is either a data frame or an array re
 Antonio Rivero Ostoic
 }
 \note{
-If the coordinates are chosen, node attributes can also be retrieved.
+If the coordenates are chosen, node attributes can also be retrieved.
 }
 \seealso{
-\code{\link{write.gml}}, \code{\link{read.srt}}, \code{\link{read.dl}}
+\code{\link{write.gml}}, \code{\link{edgel}}, \code{\link{read.dl}}
 }
 %\examples{
 %

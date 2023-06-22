@@ -1,36 +1,31 @@
 \name{zbind}
 \alias{zbind}
 \title{
-Combine multidimensional arrays.
+Combine Arrays 
 }
 \description{
-A function to combine arrays with equal or unequal dimensions.
+Combine multidimensional arrays.
 }
 \usage{
 zbind(..., sort, force)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{\dots}{
-arrays to bind
-  }
+   One or more arrays with two or three dimensions
+}
   \item{sort}{
-(optional and logical) sort dimnames in output array?
+   (optional and logical) sort array according to labels?
   }
   \item{force}{
-(optional and logical) force bind for unequal dimensions arrays?
-  }
+   (optional and logical) force binding matrices with different order?
+}
 }
 \details{
-This function is for stacking two- or three-dimensional arrays into a single object to represent a multivariate system structure. 
-Both square and rectangular arrays are supported provided that the dimensions in the input are equal, but data frames need to be transformed into arrays. 
-The \code{dimnames} in the output correspond to the first array in the input, and a \code{Warning} message is given when these labels are \code{NULL}.
-
-Activate \code{force} when two or more arrays have different dimensions to generate a three-dimensional array that includes all elements. 
-This is the default option that is needed for working with temporal or dynamic networks with changing size and order.
+This function is for stacking two-dimensional arrays into a single three-dimensional object to represent a multivariate system structure. Both square and rectangular arrays are supported provided that the dimensions in the input are equal. The \code{dimnames} in the output correspond to the first array in the input, and a Warning message is given when these are NULL.
+% This function represents an extension to both the \code{\link[base:cbind]{cbind}} and the \code{\link[base:rbind]{rbind}} functions, and it is especially useful in constructing a single object to represent a multivariate system structure. Both square and rectangular arrays are supported provided that the dimensions in the input are equal.
 }
 \value{
-Usually a three-dimensional array representing a multiplex network.
+Usually a three dimensional array
 }
 %\references{
 %
@@ -39,10 +34,10 @@ Usually a three-dimensional array representing a multiplex network.
 Antonio Rivero Ostoic
 }
 \note{
-This routine is an extension of both \code{\link[base:cbind]{cbind}} and \code{rbind} functions. 
+Data frames should be transformed into arrays
 }
 \seealso{
-\code{\link{mnplx}}, \code{\link{dichot}}, \code{\link{strings}}, \code{\link[base:cbind]{cbind}}
+\code{\link{mnplx}}, \code{\link{dichot}}, \code{\link{strings}}
 }
 \examples{
 ## Create the data: two sets with a pair of binary relations 
