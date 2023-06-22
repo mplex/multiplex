@@ -62,10 +62,10 @@ function (x, xd, lbs, TRD, r, m, mlt, sep)
         length(Einn) <- length(lbs)
         TEnt <- list()
         length(TEnt) <- length(lbs)
-        for (i in 1:length(dobl)) {
+        for (i in seq(length(dobl))) {
             tmpout <- vector()
             tmpinn <- vector()
-            for (j in 1:length(dobl[[i]])) {
+            for (j in seq(length(dobl[[i]]))) {
                 if (isTRUE(dobl[[i]][j] %in% dout[[i]]) == TRUE) 
                   tmpout[length(tmpout) + 1L] <- dobl[[i]][j]
                 if (isTRUE(dobl[[i]][j] %in% dinn[[i]]) == TRUE) 
@@ -76,7 +76,7 @@ function (x, xd, lbs, TRD, r, m, mlt, sep)
             Einn[[i]] <- tmpinn
             TEnt[[i]] <- c(tmpout, tmpinn)
         }
-        rm(tmpout, tmpinn)
+        rm(i)
     }
     else {
         TEnt <- Eout <- Einn <- character(0)
@@ -107,7 +107,7 @@ function (x, xd, lbs, TRD, r, m, mlt, sep)
     recp <- list()
     for (i in seq(lbs)) {
         tmprcp <- vector()
-        for (j in 1:length(sngl[[i]])) {
+        for (j in seq(length(sngl[[i]]))) {
             chk <- paste(sngl[[i]][j], i, sep = sep)
             if (isTRUE(TRD == TRUE) == TRUE) {
                 for (k in 1:dim(x)[3]) {
@@ -127,7 +127,6 @@ function (x, xd, lbs, TRD, r, m, mlt, sep)
         recp[[i]] <- as.integer(tmprcp)
     }
     rm(i)
-    rm(tmprcp)
     if (isTRUE(TRD == TRUE) == TRUE) {
         xchg <- list()
         for (i in seq(lbs)) {
@@ -142,10 +141,10 @@ function (x, xd, lbs, TRD, r, m, mlt, sep)
         Eout3p <- list()
         Einn3p <- list()
         TEnt3p <- list()
-        for (i in 1:length(tripfl)) {
+        for (i in seq(length(tripfl))) {
             tmpout <- vector()
             tmpinn <- vector()
-            for (j in 1:length(tripfl[[i]])) {
+            for (j in seq(length(tripfl[[i]]))) {
                 if (isTRUE(tripfl[[i]][j] %in% trou[[i]]) == 
                   TRUE) 
                   tmpout[length(tmpout) + 1L] <- tripfl[[i]][j]
@@ -160,10 +159,10 @@ function (x, xd, lbs, TRD, r, m, mlt, sep)
         }
         TEinn <- list()
         TEout <- list()
-        for (i in 1:length(TEnt3p)) {
+        for (i in seq(length(TEnt3p))) {
             tmpinn <- vector()
             tmpout <- vector()
-            for (j in 1:length(TEnt3p[[i]])) {
+            for (j in seq(length(TEnt3p[[i]]))) {
                 if (isTRUE(length(Eout3p[[i]]) > 0) == TRUE) {
                   if (isTRUE(!(Eout3p[[i]][j] %in% inn[[i]])) == 
                     TRUE) 
@@ -180,7 +179,6 @@ function (x, xd, lbs, TRD, r, m, mlt, sep)
             TEout[[i]] <- tmpout
         }
         rm(i)
-        rm(tmpinn, tmpout)
         if (isTRUE(all.equal(TEnt3p, tripfl) == TRUE) == TRUE && 
             isTRUE(length(unlist(tripfl)) > 0) == TRUE) {
             mixe <- as.list(integer(length = length(lbs)))
