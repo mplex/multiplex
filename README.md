@@ -16,7 +16,7 @@
 
 Algebraic procedures for the analysis of multiple social networks are delivered with 
 [this package](https://cran.r-project.org/web/packages/multiplex/index.html) 
-as described in Ostoic (2020) <DOI:10.18637/jss.v092.i11>. 
+as described in Ostoic (2020) <[DOI:10.18637/jss.v092.i11](https://doi.org/10.18637/jss.v092.i11)>. 
 
 * `"multiplex"` makes possible, among other things, to create and manipulate multiplex, multimode, and 
 multilevel network data with different formats. 
@@ -29,10 +29,10 @@ bundles occurring in different types of multivariate networks.
 of the pairs of subsets in the two domains of the network with visualization options.
 
 
-<br />
-
+<br /><br />
 * * *
-<br />
+<br /><br />
+
 
 ### Example: Partially Ordered Semigroup of Relations
 
@@ -74,22 +74,24 @@ semigroup(arr, type = "symbolic") |>
 
 ```r
 ### create the partial order
-partial.order(strings(arr), type = "strings")
+strings(arr) |> 
+  partial.order(type = "strings")
 ```
 
 
 ```r
 ### plot the partial order (requires "Rgraphviz")
-if(require("Rgraphviz", quietly = TRUE)) {
-   diagram(partial.order(strings(arr), type = "strings"))
-   }
+require("Rgraphviz", quietly = TRUE))
+strings(arr) |> 
+  partial.order(type = "strings") |> 
+  diagram()
 ```
 
-<br />
 
+<br /><br />
 * * *
+<br /><br />
 
-<br />
 
 ### Example: Working with a Two-Mode Network data set
 <i>(taken from the multiplex [vignette](https://cran.r-project.org/web/packages/multiplex/vignettes/TwoModeNetworks.pdf))</i>
@@ -107,20 +109,25 @@ rownames(frt) <- c("PinkLady", "GrannySmith", "GoldenDelicious", "RedDelicious",
 
 ```r
 ### Perform Galois connections among subsets with a reduced labeling
-gc <- galois(frt, labeling = "reduced")
+galois(frt, labeling = "reduced")
 ```
 
 
 ```r
 ### Get the partial order of these "concepts"
-pogc <- partial.order(gc, type = "galois")
+galois(frt, labeling = "reduced") |> 
+  partial.order(type = "galois")
 ```
 
 
 ```r
 ### Plot the concept lattice of the partial order
-if(require("Rgraphviz", quietly = TRUE)) {
-   diagram(pogc)
-   }
+require("Rgraphviz", quietly = TRUE)
+galois(frt, labeling = "reduced") |> 
+  partial.order(type = "galois") |> 
+  diagram()
 ```
 
+<br /><br />
+<br /><br />
+&nbsp;
