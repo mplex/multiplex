@@ -1,9 +1,13 @@
 perm <-
 function (x, clu, rev, lbs, sort) 
 {
+    ifelse(isTRUE(is.list(x) == TRUE) == TRUE && isTRUE(length(x$S) > 
+        0) == TRUE, x <- x$S, NA)
+    ifelse(isTRUE(is.list(x) == TRUE) == TRUE && isTRUE(length(x$Q) > 
+        0) == TRUE, x <- x$Q, NA)
     if (isTRUE(is.array(x) == TRUE) == FALSE && isTRUE(is.data.frame(x) == 
         TRUE) == FALSE && isTRUE(is.matrix(x) == TRUE) == FALSE) 
-        stop("'x' must be an array, matrix, or a data frame object.")
+        stop("\"x\" must be an array, matrix, or a data frame object.")
     if (missing(sort) == FALSE && (missing(clu) == FALSE || missing(rev) == 
         FALSE || missing(lbs) == FALSE)) 
         warning("Values in \"clu\", \"rev\", and \"lbs\" are ignored by activating \"sort\".")
@@ -11,7 +15,7 @@ function (x, clu, rev, lbs, sort)
         rev <- TRUE, rev <- FALSE)
     if (missing(sort) == TRUE && (missing(clu) == TRUE || isTRUE(length(unlist(clu)) != 
         dim(x)[1]) == TRUE)) 
-        stop("'clu' is missing or it does not match the order of 'x'.")
+        stop("\"clu\" is missing or it does not match the order of \"x\".")
     if (missing(sort) == FALSE && is.null(dimnames(x)) == TRUE) 
         return(x)
     if (missing(sort) == FALSE && isTRUE(sort == TRUE) == TRUE && 
