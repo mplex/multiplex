@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/mplex/multiplex.svg?branch=master)](https://travis-ci.org/mplex/multiplex)
+
+
 [![CRAN version](http://www.r-pkg.org/badges/version/multiplex)](https://cran.r-project.org/package=multiplex)
 [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/grand-total/multiplex)](https://cran.rstudio.com/web/packages/multiplex/index.html)
 
@@ -13,7 +14,20 @@
 
 ### Abstract
 
-Algebraic procedures for the analysis of multiple social networks are delivered with [this package](https://cran.r-project.org/web/packages/multiplex/index.html). Among other things, it is possible to create and manipulate multivariate network data with different formats, and there are effective ways available to treat multiple networks with routines that combine algebraic systems like the partially ordered semigroup or the semiring structure together with the relational bundles occurring in different types of multivariate network data sets. As well an algebraic approach for two-mode networks is made through Galois derivations between families of the pair of subsets.
+Algebraic procedures for the analysis of multiple social networks are delivered with 
+[this package](https://cran.r-project.org/web/packages/multiplex/index.html) 
+as described in Ostoic (2020) <DOI:10.18637/jss.v092.i11>.. 
+
+* `"multiplex"` makes possible, among other things, to create and manipulate multiplex, multimode, and 
+multilevel network data with different formats. 
+
+* Effective ways are available to treat multiple networks with routines that combine algebraic systems like the partially ordered 
+semigroup with decomposition procedures or semiring structures with the relational 
+bundles occurring in different types of multivariate networks. 
+
+* `"multiplex"` provides also an algebraic approach for affiliation networks through Galois derivations between families 
+of the pairs of subsets in the two domains of the network with visualization options.
+
 
 <br />
 
@@ -23,7 +37,7 @@ Algebraic procedures for the analysis of multiple social networks are delivered 
 ### Example: Partially Ordered Semigroup of Relations
 
 ```r
-### create the data: two types of relations among three elements
+### create network data: two types of relations among three elements
 set.seed(123)
 arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
         c(3,3,2))>.5, 3 ) )
@@ -31,23 +45,31 @@ arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
 
 
 ```r
-### dichotomize it with customized cutoff value
+### dichotomize data with customized cutoff value
 dichot(arr, c = 3)
 ```
 
 
+
 ```r
-### create the semigroup
+### string relations
+strings(arr)
+strings(arr, equat = TRUE, k = 3)
+```
+
+
+```r
+### create numerical or symbolic semigroup
 semigroup(arr)
 semigroup(arr, type = "symbolic")
 ```
 
-
 ```r
-### look at the strings
-strings(arr)
-strings(arr, equat = TRUE, k = 3)
+### Green's relations of symbolic semigroup
+semigroup(arr, type = "symbolic") |> 
+  green.rel()
 ```
+
 
 
 ```r
