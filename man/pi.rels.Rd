@@ -30,7 +30,7 @@ This function process the outcome of the Pacnet report by adding induced inclusi
 \value{
 An object of the `\code{Pi.rels}' class
 
-  \item{pi }{the \eqn{\pi}-relations, eventually with the partial order}
+  \item{pi}{the \eqn{\pi}-relations, eventually with the partial order}
   \item{mca}{the meet-complements of atoms}
 }
 \references{
@@ -46,7 +46,7 @@ Antonio Rivero Ostoic
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{pacnet}}, \code{\link{decomp}}
+\code{\link{pacnet}}, \code{\link{decomp}}, \code{\link{semigroup}}
 }
 %\examples{
 %
@@ -54,4 +54,5 @@ Antonio Rivero Ostoic
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ algebra }
+\keyword{ math }
 %\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

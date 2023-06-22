@@ -2,6 +2,30 @@
 'multiplex' PACKAGE
 
 
+version 3.0.0-2 (22-June-2023)
+-----------------------------
+ADDED FEATURES:
+	+ NEW FUNCTION 'green.rel' to perform Green's relations 
+	  on semigroup objects
+
+OTHER CHANGES:
+	* Function 'read.srt' RENAMED to 'edgel' that stands for 
+	  edge list (alias remains for compatibility)
+	* Function 'write.srt' RENAMED to 'write.edgel'
+	+ 'zbind' supports dynamic networks with "force"
+	+ new argument "sort" in function 'zbind' 
+	+ 'transf' supports missing data with "na.rm"
+	- DEPRECATED: 'zbindd'
+
+
+version 2.9.8 (8-February-2022)
+-----------------------------
+CHANGES:
+	+ new argument "type" option "toedgel" in
+	  'transf'
+	* 'read.srt' supports edge lists without tie columns
+
+
 version 2.9.7 (10-January-2022)
 -----------------------------
 NEW INTERNAL: 'zbindd' to bind dynamic networks
@@ -42,8 +66,8 @@ version 2.9 (21-September-2018)
 ADDED: 'fact', 'mlvl'
 ADDED INTERNS: 'strng', 'edgS'
 
-DEPREACTED: 'convert', 'relabel', 'iinc', 'is.mc'
-DEPREACTED INTERNS: 'orden', 'slc', 'symclos', 'tclos'
+DEPRECATED: 'convert', 'relabel', 'iinc', 'is.mc'
+DEPRECATED INTERNS: 'orden', 'slc', 'symclos', 'tclos'
 
 
 version 2.8 (16-December-2017)
@@ -59,7 +83,7 @@ OTHER CHANGES:
 	+ Internal function 'jnt' preserves order when "unique" is TRUE
 	* "diag" replaces "diag.incl" in various functions 
 	* Minor changes in 'pi.rels', 'zbind', 'transf', 'perm'
-	- Functions 'convert' and 'relabel' have been DEPREACTED
+	- Functions 'convert' and 'relabel' have been DEPRECATED
 
 
 version 2.7 (16-August-2017)
@@ -97,7 +121,7 @@ BUGS FIXED:
 
 OTHER CHANGES:
 	* For compatibility with the 'base' package, "sep" is used to specify 
-	  the pairwise separator in various functions; "prsep" is DEPREACTED
+	  the pairwise separator in various functions; "prsep" is DEPRECATED
 
 
 
@@ -232,7 +256,7 @@ BUG FIXED:
 OTHER CHANGES:
 	+ Namespaces for needed global functions have been added (CRAN request)
 	+ Small improvements in internal functions; 'flt' is ADDED
-	- Internal function 'slc' is DEPREACTED
+	- Internal function 'slc' is DEPRECATED
 	+ Vignette is expanded
 
 
@@ -271,7 +295,7 @@ BUGS FIXED:
 
 OTHER CHANGES:
 	-+ For consistency reasons 'po.levels' is RENAMED into 'diagram.levels'
-	- Internal function 'orden' is DEPREACTED
+	- Internal function 'orden' is DEPRECATED
 
 
 version 1.2 (5-Feb-2014)

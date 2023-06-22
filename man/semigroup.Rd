@@ -30,9 +30,9 @@ semigroup(x, type = c("numerical", "symbolic"), cmps,
   }
 }
 \details{
-A multiplex network relation can be defined by square matrices of 0's and 1's indicating the presence and absence of ties among a set of actors. If there is more than one relation type, the matrices must preserve the label ordering of its elements and be stacked into an object array to be effectively applied to this function.
+A multiple relation can be defined by square matrices of 0's and 1's indicating the presence and absence of ties among a set of actors. If there is more than one relation type, the matrices must preserve the label ordering of its elements and stacked into an object array in order to be effectively applied to this function.
 
-The semigroup, which is an algebraic structure having a set with an associative operation on it, is calculated considering binary matrices only. This means that if the provided matrices are valued, the function will dichotomize the input data automatically; values higher or equal to a unit are converted to one; otherwise, they are set to zero. You can also use to \code{\link{dichot}} function to specify your cutoff value for the dichotomization.
+The semigroup, which is an algebraic structure having a set with an associative operation on it, is calculated considering binary matrices only. This means that if the provided matrices are valued, the function will dichotomise the input data automatically; values higher or equal to a unit are converted to one, otherwise they are set to zero. If you are not happy with that, you can go to \code{\link{dichot}} and specify your own cutoff value for the dichotomization. 
 
 Semigroup structures for valued relations apply the max min operation in the composition of generators and strings. 
 }
@@ -40,22 +40,22 @@ Semigroup structures for valued relations apply the max min operation in the com
 An object of `\code{Semigroup}' class.
 The items included are:
   \item{gens}{
-  an array with the generator relations
+  array with generator relations
 }
   \item{cmps}{
-  an array with the unique compound relations
+  array with the unique compound relations
 }
   \item{ord}{
-  a number with the dimension of the semigroup
+  dimension of the semigroup
 }
   \item{st}{
-  the strings, i.e. a vector of the unique relations
+  vector of the unique string relations
 }
   \item{S}{
-  the semigroup of relations (see below)
+  multiplication matrix with semigroup of relations (see below)
 }
 
-If the specified type is `\code{numerical}', then a matrix of semigroup values is given; otherwise, the values are returned as a data frame with the strings of the semigroup.
+If the specified type is `\code{numerical}', then a matrix of semigroup values is given, otherwise the values is returned as a data frame with the strings of the semigroup.
 }
 \references{
 Boorman, S.A. and H.C. White, `Social Structure from Multiple Networks. II. Role Structures.' \emph{American Journal of Sociology}, 81 (6), 1384-1446. 1976.
@@ -68,15 +68,15 @@ Pattison, P.E. \emph{Algebraic Models for Social Networks}. Cambridge University
 Antonio Rivero Ostoic
 }
 \note{
-For medium-size or bigger sets (e.g. with more than 4 relation types), the semigroup construction can take a long time, and it is recommendable to perform the function \code{\link{prev}} before attempting to construct the semigroup unless the input data has few dimensions.
+It is recommendable to perform the function \code{prev} before attempting to construct the semigroup, unless the input data has few dimensions.
 }
 
-%\section{Warning}{
-%For medium size or bigger sets (having e.g. more the 4 relation types), the semigroup construction could take a long time.
-%}
+\section{Warning}{
+For medium size or bigger sets (having e.g. more the 4 relation types), the semigroup construction could take a long time.
+}
 
 \seealso{
-\code{\link{prev}}, \code{\link{strings}}, \code{\link{edgeT}}, \code{\link{wordT}}, \code{\link{dichot}}, \code{\link{cngr}}.
+\code{\link{green.rel}}, \code{\link{prev}}, \code{\link{strings}}, \code{\link{edgeT}}, \code{\link{wordT}}, \code{\link{cngr}}.
 }
 
 \examples{

@@ -25,11 +25,11 @@ perm(x, clu, rev, lbs, sort)
    (optional) the labels after the permutation
   }
   \item{sort}{
-   (optional and logical) permut the array by sorting dimnames?
+   (optional and logical) sort array according to labels?
   }
 }
 \details{
-This function serves to permutate an array representing relations according to a vector for the clustering membership. By activating the \code{sort} argument to \code{TRUE}, all other arguments will be ignored.
+This function serves to permutate an array representing relations according to a vector for the clustering membership.
 }
 \value{
 A permuted matrix or array
@@ -53,7 +53,6 @@ s <- matrix(data=c(1, 1, 1, 3, 3, 3, 3, 3, 3), nrow=3, ncol=3, byrow=TRUE)
 
 ## the permutation as an endomorphism
 perm(s, clu = c(1,2,3))
-perm(s, sort = TRUE)
 
 }
 \keyword{ algebra }

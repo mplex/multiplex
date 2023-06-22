@@ -60,7 +60,7 @@ For \code{type = "toarray"} the output is a dichotomous 2D or 3D array recording
 %% ...
 }
 \references{
-Ostoic, J.A.R. `Creating context for social influence processes in multiplex networks.' \emph{Network Science}, 5(1), 1-29.
+Ostoic, J.A.R. ``Creating context for social influence processes in multiplex networks.'' \emph{Network Science}, 5(1), 1-29.
 }
 \author{
 Antonio Rivero Ostoic

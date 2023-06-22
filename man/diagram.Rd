@@ -2,15 +2,15 @@
 \alias{diagram}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Plot a Hasse Diagram of a set of ordered relations
+Plot the Hasse Diagram of a set of ordered relations
 }
 \description{
-A function to plot a Hasse Diagram of partially ordered relations.
+A function to plot the Hasse Diagram of partially ordered relations.
 }
 \usage{
 diagram(x, attrs = NULL, main = NULL, incmp, cex.main, bg, mar, shape, 
-        col, col0, fcol, ecol, lty, lbs, ffamily, fstyle, fsize, col.main, 
-        sep,...)
+       col, col0, fcol, ecol, lty, lbs, ffamily, fstyle, fsize, 
+       col.main, sep, ...)
 }
 \arguments{
   \item{x}{
@@ -65,21 +65,20 @@ diagram(x, attrs = NULL, main = NULL, incmp, cex.main, bg, mar, shape,
    (optional) the font size of the vertex labels
 }
   \item{col.main}{
-   (optional) the color of the diagram's title
+   (optional) the font color of the main title
 }
   \item{sep}{
-   (optional, only for `lbs') string separator for equations
-}
+   (optional) the pair separator for the pairwise relations inside intents and extents
+  }
   \item{...}{
    (optional) additional graphical items
 }
 
 }
 \details{
-An example of ordered relations is found in the partial order table of relations, which is a product of the `\code{strings}' option in the \code{\link{partial.order}} function. Another set of ordered relations comes from the table produced on Galois derivations in the mentioned function.
-In either case, this function plot either the partial order or a linear order diagram, depending on the results as Hasse diagrams. 
+An example of ordered relations is found in the partial order table of relations, which is product of the `\code{strings}' option in the \code{\link{partial.order}} function. Another set of ordered relations comes from the table produced on Galois derivations in the mentioned function.
 
-When the partial order structure is from a decomposition process, string equations can be placed as labels with an equality separator. 
+In either case this function plot either the partial order or a linear order diagram, depending on the results as Hasse diagrams. 
 }
 \value{
 A Hasse diagram of the partial order relation.
@@ -91,7 +90,7 @@ A Hasse diagram of the partial order relation.
 Antonio Rivero Ostoic
 }
 \note{
-Roman numerals are used if the elements of the partial order are not labelled. 
+Note that if the elements of the partial order are not labelled, Roman numerals will be given to each element.
 }
 \section{Warning}{
 This function requires that the \emph{Rgraphviz} package is available.
