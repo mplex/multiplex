@@ -3,12 +3,33 @@ function (S)
 {
     ifelse(isTRUE(tolower(class(S)[1]) != "semigroup") == TRUE, 
         S <- as.semigroup(S), NA)
+    oS <- S$S
+    odim <- S$dim
+    ogens <- S$gens
+    Sclass <- class(S)[2]
+    if (isTRUE(S$ord == 1L) == TRUE) {
+        return(list(S = oS, dim = odim, gens = ogens, ord = S$ord, 
+            st = S$st, clu = list(R = 1, L = 1), R = noquote(S$st), 
+            L = noquote(S$st), D = oS))
+    }
+    else {
+        NA
+        if (isTRUE(Sclass == "numerical") == TRUE) {
+            flgn <- TRUE
+            S <- as.semigroup(S, numerical = FALSE, lbs = S$st, 
+                gens = S$gens)
+        }
+        else {
+            flgn <- FALSE
+        }
+    }
     x <- S$S
     st <- colnames(x)
     rrel <- vector("list", length = nrow(x))
     names(rrel) <- dimnames(x)[[1]]
     for (i in seq_len(nrow(x))) {
-        rrel[[i]] <- sort(unique(as.vector(unlist(x[i, ]))))
+        rrel[[i]] <- as.character(sort(unique(as.vector(unlist(x[i, 
+            ])))))
     }
     rm(i)
     urrel <- unique(rrel)
@@ -21,7 +42,8 @@ function (S)
     lrel <- vector("list", length = ncol(x))
     names(lrel) <- dimnames(x)[[2]]
     for (i in seq_len(ncol(x))) {
-        lrel[[i]] <- sort(unique(as.vector(unlist(x[, i]))))
+        lrel[[i]] <- as.character(sort(unique(as.vector(unlist(x[, 
+            i])))))
     }
     rm(i)
     ulrel <- unique(lrel)
@@ -134,10 +156,24 @@ function (S)
     for (i in seq_len(length(clurs))) clrs[which(st %in% clurs[[i]])] <- i
     clls <- vector(length = S$ord)
     for (i in seq_len(length(cluls))) clls[which(st %in% cluls[[i]])] <- i
-    lst <- list(S = x, ord = S$ord, st = st, clu = list(R = clrs, 
-        L = clls), R = noquote(unlist(clurs, use.names = FALSE)[-length(unlist(clurs))]), 
-        L = noquote(unlist(cluls, use.names = FALSE)[-length(unlist(cluls))]), 
-        D = noquote(xep))
-    class(lst) <- c("Semigroup", "Green.Rels")
+    rcls <- unlist(clurs, use.names = FALSE)[-length(unlist(clurs))]
+    lcls <- unlist(cluls, use.names = FALSE)[-length(unlist(cluls))]
+    if (isTRUE(flgn == TRUE) == TRUE) {
+        for (k in seq_len(S$ord)) {
+            xep[xep == st[k]] <- k
+            colnames(xep)[which(colnames(xep) == st[k])] <- k
+            rownames(xep)[which(rownames(xep) == st[k])] <- k
+            rcls[which(rcls == st[k])] <- k
+            lcls[which(lcls == st[k])] <- k
+        }
+        rm(k)
+    }
+    else {
+        NA
+    }
+    lst <- list(S = oS, gens = ogens, dim = odim, ord = S$ord, 
+        st = st, clu = list(R = clrs, L = clls), R = noquote(rcls), 
+        L = noquote(lcls), D = noquote(xep))
+    class(lst) <- c("Semigroup", Sclass, "Green.Rels")
     return(lst)
 }

@@ -22,7 +22,15 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
             return(xadd)
         }
         else {
-            return(suppressWarnings(edgel(x, toarray = TRUE)))
+            mat <- suppressWarnings(edgel(x, toarray = TRUE))
+            if (is.null(lbs) == FALSE) {
+                dimnames(mat)[[1]] <- lbs[seq_len(dim(mat)[1])]
+                dimnames(mat)[[2]] <- lbs[seq_len(dim(mat)[2])]
+            }
+            else {
+                NA
+            }
+            return(mat)
         }
     }
     ifelse(missing(sep) == TRUE, sep <- ", ", NA)
@@ -70,7 +78,15 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
             return(edgl)
         }
         else {
-            warning("Only arrays in \"x\" are supported for 'toedgel' type option.")
+            if (missing(na.rm) == FALSE && isTRUE(na.rm == FALSE) == 
+                TRUE) {
+                if (any(is.na(x)) == TRUE) 
+                  message("Missing information in \"x\" recorded as \"NA\".")
+                ifelse(is.data.frame(x) == FALSE, NA, x[is.na(x)] <- "NA")
+            }
+            else {
+                NA
+            }
             return(x)
         }
     }
@@ -232,8 +248,7 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
             mat <- array(0L, dim = c(ord, ord, length(x)), dimnames = list(Lbs, 
                 Lbs, names(x)))
             for (i in seq_len(length(x))) {
-                mat[, , i] <- trnf(x[[i]], tolist = FALSE, ord = ord, 
-                  lbs = Lbs)
+                mat[, , i] <- trnf(x[[i]], tolist = FALSE, ord = ord)
             }
             rm(i)
         }
@@ -277,6 +292,13 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
                 }
                 rm(i)
             }
+        }
+        if (is.null(lbs) == FALSE) {
+            dimnames(mat)[[1]] <- lbs[seq_len(ord)]
+            dimnames(mat)[[2]] <- lbs[seq_len(ord)]
+        }
+        else {
+            NA
         }
         return(mat)
     }
