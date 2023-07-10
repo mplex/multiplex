@@ -14,8 +14,8 @@ It is also possible to take the attributes of the actors in the analysis of mult
 \tabular{ll}{
 Package: \tab multiplex \cr
 Type: \tab Package \cr
-Version: \tab 3.0.0-2 \cr
-Date: \tab 22 June 2023 \cr
+Version: \tab 3.1.0-2 \cr
+Date: \tab 10 July 2023 \cr
 License: \tab GPL-3 \cr
 LazyLoad: \tab yes \cr
 }
