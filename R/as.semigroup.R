@@ -8,11 +8,27 @@ function (x, gens = NA, lbs, numerical, edgeT)
         stop("Dimnames in \"x\" must be provided.")
     ifelse(missing(numerical) == FALSE && isTRUE(numerical == 
         TRUE) == TRUE, numerical <- TRUE, numerical <- FALSE)
-    if (is.null(dimnames(x)) == TRUE && isTRUE(numerical == TRUE) == 
-        TRUE && isTRUE("Semigroup" %in% attr(x, "class")) == 
-        FALSE) {
-        dimnames(x)[[1]] <- seq_len(nrow(x))
-        dimnames(x)[[2]] <- seq_len(ncol(x))
+    if (isTRUE("Semigroup" %in% attr(x, "class")) == TRUE) {
+        message(paste0("Semigroup in \"x\"", paste0(" is a \"", 
+            attr(x, "class")[2], "\" class object.")))
+        if (isTRUE(is.array(x$gens) == TRUE) == TRUE) {
+            ifelse(missing(gens) == FALSE, NA, gens <- x$st[seq_len(dim(x$gens)[3])])
+        }
+        else {
+            ifelse(missing(gens) == FALSE, NA, gens <- x$gens)
+        }
+        ifelse(missing(lbs) == FALSE, NA, lbs <- x$st)
+        dim <- x$dim
+        x <- x$S
+    }
+    else {
+        if (is.null(dimnames(x)) == TRUE && isTRUE(numerical == 
+            TRUE) == TRUE && isTRUE("Semigroup" %in% attr(x, 
+            "class")) == FALSE) {
+            dimnames(x)[[1]] <- seq_len(nrow(x))
+            dimnames(x)[[2]] <- seq_len(ncol(x))
+        }
+        dim <- NA
     }
     if (missing(edgeT) == FALSE && isTRUE(edgeT == TRUE) == TRUE) {
         ifelse(isTRUE(attr(x, "class") == "EdgeTable") == TRUE, 
@@ -154,10 +170,10 @@ function (x, gens = NA, lbs, numerical, edgeT)
     else {
         NA
     }
-    ifelse(isTRUE(numerical == TRUE) == TRUE, lst <- list(ord = ord, 
-        st = as.numeric(unique(unlist(dimnames(Sdf)))), gens = gens, 
-        S = Sdf), lst <- list(ord = ord, st = unique(unlist(dimnames(Sdf))), 
-        gens = gens, S = Sdf))
+    ifelse(isTRUE(numerical == TRUE) == TRUE, lst <- list(dim = dim, 
+        ord = ord, st = as.numeric(unique(unlist(dimnames(Sdf)))), 
+        gens = gens, S = Sdf), lst <- list(dim = dim, ord = ord, 
+        st = unique(unlist(dimnames(Sdf))), gens = gens, S = Sdf))
     ifelse(is.character(lst$st) == TRUE, class(lst) <- c("Semigroup", 
         "symbolic"), class(lst) <- c("Semigroup", "numerical"))
     return(lst)
