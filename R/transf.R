@@ -247,10 +247,20 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
         if (is.list(x) == TRUE) {
             mat <- array(0L, dim = c(ord, ord, length(x)), dimnames = list(Lbs, 
                 Lbs, names(x)))
-            for (i in seq_len(length(x))) {
-                mat[, , i] <- trnf(x[[i]], tolist = FALSE, ord = ord)
+            if (is.null(lbs) == FALSE) {
+                for (i in seq_len(length(x))) {
+                  mat[, , i] <- trnf(x[[i]], tolist = FALSE, 
+                    ord = ord)
+                }
+                rm(i)
             }
-            rm(i)
+            else {
+                for (i in seq_len(length(x))) {
+                  mat[, , i] <- trnf(x[[i]], tolist = FALSE, 
+                    ord = ord, lbs = Lbs)
+                }
+                rm(i)
+            }
         }
         else if (is.vector(x) == TRUE) {
             mat <- matrix(0L, ncol = ord, nrow = ord, dimnames = list(Lbs, 
