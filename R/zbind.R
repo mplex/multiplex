@@ -116,7 +116,12 @@ function (..., sort, force)
                 dimnames(arr)[[3]] <- pdim, NA)
             rm(pdim)
         }
-        return(arr)
+        if (isTRUE(sort == TRUE) == TRUE) {
+            return(perm(arr, sort = TRUE))
+        }
+        else {
+            return(arr)
+        }
     }
     else {
         message("An(some) array(s) is(are) extended.")
@@ -225,9 +230,11 @@ function (..., sort, force)
                 dimnames(arr)[[3]] <- pdim, NA)
             rm(pdim)
         }
-        return(arr)
-    }
-    else {
-        stop(".")
+        if (isTRUE(sort == TRUE) == TRUE) {
+            return(perm(arr, sort = TRUE))
+        }
+        else {
+            return(arr)
+        }
     }
 }
