@@ -1,4 +1,4 @@
-green.rel <-
+green.rel <- 
 function (S) 
 {
     ifelse(isTRUE(tolower(class(S)[1]) != "semigroup") == TRUE, 

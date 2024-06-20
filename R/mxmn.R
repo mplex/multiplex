@@ -1,4 +1,4 @@
-mxmn <-
+mxmn <- 
 function (x, type = c("numerical", "symbolic"), cmps, equat) 
 {
     ifelse(missing(cmps) == FALSE && isTRUE(cmps == TRUE) == 

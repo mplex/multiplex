@@ -1,4 +1,4 @@
-write.dl <-
+write.dl <- 
 function (x, file = NULL, type = c("nodelist", "fullmat")) 
 {
     if (isTRUE(is.na(dim(x)[3]) == TRUE) == FALSE) {

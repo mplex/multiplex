@@ -1,4 +1,4 @@
-write.dat <-
+write.dat <- 
 function (x, path) 
 {
     if (is.na(dim(x)[3]) == FALSE) {

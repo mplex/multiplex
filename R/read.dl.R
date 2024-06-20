@@ -1,4 +1,4 @@
-read.dl <-
+read.dl <- 
 function (file) 
 {
     arx <- scan(file, what = "character", nlines = -1, quiet = TRUE)

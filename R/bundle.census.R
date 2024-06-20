@@ -1,4 +1,4 @@
-bundle.census <-
+bundle.census <- 
 function (x, loops = FALSE) 
 {
     if (isTRUE(is.array(x)) == FALSE) 

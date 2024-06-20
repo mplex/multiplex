@@ -1,4 +1,4 @@
-ngbs <-
+ngbs <- 
 function (x, rs, type = c("und", "inn", "out"), num = FALSE) 
 {
     if (isTRUE(attr(rs, "class") == "Rel.System") == FALSE) 

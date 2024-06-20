@@ -1,4 +1,4 @@
-comps <-
+comps <- 
 function (x, bonds = c("entire", "strong", "weak")) 
 {
     ifelse(isTRUE(is.null(dimnames(x)[1]) == TRUE | is.null(dimnames(x)[1][[1]]) == 

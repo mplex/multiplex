@@ -1,4 +1,4 @@
-signed <-
+signed <- 
 function (P, N = NULL, lbs) 
 {
     if (is.array(P) == FALSE) 

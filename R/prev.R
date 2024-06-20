@@ -1,4 +1,4 @@
-prev <-
+prev <- 
 function (x) 
 {
     if (is.array(x) == FALSE) 

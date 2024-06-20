@@ -1,4 +1,4 @@
-edgeT <-
+edgeT <- 
 function (x) 
 {
     if (is.array(x) == FALSE) 

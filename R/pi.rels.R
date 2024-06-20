@@ -1,4 +1,4 @@
-pi.rels <-
+pi.rels <- 
 function (x, po.incl, vc, po) 
 {
     if (isTRUE(attr(x, "class") == "Ind.incl") == FALSE && isTRUE(attr(x, 

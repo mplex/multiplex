@@ -1,9 +1,4 @@
-galois <-
-<<<<<<< HEAD
-function (x, labeling = c("full", "reduced"), sep) 
-{
-    ifelse(missing(sep) == TRUE, sep <- ", ", NA)
-=======
+galois <- 
 function (x, labeling = c("full", "reduced"), sep, valued, scl, 
     sep2) 
 {
@@ -16,7 +11,6 @@ function (x, labeling = c("full", "reduced"), sep, valued, scl,
     else {
         NA
     }
->>>>>>> 4002f19cc926d78d75e443afb11de1ae8a58d715
     if (is.data.frame(x) == FALSE) {
         if (is.vector(x) == TRUE) {
             x <- t(as.data.frame(x))

@@ -1,4 +1,4 @@
-print.reduced <-
+print.reduced <- 
 function (x, ...) 
 {
     x = x["reduc"]

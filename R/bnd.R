@@ -1,4 +1,4 @@
-bnd <-
+bnd <- 
 function (x, xd, lbs, TRD, r, m, mlt, sep) 
 {
     DF <- data.frame(matrix(ncol = 2L, nrow = length(m)))

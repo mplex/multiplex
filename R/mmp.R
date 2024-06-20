@@ -1,4 +1,4 @@
-mmp <-
+mmp <- 
 function (x1, x2, valued = TRUE) 
 {
     if (isTRUE(valued == TRUE) == TRUE) {

@@ -1,4 +1,4 @@
-neighb <-
+neighb <- 
 function (x, rs, type = c("und", "inn", "out"), k = 1, inclx = FALSE, 
     expand) 
 {

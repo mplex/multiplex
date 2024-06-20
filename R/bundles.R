@@ -1,4 +1,4 @@
-bundles <-
+bundles <- 
 function (x, loops = FALSE, smpl = FALSE, lb2lb = TRUE, collapse = FALSE, 
     sep) 
 {

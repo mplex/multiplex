@@ -1,4 +1,4 @@
-mnplx <-
+mnplx <- 
 function (net, directed = TRUE, dichot, diag, clu) 
 {
     if (missing(dichot) == FALSE && isTRUE(dichot == FALSE) == 

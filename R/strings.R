@@ -1,4 +1,4 @@
-strings <-
+strings <- 
 function (x, equat = FALSE, k = 2, smpl, valued) 
 {
     if (is.array(x) == FALSE) 
@@ -443,76 +443,6 @@ function (x, equat = FALSE, k = 2, smpl, valued)
                         2)[, i][2], utils::combn(gn, 2)[, i][1], 
                         sep = ""))
                   }
-<<<<<<< HEAD
-                }
-                rm(j)
-                for (i in 1:nrow(tpl)) {
-                  if (isTRUE(eq3[i] %in% rownames(unq)) == FALSE) {
-                    luq[[which(duplicated(rbind(tpl[i, ], unq))) - 
-                      1L]] <- append(luq[[which(duplicated(rbind(tpl[i, 
-                      ], unq))) - 1L]], eq3[i])
-                  }
-                }
-                rm(i)
-            }
-        }
-        rm(w)
-        if (k > 3L) {
-            eq4 <- vector()
-            for (i in seq_len(length(gn))) {
-                eq4 <- append(eq4, paste(tp, gn[i], sep = ""))
-                eq4 <- append(eq4, paste(gn[i], tp, sep = ""))
-            }
-            rm(i)
-            ct <- eq4
-            for (i in seq_len(length(gn))) {
-                for (j in seq_len(length(gn))) {
-                  eq4 <- append(eq4, paste(strsplit(tp[j], "")[[1]][1], 
-                    gn[i], strsplit(tp[j], "")[[1]][2], strsplit(tp[j], 
-                      "")[[1]][3], sep = ""))
-                  eq4 <- append(eq4, paste(strsplit(tp[j], "")[[1]][1], 
-                    strsplit(tp[j], "")[[1]][2], gn[i], strsplit(tp[j], 
-                      "")[[1]][3], sep = ""))
-                  eq4 <- append(eq4, paste(strsplit(tp[j], "")[[1]][1], 
-                    strsplit(tp[j], "")[[1]][2], strsplit(tp[j], 
-                      "")[[1]][3], gn[i], sep = ""))
-                }
-                rm(j)
-            }
-            rm(i)
-            for (i in seq_along(lbl)) {
-                ifelse(isTRUE(length(dhc(lbl[i], sep = "")) == 
-                  2) == TRUE, eq4 <- append(eq4, paste(lbl[i], 
-                  lbl[i], sep = "")), NA)
-            }
-            rm(i)
-            if (length(gn) > 3) {
-                warning("Just generators up to three letters are supported.")
-            }
-            else {
-                NA
-            }
-            eq4 <- unique(eq4)
-            if (length(eq4) != 0L) {
-                ctl <- data.frame(matrix(ncol = (dim(x)[1] * 
-                  dim(x)[2]), nrow = 0L))
-                for (i in seq_len(length(eq4))) {
-                  ctl[(nrow(ctl) + 1L), ] <- as.vector(dichot(x[, 
-                    , which(gn == strsplit(eq4[i], "")[[1]][1])] %*% 
-                    x[, , which(gn == strsplit(eq4[i], "")[[1]][2])] %*% 
-                    x[, , which(gn == strsplit(eq4[i], "")[[1]][3])] %*% 
-                    x[, , which(gn == strsplit(eq4[i], "")[[1]][4])]))
-                }
-                rm(i)
-                rownames(ctl) <- eq4
-                for (i in seq_len(nrow(ctl))) {
-                  if (isTRUE(eq4[i] %in% rownames(unq)) == FALSE) {
-                    flg <- TRUE
-                    for (j in seq_len(nrow(unq))) {
-                      if (all(ctl[i, ] == unq[j, ]) == TRUE) {
-                        luq[[j]] <- append(luq[[j]], eq4[i])
-                        flg <- FALSE
-=======
                   rm(i)
                   eq2 <- unique(eq2)
                   if (length(eq2) != 0L) {
@@ -529,7 +459,6 @@ function (x, equat = FALSE, k = 2, smpl, valued)
                     for (j in 2:nrow(dbl)) {
                       if (all(vce == dbl[j, ]) == TRUE) {
                         lid[[1]] <- append(lid[[1]], rownames(dbl)[j])
->>>>>>> 4002f19cc926d78d75e443afb11de1ae8a58d715
                         break
                       }
                     }

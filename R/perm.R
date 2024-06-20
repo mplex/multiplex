@@ -1,4 +1,4 @@
-perm <-
+perm <- 
 function (x, clu, rev, lbs, sort) 
 {
     ifelse(isTRUE(is.list(x) == TRUE) == TRUE && isTRUE(length(x$S) > 

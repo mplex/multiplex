@@ -1,4 +1,4 @@
-zbind <-
+zbind <- 
 function (..., sort, force) 
 {
     ifelse(missing(force) == FALSE && isTRUE(force == TRUE) == 

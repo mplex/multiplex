@@ -1,9 +1,5 @@
-decomp <-
-<<<<<<< HEAD
-function (S, pr, type = c("mc", "pi", "at", "cc"), reduc, fac, 
-=======
+decomp <- 
 function (S, pr, type = c("mca", "pi", "at", "cc"), reduc, fac, 
->>>>>>> 4002f19cc926d78d75e443afb11de1ae8a58d715
     force) 
 {
     if (isTRUE(attr(pr, "class") == "Pi.rels" || attr(pr, "class")[1] == 

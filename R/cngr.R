@@ -1,4 +1,4 @@
-cngr <-
+cngr <- 
 function (S, PO = NULL, uniq) 
 {
     flgnum <- FALSE

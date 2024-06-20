@@ -1,4 +1,4 @@
-rel.sys <-
+rel.sys <- 
 function (x, type = c("tolist", "toarray"), bonds = c("entire", 
     "strong", "weak", "asym", "recp", "txch", "tent", "mixd", 
     "full"), sel = NULL, loops = FALSE, att = NULL, sep) 

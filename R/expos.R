@@ -1,4 +1,4 @@
-expos <-
+expos <- 
 function (rs, classes = FALSE, allClasses = FALSE, allNodes = TRUE) 
 {
     if (isTRUE(attr(rs, "class") == "Rel.System") == FALSE) 

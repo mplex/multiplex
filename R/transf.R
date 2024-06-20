@@ -1,11 +1,6 @@
-transf <-
-<<<<<<< HEAD
-function (x, type = c("toarray", "tolist", "toarray2"), lbs = NULL, 
-    lb2lb, sep, ord, sort, sym, add, adc) 
-=======
+transf <- 
 function (x, type = c("toarray", "tolist", "toarray2", "toedgel"), 
     lbs = NULL, lb2lb, sep, ord, sort, sym, add, adc, na.rm) 
->>>>>>> 4002f19cc926d78d75e443afb11de1ae8a58d715
 {
     ifelse(is.list(x) == TRUE && isTRUE(length(x) == 1L) == TRUE, 
         x <- x[[1]], NA)
@@ -39,19 +34,6 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
         }
     }
     ifelse(missing(sep) == TRUE, sep <- ", ", NA)
-<<<<<<< HEAD
-    ifelse(is.list(x) == TRUE && isTRUE(length(x) == 1L) == TRUE, 
-        x <- x[[1]], NA)
-    if (match.arg(type) == "tolist") {
-        if (isTRUE(is.character(x) == TRUE) == TRUE | (is.array(x) == 
-            TRUE && is.null(dim(x)[3]) == TRUE)) 
-            return(x)
-        if (is.array(x) == TRUE) {
-            if (isTRUE(sum(x) > 0L) == FALSE | isTRUE(max(x) < 
-                1L) == TRUE) 
-                return(NULL)
-        }
-=======
     if (match.arg(type) == "toedgel") {
         if (is.array(x) == TRUE) {
             if (is.na(dim(x)[3]) == TRUE) {
@@ -115,7 +97,6 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
         if ((isTRUE(sum(x) > 0L) == FALSE | isTRUE(max(x) < 1L) == 
             TRUE) && is.array(x) == TRUE) 
             return(NULL)
->>>>>>> 4002f19cc926d78d75e443afb11de1ae8a58d715
         ifelse(missing(lb2lb) == FALSE && isTRUE(lb2lb == TRUE) == 
             TRUE, lb2lb <- TRUE, lb2lb <- FALSE)
         if (is.list(x) == TRUE && is.data.frame(x) == FALSE) {
@@ -328,8 +309,6 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
                 rm(i)
             }
         }
-<<<<<<< HEAD
-=======
         if (is.null(lbs) == FALSE && missing(add) == TRUE) {
             dimnames(mat)[[1]] <- lbs[seq_len(ord)]
             dimnames(mat)[[2]] <- lbs[seq_len(ord)]
@@ -337,7 +316,6 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
         else {
             NA
         }
->>>>>>> 4002f19cc926d78d75e443afb11de1ae8a58d715
         return(mat)
     }
     if (match.arg(type) == "toarray2") {

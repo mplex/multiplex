@@ -1,4 +1,4 @@
-pfvn <-
+pfvn <- 
 function (x, r, q) 
 {
     ifelse(isTRUE("Multilevel" %in% attr(x, "class")) == TRUE, 

@@ -1,14 +1,11 @@
-as.semigroup <-
+as.semigroup <- 
 function (x, gens = NA, lbs, numerical, edgeT) 
 {
     ifelse(is.list(x) == TRUE && isTRUE(length(x) == 1L) == TRUE, 
         x <- x[[1]], NA)
-<<<<<<< HEAD
-=======
     if (isTRUE("partial.order" %in% tolower(attr(x, "class"))) == 
         TRUE) 
         stop("Class of \"x\" is not supported.")
->>>>>>> 4002f19cc926d78d75e443afb11de1ae8a58d715
     if (is.null(dimnames(x)) == TRUE && isTRUE("Semigroup" %in% 
         attr(x, "class")) == FALSE && missing(numerical) == TRUE) 
         stop("Dimnames in \"x\" must be provided.")

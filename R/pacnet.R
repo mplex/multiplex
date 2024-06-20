@@ -1,4 +1,4 @@
-pacnet <-
+pacnet <- 
 function (file, toarray = FALSE, uniq = FALSE, transp = FALSE, 
     sep) 
 {

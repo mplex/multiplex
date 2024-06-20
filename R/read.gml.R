@@ -1,4 +1,4 @@
-read.gml <-
+read.gml <- 
 function (file, as = c("srt", "array"), directed = TRUE, coords = FALSE) 
 {
     arx <- scan(file, what = "character", nlines = -1, quiet = TRUE)

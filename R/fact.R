@@ -1,4 +1,4 @@
-fact <-
+fact <- 
 function (S, P, uniq = TRUE, fac, atoms, mca, atmc, patm, k) 
 {
     if (isTRUE("Decomp" %in% attr(S, "class")) == TRUE) {

@@ -1,4 +1,4 @@
-rm.isol <-
+rm.isol <- 
 function (x, diag, diag.incl) 
 {
     if (isTRUE(sum(x) == 0L) == TRUE) 

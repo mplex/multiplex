@@ -1,4 +1,4 @@
-zbnd <-
+zbnd <- 
 function (a, b) 
 {
     if (isTRUE(is.na(dim(a)[3]) == FALSE)) {

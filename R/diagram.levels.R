@@ -1,4 +1,4 @@
-diagram.levels <-
+diagram.levels <- 
 function (x, perm = FALSE) 
 {
     po <- x & (1L - t(x))

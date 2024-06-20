@@ -1,4 +1,4 @@
-flt <-
+flt <- 
 function (e, PO, rclos = TRUE) 
 {
     if (isTRUE(e > nrow(PO)) == TRUE) 

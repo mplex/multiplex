@@ -1,4 +1,4 @@
-semiring <-
+semiring <- 
 function (x, type = c("balance", "cluster"), symclos = TRUE, 
     transclos = TRUE, k = 2, lbs) 
 {
