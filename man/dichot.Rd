@@ -2,7 +2,7 @@
 \alias{dichot}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Dichotomize data with a cutoff value
+Dichotomize Data with a Cutoff Value
 }
 \description{
 Function to dichotomize the input data for the semigroup construction with a cutoff value.

@@ -1,21 +1,31 @@
 \name{diagram}
 \alias{diagram}
-%- Also NEED an '\alias' for EACH other topic documented here.
+
 \title{
-Plot the Hasse Diagram of a set of ordered relations
+Plot Diagrams of Ordered or Linked Relations
 }
 \description{
-A function to plot the Hasse Diagram of partially ordered relations.
+A function to plot and manipulate Hasse and Concept diagrams of
+ordered relations, or the Egg-box of a semigroup structure.
 }
 \usage{
-diagram(x, attrs = NULL, main = NULL, incmp, cex.main, bg, mar, shape, 
-       col, col0, fcol, ecol, lty, lbs, ffamily, fstyle, fsize, 
-       col.main, sep, ...)
+diagram(x, type = c("hasse", "concept", "egg-box"), attrs = NULL, main = NULL, 
+       incmp, cex.main, bg, mar, shape, col, col0, fcol, ecol, lty, lbs, 
+       ffamily, fstyle, fsize, col.main, sep, ...)
 }
 \arguments{
   \item{x}{
    a matrix representing ordered relations
 }
+  \item{type}{
+  type of diagram:
+  \itemize{ 
+       \item \code{hasse} Hasse diagram of partially ordered relations
+       \item \code{concept} Concept lattice of a formal context
+       \item \code{egg-box} the egg-box diagram of an abstract semigroup
+       }
+  }
+For \code{egg-box}, the following arguments are ignored. 
   \item{attrs}{
    (optional) attributes of the diagram
 }
@@ -23,52 +33,57 @@ diagram(x, attrs = NULL, main = NULL, incmp, cex.main, bg, mar, shape,
    (optional) title of the diagram
 }
   \item{incmp}{
-   (optional and logical) whether or not the incomparable elements should be included in the lattice diagram
+   (logical) whether or not incomparable elements should be included in the lattice diagram
 }
   \item{cex.main}{
-   (optional) size of the diagram's title
+   (optional) font size of diagram's title
 }
   \item{bg}{
-   (optional) the background color of the diagram
+   (optional) background color of diagram
 }
   \item{mar}{
-   (optional) the margins of the plot
+   (optional) margins of plot
 }
   \item{shape}{
-   (optional) the shape of the vertices
+   (optional) shape of vertices
 }
   \item{col}{
-   (optional) the color of the vertices
+   (optional) color of vertices
 }
   \item{col0}{
-   (optional) the color of the vertices' contour
+   (optional) color of vertices' contour
 }
   \item{fcol}{
-   (optional) the color of the text's vertices
+   (optional) color of text's vertices
 }
   \item{ecol}{
-   (optional) the color of the edges
+   (optional) color of edges
 }
   \item{lty}{
-   (optional) the shape of the edges
+   (optional) shape of edges
 }
   \item{lbs}{
-   (optional) labels of the elements in the partially ordered set
+   (optional) labels of elements in partially ordered set
 }
   \item{ffamily}{
-   (optional) the font family of the vertex labels
+   (optional) font family of vertex labels
 }
   \item{fstyle}{
-   (optional) the font style of the vertex labels with options: `bold', `italic', `bolditalic'
+   (optional) font style of vertex labels with options: 
+   \itemize{ 
+       \item \code{bold}
+       \item \code{italic}
+       \item \code{bolditalic}
+   }
 }
   \item{fsize}{
-   (optional) the font size of the vertex labels
+   (optional) font size of vertex labels
 }
   \item{col.main}{
-   (optional) the font color of the main title
+   (optional) font color of main title
 }
   \item{sep}{
-   (optional) the pair separator for the pairwise relations inside intents and extents
+   (optional) pair separator for pairwise relations inside intents and extents
   }
   \item{...}{
    (optional) additional graphical items
@@ -76,40 +91,45 @@ diagram(x, attrs = NULL, main = NULL, incmp, cex.main, bg, mar, shape,
 
 }
 \details{
-An example of ordered relations is found in the partial order table of relations, which is product of the `\code{strings}' option in the \code{\link{partial.order}} function. Another set of ordered relations comes from the table produced on Galois derivations in the mentioned function.
+\code{diagram} is a wrapper function to plot and manipulate Hasse, Concept, and Egg-box types of diagrams. 
 
-In either case this function plot either the partial order or a linear order diagram, depending on the results as Hasse diagrams. 
+The first two diagrams are for systems of ordered relations, and the plotted deviced is either a partial order or a linear order diagram.
+An example of ordered relations is found in the partial order table of relations product of the `\code{strings}' option in the \code{\link{partial.order}} function, and which is plotted as a Hasse diagram. 
+Another set of ordered relations comes from the table produced on Galois derivations within Formal Concept analysis where a Concept diagram represents the ordering relations among formal concepts made of intents and extents.
+
+The Egg-box diagram is for equivalence classes in an abstract semigroup not associated to a partial order structure.
 }
 \value{
-A Hasse diagram of the partial order relation.
+Depending on the \code{type}, a Hasse diagram of partially ordered relations, a Concept diagram of formal concepts in a formal context, or an Egg-box of an abstract semigroup.
 }
 %\references{
-%No hay...
+%no references
 %}
 \author{
 Antonio Rivero Ostoic
 }
 \note{
-Note that if the elements of the partial order are not labelled, Roman numerals will be given to each element.
+Roman numerals are given for elements when the partial order table is not labelled.
 }
 \section{Warning}{
-This function requires that the \emph{Rgraphviz} package is available.
+Requires \emph{Rgraphviz} package installed.
 }
 
 \seealso{
-\code{\link{partial.order}}, \code{\link{as.strings}}, \code{\link{strings}}, \code{\link{diagram.levels}}, \code{\link{galois}}.
+\code{\link{hasse}}, \code{\link{partial.order}}, \code{\link{strings}}, \code{\link{galois}}, 
+\code{\link{green.rel}}, \code{\link{diagram.levels}}, \code{\link{as.strings}}, \code{\link[multigraph:ccgraph]{ccgraph}}.
 }
 \examples{
-## load the data
+## load a dataset
 data("incubA")
 
 ## given e.g. a partial order table in the object 'po'
-po <- partial.order(as.strings(incubA$IM), type="strings")
+po <- as.strings(incubA$IM) |> 
+  partial.order(type="strings")
 
-
-## plot the order relation as a Hasse diagram.
+## plot the order relation as a Hasse diagram
 \dontrun{if(require(Rgraphviz)) {
-plot(diagram(po))
+plot(diagram(po, type="hasse"))
 }}
 }
 

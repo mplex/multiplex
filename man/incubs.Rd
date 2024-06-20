@@ -10,7 +10,7 @@
 \alias{incC}
 \alias{incD}
 \title{
-Incubator networks dataset
+Incubator Networks Datasets
 }
 \description{
 These are four data sets collected in the year 2010 (see `source' for the details) of multiple relations between entrepreneurial firms working in business incubators in Denmark.
@@ -33,7 +33,8 @@ data("incD")
 \format{
 Each data set is a list with a pair of three-dimensional arrays.
 
-For \code{incubA}, the dimensions of \code{net} are \eqn{26 \times 26 \times 5}, and of \code{IM} are \eqn{4 \times 4 \times 7} (the two attributes led to the identity matrix).
+For \code{incubA}, the dimensions of \code{net} are \eqn{26 \times 26 \times 5}, and of \code{IM} are \eqn{4 \times 4 \times 7}. 
+In this case, the two attributes led to the identity matrix.
 
 For \code{incubB}, the dimensions of \code{net} are \eqn{18 \times 18 \times 5}, and of \code{IM} are \eqn{4 \times 4 \times 8}.
 
@@ -44,18 +45,13 @@ For \code{incubD}, the dimensions of \code{net} are \eqn{15 \times 15 \times 5},
 All four networks are together in \code{incubs}.
 
 To plot automatically actor attributes in the graph with function \code{\link[multigraph:multigraph]{multigraph}}, another version of these data sets are given in \code{incA}, \code{incB}, \code{incC}, and \code{incD}, which  are \code{"Data.Set"} objects class having:
-
-  -- \code{net} for the network data
-
-  -- \code{atnet} a vector that indicates whether or not the arrays in \code{'net'} is attribute data
-
-  -- \code{IM} for the Image Matrices of the reduced network data
-
-  -- \code{atIM} a vector that indicates whether or not the array in \code{'IM'} is attribute data
-
-  -- \code{cite} relational content of the ties
-
-
+  \itemize{ 
+    \item \code{net} for the network data
+    \item \code{atnet} a vector that indicates whether or not the arrays in \code{'net'} is attribute data
+    \item \code{IM} for the Image Matrices of the reduced network data
+    \item \code{atIM} a vector that indicates whether or not the array in \code{'IM'} is attribute data
+    \item \code{cite} relational content of the ties
+  }
 }
 \source{
 Ostoic, J.A.R.  `Algebraic methods for the analysis of multiple social networks and actors attributes'' PhD Thesis. University of Southern Denmark. 2013.

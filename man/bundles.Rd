@@ -8,7 +8,7 @@ Classify the Bundle class patterns in a system of multiple relations
 }
 \usage{
 bundles(x, loops = FALSE, smpl = FALSE, lb2lb = TRUE, 
-           collapse = FALSE, sep)
+        collapse = FALSE, sep)
 }
 \arguments{
   \item{x}{
@@ -38,8 +38,8 @@ Long string labels can be simplified with \code{smpl}, whereas the \code{collaps
 }
 \value{
 An object of `\code{Rel.Bundles}' class with the distinct bundle class patterns.
-\item{asym }{asymmetric}
-\item{recp }{reciprocal}
+\item{asym }{asymmetric ties}
+\item{recp }{reciprocal ties}
 \item{tent }{tie entrainment}
 \item{txch }{tie exchange}
 \item{mixed}{mixed}

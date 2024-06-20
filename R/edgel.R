@@ -223,5 +223,3 @@ function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
         }
     }
 }
-read.srt <- edgel
-edgel <- read.srt

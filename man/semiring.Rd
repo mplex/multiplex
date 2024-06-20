@@ -8,26 +8,36 @@ A function to construct semiring structures for the analysis of structural balan
 }
 \usage{
 semiring(x, type = c("balance", "cluster"), symclos = TRUE,
-            transclos = TRUE, k = 2, lbs)
+         transclos = TRUE, k = 2, lbs)
 }
 \arguments{
   \item{x}{  an object of a `\code{Signed}' class
 }
-  \item{type}{  balance or cluster semiring?
+  \item{type}{  
+  \itemize{ 
+    \item \code{balance} for a balance semiring (default)
+    \item \code{cluster} for a cluster semiring
+  }
 }
-  \item{symclos}{  (logical) apply symmetric closure?
+  \item{symclos}{
+  (logical) apply symmetric closure?
 }
-  \item{transclos}{  (logical) apply transitive closure?
+  \item{transclos}{
+  (logical) apply transitive closure?
 }
-  \item{k}{  length of the cycle or the semicycle
+  \item{k}{
+  length of the cycle or the semicycle
 }
-  \item{lbs}{  (optional) labels for the semiring output
+  \item{lbs}{
+  (optional) labels for the semiring output
 }
 }
 \details{
 Semiring structures are based on signed networks, and this function provides the capabilities to handle either the balance semiring or the cluster semiring within the structural balance theory.
 %
-A semiring combines two different kinds of operations with a single underlying set, and it can be seen as an abstract semigroup with identity under multiplication and a commutative monoid under addition. Semirings are useful to determine whether a given signed network is balanced or clusterable. The symmetric closure evaluates this by looking at semicycles in the system; otherwise, the evaluation is through closed paths. 
+A semiring combines two different kinds of operations with a single underlying set, and it can be seen as an abstract semigroup with identity under multiplication and a commutative monoid under addition. 
+Semirings are useful to determine whether a given signed network is balanced or clusterable. 
+The symmetric closure evaluates this by looking at semicycles in the system; otherwise, the evaluation is through closed paths. 
 }
 \value{
 An object of `\code{Semiring}' class. 
@@ -54,16 +64,15 @@ Disabling transitive closure should be made with good substantial reasons.
 \code{\link{signed}}, \code{\link{as.signed}}
 }
 \examples{
-## Create the data: two sets with a pair of binary relations 
+## create the data: two sets with a pair of binary relations 
 ## among three elements
 arr <- round( replace( array( runif(18), c(3 ,3, 2) ), array( runif(18),
        c(3, 3, 2) ) > .5, 3 ) )
 
-## Make the signed matrix with two types of relations
-sg <- signed(arr)
-
-## Establish the semiring structure
-semiring(sg)
+## make the signed matrix with two types of relations
+## and establish the semiring structure
+signed(arr) |> 
+  semiring()
 
 }
 \keyword{ algebra }

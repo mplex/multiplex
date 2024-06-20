@@ -31,7 +31,6 @@ function (x, equat = FALSE, k = 2, smpl, valued)
         }
     }
     if (isTRUE(valued == TRUE) == FALSE) {
-        xo <- x
         x <- dichot(x, c = 1L)
         gener <- dimnames(x)[[3]]
         if (is.na(dim(x)[3]) == TRUE) {
@@ -53,7 +52,7 @@ function (x, equat = FALSE, k = 2, smpl, valued)
             rm(i)
             if (isTRUE(is.character(dimnames(x)[[3]]) == TRUE) == 
                 TRUE) 
-                dimnames(x)[[3]][which(duplicated(dimnames(x)[[3]]))] <- seq_len(length(which(duplicated(dimnames(x)[[3]]))))
+                dimnames(x)[[3]][which(duplicated(dimnames(x)[[3]]))] <- 1:length(which(duplicated(dimnames(x)[[3]])))
             if (isTRUE(is.null(dim(tmpo)) == FALSE) == TRUE) 
                 rownames(tmpo) <- dimnames(x)[[3]]
             tmpu <- unique(tmpo)
@@ -71,8 +70,8 @@ function (x, equat = FALSE, k = 2, smpl, valued)
                 x <- array(tmpo, c(dim(x)[1], dim(x)[2]))
             if (isTRUE(dim(x)[3] > 1L) == TRUE) {
                 tmp <- array(dim = c(dim(x)[1], dim(x)[2], nrow(tmpu)))
-                for (i in seq_len(nrow(tmpu))) {
-                  tmp[, , i][seq_len((dim(x)[1] * dim(x)[2]))] <- as.numeric(tmpu[i, 
+                for (i in 1:nrow(tmpu)) {
+                  tmp[, , i][1:(dim(x)[1] * dim(x)[2])] <- as.numeric(tmpu[i, 
                     ])
                 }
                 rm(i)
@@ -103,8 +102,7 @@ function (x, equat = FALSE, k = 2, smpl, valued)
             if (sum(as.numeric(is.na(s0))) > 0L) {
                 Bx <- array(dim = c(dim(x)[1], dim(x)[2], 0L))
                 for (i in seq_len(nrow(s0))) {
-                  for (j in seq_len(length(which(is.na(s0[i, 
-                    ]))))) {
+                  for (j in 1:length(which(is.na(s0[i, ])))) {
                     if (length(which(is.na(s0[i, ]))) > 0L) 
                       Bx <- zbnd(Bx, (replace(x[, , i] %*% x[, 
                         , which(is.na(s0[i, ]))[j]], x[, , i] %*% 
@@ -121,7 +119,7 @@ function (x, equat = FALSE, k = 2, smpl, valued)
                 rm(i)
                 xBx <- array(dim = c(dim(x)[1], dim(x)[2], nrow(unique(tmp))))
                 for (i in seq_len(nrow(unique(tmp)))) {
-                  xBx[, , i][seq_len((dim(Bx)[1] * dim(Bx)[2]))] <- as.numeric(unique(tmp)[i, 
+                  xBx[, , i][1:(dim(Bx)[1] * dim(Bx)[2])] <- as.numeric(unique(tmp)[i, 
                     ])
                 }
                 rm(i)
@@ -135,7 +133,7 @@ function (x, equat = FALSE, k = 2, smpl, valued)
         while (sum(as.numeric(is.na(s0))) > 0L) {
             BBx <- Bx
             for (i in seq_len(nrow(s0))) {
-                for (j in seq_len(length(which(is.na(s0[i, ]))))) {
+                for (j in 1:length(which(is.na(s0[i, ])))) {
                   if (length(which(is.na(s0[i, ]))) > 0L) 
                     BBx <- zbnd(BBx, (replace(Bx[, , i] %*% Bx[, 
                       , which(is.na(s0[i, ]))[j]], Bx[, , i] %*% 
@@ -146,7 +144,7 @@ function (x, equat = FALSE, k = 2, smpl, valued)
             rm(i, j)
             tmp <- data.frame(matrix(ncol = (dim(Bx)[1] * dim(Bx)[2]), 
                 nrow = 0L))
-            for (i in seq_len(dim(BBx)[3])) {
+            for (i in 1:dim(BBx)[3]) {
                 tmp[i, ] <- as.vector(BBx[, , i])
             }
             rm(i)
@@ -196,8 +194,8 @@ function (x, equat = FALSE, k = 2, smpl, valued)
         rownames(tmpO) <- dimnames(Bx)[[3]]
         tmpU <- unique(tmpO)
         tmp <- array(dim = c(dim(Bx)[1], dim(Bx)[2], nrow(tmpU)))
-        for (i in seq_len(nrow(tmpU))) {
-            tmp[, , i][seq_len((dim(Bx)[1] * dim(Bx)[2]))] <- as.numeric(tmpU[i, 
+        for (i in 1:nrow(tmpU)) {
+            tmp[, , i][1:(dim(Bx)[1] * dim(Bx)[2])] <- as.numeric(tmpU[i, 
                 ])
         }
         rm(i)
@@ -370,34 +368,28 @@ function (x, equat = FALSE, k = 2, smpl, valued)
         if (is.null(dimnames(x)[[1]]) == FALSE) 
             dimnames(Bx)[[1]] <- dimnames(Bx)[[2]] <- dimnames(x)[[1]]
         if (equat == TRUE) {
-            gn <- lbl
+            gn <- dimnames(x)[[3]]
             w <- Bx
-            luq <- vector(mode = "list", length = length(lbl))
+            luq <- list()
+            length(luq) <- length(lbl)
             names(luq) <- lbl
-            lid <- vector(mode = "list", length = 1)
+            lid <- list()
+            length(lid) <- 1
             lid[[1]] <- names(lid) <- "e"
             mte <- matrix(0, nrow = dim(x)[1], ncol = dim(x)[2])
             diag(mte) <- 1L
             vce <- as.vector(mte)
-            if (isTRUE(dim(w)[3] < 2) == TRUE) {
-                lst0 <- list(wt = Bx, ord = dim(Bx)[3], st = lbl, 
-                  equat = as.character(seq_len(dim(xo)[3])))
-                class(lst0) <- "Strings"
-                return(lst0)
-            }
-            else {
-                NA
-            }
             unq <- data.frame(matrix(ncol = (dim(w)[1] * dim(w)[2]), 
                 nrow = 0))
-            for (i in seq_len(dim(w)[3])) {
+            for (i in 1:dim(w)[3]) {
                 ifelse(isTRUE(dim(w)[3] > 1) == TRUE, unq[i, 
                   ] <- as.vector(w[, , i]), unq <- as.vector(w))
             }
             rm(i)
             rownames(unq) <- lbl
             if (isTRUE(TRUE %in% dpl) == TRUE) {
-                eq <- vector(mode = "list", length = nrow(unique(tmpo)))
+                eq <- list()
+                length(eq) <- nrow(unique(tmpo))
                 names(eq) <- rownames(unique(tmpo))
                 rownames(tmpo) <- gener
                 for (i in which(duplicated(tmpo))) {
@@ -412,7 +404,7 @@ function (x, equat = FALSE, k = 2, smpl, valued)
                   rm(j)
                 }
                 rm(i)
-                for (i in seq_len(length(eq))) {
+                for (i in 1:length(eq)) {
                   if (isTRUE(is.null(eq[[i]])) == FALSE) {
                     luq[[which(names(eq)[i] == names(luq))]] <- append(luq[[which(names(eq)[i] == 
                       names(luq))]], eq[[i]])
@@ -429,7 +421,6 @@ function (x, equat = FALSE, k = 2, smpl, valued)
                   break
                 }
             }
-            rm(j)
             if (k > 1L) {
                 if (length(gn) > 1L) {
                   eq2 <- vector()
@@ -438,7 +429,7 @@ function (x, equat = FALSE, k = 2, smpl, valued)
                   }
                   rm(i)
                   db <- eq2
-                  for (i in seq_len(ncol(utils::combn(gn, 2)))) {
+                  for (i in 1:ncol(utils::combn(gn, 2))) {
                     if (!(paste(utils::combn(gn, 2)[, i][1], 
                       utils::combn(gn, 2)[, i][2], sep = "") %in% 
                       lbl)) 
@@ -457,7 +448,7 @@ function (x, equat = FALSE, k = 2, smpl, valued)
                   if (length(eq2) != 0L) {
                     dbl <- data.frame(matrix(ncol = (dim(w)[1] * 
                       dim(w)[2]), nrow = 0L))
-                    for (i in seq_len(length(eq2))) {
+                    for (i in 1:length(eq2)) {
                       dbl[(nrow(dbl) + 1), ] <- as.vector(dichot(x[, 
                         , which(dimnames(x)[[3]] == strsplit(eq2[i], 
                           "")[[1]][1])] %*% x[, , which(dimnames(x)[[3]] == 
@@ -472,7 +463,7 @@ function (x, equat = FALSE, k = 2, smpl, valued)
                       }
                     }
                     rm(j)
-                    for (i in seq_len(nrow(dbl))) {
+                    for (i in 1:nrow(dbl)) {
                       if (isTRUE(eq2[i] %in% rownames(unq)) == 
                         FALSE) {
                         luq[[which(duplicated(rbind(dbl[i, ], 
@@ -502,7 +493,7 @@ function (x, equat = FALSE, k = 2, smpl, valued)
                 rm(i)
                 tp <- eq3
                 if (length(gn) > 2) {
-                  for (i in seq_len(ncol(utils::combn(gn, 3)))) {
+                  for (i in 1:ncol(utils::combn(gn, 3))) {
                     if (!(paste(utils::combn(gn, 3)[, i][1], 
                       utils::combn(gn, 3)[, i][2], utils::combn(gn, 
                         3)[, i][3], sep = "") %in% lbl)) 
@@ -546,7 +537,7 @@ function (x, equat = FALSE, k = 2, smpl, valued)
                 if (length(eq3) != 0L) {
                   tpl <- data.frame(matrix(ncol = (dim(w)[1] * 
                     dim(w)[2]), nrow = 0L))
-                  for (i in seq_len(length(eq3))) {
+                  for (i in 1:length(eq3)) {
                     tpl[(nrow(tpl) + 1L), ] <- as.vector(dichot(x[, 
                       , which(dimnames(x)[[3]] == strsplit(eq3[i], 
                         "")[[1]][1])] %*% x[, , which(dimnames(x)[[3]] == 
@@ -563,7 +554,7 @@ function (x, equat = FALSE, k = 2, smpl, valued)
                     }
                   }
                   rm(j)
-                  for (i in seq_len(nrow(tpl))) {
+                  for (i in 1:nrow(tpl)) {
                     if (isTRUE(eq3[i] %in% rownames(unq)) == 
                       FALSE) {
                       luq[[which(duplicated(rbind(tpl[i, ], unq))) - 
@@ -653,7 +644,7 @@ function (x, equat = FALSE, k = 2, smpl, valued)
             }
             lqu <- list()
             lqlb <- vector()
-            for (i in seq_len(length(luq))) {
+            for (i in 1:length(luq)) {
                 if (isTRUE(is.null(luq[[i]])) == FALSE) {
                   lqu[[length(lqu) + 1]] <- luq[[i]]
                   lqlb[length(lqlb) + 1] <- attr(luq, "names")[i]
@@ -662,7 +653,7 @@ function (x, equat = FALSE, k = 2, smpl, valued)
             rm(i)
             names(lqu) <- lqlb
             if (length(lqu) != 0L) {
-                for (i in seq_len(length(lqu))) {
+                for (i in 1:length(lqu)) {
                   lqu[[i]] <- c(attr(lqu, "names")[i], lqu[[i]])
                   lqu[[i]] <- unique(lqu[[i]])
                 }
@@ -694,17 +685,15 @@ function (x, equat = FALSE, k = 2, smpl, valued)
         class(lst) <- "Strings"
         return(lst)
     }
-    else {
-        Sx <- mxmn(x, type = "numerical", cmps = TRUE, equat = equat)
-        if (equat == TRUE) {
-            lst <- list(wt = zbind(Sx$gens, Sx$cmps), ord = Sx$ord, 
-                st = Sx$st, equat = Sx$equat)
-        }
-        else {
-            lst <- list(wt = zbind(Sx$gens, Sx$cmps), ord = Sx$ord, 
-                st = Sx$st)
-        }
-        class(lst) <- c("Strings", "valued")
-        return(lst)
+    else Sx <- mxmn(x, type = "numerical", cmps = TRUE, equat = equat)
+    if (equat == TRUE) {
+        lst <- list(wt = zbind(Sx$gens, Sx$cmps), ord = Sx$ord, 
+            st = Sx$st, equat = Sx$equat)
     }
+    else {
+        lst <- list(wt = zbind(Sx$gens, Sx$cmps), ord = Sx$ord, 
+            st = Sx$st)
+    }
+    class(lst) <- c("Strings", "valued")
+    return(lst)
 }

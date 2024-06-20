@@ -2,7 +2,7 @@
 \alias{pfvn}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Pathfinder valued network and triangle inequality
+Pathfinder Valued Networks and Triangle Inequality
 }
 \description{
 A function to establish the skeleton of a valued network with the pathfinder algorithm and triangle inequality

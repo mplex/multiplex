@@ -34,6 +34,8 @@ function (xj, unique = FALSE, sep)
                 }
             }
             rm(i)
+            ifelse(is.null(attr(xj, "names")) == FALSE, attr(jt, 
+                "names") <- attr(xj, "names"), NA)
         }
         else if (isTRUE(is.vector(xj)) == TRUE) {
             vec <- vector()
@@ -54,17 +56,15 @@ function (xj, unique = FALSE, sep)
             if (length(vec) > 1) 
                 jt <- paste(vec[1], vec[2], sep = sep)
             if (length(vec) > 2) {
-                for (i in 3:length(vec)) jt <- paste(jt, vec[i], 
-                  sep = sep)
+                for (i in 3:length(vec)) {
+                  jt <- paste(jt, vec[i], sep = sep)
+                }
                 rm(i)
             }
         }
         else {
-            xj
+            stop("Input data must be a list or a vector.")
         }
-        ifelse(isTRUE(is.list(xj)) == TRUE && is.null(attr(xj, 
-            "names")) == FALSE, attr(jt, "names") <- attr(xj, 
-            "names"), NA)
         return(jt)
     }
     else {

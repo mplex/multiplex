@@ -14,7 +14,11 @@ read.gml(file, as = c("srt", "array"), directed = TRUE, coords = FALSE)
    character vector containing a file name or path
 }
   \item{as}{
-   should the data be given as a \code{srt} or with an \code{array} format?
+   should the data be given as 
+  \itemize{ 
+    \item \code{srt} for edge list with send/receive/ties format
+    \item \code{array} for two- or three-dimensional array
+  }
 }
   \item{directed}{
    (logical) whether the graph is directed or undirected.
@@ -32,7 +36,7 @@ For the multiplexity in the ties the \code{gml} file distinguishes ``graphics'' 
 Depending the option chosen, the output is either a data frame or an array representing the multigraph. If the coordenates are chosen then these are part of the obejct structure, but they are not visible.
 }
 \references{
-\code{visone} Software for the analysis and visualization of social networks. \emph{http://visone.info}
+\code{visone}: Software for the analysis and visualization of social networks. \emph{http://visone.info}
 }
 \author{
 Antonio Rivero Ostoic

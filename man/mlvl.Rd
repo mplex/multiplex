@@ -1,14 +1,14 @@
 \name{mlvl}
 \alias{mlvl}
 \title{
-Construct multilevel networks
+Construct Multilevel Networks
 }
 \description{
 Function to construct multilevel networks from multimodal structures.
 }
 \usage{
-mlvl(x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"), 
-     symCdm, diag, lbs)
+mlvl(x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"), symCdm, 
+     diag, lbs)
 }
 \arguments{
   \item{x}{
@@ -19,14 +19,12 @@ mlvl(x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
 }
   \item{type}{
   type of multilevel system: 
-
-     - \code{bpn} for binomial projection
-
-     - \code{cn} for common membership network
-
-     - \code{cn2} for co-affiliation of network members
-
-     - \code{list} for the multimodal structures as a list
+  \itemize{ 
+    \item \code{bpn} for binomial projection
+    \item \code{cn} for common membership network
+    \item \code{cn2} for co-affiliation of network members
+    \item \code{list} for the multimodal structures as a list
+  }
 }
   \item{symCdm}{
   (optional and logical, only for \code{bpn}) whether or not symmetrize the codomain structure

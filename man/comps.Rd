@@ -1,7 +1,7 @@
 \name{comps}
 \alias{comps}
 \title{
-Find components in multiple networks
+Find Components in Multiple Networks
 }
 \description{
 Function to find different components in the multiple network including isolates
