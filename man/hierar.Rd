@@ -19,11 +19,16 @@ hierar(W, x, type = c("person", "relation"))
    (integer or character) the actor of reference, either by its location in the adjacency matrix or by the label.
 }
   \item{type}{
-   whether the hierachy is for the `\code{person}s' or for the `\code{relation}s' in the network with respecto to `x'
+   whether the hierarchy with respect to network `\code{x}' is 
+  \itemize{ 
+    \item \code{person} for persons hierarchy
+    \item \code{relation} for relations hierarchy
+  }
 }
 }
 \details{
-The \code{person} hierarchy refers to the inclusion relations among the actors, whereas the \code{relation} hierarchy refers to the inclusion relations among the ties. Both are from the perspective of a chosen actor of reference in the given network.
+The \code{person} hierarchy refers to the inclusion relations among the actors, whereas the \code{relation} hierarchy refers to the inclusion relations among the ties. 
+Both are from the perspective of a chosen actor of reference in the given network.
 }
 \value{
 An array that represents the partial order structure of the respective hierarchy.
@@ -35,7 +40,7 @@ Breiger, R.L. and P.E. Pattison, `Cumulated social roles: The duality of persons
 Antonio Rivero Ostoic
 }
 \note{
-The cumulation of the person hierarchy is obtained through the \code{\link{cph}} function.
+The cumulative person hierarchy is obtained through the \code{\link{cph}} function.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -49,7 +54,7 @@ arr <- round( replace( array( runif(18), c(3 ,3, 2) ), array( runif(18),
 c(3, 3, 2) ) > .5, 3 ) )
 
 ## The relation box
-rarr <- rbox(arr, k=1)
+rarr <- arr |> rbox(k=1)
 
 ## Calculated the person hierarchy of a random actor
 hierar(rarr, ceiling(runif(1, min=0, max=dim(arr)[2])))

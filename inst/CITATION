@@ -1,0 +1,15 @@
+bibentry(bibtype = "Article",
+  title        = "Algebraic Analysis of Multiple Social Networks with {multiplex}",
+  author       = person(given = c("J.", "Antonio"),
+                        family = "Rivero Ostoic",
+                        email = "multiplex@post.com"),
+  journal      = "Journal of Statistical Software",
+  year         = "2020",
+  volume       = "92",
+  number       = "11",
+  pages        = "1--41",
+  doi          = "10.18637/jss.v092.i11",
+
+  header       = "To cite multiplex in publications use:"
+)
+

@@ -1,5 +1,5 @@
 fact <-
-function (S, P, uniq = TRUE, fac, atoms, mc, atmc, patm, k) 
+function (S, P, uniq = TRUE, fac, atoms, mca, atmc, patm, k) 
 {
     if (isTRUE("Decomp" %in% attr(S, "class")) == TRUE) {
         if (missing(fac) == TRUE || missing(fac) == FALSE && 
@@ -34,10 +34,14 @@ function (S, P, uniq = TRUE, fac, atoms, mc, atmc, patm, k)
     }
     NS <- S$ord
     TAB <- as.matrix(S$S)
+    if (isTRUE(length(unique(as.vector(TAB))) == 1) == TRUE) {
+        return(list(po = P[1:NS, 1:NS], iin = transf(1 - P, type = "tolist", 
+            lb2lb = TRUE), note = "1-element semigroup found."))
+    }
     ifelse(missing(atoms) == FALSE && isTRUE(atoms == FALSE) == 
         TRUE, atoms <- FALSE, atoms <- TRUE)
-    ifelse(missing(mc) == FALSE && isTRUE(mc == FALSE) == TRUE, 
-        mc <- FALSE, mc <- TRUE)
+    ifelse(missing(mca) == FALSE && isTRUE(mca == FALSE) == TRUE, 
+        mca <- FALSE, mca <- TRUE)
     ifelse(missing(atmc) == FALSE && isTRUE(atmc == TRUE) == 
         TRUE, atmc <- TRUE, atmc <- FALSE)
     ifelse(missing(patm) == FALSE && isTRUE(patm == TRUE) == 
@@ -126,7 +130,7 @@ function (S, P, uniq = TRUE, fac, atoms, mc, atmc, patm, k)
         }
         if (isTRUE(nrow(COMP) != 0) == TRUE) {
             vec <- vector()
-            for (i in 1:nrow(COMP)) {
+            for (i in seq_len(nrow(COMP))) {
                 vec <- append(vec, jnt(as.character(COMP[i, ]), 
                   unique = T))
             }
@@ -172,7 +176,7 @@ function (S, P, uniq = TRUE, fac, atoms, mc, atmc, patm, k)
         popatoms <- strng(pii)
         atm <- iin[patoms[which(apply(popatoms, 2, sum) == 1L)]]
     }
-    if (isTRUE(mc == TRUE) == TRUE) {
+    if (isTRUE(mca == TRUE) == TRUE) {
         vatm <- patoms[which(apply(popatoms, 2, sum) == 1)]
         mcl <- list()
         iimc <- list()
@@ -225,7 +229,7 @@ function (S, P, uniq = TRUE, fac, atoms, mc, atmc, patm, k)
                 mmcs[[K]] <- transf(unique(unlist(iin[as.numeric(attr(pmcl[[K]], 
                   "names"))])), type = "toarray", ord = NS, lbs = 1:NS) + 
                   P[1:NS, 1:NS]
-                niin <- niin + 1
+                niin <- niin + 1L
                 mcl[[K]] <- append(mcl[[K]], (niin))
             }
         }
@@ -233,12 +237,12 @@ function (S, P, uniq = TRUE, fac, atoms, mc, atmc, patm, k)
     }
     if (isTRUE(uniq == TRUE) == TRUE) {
         Lst <- list(po = P[1:NS, 1:NS], iin = iin, niin = ncomp, 
-            patm = patoms, atm = atm, atmc = mcl, mc = mmcs, 
+            patm = patoms, atm = atm, atmc = mcl, mca = mmcs, 
             note = znote)
     }
     else {
         Lst <- list(po = P[1:NS, 1:NS], iin = Iin, niin = Ncomp, 
-            patm = patoms, atm = atm, atmc = mcl, mc = mmcs, 
+            patm = patoms, atm = atm, atmc = mcl, mca = mmcs, 
             note = znote)
     }
     nvc <- c(1L, 2L, 3L)
@@ -265,7 +269,7 @@ function (S, P, uniq = TRUE, fac, atoms, mc, atmc, patm, k)
         NA
     }
     vc <- vc + 1L
-    if (isTRUE(mc == TRUE) == TRUE) {
+    if (isTRUE(mca == TRUE) == TRUE) {
         nvc <- append(nvc, vc)
     }
     else {

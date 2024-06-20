@@ -1,4 +1,4 @@
-write.srt <-
+write.edgel <-
 function (x, file = NULL, sep = "\t", header = TRUE) 
 {
     if (isTRUE(is.na(dim(x)[3]) == TRUE) == FALSE) {

@@ -4,7 +4,7 @@
 Relational System
 }
 \description{
-Create the Relation System of a multiple network.
+Create the Relation System of a multiplex network.
 }
 \usage{
 rel.sys(x, type = c("tolist", "toarray"), bonds = c("entire", "strong", "weak", 
@@ -16,10 +16,25 @@ rel.sys(x, type = c("tolist", "toarray"), bonds = c("entire", "strong", "weak",
    an array; usually with three dimensions of stacked matrices where the multiple relations are placed.
 }
   \item{type}{
-   if the transformation is from (array of) matrices into lists of pairwise relations or vice versa
+   if the transformation is from 
+  \itemize{ 
+    \item \code{tolist} for (array of) matrices into lists of pairwise relations
+    \item \code{toarray} for lists of pairwise relations into (array of) matrices
+  }
  }
   \item{bonds}{
-   the type of bonds to be used in the creation of the relational system (default the `entire' network)
+   the type of bonds to be used in the creation of the relational system 
+  \itemize{ 
+    \item \code{entire} for the `entire' network (default, same as \code{full})
+    \item \code{strong} for strong bonds
+    \item \code{weak} for weak bonds
+    \item \code{asym} for asymmetric ties
+    \item \code{recp} for reciprocal ties
+    \item \code{txch} for tie exchange bundles
+    \item \code{tent} for tie entrainment bundles
+    \item \code{mixd} for mixed bundles
+    \item \code{full} for the `entire' network (same as \code{entire})
+  }
 }
   \item{sel}{
    (optional) the set of actors to be selected. For \code{"toarray"} \code{att} and \code{noatt} also supported (see details)
@@ -35,9 +50,9 @@ rel.sys(x, type = c("tolist", "toarray"), bonds = c("entire", "strong", "weak",
   }
 }
 \details{
-When the type of bonds chosen is \code{entire} then the nodes with ties are considered in the relational system without isolated nodes. \code{strong} bonds are relational bundles with a mutual character, whereas \code{weak} bonds are those pattern exclusively without mutual character.
+When the type of bonds chosen is \code{entire} then the nodes with ties are considered in the relational system without isolated nodes. \code{strong} bonds are relational bundles with a mutual character, whereas \code{weak} bonds are those patterns exclusively without mutual character.
 
-When selecting from a list with actor attributes, it is also possible to select the network members having or \emph{not} the attribute that is specified in the \code{Attrs} output. Use \code{att} or \code{noatt} for the two options.
+When choosing from a list with actor attributes, it is also possible to select the network members having or \emph{not} having the attribute that is specified in the \code{Attrs} output by using in argument \code{sel} for the two options \code{att} or \code{noatt}.
 }
 \value{
 An object of `\code{Rel.System}' class for the \code{type = "tolist"} (default) option.
@@ -60,7 +75,7 @@ For \code{type = "toarray"} the output is a dichotomous 2D or 3D array recording
 %% ...
 }
 \references{
-Ostoic, J.A.R. `Creating context for social influence processes in multiplex networks.' \emph{Network Science}, 5(1), 1-29.
+Ostoic, J.A.R. ``Creating context for social influence processes in multiplex networks.'' \emph{Network Science}, 5(1), 1-29.
 }
 \author{
 Antonio Rivero Ostoic

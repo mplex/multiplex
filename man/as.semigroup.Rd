@@ -60,7 +60,7 @@ Antonio Rivero Ostoic
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{semigroup}}
+\code{\link{semigroup}}, \code{\link{green.rel}}
 }
 \examples{
 ## create labeled multiplication table data

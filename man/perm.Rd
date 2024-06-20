@@ -8,7 +8,7 @@ Array Permutation
 Function to permutate a given array of relation.
 }
 \usage{
-perm(x, clu, rev, lbs)
+perm(x, clu, rev, lbs, sort)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -23,6 +23,9 @@ perm(x, clu, rev, lbs)
 }
   \item{lbs}{
    (optional) the labels after the permutation
+  }
+  \item{sort}{
+   (optional and logical) sort array according to labels?
   }
 }
 \details{

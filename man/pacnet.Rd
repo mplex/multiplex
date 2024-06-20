@@ -1,14 +1,13 @@
 \name{pacnet}
 \alias{pacnet}
 \title{
-Read Output from Pacnet
+Import Output from Pacnet
 }
 \description{
-A function to read output files from the Pacnet program with the full factorization option.
+A function to read output files and import from the Pacnet program with full factorization option.
 }
 \usage{
-pacnet(file, toarray = FALSE, uniq = FALSE, 
-            transp = FALSE, sep)
+pacnet(file, toarray = FALSE, uniq = FALSE, transp = FALSE, sep)
 }
 \arguments{
   \item{file}{  
@@ -28,7 +27,9 @@ pacnet(file, toarray = FALSE, uniq = FALSE,
 }
 }
 \details{
-This function is used to read the output file from the Pacnet program, which typically has the \code{.out} extension. By default the result is given in a list format, but it is possible to transform the pair lists into arrays. Note that the options in the Pacnet program should include the full factorization in the output; otherwise the object will be \code{NULL}.
+This function is used to read the output file from the Pacnet program, which typically has the \code{.out} extension. 
+By default the result is given in a list format, but it is possible to transform the pair lists into arrays. 
+Note that the options in the Pacnet program should include the full factorization in the output; otherwise the object will be \code{NULL}.
 }
 \value{
 An object of the `\code{Pacnet}' class  with items:

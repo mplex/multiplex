@@ -41,17 +41,15 @@ function (lt, sep)
                 rm(i)
             }
         }
-        while (length(which(attr(unlist(Ls), "names") == "")) != 
-            0) {
+        kual <- which(attr(unlist(Ls), "names") == "")
+        while (length(kual) != 0) {
             j <- (j + 1L)
-            attr(Ls[[which(attr(unlist(Ls), "names") == "")[1]]], 
-                "names") <- j
-            if (length(which(attr(unlist(Ls), "names") == "")) != 
-                0) {
+            attr(Ls[[kual[1]]], "names") <- j
+            kual <- which(attr(unlist(Ls), "names") == "")
+            if (length(kual) != 0) {
                 tmp0 <- unlist(dhc(jnt(unlist(Ls)[which(attr(unlist(Ls), 
                   "names") == j)])))
-                for (i in which(attr(unlist(Ls), "names") == 
-                  "")) {
+                for (i in kual) {
                   tmp2 <- strsplit(Ls[[i]], sep)[[1]]
                   ifelse((any(tmp2 %in% tmp0)) | (any(tmp0 %in% 
                     tmp2)), attr(Ls[[i]], "names") <- j, NA)
@@ -59,20 +57,20 @@ function (lt, sep)
                 rm(i)
                 tmp0 <- unlist(dhc(jnt(unlist(Ls)[which(attr(unlist(Ls), 
                   "names") == j)])))
-                for (i in which(attr(unlist(Ls), "names") == 
-                  "")) {
+                for (i in kual) {
                   tmp2 <- strsplit(Ls[[i]], sep)[[1]]
                   ifelse((any(tmp0 %in% tmp2)) | (any(tmp2 %in% 
                     tmp0)), attr(Ls[[i]], "names") <- j, NA)
                 }
                 rm(i)
             }
+            kual <- which(attr(unlist(Ls), "names") == "")
         }
         clu <- vector()
-        for (i in 1:length(Ls)) clu[i] <- as.numeric(attr(Ls[[i]], 
+        for (i in seq_len(length(Ls))) clu[i] <- as.numeric(attr(Ls[[i]], 
             "names")[1])
         tls <- vector()
-        for (i in 1:nlevels(factor(clu))) tls <- append(tls, 
+        for (i in seq_len(nlevels(factor(clu)))) tls <- append(tls, 
             jnt(llt[clu == i]))
         return(levels(factor(tls)))
     }

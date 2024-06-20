@@ -36,7 +36,7 @@ Antonio Rivero Ostoic
 %
 %}
 \seealso{ 
-\code{\link{read.srt}}, \code{\link{zbind}}
+\code{\link{edgel}}, \code{\link{zbind}}
 }
 \examples{
 ## Create the data: two binary relations among three elements

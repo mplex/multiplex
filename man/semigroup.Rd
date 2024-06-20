@@ -8,49 +8,58 @@ Constructing the Semigroup of Relations
 Function to create the complete semigroup of multiple relations, where the multiplication table can be specified with either a numerical or a symbolic form.
 }
 \usage{
-semigroup(x, type = c("numerical", "symbolic"), lbs = NULL, 
-          cmp = FALSE, smpl = FALSE)
+semigroup(x, type = c("numerical", "symbolic"), cmps, smpl, valued)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-   an array; usually with three dimensions of stacked matrices where the multiple relations are placed.
+   an array; usually with three dimensions of stacked matrices where the multiple relations are placed
 }
   \item{type}{
-   does the semigroup should be given in a \code{numerical} (default) or in a \code{symbolic} form?
+   semigroup multiplication table to be returned 
+  \itemize{ 
+    \item \code{numerical} for a numerical format (default)
+    \item \code{symbolic} for a symbolic format
+  }
 }
-  \item{lbs}{
-   (optional) a list of the labels of each distinct relation.
-}
-  \item{cmp}{
-   (optional) a logical to indicate whether the composite matrices should be also given in the output.
+  \item{cmps}{
+   (optional and logical) whether the composite matrices should be also given in the output
 }
   \item{smpl}{
-   (logical) whether to simplify or not the strings of relations.
+   (optional and logical) whether to simplify or not the strings of relations
 }
+  \item{valued}{
+   (logical) whether the semigroup should be with a valued format
+  }
 }
 \details{
-A multiple relation can be defined by square matrices of 0's and 1's indicating the presence and absence of ties among a set of actors. If there is more than one relation type, the matrices must preserve the label ordering of its elements and stacked into an object array in order to be effectively applied to this function.
+A multiple relation can be defined by square matrices of \code{0}'s and \code{1}'s indicating the presence and absence of ties among a set of actors. 
+If there is more than one relation type, the matrices must preserve the label ordering of its elements and stacked into an object array in order to be effectively applied to this function.
 
-The semigroup, which is an algebraic structure having a set with an associative operation on it, is calculated considering binary matrices only. This means that if the provided matrices are valued, the function will dichotomise the input data automatically; values higher or equal to a unit are converted to one, otherwise they are set to zero. If you are not happy with that, you can go to \code{\link{dichot}} and specify your own cutoff value for the dichotomization.
+The semigroup, which is an algebraic structure having a set with an associative operation on it, is calculated considering binary matrices only. 
+This means that if the provided matrices are valued, the function will dichotomise the input data automatically.
+Values higher or equal to a unit are converted to one; otherwise they are set to zero. 
+If not happy, use function \code{\link{dichot}} to specify a cutoff value for the dichotomization. 
+
+Semigroup structures for valued relations apply the max min operation in the composition of generators and strings. 
 }
 \value{
 An object of `\code{Semigroup}' class.
 The items included are:
   \item{gens}{
-  an array with the generator relations
+  array with generator relations
 }
   \item{cmps}{
-  an array with the unique compound relations
+  array with the unique compound relations
 }
   \item{ord}{
-  a number with the dimension of the semigroup
+  dimension of the semigroup
 }
   \item{st}{
-  the strings, i.e. a vector of the unique relations
+  vector of the unique string relations
 }
   \item{S}{
-  the semigroup of relations (see below)
+  multiplication matrix with semigroup of relations (see below)
 }
 
 If the specified type is `\code{numerical}', then a matrix of semigroup values is given, otherwise the values is returned as a data frame with the strings of the semigroup.
@@ -74,20 +83,19 @@ For medium size or bigger sets (having e.g. more the 4 relation types), the semi
 }
 
 \seealso{
-\code{\link{prev}}, \code{\link{strings}}, \code{\link{edgeT}}, \code{\link{wordT}}, \code{\link{dichot}}, \code{\link{ltlw}}, \code{\link{cngr}}.
+\code{\link{green.rel}}, \code{\link{prev}}, \code{\link{strings}}, \code{\link{edgeT}}, \code{\link{wordT}}, \code{\link{cngr}}.
 }
 
 \examples{
-## Create the data: 2 binary relations among 3 elements
+## create the data: 2 binary relations among 3 elements
 arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
        c(3,3,2))>.5, 1 ) )
 
 ## optional: put labels
 dimnames(arr)[[3]] <- list("n", "m")
 
-## look at the semigroup
+## look at the semigroup with numerical format
 semigroup(arr)
-
 }
 %% R documentation directory.
 \keyword{ algebra }

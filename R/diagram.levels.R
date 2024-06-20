@@ -33,7 +33,7 @@ function (x, perm = FALSE)
             unlink("Rplots.tex")
         }
         else {
-            stop("Package 'Rgraphviz' needs to be properly installed.")
+            stop("Package \"Rgraphviz\" is required.")
         }
     }
     else {
@@ -44,11 +44,19 @@ function (x, perm = FALSE)
     }
     if (perm) {
         clu <- as.numeric(as.vector(unlist(cls[2, ])))
-        lst <- list(cls = cls[1, ], clu = clu, perm = perm(x, 
-            clu = clu))
-        lst
+        return(list(cls = cls[1, ], clu = clu, perm = perm(x, 
+            clu = clu)))
     }
     else {
-        return(cls[1, ])
+        dgl <- cls[1, ]
+        ulv <- unique(attr(as.list(dgl), "names"))
+        lulv <- vector("list", length = length(ulv))
+        for (k in ulv) {
+            lulv[[which(ulv %in% k)]] <- unlist(as.list(dgl)[which(attr(as.list(dgl), 
+                "names") == k)], use.names = FALSE)
+        }
+        rm(k)
+        attr(lulv, "names") <- ulv
+        return(lulv)
     }
 }

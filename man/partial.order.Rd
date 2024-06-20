@@ -1,20 +1,26 @@
 \name{partial.order}
 \alias{partial.order}
 \title{
-The Partial Order of String relations or of Galois derivations
+The Partial Order of String Relations or of Galois Derivations
 }
 \description{
 Construct the partial order table of unique relations of the semigroup, or else of the concepts produced by Galois derivations.
 }
 \usage{
-partial.order(x, type = c("strings", "galois", "pi.rels"), lbs, sel, po.incl)
+partial.order(x, type = c("strings", "galois", "pi.rels"), lbs, sel, 
+              po.incl, dichot)
 }
 \arguments{
   \item{x}{
    an object of a `\code{Strings}' or a `\code{Galois}' class
 }
   \item{type}{
-   whether the object corresponds to string relations, Galois derivations, or \eqn{\pi}-relations
+   whether the object corresponds to 
+  \itemize{ 
+    \item \code{strings} for string relations
+    \item \code{galois} for Galois derivations
+    \item \code{pi.rels} for \eqn{\pi}-relations
+  }
 }
   \item{lbs}{
    (optional) the labels of the unique relations
@@ -24,6 +30,9 @@ partial.order(x, type = c("strings", "galois", "pi.rels"), lbs, sel, po.incl)
 }
   \item{po.incl}{
    (optional, works only with type \code{"pi.rels"}) should the partial order in the \eqn{\pi}-relations be included
+}
+  \item{dichot}{
+   (optional) should the string relations in \code{x} be dichotomized?
 }
 }
 \details{
@@ -37,7 +46,7 @@ An object of `\code{Partial.Order}' class with the partial order table in a matr
 \references{
 Pattison, P.E. \emph{Algebraic Models for Social Networks}. Cambridge University Press. 1993.
 
-Ganter, B. and R. Wille  \emph{Formal Concept Analysis - Mathematical Foundations}. Springer. 1996.
+Ganter, B. and R. Wille  \emph{Formal Concept Analysis -- Mathematical Foundations}. Springer. 1996.
 }
 \author{
 Antonio Rivero Ostoic

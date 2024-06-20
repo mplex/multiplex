@@ -1,4 +1,80 @@
+
 'multiplex' PACKAGE
+
+
+version 3.3 (19-June-2024)
+-----------------------------
+ADDED FEATURES:
+	+ NEW ALIAS FUNCTION 'hasse' for Hasse diagrams
+	+ new argument "type" in function 'diagram'
+BUGS FIXED:
+	* fix bug in 'zbind' "force" option
+	* improvements in 'transf'
+
+
+version 3.1.1 (16-November-2023)
+-----------------------------
+BUGS FIXED:
+	* Unnamed lists to array in 'transf' fixed.
+
+
+version 3.0.0-2 (22-June-2023)
+-----------------------------
+ADDED FEATURES:
+	+ NEW FUNCTION 'green.rel' to perform Green's relations 
+	  on semigroup objects
+
+OTHER CHANGES:
+	* Function 'read.srt' RENAMED to 'edgel' that stands for 
+	  edge list (alias remains for compatibility)
+	* Function 'write.srt' RENAMED to 'write.edgel'
+	+ 'zbind' supports dynamic networks with "force"
+	+ new argument "sort" in function 'zbind' 
+	+ 'transf' supports missing data with "na.rm"
+	- DEPRECATED: 'zbindd'
+
+
+version 2.9.8 (8-February-2022)
+-----------------------------
+CHANGES:
+	+ new argument "type" option "toedgel" in
+	  'transf'
+	* 'read.srt' supports edge lists without tie columns
+
+
+version 2.9.7 (10-January-2022)
+-----------------------------
+NEW INTERNAL: 'zbindd' to bind dynamic networks
+CHANGES:
+	+ new argument "sep" in function 'diagram' 
+	* 'read.srt' returns an ordered label array
+BUGS FIXED:
+	* improvements in 'transf', 'rel.sys', 'mlvl'
+
+
+version 2.9.5 (8-September-2021)
+-----------------------------
+Wiley Companion Webiste
+BUGS FIXED:
+	* Internal function 'transl' runs with R >4.0.0
+CHANGES:
+	* .rda replaces .RData
+	+ Minor fixes in 'partial.order' and 'fltr'
+
+
+version 2.9.4 (28-February-2020)
+-----------------------------
+CHANGES:
+	* 'perm' allows sorting arrays
+	+ Minor fixes in internal 'ti'
+	+ DOI Citation is added
+
+
+version 2.9.2 (2-December-2019)
+-----------------------------
+ADDED: 'pfvn'
+ADDED INTERNS: 'mmp', 'mxmn', 'cscl', 'cpath', 'ti'
+PLUS "mc" to "mca" in fact(), pi.rels(), and decomp()
 
 
 version 2.9 (21-September-2018)
@@ -6,8 +82,8 @@ version 2.9 (21-September-2018)
 ADDED: 'fact', 'mlvl'
 ADDED INTERNS: 'strng', 'edgS'
 
-DEPREACTED: 'convert', 'relabel', 'iinc', 'is.mc'
-DEPREACTED INTERNS: 'orden', 'slc', 'symclos', 'tclos'
+DEPRECATED: 'convert', 'relabel', 'iinc', 'is.mc'
+DEPRECATED INTERNS: 'orden', 'slc', 'symclos', 'tclos'
 
 
 version 2.8 (16-December-2017)
@@ -23,7 +99,7 @@ OTHER CHANGES:
 	+ Internal function 'jnt' preserves order when "unique" is TRUE
 	* "diag" replaces "diag.incl" in various functions 
 	* Minor changes in 'pi.rels', 'zbind', 'transf', 'perm'
-	- Functions 'convert' and 'relabel' has been DEPREACTED
+	- Functions 'convert' and 'relabel' have been DEPRECATED
 
 
 version 2.7 (16-August-2017)
@@ -32,7 +108,7 @@ CHANGES:
 	* 'perm' allows costumized labels
 	* 'comps' handles diagonal matrices
 	* 'as.signed' captures matrix labels
-	* Minor fixes in 'transf'
+	+ Minor fixes in 'transf'
 
 
 version 2.6 (3-May-2017)
@@ -60,8 +136,8 @@ BUGS FIXED:
 	* Selection works now in 'rel.sys' 
 
 OTHER CHANGES:
-	* For compatibility with the base package, "sep" is used to specify 
-	  the pairwise separator in various functions; "prsep" is DEPREACTED
+	* For compatibility with the 'base' package, "sep" is used to specify 
+	  the pairwise separator in various functions; "prsep" is DEPRECATED
 
 
 
@@ -75,7 +151,6 @@ BUGS FIXED:
 
 OTHER CHANGES:
 	+ Minor improvements in 'zbind', 'rel.sys', and 'jnt'
-
 
 
 version 2.1 (14-September-2016)
@@ -197,7 +272,7 @@ BUG FIXED:
 OTHER CHANGES:
 	+ Namespaces for needed global functions have been added (CRAN request)
 	+ Small improvements in internal functions; 'flt' is ADDED
-	- Internal function 'slc' is DEPREACTED
+	- Internal function 'slc' is DEPRECATED
 	+ Vignette is expanded
 
 
@@ -236,7 +311,7 @@ BUGS FIXED:
 
 OTHER CHANGES:
 	-+ For consistency reasons 'po.levels' is RENAMED into 'diagram.levels'
-	- Internal function 'orden' is DEPREACTED
+	- Internal function 'orden' is DEPRECATED
 
 
 version 1.2 (5-Feb-2014)

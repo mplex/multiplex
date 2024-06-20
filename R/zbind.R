@@ -1,99 +1,240 @@
 zbind <-
-function (...) 
+function (..., sort, force) 
 {
+    ifelse(missing(force) == FALSE && isTRUE(force == TRUE) == 
+        TRUE, force <- TRUE, force <- FALSE)
+    ifelse(missing(sort) == FALSE && isTRUE(sort == TRUE) == 
+        TRUE, sort <- TRUE, sort <- FALSE)
     argl <- list(...)
-    if (isTRUE(length(argl) < 2L) == TRUE) 
-        return(argl)
-    ifelse(isTRUE(dim(argl[[1]])[3] > 1) == TRUE, pvt <- argl[[1]][, 
-        , 1], pvt <- argl[[1]])
-    pvtlbs <- dimnames(pvt)[[1]]
-    tmp <- data.frame(matrix(ncol = (dim(pvt)[1] * dim(pvt)[2]), 
-        nrow = 0L))
-    for (i in seq_along(argl)) {
-        if (isTRUE(i < length(argl)) == TRUE) {
-            if (all.equal(dim(argl[[i + 1L]])[1:2], dim(pvt)[1:2]) != 
-                TRUE) {
-                argl[[i + 1L]] <- transf(argl[[i + 1L]], type = "toarray", 
-                  ord = dim(pvt)[1], lbs = pvtlbs)
-            }
-            else {
-                NA
-            }
-            if (is.null(pvtlbs) == TRUE) {
-                warning("Dimnames in the pivot array are NULL.")
-            }
-            else if (all(pvtlbs %in% dimnames(pvt)[[2]]) == TRUE) {
-                dimnames(argl[[i + 1L]])[[1]][which(is.na(attr(argl[[i + 
-                  1L]], "dimnames")[[1]]))] <- dimnames(argl[[i + 
-                  1L]])[[2]][which(is.na(attr(argl[[i + 1L]], 
-                  "dimnames")[[1]]))] <- pvtlbs[which(!(pvtlbs %in% 
-                  attr(argl[[i + 1L]], "dimnames")[[1]]))]
-            }
-            else {
-                NA
-            }
-            if (any(dimnames(argl[[i + 1L]])[[1]] != pvtlbs) == 
-                TRUE && isTRUE(dim(argl[[1]])[1] == dim(argl[[1]])[2]) == 
-                TRUE) {
-                prm <- seq(dim(pvt)[1])
-                if (isTRUE(all(dimnames(argl[[i + 1L]])[[1]] == 
-                  pvtlbs) == FALSE) == FALSE) {
-                  for (m in which(dimnames(argl[[i + 1L]])[[1]] != 
-                    pvtlbs)) {
-                    prm[m] <- which(dimnames(argl[[i + 1L]])[[1]][m] == 
-                      pvtlbs)
+    if (any(unlist(lapply(lapply(argl, dim), length)) < 2L) == 
+        TRUE) 
+        stop("Input objects must be arrays or data frames.")
+    lapply(argl, function(z) {
+        ifelse(all(dimnames(z)[[1]] == dimnames(z)[[2]]) == TRUE, 
+            invisible(NA), stop("\"x\", \"y\" must be square arrays; dimensions not equal."))
+    })
+    ifelse(isTRUE(dim(argl[[1]])[3] > 1L) == TRUE, pvt0 <- argl[[1]][, 
+        , 1], pvt0 <- argl[[1]])
+    if (is.null(dimnames(pvt0)[[1]]) == TRUE) {
+        warning("Dimnames NULL detected, bind first two arrays.")
+        return(zbnd(...))
+    }
+    if (isTRUE(length(argl) < 2L) == TRUE) {
+        if (isTRUE(sort == TRUE) == TRUE) {
+            return(perm(..., sort = TRUE))
+        }
+        else {
+            return(argl)
+        }
+    }
+    dmnl <- lapply(argl, function(z) dimnames(z)[[1]])
+    pvtlbs <- unique(unlist(lapply(argl, function(z) {
+        dimnames(z)[[1]]
+    })))
+    if (isTRUE(length(unique(unlist(lapply(dmnl, length)))) == 
+        1L)) {
+        flgx <- FALSE
+        if (isTRUE(length(unique(unlist(lapply(argl, function(z) dimnames(z)[[1]])))) == 
+            unique(unlist(lapply(lapply(argl, function(z) dimnames(z)[[1]]), 
+                length)))) == TRUE) {
+            if (isTRUE(nrow(unique(as.data.frame(do.call(rbind, 
+                dmnl)))) == 1L) == FALSE) {
+                for (k in 2:length(argl)) {
+                  tmplbs <- dmnl[[k]]
+                  vec <- vector()
+                  for (i in seq_len(length(tmplbs))) {
+                    vec <- append(vec, which(pvtlbs %in% tmplbs[i]))
                   }
-                  rm(m)
+                  rm(i)
+                  argl[[k]] <- perm(argl[[k]], clu = vec)
+                }
+                rm(k)
+                rm(vec, tmplbs)
+            }
+            else {
+                invisible(NA)
+            }
+        }
+        else {
+            if (isTRUE(force == TRUE) == FALSE) 
+                stop("Arrays have different labeling; set \"force\" to TRUE.")
+            flgx <- TRUE
+        }
+    }
+    else {
+        if (isTRUE(force == TRUE) == FALSE) 
+            stop("Arrays have different dimensions; set \"force\" to TRUE.")
+        flgx <- TRUE
+    }
+    if (isTRUE(flgx == FALSE) == TRUE) {
+        argdf <- data.frame(matrix(ncol = (dim(pvt0)[1] * dim(pvt0)[2]), 
+            nrow = 0L))
+        for (i in seq_along(argl)) {
+            ifelse(isTRUE(i < length(argl)) == TRUE, k <- 1L, 
+                k <- 0)
+            if (all(all.equal(dmnl[i], dmnl[i + k]) == TRUE) == 
+                FALSE) {
+                ifelse(isTRUE(dim(argl[[i + k]])[3] > 1) == TRUE, 
+                  NA, argl[[i + k]] <- transf(argl[[i + k]], 
+                    type = "toarray", ord = length(pvtlbs), lbs = pvtlbs))
+            }
+            if (all.equal(pvtlbs, dimnames(argl[[i]])[[2]]) == 
+                TRUE) {
+                argdf <- rbind(argdf, matrix(as.vector(argl[[i]]), 
+                  ncol = ncol(argdf), byrow = TRUE))
+            }
+            else {
+                tempargdf <- matrix(nrow = dim(pvt0)[1], ncol = dim(pvt0)[2], 
+                  dimnames = list(pvtlbs, pvtlbs))
+                if (isTRUE(i < length(argl)) == TRUE) {
+                  tempargdf <- array(dim = c(dim(pvt0)[1], dim(pvt0)[2], 
+                    dim(argl[[i + k]])[3]), dimnames = list(pvtlbs, 
+                    pvtlbs))
+                }
+                tempargdf[which(pvtlbs %in% dimnames(argl[[i]])[[1]]), 
+                  which(pvtlbs %in% dimnames(argl[[i]])[[1]]), 
+                  ] <- argl[[i]]
+                argdf <- rbind(argdf, matrix(as.vector(tempargdf), 
+                  ncol = ncol(argdf), byrow = TRUE))
+            }
+        }
+        rm(i)
+        argdf[sapply(argdf, is.na)] <- 0L
+        arr <- array(dim = c(dim(pvt0)[1], dim(pvt0)[2], nrow(argdf)), 
+            dimnames = list(pvtlbs, pvtlbs))
+        for (i in seq_len(nrow(argdf))) {
+            arr[, , i][seq_len((dim(pvt0)[1] * dim(pvt0)[2]))] <- as.numeric(argdf[i, 
+                ])
+        }
+        rm(i)
+        if (any(unlist(lapply(lapply(argl, dim), length)) != 
+            3L) == FALSE) {
+            pdim <- unlist(lapply(argl, function(z) {
+                dimnames(z)[[3]]
+            }))
+            ifelse(isTRUE(length(pdim) == dim(arr)[3]) == TRUE, 
+                dimnames(arr)[[3]] <- pdim, NA)
+            rm(pdim)
+        }
+        if (isTRUE(sort == TRUE) == TRUE) {
+            return(perm(arr, sort = TRUE))
+        }
+        else {
+            return(arr)
+        }
+    }
+    else {
+        message("An(some) array(s) is(are) extended.")
+    }
+    if (isTRUE(flgx == TRUE) == TRUE) {
+        argdf <- data.frame(matrix(ncol = (length(pvtlbs) * length(pvtlbs)), 
+            nrow = 0L))
+        if (is.na(dim(argl[[1]])[3]) == TRUE) {
+            if (all(pvtlbs %in% dimnames(pvt0)[[1]]) == TRUE) {
+                argdf <- rbind(argdf, matrix(pvt0, ncol = ncol(argdf), 
+                  byrow = TRUE))
+            }
+            else {
+                tmp1 <- transf(pvt0, type = "toarray", add = pvtlbs[which(!(pvtlbs %in% 
+                  dimnames(pvt0)[[1]]))])
+                if (identical(dimnames(tmp1)[[1]], pvtlbs) == 
+                  TRUE) {
+                  argdf <- rbind(argdf, matrix(tmp1, ncol = ncol(argdf), 
+                    byrow = TRUE))
                 }
                 else {
-                  warning("Dimnames in the input are different, use from the first array.")
-                  dimnames(argl[[i + 1L]])[[1]] <- dimnames(argl[[i + 
-                    1L]])[[2]] <- pvtlbs
+                  tmplbs <- dimnames(tmp1)[[1]]
+                  vec <- vector()
+                  for (i in seq_len(length(tmplbs))) {
+                    vec <- append(vec, which(pvtlbs %in% tmplbs[i]))
+                  }
+                  rm(i)
+                  tmpdf <- perm(tmp1, clu = vec)
+                  argdf <- rbind(argdf, matrix(tmpdf, ncol = ncol(argdf), 
+                    byrow = TRUE))
                 }
-                argl[[i + 1L]] <- perm(argl[[i + 1L]], clu = prm, 
-                  rev = FALSE)
             }
         }
-        if (isTRUE(dim(argl[[i]])[3] > 1L) == TRUE) {
-            for (j in seq_len(dim(argl[[i]])[3])) {
-                tmp[(nrow(tmp) + 1L), ] <- as.vector(as.matrix(argl[[i]][, 
-                  , j]))
-            }
-            rm(j)
-        }
-        else if (isTRUE(is.na(dim(argl[[i]])[3]) == TRUE) == 
-            TRUE | isTRUE(dim(argl[[i]])[3] == 1L) == TRUE) {
-            tmp[(nrow(tmp) + 1L), ] <- as.vector(as.matrix(argl[[i]]))
-        }
-    }
-    rm(i)
-    arr <- array(dim = c(dim(pvt)[1], dim(pvt)[2], nrow(tmp)), 
-        dimnames = list(dimnames(pvt)[[1]], dimnames(pvt)[[2]]))
-    for (i in seq_len(nrow(tmp))) {
-        arr[, , i][seq_len((dim(pvt)[1] * dim(pvt)[2]))] <- as.numeric(tmp[i, 
-            ])
-    }
-    rm(i)
-    lbs <- vector()
-    for (i in seq_along(argl)) {
-        if (isTRUE(dim(argl[[i]])[3] > 1L) == TRUE) {
-            ifelse(is.null(dimnames(argl[[i]])[[3]]) == FALSE, 
-                lbs <- append(lbs, dimnames(argl[[i]])[[3]]), 
-                lbs <- append(lbs, (length(lbs) + 1L:dim(argl[[i]])[3])))
-        }
-        else if (isTRUE(dim(argl[[i]])[3] > 1L) == FALSE) {
-            if (isTRUE(is.na(dim(argl[[i]])[3])) == FALSE) {
-                ifelse(is.null(attr(argl[[i]], "dimnames")[[3]]) == 
-                  FALSE, lbs <- append(lbs, attr(argl[[i]], "dimnames")[[3]]), 
-                  lbs <- append(lbs, (length(lbs) + 1L)))
+        else {
+            if (identical(dimnames(argl[[1]])[[1]], pvtlbs) == 
+                TRUE) {
+                for (j in seq_len(dim(argl[[1]])[3])) {
+                  argdf <- rbind(argdf, matrix(argl[[1]][, , 
+                    j], ncol = ncol(argdf), byrow = TRUE))
+                }
+                rm(j)
             }
             else {
-                lbs <- append(lbs, (length(lbs) + 1L))
+                for (j in seq_len(dim(argl[[1]])[3])) {
+                  tmp3 <- transf(argl[[1]][, , j], type = "toarray", 
+                    add = pvtlbs[which(!(pvtlbs %in% dimnames(pvt0)[[1]]))])
+                  argdf <- rbind(argdf, matrix(tmp3, ncol = ncol(argdf), 
+                    byrow = TRUE))
+                }
+                rm(j)
             }
         }
+        for (k in 2:length(argl)) {
+            if (is.na(dim(argl[[k]])[3]) == TRUE) {
+                tmpk <- transf(argl[[k]], type = "toarray", add = pvtlbs[which(!(pvtlbs %in% 
+                  dimnames(argl[[k]])[[1]]))])
+                if (identical(dimnames(tmpk)[[1]], pvtlbs) == 
+                  TRUE) {
+                  argdf <- rbind(argdf, matrix(tmpk, ncol = ncol(argdf), 
+                    byrow = TRUE))
+                }
+                else {
+                  tmplbs <- dimnames(tmpk)[[1]]
+                  vek <- vector()
+                  for (i in seq_len(length(tmplbs))) {
+                    vek <- append(vek, which(pvtlbs %in% tmplbs[i]))
+                  }
+                  rm(i)
+                  tmpdf <- perm(tmpk, clu = vek)
+                  argdf <- rbind(argdf, matrix(tmpdf, ncol = ncol(argdf), 
+                    byrow = TRUE))
+                }
+            }
+            else {
+                for (j in seq_len(dim(argl[[k]])[3])) {
+                  tmpk <- transf(argl[[k]][, , j], type = "toarray", 
+                    add = pvtlbs[which(!(pvtlbs %in% dimnames(argl[[k]])[[1]]))])
+                  tmplbs <- dimnames(tmpk)[[1]]
+                  vec <- vector()
+                  for (i in seq_len(length(tmplbs))) {
+                    vec <- append(vec, which(pvtlbs %in% tmplbs[i]))
+                  }
+                  rm(i)
+                  tmpdf <- perm(tmpk, clu = vec)
+                  argdf <- rbind(argdf, matrix(tmpdf, ncol = ncol(argdf), 
+                    byrow = TRUE))
+                }
+                rm(j)
+            }
+        }
+        rm(k)
+        argdf[sapply(argdf, is.na)] <- 0L
+        arr <- array(dim = c(length(pvtlbs), length(pvtlbs), 
+            nrow(argdf)), dimnames = list(pvtlbs, pvtlbs))
+        for (i in seq_len(nrow(argdf))) {
+            arr[, , i][seq_len((length(pvtlbs) * length(pvtlbs)))] <- as.numeric(argdf[i, 
+                ])
+        }
+        rm(i)
+        if (any(unlist(lapply(lapply(argl, dim), length)) != 
+            3L) == FALSE) {
+            pdim <- unlist(lapply(argl, function(z) {
+                dimnames(z)[[3]]
+            }))
+            ifelse(isTRUE(length(pdim) == dim(arr)[3]) == TRUE, 
+                dimnames(arr)[[3]] <- pdim, NA)
+            rm(pdim)
+        }
+        if (isTRUE(sort == TRUE) == TRUE) {
+            return(perm(arr, sort = TRUE))
+        }
+        else {
+            return(arr)
+        }
     }
-    rm(i)
-    if (isTRUE(length(lbs) == dim(arr)[3]) == TRUE) 
-        dimnames(arr)[[3]] <- as.list(lbs)
-    arr
 }
