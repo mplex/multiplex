@@ -80,11 +80,22 @@ strings(arr) |>
 
 
 ```r
-### plot the partial order (requires "Rgraphviz")
-require("Rgraphviz", quietly = TRUE))
+### plot partial order diagram
+require("Rgraphviz", quietly = TRUE)
 strings(arr) |> 
   partial.order(type = "strings") |> 
-  diagram()
+  diagram(type = "hasse")
+```
+
+or equivalently:
+
+
+```r
+### plot hasse diagram of the partial order
+require("Rgraphviz", quietly = TRUE)
+strings(arr) |> 
+  partial.order(type = "strings") |> 
+  hasse()
 ```
 
 
@@ -125,7 +136,7 @@ galois(frt, labeling = "reduced") |>
 require("Rgraphviz", quietly = TRUE)
 galois(frt, labeling = "reduced") |> 
   partial.order(type = "galois") |> 
-  diagram()
+  diagram(type = "concept")
 ```
 
 <br /><br />
