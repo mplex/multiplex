@@ -14,7 +14,12 @@ write.dl(x, file = NULL, type = c("nodelist", "fullmat"))
 }
   \item{file}{  path to the file
 }
-  \item{type}{  whether to write the data as a \code{nodelist} or as a \code{fullmat} format
+  \item{type}{  
+  write data with format type: 
+  \itemize{ 
+    \item \code{nodelist} for node-list format
+    \item \code{fullmat} for fullmat format
+  }
 }
 }
 \details{

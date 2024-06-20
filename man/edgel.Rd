@@ -2,7 +2,7 @@
 \alias{edgel}
 \alias{read.srt}
 \title{
-Read edge list files
+Read Edge List Files
 }
 \description{
 A function to read edge list files with \emph{s}end, \emph{r}eceive, and \emph{t}ies format 

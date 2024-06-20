@@ -2,7 +2,7 @@
 \alias{mnplx}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Make a multiple network as monoplex structure
+Make Multiple Networks as Monoplex Structures
 }
 \description{
 A function to transform multiple networks into a monoplex structure
@@ -50,11 +50,11 @@ Antonio Rivero Ostoic
 \code{\link{zbind}}, \code{\link{dichot}}, \code{\link{reduc}}
 }
 \examples{
-## Create the data: 2 binary relations among 3 elements
+## create the data: 2 binary relations among 3 elements
 arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
        c(3,3,2))>.5, 1 ) )
 
-## Make it monoplex
+## make array monoplex
 mnplx(arr)
 
 }

@@ -1,6 +1,6 @@
 Package: multiplex
 Type: Package
-Version: 3.1.1
+Version: 3.3
 Depends: R (>= 4.2.0)
 Imports: methods
 Suggests: multigraph, Rgraphviz, knitr
@@ -14,7 +14,7 @@ Description: Algebraic procedures for analyses of multiple social networks are d
 	    bundles occurring in different types of multivariate networks. 'multiplex' provides also 
 	    an algebraic approach for affiliation networks through Galois derivations between families 
 	    of the pairs of subsets in the two domains of the network with visualization options.
-Date: 2023-11-16
+Date: 2024-06-19
 Authors@R: person(given = "Antonio", family = "Rivero Ostoic", role = c("aut", "cre"), email = "multiplex@post.com")
 Author: Antonio Rivero Ostoic [aut, cre]
 Maintainer: Antonio Rivero Ostoic <multiplex@post.com>
@@ -24,5 +24,4 @@ Repository: CRAN
 License: GPL-3
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2023-11-16 13:23:42 UTC; AOST
-Date/Publication: 2023-11-16 15:50:05 UTC
+Packaged: 2024-06-19 13:06:43 UTC; AOST

@@ -1,7 +1,7 @@
 \name{fltr}
 \alias{fltr}
 \title{
-Principal filters
+Principal Filters
 }
 \description{
 A function to find principal filters in a partial order

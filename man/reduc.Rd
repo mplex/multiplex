@@ -1,10 +1,10 @@
 \name{reduc}
 \alias{reduc}
 \title{
-Reduce a matrix or array
+Reduce Matrices or Arrays
 }
 \description{
-Function to reduce a matrix or array with a given clustering vector
+Function to reduce a matrix or an array with a given clustering vector.
 }
 \usage{
 reduc(x, clu, lbs = NULL, slbs = NULL, valued, row, col)
@@ -34,7 +34,8 @@ reduc(x, clu, lbs = NULL, slbs = NULL, valued, row, col)
 }
 }
 \details{
-Given a partition, this function serves to reduce either a matrix representing e.g. a partial order structure. However, the reduction is also generalized to three-dimensional arrays representing multiple relations.
+Given a partition, this function serves to reduce either a matrix representing e.g. a partial order structure. 
+However, the reduction is also generalized to three-dimensional arrays representing multiple relations.
 }
 \value{
 The reduced matrix or a reduced three-dimensional array of the input data according to the clustering information.
@@ -58,8 +59,8 @@ Use \code{\link{decomp}} for the reduction of a semigroup object.
 ## scan the multiplication table data
 s <- matrix(data=c(1, 1, 1, 3, 3, 3, 3, 3, 3), nrow=3, ncol=3, byrow=TRUE)
 
-## Reduce the multiplication table
-reduc(s, clu=c(1,2,2))
+## reduce the multiplication table
+s |> reduc(clu=c(1,2,2))
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

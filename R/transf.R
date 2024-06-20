@@ -123,12 +123,12 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
         if (is.na(dim(x)[3]) == TRUE) {
             inc <- list()
             for (l in seq_len(max(x))) {
-                X <- dichot(x, c = l)
-                for (i in seq_len(length(which((X) == 1L)))) {
-                  cls[i] <- (ceiling(which((X) == 1L)/dim(x)[1]))[i]
-                  ifelse((which((X) == 1L)%%dim(x)[1])[i] == 
-                    0L, rws[i] <- (which((X) == 1L)%%dim(x)[1])[i] + 
-                    dim(x)[1], rws[i] <- (which((X) == 1L)%%dim(x)[1])[i])
+                xd <- dichot(x, c = l)
+                for (i in seq_len(length(which((xd) == 1L)))) {
+                  cls[i] <- (ceiling(which((xd) == 1L)/dim(x)[1]))[i]
+                  ifelse((which((xd) == 1L)%%dim(x)[1])[i] == 
+                    0L, rws[i] <- (which((xd) == 1L)%%dim(x)[1])[i] + 
+                    dim(x)[1], rws[i] <- (which((xd) == 1L)%%dim(x)[1])[i])
                   ifelse(isTRUE(lb2lb == TRUE) == TRUE, inc[[length(inc) + 
                     1L]] <- paste(lbsr[rws[i]], lbsc[cls[i]], 
                     sep = sep), inc[[length(inc) + 1L]] <- paste(rws[i], 
@@ -146,13 +146,13 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
                 inc <- list()
                 if (isTRUE(max(x[, , k]) >= 1L) == TRUE) {
                   for (l in seq_len(max(x[, , k]))) {
-                    X <- dichot(x[, , k], c = l)
-                    for (i in seq_len(length(which((X) == 1L)))) {
-                      cls[i] <- (ceiling(which((X) == 1L)/dim(x[, 
+                    xd <- dichot(x[, , k], c = l)
+                    for (i in seq_len(length(which((xd) == 1L)))) {
+                      cls[i] <- (ceiling(which((xd) == 1L)/dim(x[, 
                         , k])[1]))[i]
-                      ifelse((which((X) == 1L)%%dim(x[, , k])[1])[i] == 
-                        0L, rws[i] <- (which((X) == 1L)%%dim(x[, 
-                        , k])[1])[i] + dim(x[, , k])[1], rws[i] <- (which((X) == 
+                      ifelse((which((xd) == 1L)%%dim(x[, , k])[1])[i] == 
+                        0L, rws[i] <- (which((xd) == 1L)%%dim(x[, 
+                        , k])[1])[i] + dim(x[, , k])[1], rws[i] <- (which((xd) == 
                         1L)%%dim(x[, , k])[1])[i])
                       ifelse(isTRUE(lb2lb == TRUE) == TRUE, inc[[length(inc) + 
                         1L]] <- paste(lbsr[rws[i]], lbsc[cls[i]], 
@@ -190,13 +190,9 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
                 ifelse(is.vector(add) == TRUE, x <- c(x, add), 
                   NA)
             }
-            else if (is.array(x) == TRUE && is.na(dim(x)[3]) == 
-                TRUE) {
-                ord <- nrow(x) + length(add)
+            else if (is.array(x) == TRUE) {
                 lbs <- c(dimnames(x)[[1]], add)
-            }
-            else {
-                NA
+                ord <- dim(x)[1] + length(add)
             }
         }
         if ((is.vector(x) == FALSE && isTRUE(dim(x)[1] == dim(x)[2]) == 
@@ -231,6 +227,13 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
         if (is.array(x) == TRUE) {
             ifelse(is.null(lbs) == TRUE, Lbs <- dimnames(x)[[1]][seq_len(ord)], 
                 Lbs <- lbs[seq_len(ord)])
+            if (any(duplicated(Lbs)) == TRUE) {
+                Lbs <- unique(Lbs)
+                ord <- length(Lbs)
+            }
+            else {
+                NA
+            }
         }
         else if (is.array(x) == FALSE) {
             if (is.null(lbs) == FALSE | (is.null(lbs) == FALSE && 
@@ -247,20 +250,10 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
         if (is.list(x) == TRUE) {
             mat <- array(0L, dim = c(ord, ord, length(x)), dimnames = list(Lbs, 
                 Lbs, names(x)))
-            if (is.null(lbs) == FALSE) {
-                for (i in seq_len(length(x))) {
-                  mat[, , i] <- trnf(x[[i]], tolist = FALSE, 
-                    ord = ord)
-                }
-                rm(i)
+            for (i in seq_len(length(x))) {
+                mat[, , i] <- trnf(x[[i]], tolist = FALSE, ord = ord)
             }
-            else {
-                for (i in seq_len(length(x))) {
-                  mat[, , i] <- trnf(x[[i]], tolist = FALSE, 
-                    ord = ord, lbs = Lbs)
-                }
-                rm(i)
-            }
+            rm(i)
         }
         else if (is.vector(x) == TRUE) {
             mat <- matrix(0L, ncol = ord, nrow = ord, dimnames = list(Lbs, 
@@ -276,8 +269,21 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
         else if (is.array(x) == TRUE) {
             ifelse(isTRUE(NA %in% Lbs) == TRUE && is.null(lbs) == 
                 FALSE, Lbs <- lbs, NA)
-            mat <- trnf(trnf(x, tolist = TRUE, lb2lb = TRUE), 
-                tolist = FALSE, ord = ord, lbs = Lbs)
+            if (is.na(dim(x)[3]) == TRUE) {
+                mat <- trnf(trnf(x, tolist = TRUE, lb2lb = TRUE), 
+                  tolist = FALSE, ord = ord, lbs = Lbs)
+            }
+            else {
+                arr <- array(dim = c(length(Lbs), length(Lbs), 
+                  dim(x)[3]), dimnames = list(Lbs, Lbs, dimnames(x)[[3]]))
+                for (k in seq_len(dim(x)[3])) {
+                  arr[, , k] <- trnf(trnf(x[, , k], tolist = TRUE, 
+                    lb2lb = TRUE), tolist = FALSE, ord = ord, 
+                    lbs = Lbs)
+                }
+                rm(k)
+                mat <- arr
+            }
         }
         else if (is.null(x) == TRUE) {
             mat <- matrix(0L, nrow = ord, ncol = ord)
@@ -303,7 +309,7 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
                 rm(i)
             }
         }
-        if (is.null(lbs) == FALSE) {
+        if (is.null(lbs) == FALSE && missing(add) == TRUE) {
             dimnames(mat)[[1]] <- lbs[seq_len(ord)]
             dimnames(mat)[[2]] <- lbs[seq_len(ord)]
         }

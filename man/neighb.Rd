@@ -1,7 +1,7 @@
 \name{neighb}
 \alias{neighb}
 \title{
-Neighborhood of an actor or group of actors
+Neighborhood of Actor or Group of Actors
 }
 \description{
 A function to find the neighbourhood of an actor or group of actors with a customized distance.
@@ -19,12 +19,11 @@ the relational system of the network
 }
   \item{type}{
   whether the system is 
-  
-  - \code{und} for \emph{undirected} (default)
-
-  - \code{inn} for \emph{incoming} node's ties to the reference actor
-  
-  - \code{out} for \emph{outgoing} arcs from the reference actor
+  \itemize{ 
+    \item \code{und} for \emph{undirected} (default)
+    \item \code{inn} for \emph{incoming} node's ties to the reference actor
+    \item \code{out} for \emph{outgoing} arcs from the reference actor
+  }
 }
   \item{k}{
   the ``distance'' of the neighbour nodes to the reference actor (where \code{k=1} gives the adjacent nodes)

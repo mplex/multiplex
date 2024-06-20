@@ -16,10 +16,25 @@ rel.sys(x, type = c("tolist", "toarray"), bonds = c("entire", "strong", "weak",
    an array; usually with three dimensions of stacked matrices where the multiple relations are placed.
 }
   \item{type}{
-   if the transformation is from (array of) matrices into lists of pairwise relations or vice versa
+   if the transformation is from 
+  \itemize{ 
+    \item \code{tolist} for (array of) matrices into lists of pairwise relations
+    \item \code{toarray} for lists of pairwise relations into (array of) matrices
+  }
  }
   \item{bonds}{
-   the type of bonds to be used in the creation of the relational system (default the `entire' network)
+   the type of bonds to be used in the creation of the relational system 
+  \itemize{ 
+    \item \code{entire} for the `entire' network (default, same as \code{full})
+    \item \code{strong} for strong bonds
+    \item \code{weak} for weak bonds
+    \item \code{asym} for asymmetric ties
+    \item \code{recp} for reciprocal ties
+    \item \code{txch} for tie exchange bundles
+    \item \code{tent} for tie entrainment bundles
+    \item \code{mixd} for mixed bundles
+    \item \code{full} for the `entire' network (same as \code{entire})
+  }
 }
   \item{sel}{
    (optional) the set of actors to be selected. For \code{"toarray"} \code{att} and \code{noatt} also supported (see details)

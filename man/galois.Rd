@@ -1,7 +1,7 @@
 \name{galois}
 \alias{galois}
 \title{
-Galois derivations between subsets
+Galois Derivations Between Subsets
 }
 \description{
 Function to perform Galois derivations between partially ordered subsets
@@ -15,7 +15,11 @@ galois(x, labeling = c("full", "reduced"), sep, valued, scl,
 	a data frame with objects and attributes
 }
   \item{labeling}{
-	whether the derivations should be with full or reduced labeling
+	whether the derivations should be 
+  \itemize{ 
+    \item \code{full} for full labeling
+    \item \code{reduced} for reduced labeling
+  }
 }
   \item{sep}{
    (optional) the pair separator for the pairwise relations

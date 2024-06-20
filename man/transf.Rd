@@ -15,15 +15,13 @@ transf(x, type = c("toarray", "tolist", "toarray2", "toedgel"), lbs = NULL, lb2l
    an array or a list of pair relations
   }
   \item{type}{
-   The type of transformation.
-
-   \code{toarray} from a list of pair relations to an array format
-
-   \code{tolist} from a matrix to a list of pair relations
-
-   \code{toarray2} from a list of pair relations to a square array
-
-   \code{toedgel} from arrays to edge list
+   type of transformation:
+  \itemize{ 
+   \item \code{toarray} from a list of pair relations to an array format
+   \item \code{tolist} from a matrix to a list of pair relations
+   \item \code{toarray2} from a list of pair relations to a square array
+   \item \code{toedgel} from arrays to edge list
+  }
   }
   \item{lbs}{
    (optional) the labels in the transformation
@@ -35,22 +33,22 @@ transf(x, type = c("toarray", "tolist", "toarray2", "toedgel"), lbs = NULL, lb2l
    (optional) the pair separator for the pairwise relations
   }
   \item{ord}{
-   (optional) the order of the resulted structure (for \code{"toarray"}; otherwise ignored)
+   (for \code{"toarray"}, optional) the order of the resulted structure
   }
   \item{sort}{
    (optional and logical) sort the arrays in the output?
   }
   \item{sym}{
-   (optional and logical) symmetrize the arrays? (for \code{"toarray"}; otherwise ignored)
+   (for \code{"toarray"}, optional and logical) symmetrize the arrays?
   }
   \item{add}{
-   (optional) add elements in the array's `domain'
+   (optional) added elements in the array's `domain'
   }
   \item{adc}{
-   (optional) add elements in the array's `codomain'
+   (optional) added elements in the array's `codomain'
   }
   \item{na.rm}{
-   (optional) remove NAs?
+   (optional) remove missing data in \code{NA}?
   }
 }
 \details{
@@ -87,7 +85,7 @@ For high dimensional arrays, the \code{\link{rel.sys}} function privides additio
 s <- matrix(data=c(1, 1, 1, 3, 3, 3, 3, 3, 3), nrow=3, ncol=3, byrow=TRUE)
 
 ## transform the matrix to a list format
-transf(s, lb2lb = TRUE, lbs = c('n','m','u'))
+s |> transf(lb2lb = TRUE, lbs = c('n','m','u'))
 }
 \keyword{ manip }
 \keyword{ array }

@@ -22,12 +22,12 @@ function (x, lbs = NULL, lb2lb = FALSE, tolist = FALSE, ord,
         cls <- vector()
         inc <- list()
         for (l in seq_len(max(x))) {
-            X <- dichot(x, c = l)
-            for (i in seq_len(length(which((X) == 1L)))) {
-                cls[i] <- (ceiling(which((X) == 1L)/dim(x)[1]))[i]
-                ifelse((which((X) == 1L)%%dim(x)[1])[i] == 0L, 
-                  rws[i] <- (which((X) == 1L)%%dim(x)[1])[i] + 
-                    dim(x)[1], rws[i] <- (which((X) == 1L)%%dim(x)[1])[i])
+            xd <- dichot(x, c = l)
+            for (i in seq_len(length(which((xd) == 1L)))) {
+                cls[i] <- (ceiling(which((xd) == 1L)/dim(x)[1]))[i]
+                ifelse((which((xd) == 1L)%%dim(x)[1])[i] == 0L, 
+                  rws[i] <- (which((xd) == 1L)%%dim(x)[1])[i] + 
+                    dim(x)[1], rws[i] <- (which((xd) == 1L)%%dim(x)[1])[i])
                 ifelse(isTRUE(lb2lb == TRUE) == TRUE, inc[[length(inc) + 
                   1L]] <- paste(lbsr[rws[i]], lbsc[cls[i]], sep = sep), 
                   inc[[length(inc) + 1L]] <- paste(rws[i], cls[i], 
@@ -39,9 +39,10 @@ function (x, lbs = NULL, lb2lb = FALSE, tolist = FALSE, ord,
         return(sort(unlist(inc)))
     }
     else {
+        ifelse(is.array(x) == TRUE, return(x), NA)
         ifelse(is.null(lbs) == TRUE, lbs <- levels(factor(dhc(x, 
             sep = sep))), lbs <- lbs)
-        if (missing(ord) == TRUE) {
+        if (missing(ord) == TRUE && is.array(x) == FALSE) {
             ord <- length(dhc(jnt(x, sep = sep), sep = sep))
         }
         else {
@@ -49,7 +50,7 @@ function (x, lbs = NULL, lb2lb = FALSE, tolist = FALSE, ord,
             if (isTRUE(nlevels(factor(dhc(unlist(x), sep = sep))) > 
                 ord) == TRUE) {
                 ord <- nlevels(factor(dhc(unlist(x), sep = sep)))
-                warning("'ord' is ignored, value is less than the number of factor levels in the pairwise list.")
+                warning("Argument \"ord\" is ignored since is less than the number of factor levels in the pairwise list.")
             }
             else {
                 NA
