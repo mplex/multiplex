@@ -1,4 +1,4 @@
-transf <- 
+transf <-
 function (x, type = c("toarray", "tolist", "toarray2", "toedgel"), 
     lbs = NULL, lb2lb, sep, ord, sort, sym, add, adc, na.rm) 
 {
@@ -203,9 +203,7 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
             return(x)
         if (missing(ord) == TRUE) {
             if (is.vector(x) == TRUE) {
-                ifelse(is.null(lbs) == FALSE, ord <- length(dhc(lbs, 
-                  sep = sep)), ord <- length(dhc(jnt(unlist(x), 
-                  sep = sep), sep = sep)))
+                ord <- length(unique(dhc(unlist(x, use.names = FALSE))))
             }
             else {
                 ifelse(is.null(lbs) == FALSE, ord <- length(dhc(lbs, 
@@ -251,7 +249,14 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
             mat <- array(0L, dim = c(ord, ord, length(x)), dimnames = list(Lbs, 
                 Lbs, names(x)))
             for (i in seq_len(length(x))) {
-                mat[, , i] <- trnf(x[[i]], tolist = FALSE, ord = ord)
+                if (is.null(lbs) == FALSE) {
+                  mat[, , i] <- trnf(x[[i]], tolist = FALSE, 
+                    ord = ord)
+                }
+                else {
+                  mat[, , i] <- trnf(x[[i]], tolist = FALSE, 
+                    ord = ord, lbs = Lbs)
+                }
             }
             rm(i)
         }
