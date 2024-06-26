@@ -9,7 +9,7 @@ A function to establish the \eqn{\pi}-relations of a partially ordered structure
 \usage{
 pi.rels(x, po.incl, vc, po)
 }
-%- maybe also 'usage' for other objects documented here.
+%
 \arguments{
   \item{x}{
   an object of a `\code{Pacnet}' class
@@ -39,20 +39,15 @@ Pattison, Philippa E. \emph{Algebraic Models for Social Networks}. Cambridge Uni
 \author{
 Antonio Rivero Ostoic
 }
-%\note{
-%No hay notas
-%}
+%
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
 
 \seealso{
 \code{\link{pacnet}}, \code{\link{decomp}}, \code{\link{semigroup}}
 }
 %\examples{
-%
 %}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ algebra }
-\keyword{ math }
-%\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+%
+\keyword{algebra}
+\keyword{math}

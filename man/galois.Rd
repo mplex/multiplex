@@ -60,5 +60,5 @@ dfr <- data.frame(x=1:3, y=5:7)
 ## Find Galois derivations
 galois(dfr)
 }
-\keyword{ algebra }
-\keyword{ math }
+\keyword{algebra}
+\keyword{math}

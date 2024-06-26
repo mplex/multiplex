@@ -1,6 +1,6 @@
 \name{mnplx}
 \alias{mnplx}
-%- Also NEED an '\alias' for EACH other topic documented here.
+%
 \title{
 Make Multiple Networks as Monoplex Structures
 }
@@ -10,7 +10,7 @@ A function to transform multiple networks into a monoplex structure
 \usage{
 mnplx(net, directed = TRUE, dichot, diag, clu)
 }
-%- maybe also 'usage' for other objects documented here.
+%
 \arguments{
   \item{net}{
    a three-dimensional array to be transformed into a matrix
@@ -34,17 +34,12 @@ With this function, it is possible to collapse multiple types of tie into a matr
 \value{
 A matrix of monoplex relations
 }
-%\references{
-%% ~put references to the literature/web site here ~
-%}
+%
 \author{
 Antonio Rivero Ostoic
 }
-%\note{
-%%  ~~further notes~~
-%}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
+%
 
 \seealso{
 \code{\link{zbind}}, \code{\link{dichot}}, \code{\link{reduc}}
@@ -58,5 +53,5 @@ arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
 mnplx(arr)
 
 }
-\keyword{ manip }
-\keyword{ array }
+\keyword{manip}
+\keyword{array}

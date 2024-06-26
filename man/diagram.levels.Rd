@@ -1,6 +1,6 @@
 \name{diagram.levels}
 \alias{diagram.levels}
-%- Also NEED an '\alias' for EACH other topic documented here.
+%
 \title{
 Levels in the Lattice Diagram
 }
@@ -10,7 +10,7 @@ This is a function that reads the different levels in the lattice diagram of the
 \usage{
 diagram.levels(x, perm = FALSE)
 }
-%- maybe also 'usage' for other objects documented here.
+%
 \arguments{
   \item{x}{
    A matrix representing the partial order
@@ -27,9 +27,7 @@ A named list with components of the ``levels'' in the concept diagram produced b
 
 If the permutation is specified, a data frame with the elements of the partial order structure with the column names indicating the element class plus a vector with the levels and a matrix with the permuted structure are given as well.
 }
-%\references{
-%No hay...
-%}
+%
 \author{
 Antonio Rivero Ostoic
 }
@@ -37,7 +35,7 @@ Antonio Rivero Ostoic
 This function requires that the \emph{Rgraphviz} package is available. Besides, since the \code{pictex} function from \code{grDevices} is inside this routine, which may imply in some cases running with administrator privileges.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{...} ~
+%
 
 \seealso{
 \code{\link{partial.order}}, \code{\link{diagram}}, \code{\link{perm}}
@@ -52,5 +50,5 @@ po <- partial.order(as.strings(incubA$IM))
 ## find the levels in the lattice diagram
 \dontrun{diagram.levels(po)}
 }
-\keyword{ algebra }
-\keyword{ manip }
+\keyword{algebra}
+\keyword{manip}

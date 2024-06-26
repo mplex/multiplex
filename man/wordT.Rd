@@ -1,6 +1,6 @@
 \name{wordT}
 \alias{wordT}
-%- Also NEED an '\alias' for EACH other topic documented here.
+%
 \title{
 The Word Table of Relations
 }
@@ -57,5 +57,5 @@ arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
 wordT(arr)
 
 }
-\keyword{ algebra }
+\keyword{algebra}
 %

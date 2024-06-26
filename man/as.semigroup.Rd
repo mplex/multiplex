@@ -1,6 +1,6 @@
 \name{as.semigroup}
 \alias{as.semigroup}
-%- Also NEED an '\alias' for EACH other topic documented here.
+%
 \title{
 Coerce to a Semigroup Object
 }
@@ -10,7 +10,7 @@ A generic function for coercing an R object to a \code{\link{semigroup}} class.
 \usage{
 as.semigroup(x, gens = NA, lbs, numerical, edgeT)
 }
-%- maybe also 'usage' for other objects documented here.
+%
 \arguments{
   \item{x}{
 	an array representing the semigroup
@@ -57,7 +57,7 @@ Antonio Rivero Ostoic
 %In this function the input object typically comes from the \code{\link{convert}} function.
 %}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
 
 \seealso{
 \code{\link{semigroup}}, \code{\link{green.rel}}
@@ -71,6 +71,6 @@ attr(s, "dimnames") <- list(1:3,1:3)
 as.semigroup(s)
 
 }
-\keyword{ algebra }
-\keyword{ math }
-%\keyword{ array }
+\keyword{algebra}
+\keyword{math}
+%\keyword{array}

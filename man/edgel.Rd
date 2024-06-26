@@ -12,7 +12,7 @@ for a multivariate network with the possibility to transform it into an three di
 edgel(file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE, 
       attr = FALSE, rownames = FALSE, add = NULL)
 }
-%- maybe also 'usage' for other objects documented here.
+%
 \arguments{
   \item{file}{
   path to the file
@@ -52,9 +52,7 @@ It is also possible to treat the input data as data frame object and manipulate 
 \value{
 By default an array; usually with three dimensions of stacked matrices where the multiple relations are placed. If \code{toarray = FALSE}, then the data frame is given.
 }
-%\references{
-%No hay references todavia
-%}
+%
 \author{
 Antonio Rivero Ostoic
 }
@@ -66,8 +64,7 @@ For compatibility reasons, alias for \code{edgel} is \code{read.srt}.
 \code{\link{write.edgel}}, \code{\link{read.gml}}, \code{\link{read.dl}}, \code{\link{galois}}
 }
 %\examples{
-%
 %}
-\keyword{ IO }
-\keyword{ manip }
-\keyword{ data }
+\keyword{IO}
+\keyword{manip}
+\keyword{data}

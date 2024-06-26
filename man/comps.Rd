@@ -26,17 +26,12 @@ A list with two possible ``components''
 \item{isol}{the isolates}
 %% ...
 }
-%\references{
-%% ~put references to the literature/web site here ~
-%}
+%
 \author{
 Antonio Rivero Ostoic
 }
-%\note{
-%%  ~~further notes~~
-%}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
+%
 
 \seealso{
 \code{\link{bundles}}, \code{\link{rel.sys}}
@@ -50,5 +45,5 @@ arr <- round( replace( array( runif(18), c(3 ,3, 2) ), array( runif(18),
 comps(arr)
 
 }
-\keyword{ models }
+\keyword{models}
 \keyword{cluster}

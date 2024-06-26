@@ -85,9 +85,7 @@ An example of a partially ordered system is the partial order table that is the 
 \value{
 A plot of a Hasse diagram with specified settings for a partial or a linear order of relations. 
 }
-%\references{
-%no references
-%}
+%
 \author{
 Antonio Rivero Ostoic
 }
@@ -114,7 +112,6 @@ po <- as.strings(incubA$IM) |>
 \dontrun{if(require(Rgraphviz)) {
 plot(hasse(po))
 }}
-}
 
+}
 \keyword{graphs}
-%

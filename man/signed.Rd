@@ -44,7 +44,7 @@ Antonio Rivero Ostoic
 A warning message is shown when the \code{N} argument has more than two dimensions.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
 
 \seealso{
 \code{\link{semiring}}, \code{\link{as.signed}}
@@ -57,7 +57,6 @@ data("incubA")
 signed(incubA$IM)
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ models }
-\keyword{ array }
+%
+\keyword{models}
+\keyword{array}

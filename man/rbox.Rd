@@ -66,8 +66,7 @@ data("incubA")
 rbox(incubA$IM)
 ## End(**Not run**)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ algebra }
-%\keyword{ math }
-\keyword{ array }
+%
+\keyword{algebra}
+%\keyword{math}
+\keyword{array}

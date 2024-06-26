@@ -94,9 +94,9 @@ semigroup(arr) |> green.rel()
 strings(arr)
 
 }
-\keyword{ models }
-\keyword{ attribute }
-\keyword{ manip }
-\keyword{ IO }
-\keyword{ data }
-\keyword{ file }
+\keyword{models}
+\keyword{attribute}
+\keyword{manip}
+\keyword{IO}
+\keyword{data}
+\keyword{file }

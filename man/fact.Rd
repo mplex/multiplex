@@ -1,6 +1,6 @@
 \name{fact}
 \alias{fact}
-%- Also NEED an '\alias' for EACH other topic documented here.
+%
 \title{
 Factorisation of Semigroup Structures
 }
@@ -65,7 +65,7 @@ Antonio Rivero Ostoic (based on the algorithm described in Ardu, 1995)
 Data objects imported with \code{\link{pacnet}} are compatible for further factorisation. 
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
 
 \seealso{
 \code{\link{decomp}}, \code{\link{cngr}}, \code{\link{pacnet}} 
@@ -85,5 +85,5 @@ P <- strings(arr) |>
 # Perform the factorisation of PO S
 fact(S, P)
 }
-\keyword{ algebra }
-\keyword{ math }
+\keyword{algebra}
+\keyword{math}

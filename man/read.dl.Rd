@@ -32,14 +32,13 @@ Antonio Rivero Ostoic
 The '\code{EDGELIST}' option in \code{DL} is not yet supported for reading.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
 
 \seealso{
 \code{\link{write.dl}}, \code{\link{edgel}}, \code{\link{read.gml}}
 }
 %\examples{
-%
 %}
-\keyword{ IO }
-\keyword{ data }
-\keyword{ file }
+\keyword{IO}
+\keyword{data}
+\keyword{file }

@@ -9,4 +9,6 @@ internal function
 %\usage{
 %trnf(x, lbs = NULL, lb2lb = FALSE, tolist = FALSE, ord, sep)
 %}
+%
 \keyword{internal}
+%

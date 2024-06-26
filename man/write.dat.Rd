@@ -39,8 +39,7 @@ In case that the directory in the path for the output does not exist then it wil
 \code{\link{pacnet}}, \code{\link{write.gml}}, \code{\link{write.dl}}
 }
 %\examples{
-%
 %}
-\keyword{ IO }
-\keyword{ data }
-\keyword{ file }
+\keyword{IO}
+\keyword{data}
+\keyword{file }

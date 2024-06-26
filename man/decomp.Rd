@@ -9,7 +9,7 @@ A function to perform the decomposition of a semigroup structure
 \usage{
 decomp(S, pr, type = c("mca", "pi", "at", "cc"), reduc, fac, force)
 }
-%- maybe also 'usage' for other objects documented here.
+%
 \arguments{
   \item{S}{  
      an object of a `\code{Semigroup}' class
@@ -65,7 +65,7 @@ Antonio Rivero Ostoic
 Reduction of the partial order table should be made by the \code{\link{reduc}} function.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
 
 \seealso{
 \code{\link{fact}}, \code{\link{cngr}}, \code{\link{reduc}}, \code{\link{pi.rels}}, 
@@ -73,11 +73,9 @@ Reduction of the partial order table should be made by the \code{\link{reduc}} f
 }
 %\examples{
 %
-%
 %}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ algebra }
-\keyword{ math }
-\keyword{ array }
+%
+\keyword{algebra}
+\keyword{math}
+\keyword{array}
 \keyword{cluster}

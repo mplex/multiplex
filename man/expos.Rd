@@ -52,11 +52,7 @@ Rogers, E. \emph{The Diffusion of Innovations}. 5th ed. (1st ed. 1964) The Free 
 \author{
 Antonio Rivero Ostoic
 }
-%\note{
-%}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
+%
 \seealso{
 \code{\link{rel.sys}}, \code{\link{neighb}}, \code{\link{bundles}}
 }
@@ -72,6 +68,6 @@ rs <- rel.sys(arr, att = 1)
 expos(rs, classes = TRUE)
 
 }
-\keyword{ attribute }
-\keyword{ models }
+\keyword{attribute}
+\keyword{models}
 

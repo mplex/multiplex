@@ -42,7 +42,7 @@ Antonio Rivero Ostoic
 If the partial order is supplied in the input, then the computation of the congruence classes is slightly faster than for an abstract semigroup.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
 
 \seealso{
 \code{\link{decomp}}, \code{\link{fact}}, \code{\link{pacnet}} 
@@ -58,8 +58,7 @@ S <- semigroup(arr)
 cngr(S, PO=NULL)
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ algebra }
-\keyword{ math }
+%
+\keyword{algebra}
+\keyword{math}
 \keyword{cluster}

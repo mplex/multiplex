@@ -30,21 +30,18 @@ write.srt(x, file = NULL, sep = "\t", header = TRUE)
 A file with the data with a \code{.srt} format
 }
 %\references{
-%
 %}
 \author{
 Antonio Rivero Ostoic
 }
 %\note{
-%
 %}
 \seealso{
 \code{\link{read.srt}}, , \code{\link{write.dl}}
 }
 
 %\examples{
-%
 %}
-\keyword{ IO }
-\keyword{ data }
-\keyword{ file }
+\keyword{IO}
+\keyword{data}
+\keyword{file }

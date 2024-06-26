@@ -36,8 +36,7 @@ In case that the file already exists in the pointed directory, then the file wil
 \code{\link{read.gml}}, \code{\link{write.dl}}, \code{\link{write.dat}}
 }
 %\examples{
-%
 %}
-\keyword{ IO }
-\keyword{ data }
-\keyword{ file }
+\keyword{IO}
+\keyword{data}
+\keyword{file }

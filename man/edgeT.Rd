@@ -1,6 +1,6 @@
 \name{edgeT}
 \alias{edgeT}
-%- Also NEED an '\alias' for EACH other topic documented here.
+%
 \title{
 Edge Table Generator
 }
@@ -10,7 +10,7 @@ The Edge Table generator of multiple relations.
 \usage{
 edgeT(x)
 }
-%- maybe also 'usage' for other objects documented here.
+%
 \arguments{
   \item{x}{
    an array; usually with three dimensions of stacked matrices where the multiple relations are placed.
@@ -36,10 +36,7 @@ Pattison, P.E. \emph{Algebraic Models for Social Networks}. Cambridge University
 \author{
 Antonio Rivero Ostoic
 }
-%\note{
-%No hay notas aun..
-%}
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
 \seealso{
 \code{\link{wordT}}, \code{\link{semigroup}}.
 }
@@ -50,9 +47,6 @@ arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
 
 ## get the edge table
 edgeT(arr)
+
 }
-%% Add one or more standard keywords, see file 'KEYWORDS' in the
-%% R documentation directory.
-\keyword{ algebra }
-%
-%
+\keyword{algebra}

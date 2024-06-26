@@ -50,8 +50,7 @@ Currently only partial order structures of order 36 and less are supported.
 \code{\link{pi.rels}}, \code{\link{cngr}}, \code{\link{decomp}}, \code{\link{write.dat}}
 }
 %\examples{
-%
 %}
-\keyword{ IO }
-\keyword{ data }
-\keyword{ file }
+\keyword{IO}
+\keyword{data}
+\keyword{file }

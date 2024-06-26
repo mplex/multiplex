@@ -39,7 +39,6 @@ Antonio Rivero Ostoic
 %Only \emph{principal} filters or ideals are supported for the moment.
 %}
 %\section{Warning }{
-%
 %}
 
 \seealso{
@@ -56,5 +55,5 @@ PO <- partial.order(galois(dfr),"galois")
 fltr(1, PO, rclos=TRUE)
 
 }
-\keyword{ algebra }
-\keyword{ math }
+\keyword{algebra}
+\keyword{math}

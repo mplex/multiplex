@@ -1,6 +1,6 @@
 \name{hierar}
 \alias{hierar}
-%- Also NEED an '\alias' for EACH other topic documented here.
+%
 \title{
 Person and Relation Hierarchy
 }
@@ -10,7 +10,7 @@ A function to establish either the Person or the Relation Hierarchy in a multipl
 \usage{
 hierar(W, x, type = c("person", "relation"))
 }
-%- maybe also 'usage' for other objects documented here.
+%
 \arguments{
   \item{W}{
     an object of `\code{Rel.Box}'
@@ -43,7 +43,7 @@ Antonio Rivero Ostoic
 The cumulative person hierarchy is obtained through the \code{\link{cph}} function.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
 
 \seealso{
 \code{\link{rbox}}, \code{\link{cph}}, \code{\link{partial.order}}, \code{\link{diagram}}
@@ -60,7 +60,6 @@ rarr <- arr |> rbox(k=1)
 hierar(rarr, ceiling(runif(1, min=0, max=dim(arr)[2])))
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ algebra }
-\keyword{ math }
+%
+\keyword{algebra}
+\keyword{math}

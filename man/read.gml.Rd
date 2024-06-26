@@ -48,8 +48,7 @@ If the coordenates are chosen, node attributes can also be retrieved.
 \code{\link{write.gml}}, \code{\link{edgel}}, \code{\link{read.dl}}
 }
 %\examples{
-%
 %}
-\keyword{ IO }
-\keyword{ data }
-\keyword{ file }
+\keyword{IO}
+\keyword{data}
+\keyword{file }

@@ -37,7 +37,7 @@ Antonio Rivero Ostoic
 If the length of the labels differs from the order of the relational system, then labels will be ignored.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
 
 \seealso{
 \code{\link{rbox}}, \code{\link{semigroup}}, \code{\link{diagram}}
@@ -53,6 +53,6 @@ rb <- rbox(incubA$IM)
 cph(rb)
 
 }
-\keyword{ algebra }
-\keyword{ math }
-\keyword{ array }
+\keyword{algebra}
+\keyword{math}
+\keyword{array}

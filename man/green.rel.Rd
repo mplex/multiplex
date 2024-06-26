@@ -44,7 +44,7 @@ Antonio Rivero Ostoic
 Some systems have the \eqn{D}-class equal to \eqn{S}.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
 
 \seealso{
 \code{\link{semigroup}}, \code{\link{diagram}}, \code{\link{as.semigroup}}, 
@@ -61,5 +61,5 @@ dimnames(arr)[[3]] <- list("n", "m")
 semigroup(arr) |> 
   green.rel()
 }
-\keyword{ algebra }
-\keyword{ math }
+\keyword{algebra}
+\keyword{math}

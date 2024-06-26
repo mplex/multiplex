@@ -60,9 +60,8 @@ The function supports valued networks as well.
 \code{\link{write.srt}}, \code{\link{read.gml}}, \code{\link{read.dl}}, \code{\link{galois}}
 }
 %\examples{
-%
 %}
-\keyword{ IO }
-\keyword{ manip }
-\keyword{ data }
+\keyword{IO}
+\keyword{manip}
+\keyword{data}
 

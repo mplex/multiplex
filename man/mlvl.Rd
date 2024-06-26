@@ -67,11 +67,8 @@ An object of `\code{Multilevel}' class of chosen type.
 Antonio Rivero Ostoic
 }
 %\note{
-%
 %}
-%
-%%% ~Make other sections like Warning with \section{Warning }{....} ~
-%
+%%
 \seealso{
 \code{\link[multigraph:mlgraph]{mlgraph}}, \code{\link[multigraph:multigraph]{multigraph}}
 }

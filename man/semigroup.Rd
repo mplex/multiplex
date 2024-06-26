@@ -1,6 +1,6 @@
 \name{semigroup}
 \alias{semigroup}
-%- Also NEED an '\alias' for EACH other topic documented here.
+%
 \title{
 Constructing the Semigroup of Relations
 }
@@ -10,7 +10,7 @@ Function to create the complete semigroup of multiple relations, where the multi
 \usage{
 semigroup(x, type = c("numerical", "symbolic"), cmps, smpl, valued)
 }
-%- maybe also 'usage' for other objects documented here.
+%
 \arguments{
   \item{x}{
    an array; usually with three dimensions of stacked matrices where the multiple relations are placed
@@ -97,7 +97,7 @@ dimnames(arr)[[3]] <- list("n", "m")
 ## look at the semigroup with numerical format
 semigroup(arr)
 }
-%% R documentation directory.
-\keyword{ algebra }
-\keyword{ math }
+%
+\keyword{algebra}
+\keyword{math}
 %

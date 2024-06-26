@@ -81,10 +81,9 @@ Ostoic, J.A.R. ``Creating context for social influence processes in multiplex ne
 Antonio Rivero Ostoic
 }
 %\note{
-%
 %}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
 
 \seealso{
 \code{\link{expos}}, \code{\link{bundles}}, \code{\link{neighb}}
@@ -105,6 +104,6 @@ rel.sys(arr, sel = 1)
 
 }
 
-\keyword{ models }
-\keyword{ attribute }
+\keyword{models}
+\keyword{attribute}
 

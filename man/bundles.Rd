@@ -58,7 +58,7 @@ Antonio Rivero Ostoic
 The input array for this function is always dichotomized, and it is possible to obtain the total number of occurrences in each bundle class pattern with the \code{\link{bundle.census}} function.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
 
 \seealso{
 \code{\link{bundle.census}}, \code{\link{summaryBundles}}, \code{\link{transf}}.

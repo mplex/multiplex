@@ -69,7 +69,6 @@ multiplex networks additional columns are for the types of tie, one for each (cf
 Depending on the input data, the result is either a list of pair relations or a matrix of relations.
 }
 %\references{
-%
 %}
 \author{
 Antonio Rivero Ostoic
@@ -87,6 +86,6 @@ s <- matrix(data=c(1, 1, 1, 3, 3, 3, 3, 3, 3), nrow=3, ncol=3, byrow=TRUE)
 ## transform the matrix to a list format
 s |> transf(lb2lb = TRUE, lbs = c('n','m','u'))
 }
-\keyword{ manip }
-\keyword{ array }
+\keyword{manip}
+\keyword{array}
 

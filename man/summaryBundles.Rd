@@ -65,5 +65,5 @@ bd <- bundles(arr)
 summaryBundles(bd)
 
 }
-\keyword{ print }
-\keyword{ IO }
+\keyword{print }
+\keyword{IO}

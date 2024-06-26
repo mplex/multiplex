@@ -1,6 +1,6 @@
 \name{pfvn}
 \alias{pfvn}
-%- Also NEED an '\alias' for EACH other topic documented here.
+%
 \title{
 Pathfinder Valued Networks and Triangle Inequality
 }
@@ -10,7 +10,7 @@ A function to establish the skeleton of a valued network with the pathfinder alg
 \usage{
 pfvn(x, r, q)
 }
-%- maybe also 'usage' for other objects documented here.
+%
 \arguments{
   \item{x}{
   network data, typically valued
@@ -43,11 +43,8 @@ Batagelj, V., Doreian, P., Ferligoj, A. and Kejzar, N., \emph{Understanding Larg
 \author{
 Antonio Rivero Ostoic
 }
-%\note{
-%%  ~~further notes~~
-%}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
+%
 
 \seealso{
 \code{\link[multigraph:multigraph]{multigraph}}, 
@@ -61,4 +58,4 @@ pfvn(arr)
 
 }
 \keyword{models}
-\keyword{ manip }
+\keyword{manip}

@@ -1,6 +1,6 @@
 \name{dichot}
 \alias{dichot}
-%- Also NEED an '\alias' for EACH other topic documented here.
+%
 \title{
 Dichotomize Data with a Cutoff Value
 }
@@ -10,7 +10,7 @@ Function to dichotomize the input data for the semigroup construction with a cut
 \usage{
 dichot(x, c = 1, diag)
 }
-%- maybe also 'usage' for other objects documented here.
+%
 \arguments{
   \item{x}{
    some data in a numeric form (usually arrays)
@@ -38,7 +38,7 @@ Antonio Rivero Ostoic
 \note{
 The labels are preserved after the dichotomization.
 }
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
 \seealso{
 \code{\link[base:replace]{replace}}, \code{\link{prev}}, \code{\link{semigroup}}.
 }
@@ -50,5 +50,5 @@ arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
 ## dichotomize it with a cutoff value of 2
 dichot(arr, c = 2)
 }
-\keyword{ manip }
+\keyword{manip}
 %

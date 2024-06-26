@@ -51,10 +51,7 @@ Ganter, B. and R. Wille  \emph{Formal Concept Analysis -- Mathematical Foundatio
 \author{
 Antonio Rivero Ostoic
 }
-%\note{
-%%  ~~further notes~~
-%}
-
+%
 
 \seealso{
 \code{\link{as.strings}}, \code{\link{strings}}, \code{\link{galois}}, \code{\link{perm}}, \code{\link{diagram}}, \code{\link{fltr}}.
@@ -70,6 +67,6 @@ st <- strings(incubA$IM)
 partial.order(st)
 
 }
-\keyword{ algebra }
-\keyword{ math }
+\keyword{algebra}
+\keyword{math}
 %

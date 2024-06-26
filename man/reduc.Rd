@@ -9,7 +9,7 @@ Function to reduce a matrix or an array with a given clustering vector.
 \usage{
 reduc(x, clu, lbs = NULL, slbs = NULL, valued, row, col)
 }
-%- maybe also 'usage' for other objects documented here.
+%
 \arguments{
   \item{x}{
    a matrix or a three-dimensional array to be reduced
@@ -50,7 +50,7 @@ Antonio Rivero Ostoic
 Use \code{\link{decomp}} for the reduction of a semigroup object.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
 
 \seealso{
 \code{\link{cngr}}, \code{\link{rbox}}, \code{\link{decomp}}
@@ -63,8 +63,7 @@ s <- matrix(data=c(1, 1, 1, 3, 3, 3, 3, 3, 3), nrow=3, ncol=3, byrow=TRUE)
 s |> reduc(clu=c(1,2,2))
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ manip }
-\keyword{ array }
+%
+\keyword{manip}
+\keyword{array}
 \keyword{cluster}

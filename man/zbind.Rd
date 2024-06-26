@@ -30,7 +30,6 @@ The \code{dimnames} in the array output correspond to the names of the first arr
 Usually a three dimensional array
 }
 %\references{
-%
 %}
 \author{
 Antonio Rivero Ostoic
@@ -56,5 +55,5 @@ arr2 <- round( replace( array( runif(18), c(3 ,3, 2) ), array( runif(18),
 ## bind the data sets
 zbind(arr1, arr2)
 }
-\keyword{ manip }
-\keyword{ array }
+\keyword{manip}
+\keyword{array}

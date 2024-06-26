@@ -9,7 +9,7 @@ A function to find the neighbourhood of an actor or group of actors with a custo
 \usage{
 neighb(x, rs, type = c("und", "inn", "out"), k = 1, inclx = FALSE, expand)
 }
-%- maybe also 'usage' for other objects documented here.
+%
 \arguments{
   \item{x}{
 the reference actor labeled in \code{rs} or a vector of several actors
@@ -44,9 +44,7 @@ Type options \code{inn} and \code{out} are for directed networks.
 \value{
 Depending on \code{expand}, the output is either a vector or a list with the neighbour nodes to the reference actor(s).
 }
-%\references{
-%% ~put references to the literature/web site here ~
-%}
+%
 \author{
 Antonio Rivero Ostoic
 }
@@ -54,7 +52,7 @@ Antonio Rivero Ostoic
 The output does not differentiate in case the reference actors are in different components of the network.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+%
 
 \seealso{
 \code{\link{expos}}, \code{\link{rel.sys}}, \code{\link{bundles}}
@@ -72,6 +70,6 @@ rs <- rel.sys(arr, bonds = "strong")
 neighb(1, rs)
 
 }
-\keyword{ models }
-\keyword{ manip }
+\keyword{models}
+\keyword{manip}
 

@@ -75,7 +75,7 @@ signed(arr) |>
   semiring()
 
 }
-\keyword{ algebra }
-\keyword{ math }
-\keyword{ models }
+\keyword{algebra}
+\keyword{math}
+\keyword{models}
 

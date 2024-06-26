@@ -27,13 +27,11 @@ Isolated nodes do not have any edges in the network, and in a multivariate syste
 The matrix or array representing a multiple network without the isolated actors.
 }
 %\references{
-%
 %}
 \author{
 Antonio Rivero Ostoic
 }
 %\note{
-%
 %}
 \seealso{ 
 \code{\link{edgel}}, \code{\link{zbind}}
@@ -46,6 +44,6 @@ c(3, 3, 2) ) > .5, 3 ) )
 ## Remove isolates (if exist)
 rm.isol(arr)
 }
-\keyword{ manip }
-\keyword{ array }
+\keyword{manip}
+\keyword{array}
 

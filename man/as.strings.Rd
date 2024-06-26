@@ -1,6 +1,6 @@
 \name{as.strings}
 \alias{as.strings}
-%- Also NEED an '\alias' for EACH other topic documented here.
+%
 \title{
 Coerce an Object to a Strings Class
 }
@@ -36,7 +36,6 @@ An object of `\code{Strings}' class
 Antonio Rivero Ostoic
 }
 %\note{
-%
 %}
 \seealso{
 \code{\link{strings}}, \code{\link{partial.order}}, \code{\link{zbind}}
@@ -57,5 +56,5 @@ arrs <- zbind(arr1, arr2)
 as.strings(arrs)
 
 }
-\keyword{ algebra }
-\keyword{ array }
+\keyword{algebra}
+\keyword{array}

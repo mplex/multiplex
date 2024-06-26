@@ -38,14 +38,12 @@ Borgatti, S.P., Everett, M.G. and Freeman, L.C. \code{Ucinet for Windows}: Softw
 Antonio Rivero Ostoic
 }
 %\note{
-%
 %}
 \seealso{
 \code{\link{read.dl}}, \code{\link{write.gml}}, \code{\link{write.srt}}, \code{\link{write.dat}}
 }
 %\examples{
-%
 %}
-\keyword{ IO }
-\keyword{ data }
-\keyword{ file }
+\keyword{IO}
+\keyword{data}
+\keyword{file }
