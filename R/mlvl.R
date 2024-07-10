@@ -1,4 +1,4 @@
-mlvl <- 
+mlvl <-
 function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"), 
     symCdm, diag, lbs) 
 {
@@ -32,7 +32,7 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
                 qmd <- append(qmd, rep("1M", length(x)))
             }
             else {
-                xx <- zbind(x)
+                xx <- list(x)
                 attr(xx, "names") <- "1"
                 qmd <- append(qmd, "1M")
             }
@@ -83,7 +83,7 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
         else {
             ifelse(is.data.frame(y) == TRUE, y <- as.matrix(y), 
                 NA)
-            yy <- zbind(y)
+            yy <- list(y)
             if (is.null(x) == FALSE) {
                 attr(yy, "names") <- length(xx) + 1L
             }
@@ -93,7 +93,7 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
         }
     }
     else {
-        stop("A 2-mode network should be placed in \"y\".")
+        stop("A 2-mode network must be placed in \"y\".")
     }
     if (match.arg(type) == "cn" || match.arg(type) == "cn2") {
         if (is.null(y) == FALSE && (is.matrix(y) == TRUE || is.array(y) == 
@@ -115,7 +115,7 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
                 TRUE, NA, diag(cdmat) <- 0L)
         }
         else {
-            stop("\"y\" is missing or has a not valid format.")
+            stop("\"y\" is missing or it has a not valid format.")
         }
         if (match.arg(type) == "cn2") {
             if ((is.matrix(x) == TRUE || is.array(x) == TRUE || 
@@ -124,7 +124,7 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
                 cdmat <- zbind(x, cdmat, force = TRUE)
             }
             else {
-                stop("\"x\" is missing or it has an invalid format.")
+                stop("\"x\" is missing or it has a not valid format.")
             }
             ifelse(missing(lbs) == FALSE && isTRUE(length(lbs) == 
                 dim(cdmat)[3]) == TRUE, dimnames(cdmat)[[3]] <- lbs, 
