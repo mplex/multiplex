@@ -1,4 +1,4 @@
-as.semigroup <- 
+as.semigroup <-
 function (x, gens = NA, lbs, numerical, edgeT) 
 {
     ifelse(is.list(x) == TRUE && isTRUE(length(x) == 1L) == TRUE, 
@@ -8,7 +8,7 @@ function (x, gens = NA, lbs, numerical, edgeT)
         stop("Class of \"x\" is not supported.")
     if (is.null(dimnames(x)) == TRUE && isTRUE("Semigroup" %in% 
         attr(x, "class")) == FALSE && missing(numerical) == TRUE) 
-        stop("Dimnames in \"x\" must be provided.")
+        stop("Dimnames in \"x\" not found.")
     ifelse(missing(numerical) == FALSE && isTRUE(numerical == 
         TRUE) == TRUE, numerical <- TRUE, numerical <- FALSE)
     if (isTRUE("Semigroup" %in% attr(x, "class")) == TRUE) {
@@ -99,7 +99,7 @@ function (x, gens = NA, lbs, numerical, edgeT)
     }
     else {
         if (is.array(x) == FALSE && is.data.frame(x) == FALSE) 
-            stop("Data must be a square matrix or data frame")
+            stop("Input data must be a square matrix or data frame.")
         s <- as.matrix(x, rownames.force = TRUE)
         if (all(as.character(s) %in% unlist(dimnames(s))) == 
             TRUE || any(is.na(s)) == TRUE) {
