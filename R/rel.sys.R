@@ -107,21 +107,8 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
                 }
             }
             else if (isTRUE(length(sel) > 1) == TRUE) {
-                inn <- vector()
-                out <- vector()
-                for (k in sel) {
-                  if (any(dimnames(x)[[1]] == k) == TRUE) {
-                    inn <- append(inn, paste(k, names(which(lapply(x[which(dimnames(x)[[1]] == 
-                      k), ], sum) > 0)), sep = sep))
-                    out <- append(out, paste(names(which(lapply(x[, 
-                      which(dimnames(x)[[1]] == k)], sum) > 0)), 
-                      k, sep = sep))
-                  }
-                  else {
-                    NA
-                  }
-                }
-                rm(k)
+                stb <- trnf(x[sel, sel], tolist = TRUE, lb2lb = TRUE, 
+                  sep = sep)
             }
             else {
                 NA
@@ -188,7 +175,6 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
                 stb <- ntsel
             }
             else {
-                stb <- c(inn, out)
                 ties <- unique(dhc(stb))
             }
         }
