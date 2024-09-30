@@ -24,7 +24,7 @@ The \code{gml} format, an acronym for \emph{graph modelling language}, provides 
 A file with the data with a graph modelling language format.
 }
 \references{
-\code{visone} Software for the analysis and visualization of social networks. \emph{http://visone.info}
+\code{visone} \emph{Software for the analysis and visualization of social networks}. \url{http://visone.info}
 }
 \author{
 Antonio Rivero Ostoic

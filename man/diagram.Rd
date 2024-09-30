@@ -22,7 +22,7 @@ diagram(x, type = c("hasse", "concept", "egg-box"), attrs = NULL, main = NULL,
   \itemize{ 
        \item \code{hasse} Hasse diagram of partially ordered relations
        \item \code{concept} Concept lattice of a formal context
-       \item \code{egg-box} the egg-box diagram of an abstract semigroup
+       \item \code{egg-box} Egg-box diagram of an abstract semigroup
        }
   }
 For \code{egg-box}, the following arguments are ignored. 
@@ -91,19 +91,22 @@ For \code{egg-box}, the following arguments are ignored.
 
 }
 \details{
-\code{diagram} is a wrapper function to plot and manipulate Hasse, Concept, and Egg-box types of diagrams. 
+\code{diagram} is a wrapper function to plot and manipulate \dQuote{Hasse}, \dQuote{Concept}, and \dQuote{Egg-box} types of diagrams. 
 
 The first two diagrams are for systems of ordered relations, and the plotted deviced is either a partial order or a linear order diagram.
-An example of ordered relations is found in the partial order table of relations product of the `\code{strings}' option in the \code{\link{partial.order}} function, and which is plotted as a Hasse diagram. 
+An example of ordered relations is found in the partial order table of relations product of the \sQuote{\code{strings}} option in the \code{\link{partial.order}} function, and which is plotted as a Hasse diagram. 
 Another set of ordered relations comes from the table produced on Galois derivations within Formal Concept analysis where a Concept diagram represents the ordering relations among formal concepts made of intents and extents.
 
 The Egg-box diagram is for equivalence classes in an abstract semigroup not associated to a partial order structure.
 }
 \value{
-Depending on the \code{type}, a Hasse diagram of partially ordered relations, a Concept diagram of formal concepts in a formal context, or an Egg-box of an abstract semigroup.
+Depending on the \code{type}: 
+  \item{hasse}{a Hasse diagram of partially ordered relations}
+  \item{concept}{a Concept diagram of formal concepts in a formal context}
+  \item{egg-box}{an Egg-box of an abstract semigroup}
 }
 %\references{
-%no references
+%
 %}
 \author{
 Antonio Rivero Ostoic
@@ -120,14 +123,14 @@ Requires \emph{Rgraphviz} package installed.
 \code{\link{green.rel}}, \code{\link{diagram.levels}}, \code{\link{as.strings}}, \code{\link[multigraph:ccgraph]{ccgraph}}.
 }
 \examples{
-## load a dataset
+# load a dataset
 data("incubA")
 
-## given e.g. a partial order table in the object 'po'
+# given e.g. a partial order table in the object 'po'
 po <- as.strings(incubA$IM) |> 
   partial.order(type="strings")
 
-## plot the order relation as a Hasse diagram
+# plot the order relation as a Hasse diagram
 \dontrun{if(require(Rgraphviz)) {
 plot(diagram(po, type="hasse"))
 }}

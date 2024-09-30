@@ -1,4 +1,4 @@
-strings <- 
+strings <-
 function (x, equat = FALSE, k = 2, smpl, valued) 
 {
     if (is.array(x) == FALSE) 

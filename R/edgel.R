@@ -1,4 +1,4 @@
-edgel <- 
+edgel <-
 function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE, 
     attr = FALSE, rownames = FALSE, add = NULL) 
 {

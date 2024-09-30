@@ -1,4 +1,4 @@
-transl <- 
+transl <-
 function (lt, sep) 
 {
     ifelse(missing(sep) == TRUE, sep <- ", ", NA)

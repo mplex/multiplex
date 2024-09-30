@@ -1,5 +1,5 @@
-read.gml <- 
-function (file, as = c("srt", "array"), directed = TRUE, coords = FALSE) 
+read.gml <-
+function (file, as = c("edgel", "array"), directed = TRUE, coords = FALSE) 
 {
     arx <- scan(file, what = "character", nlines = -1, quiet = TRUE)
     nod <- arx[which(("node" == arx) == TRUE)[1]:which(("edge" == 
@@ -186,7 +186,7 @@ function (file, as = c("srt", "array"), directed = TRUE, coords = FALSE)
             return(mat)
         }
     }
-    else if (match.arg(as) == "srt") {
+    else if (match.arg(as) == "edgel") {
         if (isTRUE("0" %in% id) == FALSE) {
             srt <- as.data.frame(cbind(lb[match(ndf[, 1], id)], 
                 lb[match(ndf[, 2], id)]), stringsAsFactors = FALSE)

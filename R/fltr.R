@@ -1,4 +1,4 @@
-fltr <- 
+fltr <-
 function (x, PO, ideal = FALSE, rclos) 
 {
     if (isTRUE("Partial.Order" %in% attr(PO, "class")) == FALSE) 

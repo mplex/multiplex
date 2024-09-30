@@ -26,7 +26,7 @@ the relational system of the network
   }
 }
   \item{k}{
-  the ``distance'' of the neighbour nodes to the reference actor (where \code{k=1} gives the adjacent nodes)
+  the \dQuote{distance} of the neighbour nodes to the reference actor (where \code{k=1} gives the adjacent nodes)
 }
   \item{inclx}{
   (logical) should the reference actor be included in the output?
@@ -36,8 +36,8 @@ the relational system of the network
 }
 }
 \details{
-The relational system serves to represent either the entire multiple network, or else just the relational bundles having a mutual or an asymmetric character. 
-In this sense, this function detects the adjacent nodes to \code{x} according to the specified relational system, but as well the neighbours of the adjacent nodes with a customized length. 
+The relational system serves to represent either the entire multiple network made of actors, or else just the relational bundles having a mutual or an asymmetric character in the system. 
+In this sense, this function detects the adjacent nodes to \sQuote{\code{x}} according to the specified relational system, but as well the neighbours of the adjacent nodes with a customized length. 
 Eventually, when the longest path or chain is reached, adding more value to \code{k} obviously will not produce more nodes in the graph system. 
 Type options \code{inn} and \code{out} are for directed networks.
 }
@@ -51,24 +51,21 @@ Antonio Rivero Ostoic
 \note{
 The output does not differentiate in case the reference actors are in different components of the network.
 }
-
 %
-
 \seealso{
 \code{\link{expos}}, \code{\link{rel.sys}}, \code{\link{bundles}}
 
 }
 \examples{
-## Create the data: two binary relations among three elements
+# create the data: two binary relations among three elements
 arr <- round( replace( array( runif(18), c(3 ,3, 2) ), array( runif(18),
        c(3, 3, 2) ) > .9, 3 ) )
 
-## Determine the system of strong bonds
+# establish the system of strong bonds
 rs <- rel.sys(arr, bonds = "strong")
 
-## the inmediate neighbourhood of the first node
+# obtain inmediate neighbourhood of the first node
 neighb(1, rs)
-
 }
 \keyword{models}
 \keyword{manip}

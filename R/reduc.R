@@ -1,4 +1,4 @@
-reduc <- 
+reduc <-
 function (x, clu, lbs = NULL, slbs = NULL, valued, row, col) 
 {
     ifelse(missing(valued) == FALSE && isTRUE(valued == TRUE) == 

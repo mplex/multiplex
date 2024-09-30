@@ -1,4 +1,4 @@
-hierar <- 
+hierar <-
 function (W, x, type = c("person", "relation")) 
 {
     if (isTRUE(attr(W, "class") == "Rel.Box") == FALSE) 

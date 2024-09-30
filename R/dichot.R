@@ -1,4 +1,4 @@
-dichot <- 
+dichot <-
 function (x, c = 1, diag) 
 {
     ifelse(missing(diag) == FALSE && isTRUE(diag == FALSE) == 

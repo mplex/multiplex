@@ -11,7 +11,7 @@ expos(rs, classes = FALSE, allClasses = FALSE, allNodes = TRUE)
 }
 \arguments{
   \item{rs}{
-   an object of `\code{Rel.System}', typically with node attributes.
+   an object of \sQuote{\code{Rel.System}}, typically with node attributes.
 }
   \item{classes}{
    (optional) whether or not should be included in the output the categories of adopters 
@@ -27,11 +27,9 @@ expos(rs, classes = FALSE, allClasses = FALSE, allNodes = TRUE)
 This is a generalization of the network exposure measure for multiple networks with the characteristics chosen for the representative relational system. 
 Such a system can be the entire network or configuration with strong or weak bonds among the actors. 
 It is possible to specify different behaviors of the nodes representing social actors, which are indicated in the form of a relational system. 
-The network exposure measure is calculated according to the immediate neighbours to the reference actor. 
-
+The network exposure measure is computed according to the immediate neighbours to the reference actor. 
 }
 \value{
-%%
 \item{Classes}{
         if option \code{classes} is set to \code{TRUE}, the adoption membership for the type of relational system chosen, including isolated actors in the system. 
 }
@@ -43,7 +41,7 @@ The network exposure measure is calculated according to the immediate neighbours
 }
 }
 \references{
-Ostoic, J.A.R. `Creating context for social influence processes in multiplex networks.' \emph{Network Science}, 5(1), 1-29.
+Ostoic, J.A.R. \dQuote{Creating context for social influence processes in multiplex networks.} \emph{Network Science}, 5(1), 1-29.
 
 Valente, T. W. \emph{Social networks and health}. Oxford University Press. 2010.
 
@@ -57,16 +55,15 @@ Antonio Rivero Ostoic
 \code{\link{rel.sys}}, \code{\link{neighb}}, \code{\link{bundles}}
 }
 \examples{
-## Create the data: two binary relations among three elements
+# create the data: two binary relations among three elements
 arr <- round( replace( array( runif(18), c(3 ,3, 2) ), array( runif(18),
-c(3, 3, 2) ) > .9, 3 ) )
+              c(3, 3, 2) ) > .9, 3 ) )
 
-## the first array is for attributes
+# first array in 'arr' is for attributes
 rs <- rel.sys(arr, att = 1)
 
-## Calculate the exposure measure for an attribute type with adopter categories
+# compute the exposure measure for an attribute type with adopter categories
 expos(rs, classes = TRUE)
-
 }
 \keyword{attribute}
 \keyword{models}

@@ -18,8 +18,8 @@ For instance, the network exposure of the actors can be taken in the context of 
 \tabular{ll}{
 Package: \tab multiplex \cr
 Type: \tab Package \cr
-Version: \tab 3.3 \cr
-Date: \tab 19 June 2024 \cr
+Version: \tab 3.7 \cr
+Date: \tab 30 September 2024 \cr
 License: \tab GPL-3 \cr
 LazyLoad: \tab yes \cr
 }
@@ -30,7 +30,7 @@ Unique relations of the complete semigroup are given by the \code{strings} funct
 The \code{partial.order} function specifies the ordering of the string elements in the semigroup, and the function \code{hasse} (or function \code{diagram} with this type) 
 produces the lattice of inclusions of a structure having ordered relations.
 
-Semigroups can be analysed further by the \code{green.rel} function, and their found equivalence classes can be visualized as \code{"egg-box"} type with the \code{diagram} function. 
+Semigroups can be analysed further by the \code{green.rel} function, and their found equivalence classes can be visualized as \dQuote{\code{egg-box}} type with the \code{diagram} function. 
 Semigroups can be reduced as well with a decomposition process, which can be based on congruence or \eqn{\pi}-relations of the unique strings. 
 In this case \code{pi.rels}, \code{cngr}, and \code{decomp} will make this job for you either for an abstract or a partially ordered structure.
 
@@ -52,7 +52,8 @@ Such features can be realized via the \code{rel.sys} and \code{expos} functions,
 Several attributes can be derived by \code{galois}, which provides an algebraic approach for the analysis of two-mode networks.
 
 Finally, multivariate network data can be created using a \emph{s}end \emph{r}eceive \emph{t}ies edge list format that can be loaded and transformed to arrays through the \code{edgel} function. 
-Other formats for multiple network data like UCINET \code{dl} or Visone \code{gml} can be imported and exported as well with the \code{"multiplex"} package.
+Other formats for multiple network data like \bold{UCINET} \code{dl} or \bold{Visone} \code{gml} can be imported and exported as well with the \code{"multiplex"} package. 
+Visualization of multiple network structures is possible with the \code{"multigraph"} package that depends on \code{"multiplex"}. 
 }
 %
 \author{
@@ -65,9 +66,9 @@ Pattison, P.E. \emph{Algebraic Models for Social Networks}. Structural Analysis 
 
 Boyd, J.P. \emph{Social Semigroups. A unified theory of scaling and blockmodelling as applied to social networks}. George Mason University Press. 1991.
 
-Lorrain, F. and H.C. White, ``Structural Equivalence of Individuals in Social Networks.'' \emph{Journal of Mathematical Sociology}, 1, 49-80. 1971.
+Lorrain, F. and H.C. White, \dQuote{Structural Equivalence of Individuals in Social Networks.} \emph{Journal of Mathematical Sociology}, 1, 49-80. 1971.
 
-Boorman, S.A. and H.C. White, ``Social Structure from Multiple Networks. II. Role Structures.'' \emph{American Journal of Sociology}, 81 (6), 1384-1446. 1976.
+Boorman, S.A. and H.C. White, \dQuote{Social Structure from Multiple Networks. II. Role Structures.} \emph{American Journal of Sociology}, 81 (6), 1384-1446. 1976.
 
 Ostoic, J.A.R. \emph{Algebraic Analysis of Social Networks}. Wiley Series in Computational and Quantitative Social Sciences. Wiley. 2021.
 }
@@ -77,22 +78,22 @@ Ostoic, J.A.R. \emph{Algebraic Analysis of Social Networks}. Wiley Series in Com
 }
 
 \examples{
-## Create the data: two binary relations among three elements
+# create the data: two binary relations among three elements
 arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
        c(3,3,2))>.5, 3 ) )
 
-## Dichotomize it with customized cutoff value
+# dichotomize it with customized cutoff value
 dichot(arr, c = 3)
 
-## preview
+# preview
 prev(arr)
 
-## create the semigroup and look at Green's relations
-semigroup(arr) |> green.rel()
+# create the semigroup and look at Green's relations
+semigroup(arr) |> 
+  green.rel()
 
-## and look at the strings
+# look at string relations
 strings(arr)
-
 }
 \keyword{models}
 \keyword{attribute}

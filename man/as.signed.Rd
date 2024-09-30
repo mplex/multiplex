@@ -20,7 +20,7 @@ as.signed(x, lbs)
 }
 }
 \details{
-Since the \code{semiring} function requires an object with a `\code{Signed}' class, this function produces this class object from an array representing the signed network
+Since the \code{semiring} function requires an object with a \sQuote{\code{Signed}} class, this function produces this class object from an array representing the signed network
 }
 \value{
 The array as a \code{Signed} class
@@ -30,12 +30,12 @@ The array as a \code{Signed} class
 \code{\link{signed}}, \code{\link{semiring}}
 }
 \examples{
-## Load the data
+# load the data
 data("incubA")
 
-## Coerce parts of the signed matrix with two types of relations
-as.signed(signed(incubA$IM)$s[1:2,1:2])
-
+# coerce parts of the signed matrix with two types of relations
+signed(incubA$IM)$s[1:2,1:2] |> 
+  as.signed()
 }
 \keyword{array}
 \keyword{models}

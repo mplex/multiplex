@@ -36,9 +36,9 @@ The Pathfinder structure is for undirected networks, whereas for directed networ
   \item{Note}{A note when triangle inequality is used}%% ...
 }
 \references{
-Schvaneveldt, R., Durso, F. and Dearholt, D., `Network structures in proximity data,' in G. Bower, ed., \emph{The psychology of learning and motivation: Advances in research & theory}, Vol. 24, Academic Press, pp. 249-284. 1989.
+Schvaneveldt, R., Durso, F. and Dearholt, D., \dQuote{Network structures in proximity data,} in G. Bower, ed., \emph{The psychology of learning and motivation: Advances in research & theory}, Vol. 24, Academic Press, pp. 249-284. 1989.
 
-Batagelj, V., Doreian, P., Ferligoj, A. and Kejzar, N., \emph{Understanding Large Temporal Networks and Spatial Networks: Exploration, Pattern Searching, Visualization and Network Evolution}, John Wiley & Sons. 2014.
+Batagelj, V., Doreian, P., Ferligoj, A. and Kejzar, N., \emph{Understanding Large Temporal Networks and Spatial Networks: Exploration, Pattern Searching, Visualization and Network Evolution}, Wiley. 2014.
 }
 \author{
 Antonio Rivero Ostoic
@@ -55,7 +55,6 @@ arr <- round( array(runif(18), c(3,3,2)), array(runif(18), c(3,3,2)) ) * 10L
 
 # pathfinder valued network of 'arr'
 pfvn(arr)
-
 }
 \keyword{models}
 \keyword{manip}

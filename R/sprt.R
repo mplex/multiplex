@@ -1,4 +1,4 @@
-sprt <- 
+sprt <-
 function (x, k, l) 
 {
     if (isTRUE(is.matrix(x)) == FALSE) 

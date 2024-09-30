@@ -23,7 +23,7 @@ pacnet(file, toarray = FALSE, uniq = FALSE, transp = FALSE, sep)
    (logical) should the partially ordered structures be transposed?
 }
   \item{sep}{  
-   (optional) the pair separator for the pairwise relations
+   (optional) pair separator used for the pairwise relations
 }
 }
 \details{
@@ -32,13 +32,13 @@ By default the result is given in a list format, but it is possible to transform
 Note that the options in the Pacnet program should include the full factorization in the output; otherwise the object will be \code{NULL}.
 }
 \value{
-An object of the `\code{Pacnet}' class  with items:
+An object of the \sQuote{\code{Pacnet}} class  with items:
   \item{ii }{induced inclusions}
   \item{at }{atoms}
   \item{mc }{meet complements}
 }
 \references{
-Pattison, P., S. Wasserman, G. Robins and A.M. Kanfer  `Statistical Evaluation of Algebraic Constraints for Social Networks,' \emph{Journal of Mathematical Psychology}, 44, 536-568. 2000
+Pattison, P., S. Wasserman, G. Robins and A.M. Kanfer  \dQuote{Statistical Evaluation of Algebraic Constraints for Social Networks,} \emph{Journal of Mathematical Psychology}, 44, 536-568. 2000
 }
 \author{
 Antonio Rivero Ostoic

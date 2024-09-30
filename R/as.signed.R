@@ -1,4 +1,4 @@
-as.signed <- 
+as.signed <-
 function (x, lbs) 
 {
     if (isTRUE(attr(x, "class")[1] == "Rel.Q") == TRUE) {

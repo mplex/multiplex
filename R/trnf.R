@@ -1,4 +1,4 @@
-trnf <- 
+trnf <-
 function (x, lbs = NULL, lb2lb = FALSE, tolist = FALSE, ord, 
     sep) 
 {

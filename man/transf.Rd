@@ -27,25 +27,25 @@ transf(x, type = c("toarray", "tolist", "toarray2", "toedgel"), lbs = NULL, lb2l
    (optional) the labels in the transformation
   }
   \item{lb2lb}{
-   (optional and logical) whether the transformation is label-to-label. Default \code{TRUE} for \code{"toarray"} and \code{FALSE} for \code{"tolist"}
+   (optional and logical) whether the transformation is \emph{label-to-label}. Default \code{TRUE} for \code{"toarray"} and \code{FALSE} for \code{"tolist"}
   }
   \item{sep}{
-   (optional) the pair separator for the pairwise relations
+   (optional) pair separator used for the pairwise relations
   }
   \item{ord}{
-   (for \code{"toarray"}, optional) the order of the resulted structure
+   (optional) for \code{"toarray"}, the order of the resulted structure
   }
   \item{sort}{
    (optional and logical) sort the arrays in the output?
   }
   \item{sym}{
-   (for \code{"toarray"}, optional and logical) symmetrize the arrays?
+   (optional and logical) for \code{"toarray"}, symmetrize the arrays?
   }
   \item{add}{
-   (optional) added elements in the array's `domain'
+   (optional) added elements in the array's \emph{domain}
   }
   \item{adc}{
-   (optional) added elements in the array's `codomain'
+   (optional) added elements in the array's \emph{codomain}
   }
   \item{na.rm}{
    (optional) remove missing data in \code{NA}?
@@ -54,7 +54,7 @@ transf(x, type = c("toarray", "tolist", "toarray2", "toedgel"), lbs = NULL, lb2l
 \details{
 Option \code{"tolist"} is for transforming a matrix or an array to a list of pair elements. 
 In case that the \code{lb2lb} is enabled in this type of transformation, then \code{lbs} 
-must be provided, whereas the pair separator is optional. On the other hand \code{"toarray"} 
+must be provided, whereas the pair separator is optional. On the other hand, \code{"toarray"} 
 will produce a matrix from a list of pair elements, and in this case is advisable to specify the order of the structure. 
 Three dimensional structures are supported in the transformations with all options.
 
@@ -74,17 +74,17 @@ Depending on the input data, the result is either a list of pair relations or a 
 Antonio Rivero Ostoic
 }
 \note{
-For high dimensional arrays, the \code{\link{rel.sys}} function privides additional information other than the list of pair relations of the entire structure.
+For high dimensional arrays, the \code{\link{rel.sys}} function provides additional information other than the list of pair relations of the entire structure.
 }
 \seealso{
 \code{\link{edgel}}, \code{\link{bundles}}, \code{\link{reduc}}, \code{\link{rel.sys}}
 }
 \examples{
-## scan the multiplication table data
+# scan the multiplication table data
 s <- matrix(data=c(1, 1, 1, 3, 3, 3, 3, 3, 3), nrow=3, ncol=3, byrow=TRUE)
 
-## transform the matrix to a list format
-s |> transf(lb2lb = TRUE, lbs = c('n','m','u'))
+# transform the matrix to a list format
+s |> transf(lb2lb = TRUE, lbs = c("n","m","u"))
 }
 \keyword{manip}
 \keyword{array}

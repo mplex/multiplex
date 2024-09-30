@@ -1,4 +1,4 @@
-summaryBundles <- 
+summaryBundles <-
 function (x, file = NULL, latex = FALSE, byties) 
 {
     if (isTRUE(attr(x, "class")[1] == "Rel.Bundles") == FALSE) 

@@ -21,7 +21,7 @@ edgel(file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
   (logical) does the file has a header?
 }
   \item{sep}{
-   the separator among the columns (default is horizontal tab)
+   the separator among the columns (default is horizontal tab escaped as \code{"\t"})
 }
   \item{toarray}{
   (logical) should the data frame be transformed to arrays?
@@ -40,24 +40,26 @@ edgel(file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
 }
 }
 \details{
-\code{edgel} is a function to read files with \emph{s}end, \emph{r}eceive, and \emph{t}ies format, 
+\code{edgel} is a function to read edge list files with \emph{s}end, \emph{r}eceive, and \emph{t}ies format, 
 which is a data frame with at least 2 columns for the sender, receiver and for multiplex networks also the ties, one column for each type of relation. 
 However, the \code{attr} option correspond to a actor and self-ties data frame file with the option to transform it into a diagonal matrix. 
 When \code{toarray} is set to \code{FALSE}, options \code{attr} and \code{rownames} allow placing the first column of the data frame as the name of the table, 
 which is the format of two-mode data, and compute for instance Galois transformations among the partite sets. 
 If more than one isolate is added, then the data must be included as a vector.
 
-It is also possible to treat the input data as data frame object and manipulate it via e.g. the \code{\link[base:subset]{subset}} function with the \code{toarray} option. Valued networks are now supported as well.
+It is also possible to treat the input data as data frame object and manipulate it through e.g. the \code{\link[base:subset]{subset}} function with the \code{toarray} option. 
+Valued networks are now supported as well.
 }
 \value{
-By default an array; usually with three dimensions of stacked matrices where the multiple relations are placed. If \code{toarray = FALSE}, then the data frame is given.
+By default an array; usually with three dimensions of stacked matrices where the multiple relations are placed. 
+If \code{toarray = FALSE}, then the data frame is returned.
 }
 %
 \author{
 Antonio Rivero Ostoic
 }
 \note{
-For compatibility reasons, alias for \code{edgel} is \code{read.srt}.
+For backwards compatibility, an alias for \code{edgel} is \code{read.srt}.
 }
 
 \seealso{

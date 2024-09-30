@@ -1,4 +1,4 @@
-write.gml <- 
+write.gml <-
 function (x, file = NULL) 
 {
     if (isTRUE(is.na(dim(x)[3]) == TRUE) == FALSE) {

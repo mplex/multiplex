@@ -1,4 +1,4 @@
-as.strings <- 
+as.strings <-
 function (x, lbs = NULL) 
 {
     if (is.array(x) == FALSE) 

@@ -24,7 +24,9 @@ dichot(x, c = 1, diag)
 }
 \details{
 This is a convenient function (or wrapper if you like) of the \code{\link[base:replace]{replace}} function. 
-In this case, the function is aimed to specify a cutoff value for the dichotomization of the data where the values equal or higher to the cutoff are converted to one, while the others are set to zero. The cutoff can be any real number.
+In this case, the function is aimed to specify a cutoff value for the dichotomization of the data where the 
+values equal or higher to the cutoff are converted to one, while the others are set to zero. 
+The cutoff value in \code{c} can be any real number.
 }
 \value{
 Binary values of the input data.
@@ -36,18 +38,18 @@ Binary values of the input data.
 Antonio Rivero Ostoic
 }
 \note{
-The labels are preserved after the dichotomization.
+Labels are preserved after the dichotomization.
 }
 %
 \seealso{
 \code{\link[base:replace]{replace}}, \code{\link{prev}}, \code{\link{semigroup}}.
 }
 \examples{
-## Create the data: 2 binary relations among 3 elements
+# create the data: two binary relations among three elements
 arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
        c(3,3,2))>.5, 3 ) )
 
-## dichotomize it with a cutoff value of 2
+# dichotomize it with a cutoff value of two
 dichot(arr, c = 2)
 }
 \keyword{manip}

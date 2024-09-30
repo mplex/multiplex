@@ -1,4 +1,4 @@
-jnt <- 
+jnt <-
 function (xj, unique = FALSE, sep) 
 {
     ifelse(missing(sep) == TRUE, sep <- ", ", NA)

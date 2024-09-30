@@ -1,4 +1,4 @@
-ti <- 
+ti <-
 function (net) 
 {
     ifelse(isTRUE(is.data.frame(net) == TRUE) == TRUE, net <- as.matrix(net), 

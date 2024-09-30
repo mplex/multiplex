@@ -44,7 +44,7 @@ The factorisation is part of decomposition for partially ordered semigroups, and
 function \code{fact} allows to obtain elements generated in this process. 
 }
 \value{
-An object of `\code{Ind.incl}' class having:
+An object of \sQuote{\code{Ind.incl}} class having:
   \item{po}{partial order table}
   \item{iin}{list of induced inclusions pairwise listed}
   \item{niin}{length of induced inclusions}
@@ -64,25 +64,23 @@ Antonio Rivero Ostoic (based on the algorithm described in Ardu, 1995)
 \note{
 Data objects imported with \code{\link{pacnet}} are compatible for further factorisation. 
 }
-
 %
-
 \seealso{
 \code{\link{decomp}}, \code{\link{cngr}}, \code{\link{pacnet}} 
 }
 \examples{
-## Create a partially ordered semigroup
+# create a partially ordered semigroup
 arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
        c(3,3,2))>.5, 1 ) )
 
-# semigroup
+# semigroup of relations
 S <- semigroup(arr)
 
 # string relations and partial order
 P <- strings(arr) |> 
   partial.order()
 
-# Perform the factorisation of PO S
+# perform the factorisation of PO S
 fact(S, P)
 }
 \keyword{algebra}

@@ -1,4 +1,4 @@
-cph <- 
+cph <-
 function (W, lbs) 
 {
     if (isTRUE(attr(W, "class") == "Rel.Box") == FALSE) 

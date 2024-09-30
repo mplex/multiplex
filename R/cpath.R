@@ -1,4 +1,4 @@
-cpath <- 
+cpath <-
 function (x, values = FALSE, collapse = TRUE, directed, bonds, 
     sel, sep, lb2lb) 
 {

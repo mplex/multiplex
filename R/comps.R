@@ -1,5 +1,5 @@
-comps <- 
-function (x, bonds = c("entire", "strong", "weak")) 
+comps <-
+function (x, bonds = c("entire", "strong", "weak"), sort) 
 {
     ifelse(isTRUE(is.null(dimnames(x)[1]) == TRUE | is.null(dimnames(x)[1][[1]]) == 
         TRUE) == TRUE, lbs <- seq_len(nrow(x)), lbs <- dimnames(x)[[1]])
@@ -16,8 +16,17 @@ function (x, bonds = c("entire", "strong", "weak"))
             while (length(tx) > length(transl(tx))) {
                 tx <- transl(tx)
             }
-            com <- list()
-            for (i in 1:length(tx)) {
+            if (missing(sort) == FALSE && isTRUE(sort == TRUE) == 
+                TRUE) {
+                tx <- tx[order(unlist(lapply(as.list(tx), function(z) {
+                  length(dhc(z))
+                })))]
+            }
+            else {
+                NA
+            }
+            com <- vector(mode = "list", length = length(tx))
+            for (i in seq_len(length(tx))) {
                 com[[i]] <- lbs[as.numeric(dhc(tx[i]))]
             }
             rm(i)

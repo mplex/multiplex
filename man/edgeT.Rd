@@ -5,7 +5,7 @@
 Edge Table Generator
 }
 \description{
-The Edge Table generator of multiple relations.
+Function to produce the \emph{Edge Table} generator of multiple relations.
 }
 \usage{
 edgeT(x)
@@ -20,7 +20,7 @@ edgeT(x)
 The Edge Table is the complete right multiplication table of the semigroup having its elements for each of its generators.
 }
 \value{
-An object of the `\code{EdgeTable}' class
+An object of the \sQuote{\code{EdgeTable}} class
   \item{gens}{
   the generator relations
 }
@@ -29,7 +29,7 @@ An object of the `\code{EdgeTable}' class
 }
 }
 \references{
-Cannon, J.J. `Computing the ideal structure of finite semigroup,' \emph{Numerische Mathematik}, 18, 254-266. 1971.
+Cannon, J.J. \dQuote{Computing the ideal structure of finite semigroup,} \emph{Numerische Mathematik}, 18, 254-266. 1971.
 
 Pattison, P.E. \emph{Algebraic Models for Social Networks}. Cambridge University Press. 1993.
 }
@@ -41,12 +41,11 @@ Antonio Rivero Ostoic
 \code{\link{wordT}}, \code{\link{semigroup}}.
 }
 \examples{
-## Create the data: 2 binary relations among 3 elements
+# create the data: two binary relations among three elements
 arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
        c(3,3,2))>.5, 1 ) )
 
-## get the edge table
+# obtain the edge table
 edgeT(arr)
-
 }
 \keyword{algebra}

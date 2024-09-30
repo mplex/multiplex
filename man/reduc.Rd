@@ -49,19 +49,16 @@ Antonio Rivero Ostoic
 \note{
 Use \code{\link{decomp}} for the reduction of a semigroup object.
 }
-
 %
-
 \seealso{
 \code{\link{cngr}}, \code{\link{rbox}}, \code{\link{decomp}}
 }
 \examples{
-## scan the multiplication table data
+# scan the multiplication table data
 s <- matrix(data=c(1, 1, 1, 3, 3, 3, 3, 3, 3), nrow=3, ncol=3, byrow=TRUE)
 
-## reduce the multiplication table
+# reduce the multiplication table
 s |> reduc(clu=c(1,2,2))
-
 }
 %
 \keyword{manip}

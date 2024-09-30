@@ -39,16 +39,16 @@ mlvl(x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"), symCdm,
 \details{
 The default multilevel system is a binomial projection \code{bpn} that requires data for the two domains, as with 
 \code{cn2} as well. 
-Option \code{cn} does not need the domain in \code{x} since returns the co-affiliation of network members from the codomain structure. 
+
+Option \code{cn} does not need the domain in \dQuote{\code{x}} since returns the co-affiliation of network members from the codomain structure. 
 
 Since these are different components in the multilevel system for co-affiliation of network members, 
 it is possible to specify the domain and codomain labels in \code{lbs} as a list object. 
 
-
 Making symmetric the codomain structure with \code{symCdm} is many times convenient for visualization purposes.
 }
 \value{
-An object of `\code{Multilevel}' class of chosen type.
+An object of \sQuote{\code{Multilevel}} class of chosen type.
   \item{mlnet}{
   the multilevel network
   }
@@ -56,13 +56,9 @@ An object of `\code{Multilevel}' class of chosen type.
   (list) domain and codomain labels
   }
   \item{modes}{
-  a vector indicating the domain of the data in \code{mlnet} where \code{1M} is for domain and \code{2} is for the codomain.
+  a vector indicating the domain of the data in \code{mlnet} where \code{1M} is for domain and \code{2M} is for the codomain.
   }
-%%% ...
 }
-%\references{
-%%% ~put references to the literature/web site here ~
-%}
 \author{
 Antonio Rivero Ostoic
 }

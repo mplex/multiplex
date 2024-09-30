@@ -22,7 +22,7 @@ galois(x, labeling = c("full", "reduced"), sep, valued, scl,
   }
 }
   \item{sep}{
-   (optional) the pair separator for the pairwise relations
+   (optional) pair separator used for the pairwise relations
   }
   \item{valued}{
    (logical) whether the galois derivation is on a many-valued formal context
@@ -35,7 +35,9 @@ galois(x, labeling = c("full", "reduced"), sep, valued, scl,
   }
 }
 \details{
-Galois derivations (or connections) are mappings between families of partially ordered subsets of elements. Such derivations are useful to analyze the structure of both subsets, which in a social network are typically the actors and their corresponding affiliations or events. That is, two-mode networks, but also a group of objects with a list of different attributes as used in formal concept analysis. 
+Galois derivations (or connections) are mappings between families of partially ordered subsets of elements. 
+Such derivations are useful to analyze the structure of both subsets, which in a social network are typically the actors and their corresponding affiliations or events. 
+That is, two-mode networks, but also a group of objects with a list of different attributes as used in formal concept analysis. 
 }
 \value{
 A labelled list with Galois derivations of objects and attributes
@@ -54,10 +56,10 @@ Full labeling implies first objects and then attributes, whereas the reduced opt
 \code{\link{partial.order}}, \code{\link{diagram}}, \code{\link{fltr}}.
 }
 \examples{
-## Create a data frame
+# create a data frame
 dfr <- data.frame(x=1:3, y=5:7)
 
-## Find Galois derivations
+# find galois derivations
 galois(dfr)
 }
 \keyword{algebra}

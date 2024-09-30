@@ -1,4 +1,4 @@
-edgS <- 
+edgS <-
 function (E, semigroupClass = FALSE) 
 {
     if (isTRUE("EdgeTable" %in% attr(E, "class")) == TRUE) {

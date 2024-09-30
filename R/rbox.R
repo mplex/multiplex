@@ -1,4 +1,4 @@
-rbox <- 
+rbox <-
 function (w, transp = FALSE, smpl = FALSE, k = 3, tlbs) 
 {
     if (is.array(w) == FALSE) 

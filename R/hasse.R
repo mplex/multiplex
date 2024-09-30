@@ -1,4 +1,4 @@
-hasse <- 
+hasse <-
 function (x, attrs = NULL, main = NULL, incmp, cex.main, bg, 
     mar, shape, col, col0, fcol, ecol, lty, lbs, ffamily, fstyle, 
     fsize, col.main, sep, ...) 

@@ -1,4 +1,4 @@
-cscl <- 
+cscl <-
 function (x, scl, sep) 
 {
     ifelse(missing(sep) == TRUE, sep <- "_", NA)

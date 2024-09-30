@@ -1,4 +1,4 @@
-swp <- 
+swp <-
 function (y, sep) 
 {
     ifelse(missing(sep) == TRUE, sep <- ", ", NA)

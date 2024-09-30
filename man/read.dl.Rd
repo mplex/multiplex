@@ -15,25 +15,24 @@ read.dl(file)
 }
 }
 \details{
-Files \code{dl} serve to represent multiple network structures, and it is one of the formats used in Netdraw, which is a component of the Ucinet program. Besides multiple networks, the function can read two-mode structures as well.
+Files \code{dl} serve to represent multiple network structures, and it is one of the formats used in \bold{NetDraw}, which is a component of the \bold{Ucinet} program. 
+Besides multiple networks, the function can read two-mode structures as well.
 }
 \value{
 a data frame for two-mode networks, or an array representing the multiple networks with one set of actors.
 }
 \references{
-Borgatti, S.P., \code{NetDraw} Software for Network Visualization. Analytic Technologies. 2002.
+Borgatti, S.P., \bold{NetDraw} \emph{Software for Network Visualization}. Analytic Technologies. 2002.
 
-Borgatti, S.P., Everett, M.G. and Freeman, L.C. \code{Ucinet for Windows}: Software for Social Network Analysis. Analytic Technologies. 2002.
+Borgatti, S.P., Everett, M.G. and Freeman, L.C. \bold{Ucinet for Windows}: \emph{Software for Social Network Analysis}. Analytic Technologies. 2002.
 }
 \author{
 Antonio Rivero Ostoic
 }
 \note{
-The '\code{EDGELIST}' option in \code{DL} is not yet supported for reading.
+The \sQuote{\code{EDGELIST}} option in \code{DL} is not yet supported for reading.
 }
-
 %
-
 \seealso{
 \code{\link{write.dl}}, \code{\link{edgel}}, \code{\link{read.gml}}
 }

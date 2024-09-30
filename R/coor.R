@@ -1,4 +1,4 @@
-coor <- 
+coor <-
 function (a, b) 
 {
     out = list(net = a, coord = b)

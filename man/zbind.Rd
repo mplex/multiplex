@@ -35,24 +35,24 @@ Usually a three dimensional array
 Antonio Rivero Ostoic
 }
 \note{
-Argument \code{force} must be activated for matrices and arrays with different dimensions and a \code{message} is given.
+Argument \code{force} must be set to \code{TRUE} for matrices and arrays with different dimensions, and a \code{message} is given.
 }
 \section{Warning}{
-Arrays without dimnames are not supported.
+Arrays without dimnames are not fully supported.
 }
 \seealso{
 \code{\link{mnplx}}, \code{\link{dichot}}, \code{\link{strings}}
 }
 \examples{
-## create the data: two sets with a pair of binary relations 
-## among three elements
+# create the data: two sets with a pair of binary relations 
+# among three elements
 arr1 <- round( replace( array( runif(18), c(3 ,3, 2) ), array( runif(18),
         c(3, 3, 2) ) > .5, 3 ) )
 
 arr2 <- round( replace( array( runif(18), c(3 ,3, 2) ), array( runif(18),
         c(3, 3, 2) ) > .5, 3 ) )
 
-## bind the data sets
+# bind the data sets
 zbind(arr1, arr2)
 }
 \keyword{manip}

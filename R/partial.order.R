@@ -1,4 +1,4 @@
-partial.order <- 
+partial.order <-
 function (x, type = c("strings", "galois", "pi.rels"), lbs, sel, 
     po.incl, dichot) 
 {

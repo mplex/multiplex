@@ -1,4 +1,4 @@
-strng <- 
+strng <-
 function (x) 
 {
     if (is.list(x) == TRUE && isTRUE(length(x) > 1L) == TRUE) {

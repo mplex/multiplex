@@ -1,4 +1,4 @@
-dhc <- 
+dhc <-
 function (xd, sep) 
 {
     ifelse(missing(sep) == TRUE, sep <- ", ", NA)

@@ -1,4 +1,4 @@
-diagram.levels <- 
+diagram.levels <-
 function (x, perm = FALSE) 
 {
     po <- x & (1L - t(x))
@@ -9,7 +9,7 @@ function (x, perm = FALSE)
     }
     if (isTRUE(sum(po) > 0L) == TRUE) {
         if (requireNamespace("Rgraphviz", quietly = TRUE)) {
-            grDevices::pictex()
+            suppressWarnings(grDevices::pictex())
             X <- Rgraphviz::plot(methods::as(po, "graphNEL"))
             alt <- vector()
             nam <- vector()

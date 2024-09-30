@@ -1,4 +1,4 @@
-wordT <- 
+wordT <-
 function (x) 
 {
     if (is.array(x) == FALSE) 

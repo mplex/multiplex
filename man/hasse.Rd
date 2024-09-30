@@ -80,7 +80,7 @@ hasse(x, attrs = NULL, main = NULL, incmp, cex.main, bg, mar, shape, col,
 }
 \details{
 A Hasse diagram is a pictorical device to represent systems of partially ordered relations where the \code{hasse} function provides arguments for visual manipulation of the diagram.
-An example of a partially ordered system is the partial order table that is the outcome of the `\code{strings}' option in the \code{\link{partial.order}} function. 
+An example of a partially ordered system is the partial order table that is the outcome of the \sQuote{\code{strings}} option in the \code{\link{partial.order}} function. 
 }
 \value{
 A plot of a Hasse diagram with specified settings for a partial or a linear order of relations. 
@@ -101,14 +101,14 @@ Requires \emph{Rgraphviz} package installed.
 \code{\link{green.rel}}, \code{\link{diagram.levels}}, \code{\link{as.strings}}.
 }
 \examples{
-## load a dataset
+# load a dataset
 data("incubA")
 
-## given e.g. a partial order table in the object 'po'
+# given e.g. a partial order table in the object 'po'
 po <- as.strings(incubA$IM) |> 
   partial.order(type="strings")
 
-## plot the order relation as a Hasse diagram
+# plot the order relation as a Hasse diagram
 \dontrun{if(require(Rgraphviz)) {
 plot(hasse(po))
 }}

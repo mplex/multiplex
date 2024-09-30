@@ -4,7 +4,7 @@
 Strings of Relations
 }
 \description{
-Function to get the labels of the unique relations of the semigroup; that is the generators and compound relations that are the elements of the complete semigroup.
+Function to get the labels of the unique relations of the semigroup, or the generators and compound relations that are the elements of the complete semigroup.
 }
 \usage{
 strings(x, equat = FALSE, k = 2, smpl, valued)
@@ -27,12 +27,13 @@ strings(x, equat = FALSE, k = 2, smpl, valued)
   }
 }
 \details{
-The strings are the unique relations, which constitute the elements of the complete semigroup. These are both the generators and the compound relations after applying the Axiom of Quality, which means that even some generators can be disregarded.
+The strings are the unique relations, which constitute the elements of the complete semigroup. 
+These are both the generators and the compound relations after applying the Axiom of Quality, which means that even some generators can be disregarded.
 
 This function is especially useful to construct the partial order of relations and to establish the set of equations in the relational structure.
 }
 \value{
-An object of `\code{Strings}' class.
+An object of \sQuote{\code{Strings}} class.
   \item{wt}{
   the generators and compound relations
   }
@@ -47,28 +48,25 @@ An object of `\code{Strings}' class.
   }
 }
 \references{
-Boorman, S.A. and H.C. White, `Social Structure from Multiple Networks. II. Role Structures.' \emph{American Journal of Sociology}, 81 (6), 1384-1446. 1976.
+Boorman, S.A. and H.C. White, \dQuote{Social Structure from Multiple Networks. II. Role Structures.} \emph{American Journal of Sociology}, 81 (6), 1384-1446. 1976.
 }
 \author{
 Antonio Rivero Ostoic
 }
 \note{
-The maximum length of the strings in the equations is currently 4.
+The maximum length of the strings in the equations is currently \eqn{4}.
 }
-
 %
-
 \seealso{
 \code{\link{partial.order}}, \code{\link{semigroup}}.
 }
 \examples{
-## Create the data: 2 binary relations among 3 elements
+# create the data: two binary relations among three elements
 arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
        c(3,3,2))>.5, 1 ) )
 
-## get the strings
+# get the strings
 strings(arr)
-
 }
 \keyword{algebra}
 \keyword{array}

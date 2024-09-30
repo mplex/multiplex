@@ -1,4 +1,4 @@
-semigroup <- 
+semigroup <-
 function (x, type = c("numerical", "symbolic"), cmps, smpl, valued) 
 {
     if (is.array(x) == FALSE) 

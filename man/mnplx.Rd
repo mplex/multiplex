@@ -29,7 +29,9 @@ mnplx(net, directed = TRUE, dichot, diag, clu)
 }
 }
 \details{
-With this function, it is possible to collapse multiple types of tie into a matrix representation with monoplex relations.
+With this function, it is possible to collapse multiple types of tie of a given network into a matrix representation with monoplex relations. 
+Besides dichotomizing, directed networks can be converted into undirected systems as well with or without self-relations. 
+Moreover, the resulted matrix can be permuted with a clustering information in a vector in \code{clu} as with \code{\link{perm}}.
 }
 \value{
 A matrix of monoplex relations
@@ -39,19 +41,16 @@ A matrix of monoplex relations
 Antonio Rivero Ostoic
 }
 %
-%
-
 \seealso{
 \code{\link{zbind}}, \code{\link{dichot}}, \code{\link{reduc}}
 }
 \examples{
-## create the data: 2 binary relations among 3 elements
+# create the data: two binary relations among three elements
 arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
        c(3,3,2))>.5, 1 ) )
 
-## make array monoplex
+# make array monoplex
 mnplx(arr)
-
 }
 \keyword{manip}
 \keyword{array}

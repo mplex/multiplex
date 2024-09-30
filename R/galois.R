@@ -1,4 +1,4 @@
-galois <- 
+galois <-
 function (x, labeling = c("full", "reduced"), sep, valued, scl, 
     sep2) 
 {

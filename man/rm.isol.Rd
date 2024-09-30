@@ -14,10 +14,10 @@ rm.isol(x, diag, diag.incl)
    a matrix or array representing a network
 }
   \item{diag}{
-   (optional and logical) if arrays, should the diagonals be included in the computation?
+   (optional and logical) for arrays, should diagonals be included in transformation?
 }
   \item{diag.incl}{
-   (optional and logical) if arrays, should the diagonals be included in the output?
+   (optional and logical) for arrays, should diagonals be included in the output?
 }
 }
 \details{
@@ -37,11 +37,11 @@ Antonio Rivero Ostoic
 \code{\link{edgel}}, \code{\link{zbind}}
 }
 \examples{
-## Create the data: two binary relations among three elements
+# create the data: two binary relations among three elements
 arr <- round( replace( array( runif(18), c(3 ,3, 2) ), array( runif(18),
-c(3, 3, 2) ) > .5, 3 ) )
+         c(3, 3, 2) ) > .5, 3 ) )
 
-## Remove isolates (if exist)
+# remove isolates (if exist)
 rm.isol(arr)
 }
 \keyword{manip}

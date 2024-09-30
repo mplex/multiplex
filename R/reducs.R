@@ -1,4 +1,4 @@
-reducs <- 
+reducs <-
 function (s, cl) 
 {
     if (isTRUE(attr(s, "class")[1] == "Semigroup") == FALSE) 

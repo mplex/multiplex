@@ -44,13 +44,12 @@ The warning message is given only if the percentage of undefined elements and th
 \code{\link{semigroup}}, \code{\link{edgeT}}.
 }
 \examples{
-## Create the data: 2 binary relations among 3 elements
+# create the data: two binary relations among three elements
 arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
        c(3,3,2))>.5, 1 ) )
 
-## preview it
+# preview a "semigroup" structure
 prev(arr)
-
 }
 \keyword{algebra}
 \keyword{math}

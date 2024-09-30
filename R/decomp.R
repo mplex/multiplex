@@ -1,4 +1,4 @@
-decomp <- 
+decomp <-
 function (S, pr, type = c("mca", "pi", "at", "cc"), reduc, fac, 
     force) 
 {
