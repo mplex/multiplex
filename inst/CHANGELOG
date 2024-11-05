@@ -2,6 +2,16 @@
 'multiplex' PACKAGE
 
 
+version 3.8 (5-November-2024)
+-----------------------------
+ADDED FEATURES:
+	+ new argument "na.rm" in 'edgel' for removing or not NAs
+BUGS FIXED:
+	* argument "toedgel" in 'transf' works for multiplex networks
+OTHER CHANGES:
+	+ minor corrections to internal functions 'trnf', 'jnt'
+
+
 version 3.7 (30-September-2024)
 -----------------------------
 ADDED FEATURES:

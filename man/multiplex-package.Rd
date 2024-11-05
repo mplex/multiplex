@@ -6,10 +6,10 @@
 Algebraic Tools for the Analysis of Multiple Social Networks
 }
 \description{
-One of the aims of the \code{"multiplex"} package is to meet the necessity to count with an analytic tool specially designed for social networks with relations at different levels. 
-In this sense, \code{"multiplex"} counts with functions that models the local role algebras of the network based on the simple and compound relations existing in the system.
-\code{"multiplex"} has also a procedure for the construction and analysis of signed networks through the semiring structure. 
-With \code{"multiplex"}, the different relational patterns at the dyadic level in the network can be obtained as well, which can serve for a further analysis with different types of structural theories.
+One of the aims of the \pkg{multiplex} package is to meet the necessity to count with an analytic tool specially designed for social networks with relations at different levels. 
+In this sense, \pkg{multiplex} counts with functions that models the local role algebras of the network based on the simple and compound relations existing in the system.
+\pkg{multiplex} has also a procedure for the construction and analysis of signed networks through the semiring structure. 
+With \pkg{multiplex}, the different relational patterns at the dyadic level in the network can be obtained as well, which can serve for a further analysis with different types of structural theories.
 
 It is also possible to take the attributes of the actors in the analysis of multiple networks with different forms to incorporate this kind of information to the existing relational structures. 
 For instance, the network exposure of the actors can be taken in the context of multiple networks in this case, or else the attributes can be embedded in the resulted algebraic structures.
@@ -18,8 +18,8 @@ For instance, the network exposure of the actors can be taken in the context of 
 \tabular{ll}{
 Package: \tab multiplex \cr
 Type: \tab Package \cr
-Version: \tab 3.7 \cr
-Date: \tab 30 September 2024 \cr
+Version: \tab 3.8 \cr
+Date: \tab 5 November 2024 \cr
 License: \tab GPL-3 \cr
 LazyLoad: \tab yes \cr
 }
@@ -42,7 +42,7 @@ There are other capabilities in the package that are not strictly algebraic.
 For instance, the \code{dichot} serves to dichotomize the input data with a specified cut-off value, \code{rm.isol} removes isolated nodes, and the \code{perm} function performs an automorphism of the elements in the representative array. 
 All these functions are built for multiple networks represented by high dimensional structures that can be constructed by function \code{zbind} to produce three-dimensional arrays. 
 
-Furthermore, \code{"multiplex"} creates a Relation-Box with the \code{rbox} function, and it implements the Compositional Equivalence expressed in the cumulated person hierarchy of the network computed with the \code{cph} function.
+Furthermore, \pkg{multiplex} creates a Relation-Box with the \code{rbox} function, and it implements the Compositional Equivalence expressed in the cumulated person hierarchy of the network computed with the \code{cph} function.
 
 Relational bundles are identified through the \code{bundles} function, which provides lists of pair relations. 
 The \code{transf} function serves to transform pairwise list data into a matrix form and viceversa. 
@@ -52,8 +52,8 @@ Such features can be realized via the \code{rel.sys} and \code{expos} functions,
 Several attributes can be derived by \code{galois}, which provides an algebraic approach for the analysis of two-mode networks.
 
 Finally, multivariate network data can be created using a \emph{s}end \emph{r}eceive \emph{t}ies edge list format that can be loaded and transformed to arrays through the \code{edgel} function. 
-Other formats for multiple network data like \bold{UCINET} \code{dl} or \bold{Visone} \code{gml} can be imported and exported as well with the \code{"multiplex"} package. 
-Visualization of multiple network structures is possible with the \code{"multigraph"} package that depends on \code{"multiplex"}. 
+Other formats for multiple network data like \pkg{UCINET} \code{dl} or \pkg{Visone} \code{gml} can be imported and exported as well with the \pkg{multiplex} package. 
+Visualization of multiple network structures is possible with the \pkg{multigraph} package that depends on \pkg{multiplex}. 
 }
 %
 \author{

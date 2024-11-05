@@ -15,7 +15,7 @@
 %\lstset{breaklines=true}
 
 \begin{document}
-\title{\LARGE Working with Two-Mode Networks in ``multiplex''}
+\title{\LARGE Working with Two-Mode Networks in \pkg{multiplex}}
 \author{ {\Large Antonio Rivero Ostoic} \\
 {\normalsize CESU, \large University of San Sim\'{o}n} }
 \maketitle
@@ -66,7 +66,7 @@ B^\prime \;=\; { g \in G \;\mid\; (g, m) \in I \quad(\text{for all } m \in B) }
 \end{equation*}
 where $A$ and $B$ are said to be the extent and intent of the formal concept respectively, whereas $A^\prime$ is the set of attributes common to all the objects in the intent and $B^\prime$ the set of objects possessing the attributes in the extent.
 
-With \textbf{multiplex}, it is possible to perform an algebraic analysis of two-mode networks with the function \texttt{galois()} to produce Galois derivations between objects and attributes.
+With \pkg{multiplex}, it is possible to perform an algebraic analysis of two-mode networks with the function \texttt{galois()} to produce Galois derivations between objects and attributes.
 This command creates an adjunction between the two sets partially ordered by inclusion, and we obtain the complete list of concepts of the context, which can be assigned into an object with the class named ``\texttt{Galois}'' and ``\texttt{full}.''
 
 <<loadmultiplex>>=
@@ -79,8 +79,10 @@ library("multiplex")
 galois(frt)
 @
 
+
+\subsubsection*{Reduced labeling of concepts}
 It is also possible to condense the labeling of the objects and attributes with the option ``\texttt{reduced}'' in the argument \texttt{labeling} of the \texttt{galois()} function. 
-Below is another Galois representation of the fruits dataset using using an \textbf{R} native pipe. 
+Below is another Galois representation of the fruits dataset using using an \proglang{R} native pipe. 
 
 <<galoisReduc, echo=TRUE>>=
 # Galois derivation with a reduced labeling
@@ -93,7 +95,8 @@ That is the reason why the whole structure of the $12$ formal concepts given by 
 
 <<strgaloisReduc, size="scriptsize">>=
 # structure of Galois derivation with full labeling
-galois(frt, labeling = "reduced") |> 
+frt |> 
+  galois(labeling = "reduced") |> 
   getElement("gc") |> 
   getElement("full") |> 
   str()
@@ -110,9 +113,10 @@ $$
 For this, the function \texttt{partial.order()} has the ``\texttt{galois}'' option in the \texttt{type} argument where the hierarchy of the concepts is constructed. 
 In this case, even though the concepts have the ``reduced'' option, it is the ``full'' labeling of the formal concepts that is the base of the ordering among these concepts that can be designated in different ways.
 
-<<partialorder, echo=-4>>=
+<<partialorder, echo=-5>>=
 # partial ordering of the formal concepts with established labels
-pogdc <- galois(frt, labeling = "reduced") |> 
+pogdc <- frt |> 
+  galois(labeling = "reduced") |> 
   partial.order(type = "galois", lbs = paste("c", seq_len(12), sep = ""))
 pogdc
 @
@@ -214,7 +218,7 @@ fltr(3, pogd)
 
 
 We get the same result when introducing the one or more of the names of this concept.
-<<princfltrlbs2, echo=TRUE, eval=FALSE>>= 
+<<princfltrlbs2, echo=TRUE, eval=TRUE>>= 
 # principal order filter of the concept with these labels
 fltr(c("red", "RedDelicious"), pogd)
 @
@@ -240,21 +244,20 @@ fltr(c(9, 11), pogd, ideal = TRUE)
 \section{Bipartite graphs}
 
 Two-mode network are depicted through \emph{bipartite graphs}, where the entities in one set only can relate to the elements placed in the other set. 
-For this, \textbf{multiplex} has a reverse dependence on \textbf{multigraph} for the visualization of multiple networks, and also for bipartite graphs. 
+For this, \pkg{multiplex} has a reverse dependence on \pkg{multigraph} for the visualization of multiple networks, and also for bipartite graphs. 
 Hence, we use the function \texttt{bmgraph()} to plot the graph of the \texttt{frt} data set with the default layout option.
 
-<<bipp, echo=TRUE, eval=TRUE, fig.pos="H", fig.width=3.0, fig.height=3.0, fig.align="center", fig.env="figure", fig.cap="Bipartite graph of fruits with attributes", small.mar=TRUE>>=
+<<bipp, echo=TRUE, eval=TRUE, fig.pos="H", fig.width=3.5, fig.height=3.5, fig.align="center", fig.env="figure", fig.cap="Bipartite graph of fruits with attributes", small.mar=TRUE>>=
 # load "multigraph" package and plot bipartite graph
 suppressPackageStartupMessages(library("multigraph", quietly = TRUE))
 bmgraph(frt, pch = 16:15, lwd = 2, fsize = 6)
 @
 
 
-\subsection*{Multigraph with a binomial projection}
+\subsection*{Bipartite graph with a binomial projection}
 
-
-Another possibility is to apply a force-directed layout to the binomial projection of this two-mode data set. 
-Below the plot is made with some arguments for the vertices and the graph clock-wise rotated. 
+Another possibility to depict a two-mode network as a ``classic'' bipartite graph is to apply a force-directed layout to the binomial projection of this two-mode data set. 
+The plot below is made with arguments in function \texttt{bmgraph()} for changing the aspect of the vertices and to make the graph clock-wise rotated. 
 
 <<binp2, echo=TRUE, eval=FALSE>>= 
 # plot proyection of bipartite graph
@@ -273,9 +276,9 @@ bmgraph(frt, layout = "force", seed = 1, cex = 3, fsize = 7, vcol = 8, pch = 16:
 \begin{thebibliography}{5}
 %
 \bibitem{Gant-Will96} Ganter, B and Wille R~\emph{Formal Concept Analysis -- Mathematical Foundations}. Springer. 1996.
-\bibitem{rgpahviz} Hansen KD, Gentry J, Long L, Gentleman R, Falcon S, Hahne F and Sarkar D  ~\textbf{Rgraphviz}: \emph{Provides plotting capabilities for R graph objects}. R package v 2.24.0
-\bibitem{multiplex} Ostoic, JAR ~\textbf{multiplex}: \emph{Algebraic Tools for the Analysis of Multiple Social Networks}. R package v 3.6
-\bibitem{multiplex} Ostoic, JAR ~\textbf{multigraph}: \emph{Plot and Manipulate Multigraphs}. R package v 0.99-4
+\bibitem{rgpahviz} Hansen KD, Gentry J, Long L, Gentleman R, Falcon S, Hahne F and Sarkar D  ~\pkg{Rgraphviz}: \emph{Provides plotting capabilities for R graph objects}. R package v 2.24.0
+\bibitem{multiplex} Ostoic, JAR ~\pkg{multiplex}: \emph{Algebraic Tools for the Analysis of Multiple Social Networks}. R package v 3.7
+\bibitem{multiplex} Ostoic, JAR ~\pkg{multigraph}: \emph{Plot and Manipulate Multigraphs}. R package v 0.99-4
 %
 \end{thebibliography}
 

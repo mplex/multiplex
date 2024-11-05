@@ -1,6 +1,6 @@
 edgel <-
 function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE, 
-    attr = FALSE, rownames = FALSE, add = NULL) 
+    attr = FALSE, rownames = FALSE, add = NULL, na.rm) 
 {
     ifelse(is.array(file) == TRUE | is.data.frame(file) == TRUE, 
         x <- file, x <- utils::read.table(file, header = header, 
@@ -25,6 +25,15 @@ function (file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
         rm(i)
     }
     if (isTRUE(toarray == TRUE) == TRUE) {
+        if (missing(na.rm) == FALSE && isTRUE(na.rm == FALSE) == 
+            TRUE) {
+            if (any(is.na(x)) == TRUE) 
+                message("Missing information in \"x\" recorded as \"NA\".")
+            ifelse(is.data.frame(x) == FALSE, NA, x[is.na(x)] <- "NA")
+        }
+        else {
+            NA
+        }
         if (isTRUE((ncol(x) - 2L) == 0L) == TRUE) {
             warning("One type of relation assumed.")
             x <- cbind(x, t = rep(1L, nrow(x)))

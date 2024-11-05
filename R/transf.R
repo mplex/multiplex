@@ -64,15 +64,34 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
                 edgl <- data.frame(matrix(nrow = 0, ncol = (dim(x)[3]) + 
                   2))
                 colnames(edgl) <- c("s", "r", dimnames(x)[[3]])
-                for (k in seq_len(dim(x)[3])) {
+                for (l in seq_len(length(tmp2[[1]]))) {
+                  edgl[nrow(edgl) + 1L, 3] <- 1L
+                  edgl[nrow(edgl), 1:2] <- strsplit(tmpl[[1]][[l]], 
+                    sep)[[1]]
+                }
+                rm(l)
+                edgl1 <- Map(as.vector, data.frame(t(edgl[, 1:2])))
+                for (k in 2:dim(x)[3]) {
                   for (l in seq_len(length(tmp2[[k]]))) {
-                    edgl[nrow(edgl) + 1L, (k + 2)] <- 1L
-                    edgl[nrow(edgl), 1:2] <- strsplit(tmpl[[k]][[l]], 
-                      sep)[[1]]
+                    tmpeval <- strsplit(tmpl[[k]][[l]], sep)[[1]]
+                    if (any(unlist(lapply(lapply(edgl1, function(z) {
+                      tmpeval %in% z
+                    }), all), use.names = FALSE)) == TRUE) {
+                      edgl[which(unlist(lapply(lapply(edgl1, 
+                        function(z) {
+                          tmpeval %in% z
+                        }), all), use.names = FALSE)), (k + 2L)] <- 1L
+                    }
+                    else {
+                      edgl[nrow(edgl) + 1L, (k + 2L)] <- 1L
+                      edgl[nrow(edgl), 1:2] <- tmpeval
+                    }
                   }
                   rm(l)
+                  rm(tmpeval)
                 }
                 rm(k)
+                rm(edgl1)
                 edgl[sapply(edgl, is.na)] <- 0
             }
             return(edgl)
@@ -87,7 +106,100 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
             else {
                 NA
             }
-            return(x)
+            if (is.list(x) == TRUE) {
+                edgl <- data.frame(matrix(nrow = 0, ncol = (2 + 
+                  length(x))))
+                colnames(edgl) <- c("s", "r", names(x))
+                tmps <- lapply(x, function(z) {
+                  strsplit(z, sep)
+                })
+                for (i in seq_len(length(x[[1]]))) {
+                  edgl[nrow(edgl) + 1L, ] <- c(tmps[[1]][i][[1]], 
+                    1L, rep(0L, length(x) - 1L))
+                }
+                rm(i)
+                edgl <- unique(edgl)
+                ttmps <- split(edgl[, 1:2], seq(nrow(edgl)))
+                tmpss <- lapply(ttmps, function(z) {
+                  unlist(z, use.names = FALSE)
+                })
+                for (k in 2:length(x)) {
+                  if (any(tmps[[k]] %in% tmpss) == FALSE) {
+                    for (i in seq_len(length(x[[k]]))) {
+                      edgl[nrow(edgl) + 1L, ] <- c(tmps[[k]][i][[1]], 
+                        rep(0L, length(x)))
+                      edgl[nrow(edgl), (2L + k)] <- 1L
+                    }
+                    rm(i)
+                  }
+                  else if (any(tmps[[k]] %in% tmpss) == TRUE) {
+                    if (all(tmps[[k]] %in% tmpss) == TRUE && 
+                      all(tmpss %in% tmps[[k]]) == TRUE) {
+                      edgl[, (2L + k)] <- 1L
+                    }
+                    else {
+                      kual <- which(tmpss %in% tmps[[k]])
+                      edgl[kual, (2L + k)] <- as.numeric(edgl[kual, 
+                        (2L + k)]) + 1L
+                      rm(kual)
+                      kuals <- which(!(tmps[[k]] %in% tmpss))
+                      for (i in kuals) {
+                        edgl[nrow(edgl) + 1L, ] <- c(tmps[[k]][i][[1]], 
+                          rep(0L, length(x)))
+                        edgl[nrow(edgl), (2L + k)] <- 1L
+                      }
+                      rm(i)
+                      rm(kuals)
+                    }
+                  }
+                  ttmps <- split(edgl[, 1:2], seq(nrow(edgl)))
+                  tmpss <- lapply(ttmps, function(z) {
+                    unlist(z, use.names = FALSE)
+                  })
+                }
+                rm(k)
+            }
+            else {
+                if (any(duplicated(x)) == TRUE) {
+                  x0 <- x[which(!(duplicated(x)))]
+                  x1 <- x[which(duplicated(x))]
+                  flgdp <- TRUE
+                }
+                else {
+                  x0 <- x
+                  flgdp <- FALSE
+                }
+                edgl <- data.frame(matrix(nrow = 0, ncol = 3))
+                colnames(edgl) <- c("s", "r", "t")
+                for (k in seq_len(length(x0))) {
+                  edgl[nrow(edgl) + 1L, ] <- c(strsplit(x0[k], 
+                    split = ", ")[[1]], "1")
+                }
+                rm(k)
+                if (isTRUE(flgdp == TRUE) == TRUE) {
+                  for (k in seq_len(length(x1))) {
+                    tmp <- strsplit(x1[k], split = ", ")[[1]]
+                    for (i in seq_len(nrow(edgl))) {
+                      if (identical(tmp, as.character(edgl[i, 
+                        1:2])) == TRUE) {
+                        edgl[i, 3] <- as.numeric(edgl[i, 3]) + 
+                          1L
+                        break
+                      }
+                      else {
+                        NA
+                      }
+                    }
+                    rm(i)
+                  }
+                  rm(k)
+                }
+                else {
+                  NA
+                }
+            }
+            rownames(edgl) <- seq_len(nrow(edgl))
+            return(edgl)
         }
     }
     if (match.arg(type) == "tolist") {

@@ -10,7 +10,7 @@ for a multivariate network with the possibility to transform it into an three di
 }
 \usage{
 edgel(file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE, 
-      attr = FALSE, rownames = FALSE, add = NULL)
+      attr = FALSE, rownames = FALSE, add = NULL, na.rm)
 }
 %
 \arguments{
@@ -37,6 +37,9 @@ edgel(file, header = TRUE, sep = "\t", toarray = TRUE, dichot = FALSE,
 }
   \item{add}{
   (optional) isolates to be added to the network
+}
+  \item{na.rm}{
+  (optional and logical) remove \code{NA}s in \code{file}?
 }
 }
 \details{
