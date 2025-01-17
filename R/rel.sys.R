@@ -278,40 +278,69 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
         return(RS)
     }
     else if (match.arg(type) == "toarray") {
-        if (isTRUE(length(sel) == 1) == TRUE) {
-            ifelse(isTRUE(sel %in% dimnames(x)[[1]]) == FALSE, 
-                return(NULL), return(x[c(which(dimnames(x)[[1]] == 
-                  sel), which(x[which(dimnames(x)[[1]] == sel), 
-                  ] == 1)), c(which(dimnames(x)[[2]] == sel), 
-                  which(x[, which(dimnames(x)[[2]] == sel)] == 
-                    1))]))
+        if (is.null(att) == FALSE && isTRUE(length(ats) > 0L) == 
+            TRUE) {
+            return(transf(ats$a, type = "toarray", sort = TRUE))
         }
         else {
-            tmp <- x
+            NA
         }
         if (isTRUE(attr(x, "class") == "Rel.System") == FALSE) {
+            ifelse(isTRUE(is.array(x) == TRUE) == TRUE, arr <- x, 
+                arr <- transf(x, type = "toarray", sort = TRUE))
             if (is.null(sel) == FALSE) {
-                if (is.array(sel) == TRUE) {
-                  ifelse(is.na(dim(sel)[3]) == TRUE | isTRUE(dim(sel)[3] == 
-                    1L) == TRUE, sel <- diag(sel), sel <- diag(mnplx(sel)))
-                  sel <- as.vector(attr(which(!(sel == 0L)), 
-                    "names"))
+                if (isTRUE(length(sel) == 1) == TRUE || any(sel %in% 
+                  dimnames(arr)[[1]]) == FALSE) {
+                  return(NULL)
                 }
                 else {
-                  NA
+                  kual <- which(dimnames(arr)[[1]] %in% sel)
+                  ifelse(is.na(dim(arr)[3]) == TRUE, arr <- arr[kual, 
+                    kual], arr <- arr[kual, kual, ])
                 }
-                ifelse(isTRUE(is.numeric(sel) == TRUE) == TRUE, 
-                  sel <- as.character(sel), NA)
-                ifelse(is.na(dim(tmp)[3]) == TRUE, return(tmp[which(dimnames(tmp)[[1]] %in% 
-                  sel), which(dimnames(tmp)[[1]] %in% sel)]), 
-                  return(tmp[which(dimnames(tmp)[[1]] %in% sel), 
-                    which(dimnames(tmp)[[1]] %in% sel), ]))
             }
             else {
-                return(transf(ats$a, type = "toarray"))
+                NA
             }
-            ifelse(is.na(dim(tmp)[3]) == TRUE, x$Ties <- unlist(x$Ties), 
-                NA)
+            if (isTRUE(bnds == "entire") == TRUE) {
+                return(arr)
+            }
+            else {
+                bd <- bundles(arr, collapse = FALSE, loops = loops, 
+                  sep = sep)
+                if ((bnds) == "strong") {
+                  lbd <- list(bd$recp, bd$txch, bd$mixd, bd$full)
+                }
+                else if ((bnds) == "weak") {
+                  lbd <- list(bd$asym, bd$tent)
+                }
+                else {
+                  if ((bnds) == "Mixed") {
+                    ifelse(isTRUE("weak" %in% bonds) == TRUE, 
+                      bonds <- unique(c(bonds, c("asym", "tent"))), 
+                      NA)
+                    ifelse(isTRUE("strong" %in% bonds) == TRUE, 
+                      bonds <- unique(c(bonds, c("txch", "mixd", 
+                        "full"))), NA)
+                  }
+                  else {
+                    NA
+                  }
+                  lbd <- bd[which(attr(bd, "names") %in% bonds)]
+                }
+                ifelse(is.na(dim(arr)[3]) == FALSE, tmp <- vector(mode = "list", 
+                  length = dim(arr)[3]), tmp <- vector(mode = "list", 
+                  length = 1))
+                for (k in seq_len(length(tmp))) {
+                  tmpp <- lapply(lbd, function(z) {
+                    z[[k]]
+                  })
+                  tmp[[k]] <- unlist(tmpp)
+                }
+                rm(k, tmpp)
+                attr(tmp, "names") <- dimnames(arr)[[3]]
+                return(transf(tmp, type = "toarray", sort = TRUE))
+            }
         }
         if (isTRUE(attr(x, "class") == "Rel.System") == TRUE) {
             if (isTRUE(x$sys.ord == 0L) == TRUE) 
@@ -420,8 +449,5 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
             }
             return(arr)
         }
-    }
-    else {
-        stop("\"x\" is unrecognizable.")
     }
 }
