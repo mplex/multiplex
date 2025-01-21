@@ -361,7 +361,7 @@ function (x, type = c("tolist", "toarray"), bonds = c("entire",
                     sep = sep))))]
                 }
                 else if (isTRUE(any(sel %in% x$nodes)) == FALSE) {
-                  warning("selection is not part of \"x\".")
+                  warning("Selection is not part of \"x\".")
                   return(tmp)
                 }
                 else {
