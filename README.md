@@ -1,8 +1,6 @@
 
-
-[![CRAN version](http://www.r-pkg.org/badges/version/multiplex)](https://cran.r-project.org/package=multiplex)
-[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/grand-total/multiplex)](https://cran.rstudio.com/web/packages/multiplex/index.html)
-
+[![CRAN version](https://www.r-pkg.org/badges/version/multiplex?color=green)](https://cran.r-project.org/package=multiplex)
+[![CRANdownloads](https://cranlogs.r-pkg.org/badges/grand-total/multiplex?color=blue)](https://r-pkg.org/pkg/multiplex)
 
 <br />
 
