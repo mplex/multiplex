@@ -2,8 +2,17 @@ transf <-
 function (x, type = c("toarray", "tolist", "toarray2", "toedgel"), 
     lbs = NULL, lb2lb, sep, ord, sort, sym, add, adc, na.rm) 
 {
-    ifelse(is.list(x) == TRUE && isTRUE(length(x) == 1L) == TRUE, 
-        x <- x[[1]], NA)
+    if (is.list(x) == TRUE) {
+        if (isTRUE(length(x) == 1L) == TRUE) {
+            x <- x[[1]]
+        }
+        else if (is.null(unlist(x)) == TRUE) {
+            return(NULL)
+        }
+        else {
+            NA
+        }
+    }
     if (match.arg(type) == "toarray" && is.data.frame(x) == TRUE) {
         if (missing(na.rm) == FALSE && isTRUE(na.rm == FALSE) == 
             TRUE) {
@@ -328,7 +337,7 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
                 isTRUE(nlevels(factor(unlist(dhc(x, sep = sep)))) > 
                   ord) == TRUE) {
                 ord <- nlevels(factor(unlist(dhc(x, sep = sep))))
-                warning("'ord' value is less than the number of factor levels in pairwise list and is ignored.")
+                warning("\"ord\" is ignored since value is less than the number of factor levels in pairwise list.")
             }
             else {
                 NA
@@ -406,7 +415,7 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
             mat <- matrix(0L, nrow = ord, ncol = ord)
         }
         else {
-            stop("Input for 'toarray' must be vector, pairwise list, edge list, or array.")
+            stop("Input for \"toarray\" must be vector, pairwise list, edge list, or array.")
         }
         if (isTRUE(lb2lb == TRUE) == FALSE && is.null(lbs) == 
             TRUE) {
@@ -490,7 +499,7 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
                     0L)]
                   if (is.null(lbs) == FALSE) {
                     if (is.list(lbs) == FALSE) 
-                      warning("\"lbs\" should be a list with this type option.")
+                      warning("\"lbs\" should be a list for \"toarray2\".")
                     vc1 <- unique(c(vec1[[k]], lbs[[k]][[1]]))
                     vc2 <- unique(c(vec2[[k]], lbs[[k]][[2]]))
                   }
@@ -526,7 +535,7 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
                   0L)]
                 if (is.null(lbs) == FALSE) {
                   if (is.list(lbs) == FALSE) 
-                    warning("\"lbs\" should be a list with this type option.")
+                    warning("\"lbs\" should be a list for \"toarray2\".")
                   vc1 <- unique(c(vec1, lbs[[1]]))
                   vc2 <- unique(c(vec2, lbs[[2]]))
                 }
