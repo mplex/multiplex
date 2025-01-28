@@ -2,14 +2,22 @@
 'multiplex' PACKAGE
 
 
-version 3.8 (5-November-2024)
+version 3.9 (28-January-2025)
+-----------------------------
+BUGS FIXED:
+	* "numerical" option in 'as.semigroup' works as well dependencies 
+	  in 'cngr', 'fact', 'decomp' and internals 'reducs' and 'sprt'
+	* fix "toarray" in 'rel.sys' for actor attributes
+
+
+version 3.8-3 (6-November-2024)
 -----------------------------
 ADDED FEATURES:
 	+ new argument "na.rm" in 'edgel' for removing or not NAs
 BUGS FIXED:
 	* argument "toedgel" in 'transf' works for multiplex networks
 OTHER CHANGES:
-	+ minor corrections to internal functions 'trnf', 'jnt'
+	+ minor corrections to internal function 'trnf' and vignette
 
 
 version 3.7 (30-September-2024)
