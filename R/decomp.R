@@ -2,18 +2,18 @@ decomp <-
 function (S, pr, type = c("mca", "pi", "at", "cc"), reduc, fac, 
     force) 
 {
-    if (isTRUE(attr(pr, "class") == "Pi.rels" || attr(pr, "class")[1] == 
-        "Congruence") == FALSE) 
-        stop("\"pr\" should be an object either of a \"Pi.rels\" or a \"Congruence\" class.")
-    if (missing(fac) == FALSE && isTRUE(attr(pr, "class") == 
-        "Pi.rels") == FALSE) 
-        warning("'fac' is ignored since it requires a \"Pi.rels\" class object as input.")
-    if (isTRUE(attr(pr, "class") == "Pi.rels") == TRUE) {
+    if (isTRUE("Pi.rels" %in% attr(pr, "class") || "Congruence" %in% 
+        attr(pr, "class")) == FALSE) 
+        stop("\"pr\" must be either a \"Pi.rels\" or a \"Congruence\" class object.")
+    if (missing(fac) == FALSE && isTRUE("Pi.rels" %in% attr(pr, 
+        "class")) == FALSE) 
+        warning("\"fac\" is ignored since it requires a \"Pi.rels\" class object as input.")
+    if (isTRUE("Pi.rels" %in% attr(pr, "class")) == TRUE) {
         if (missing(fac) == FALSE && isTRUE("Decomp" %in% attr(S, 
             "class")) == TRUE) {
             if (is.numeric(fac) == FALSE || isTRUE(fac > length(S$IM)) == 
                 TRUE) {
-                warning("'fac' must be an integer no larger than the number of factors in the input. First factor is taken.")
+                warning("First factor is taken since \"fac\" must be an integer no larger than the number of factors in the input.")
                 S <- S$IM[[1]]
             }
             else {
@@ -24,12 +24,12 @@ function (S, pr, type = c("mca", "pi", "at", "cc"), reduc, fac,
             NA
         }
         switch(match.arg(type), mca = poi <- pr$mca, pi = poi <- pr$pi, 
-            at = poi <- pr$at, cc = stop("Type options for a \"Pi.rels\" class object should be either \"pi\", \"at\" or \"mc\""))
+            at = poi <- pr$at, cc = stop("Type options for a \"Pi.rels\" class object must be either \"pi\", \"at\" or \"mc\"."))
     }
     else if (isTRUE(attr(pr, "class")[1] == "Congruence") == 
         TRUE) {
         if (match.arg(type) != "cc") {
-            warning("Other type options than \"cc\" are not suitable for the \"Congruence\" class object")
+            warning("Only option \"cc\" is suitable for a \"Congruence\" class object.")
         }
         ifelse(isTRUE(attr(pr, "class")[2] == "PO.Semigroup") == 
             TRUE, poi <- pr$PO, NA)
@@ -41,9 +41,9 @@ function (S, pr, type = c("mca", "pi", "at", "cc"), reduc, fac,
     else {
         s <- S
     }
-    if (isTRUE(attr(pr, "class") == "Pi.rels") == TRUE) {
+    if (isTRUE("Pi.rels" %in% attr(pr, "class")) == TRUE) {
         if (isTRUE(s$ord == dim(pr$pi)[1]) == FALSE) 
-            stop("Semigroup order and dimension of partial order differ.")
+            stop("Semigroup order and partial order dimension differ.")
         if (is.list(poi) == TRUE) {
             tmp <- poi
             poi <- array(NA, dim = c(dim(tmp[[1]]), length(tmp)), 
@@ -169,7 +169,7 @@ function (S, pr, type = c("mca", "pi", "at", "cc"), reduc, fac,
                   im[[k]] <- tmpimk
                 }
                 rm(tmpimk)
-                if (isTRUE(attr(pr, "class") == "Pi.rels") == 
+                if (isTRUE("Pi.rels" %in% attr(pr, "class")) == 
                   TRUE) {
                   po[[k]] <- reduc(poi[, , k], clu = as.vector(clu[[k]]), 
                     lbs = dimnames(im[[k]])[[1]])
@@ -186,10 +186,11 @@ function (S, pr, type = c("mca", "pi", "at", "cc"), reduc, fac,
             }
             rm(k)
         }
-        ifelse(isTRUE(attr(pr, "class") == "Pi.rels" || attr(pr, 
-            "class")[2] == "PO.Semigroup") == TRUE, lst <- list(clu = clu, 
-            eq = lb, IM = im, PO = po, ord = ord), lst <- list(clu = clu, 
-            eq = lb, IM = im, ord = ord))
+        ifelse(isTRUE("Pi.rels" %in% attr(pr, "class")) == TRUE || 
+            isTRUE("PO.Semigroup" %in% attr(pr, "class")) == 
+                TRUE, lst <- list(clu = clu, eq = lb, IM = im, 
+            PO = po, ord = ord), lst <- list(clu = clu, eq = lb, 
+            IM = im, ord = ord))
     }
     else {
         lst <- list(clu = clu, eq = lb)

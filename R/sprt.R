@@ -12,12 +12,12 @@ function (x, k, l)
         pr <- jnt(pr)
     }
     clu <- rep(0, nrow(x))
-    for (i in 1:length(pr)) {
+    for (i in seq_len(length(pr))) {
         clu[as.numeric(strsplit(levels(factor(pr[i])), ", ")[[1]])] <- i
     }
     rm(i)
     clu[which(clu == 0)] <- max(clu) + 1
-    X <- as.semigroup(x)
+    X <- as.semigroup(x, numerical = FALSE)
     if (isTRUE(any(is.na(reducs(X, clu)))) == FALSE) {
         return(clu)
     }
@@ -25,12 +25,12 @@ function (x, k, l)
         if (length(pr) == 1) {
             pr <- paste(pr, pr, sep = ", ")
         }
-        for (i in 1:length(pr)) {
+        for (i in seq_len(length(pr))) {
             ifelse(is.na(strsplit(pr[i], ", ")[[1]][2]), pr[i] <- paste(pr[i], 
                 pr[i], sep = ", "), NA)
         }
         rm(i)
-        for (i in 1:length(pr)) {
+        for (i in seq_len(length(pr))) {
             pr <- append(pr, paste(x[(as.numeric(strsplit(pr[i], 
                 ", ")[[1]][1])), k], x[(as.numeric(strsplit(pr[i], 
                 ", ")[[1]][2])), k], sep = ", "))
@@ -56,7 +56,7 @@ function (x, k, l)
         rm(i)
         tpr <- transl(pr)
         clu <- rep(0, nrow(x))
-        for (i in 1:length(tpr)) {
+        for (i in seq_len(length(tpr))) {
             clu[as.numeric(strsplit(levels(factor(tpr[i])), ", ")[[1]])] <- i
         }
         rm(i)
@@ -70,14 +70,14 @@ function (x, k, l)
         else {
             xf <- x[flt, flt]
             tmp <- vector()
-            for (i in 1:length(diag(xf))) {
+            for (i in seq_len(length(diag(xf)))) {
                 tmp <- append(tmp, paste(attr(diag(xf)[i], "names"), 
                   diag(xf)[i], sep = ", "))
             }
             rm(i)
             ttpr <- transl(c(tmp, tpr))
             clu <- rep(0, nrow(x))
-            for (i in 1:length(ttpr)) {
+            for (i in seq_len(length(ttpr))) {
                 clu[as.numeric(strsplit(levels(factor(ttpr[i])), 
                   ", ")[[1]])] <- i
             }
@@ -90,14 +90,14 @@ function (x, k, l)
             else {
                 ftt <- which(is.na(Sfr), arr.ind = TRUE)
                 vect <- vector()
-                for (i in 1:nrow(ftt)) {
+                for (i in seq_len(nrow(ftt))) {
                   vect <- append(vect, (c(ttpr, jnt(levels(factor(x[which(clu == 
                     ftt[i, 1]), which(clu == ftt[i, 2])]))))))
                 }
                 rm(i)
                 vect <- transl(vect)
                 clu <- rep(0, nrow(x))
-                for (i in 1:length(vect)) {
+                for (i in seq_len(length(vect))) {
                   clu[as.numeric(strsplit(levels(factor(vect[i])), 
                     ", ")[[1]])] <- i
                 }
@@ -108,14 +108,14 @@ function (x, k, l)
                   ftt2 <- which(is.na(Sfr2), arr.ind = TRUE)
                   if (isTRUE(nrow(ftt2) > 0) == TRUE) {
                     vect2 <- vector()
-                    for (i in 1:nrow(ftt2)) {
+                    for (i in seq_len(nrow(ftt2))) {
                       vect2 <- append(vect2, (c(vect, jnt(levels(factor(x[which(clu == 
                         ftt2[i, 1]), which(clu == ftt2[i, 2])]))))))
                     }
                     rm(i)
                     vect2 <- transl(vect2)
                     clu <- rep(0, nrow(x))
-                    for (i in 1:length(vect2)) {
+                    for (i in seq_len(length(vect2))) {
                       clu[as.numeric(strsplit(levels(factor(vect2[i])), 
                         ", ")[[1]])] <- i
                     }

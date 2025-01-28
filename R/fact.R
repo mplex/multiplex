@@ -5,7 +5,7 @@ function (S, P, uniq = TRUE, fac, atoms, mca, atmc, patm, k)
         if (missing(fac) == TRUE || missing(fac) == FALSE && 
             (is.numeric(fac) == FALSE || isTRUE(fac > length(S$IM)) == 
                 TRUE)) {
-            warning("'fac' should be specified as integer no larger than the number of factors in the input. First factor is taken.")
+            warning("First factor is taken since \"fac\" must be an integer no larger than the number of factors in the input.")
             s <- S$IM[[1]]
             po <- S$PO[[1]]
         }
@@ -36,7 +36,7 @@ function (S, P, uniq = TRUE, fac, atoms, mca, atmc, patm, k)
     TAB <- as.matrix(S$S)
     if (isTRUE(length(unique(as.vector(TAB))) == 1) == TRUE) {
         return(list(po = P[1:NS, 1:NS], iin = transf(1 - P, type = "tolist", 
-            lb2lb = TRUE), note = "1-element semigroup found."))
+            lb2lb = TRUE), Note = "1-element semigroup found."))
     }
     ifelse(missing(atoms) == FALSE && isTRUE(atoms == FALSE) == 
         TRUE, atoms <- FALSE, atoms <- TRUE)
@@ -132,7 +132,7 @@ function (S, P, uniq = TRUE, fac, atoms, mca, atmc, patm, k)
             vec <- vector()
             for (i in seq_len(nrow(COMP))) {
                 vec <- append(vec, jnt(as.character(COMP[i, ]), 
-                  unique = T))
+                  unique = TRUE))
             }
             rm(i)
             PQ <- replace(P + Q, P + Q == 2, 0)
@@ -246,7 +246,7 @@ function (S, P, uniq = TRUE, fac, atoms, mca, atmc, patm, k)
             note = znote)
     }
     nvc <- c(1L, 2L, 3L)
-    attr(Lst, "names")[length(Lst)] <- "Note: no substition property in induced inclusions"
+    attr(Lst, "names")[length(Lst)] <- "Note: no substitution property in induced inclusions"
     vc <- max(nvc) + 1L
     if (isTRUE(patm == TRUE) == TRUE) {
         nvc <- append(nvc, vc)

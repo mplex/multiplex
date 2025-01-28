@@ -2,10 +2,10 @@ cngr <-
 function (S, PO = NULL, uniq) 
 {
     flgnum <- FALSE
-    if (isTRUE(attr(S, "class")[1] == "Semigroup") == FALSE) {
+    if (isTRUE("Semigroup" %in% attr(S, "class")) == FALSE) {
         s <- semigroup(S, type = "numerical")
     }
-    else if (isTRUE(attr(S, "class")[2] == "symbolic") == TRUE) {
+    else if (isTRUE("symbolic" %in% attr(S, "class")) == TRUE) {
         s <- as.semigroup(S, numerical = TRUE)
         flgnum <- TRUE
     }
