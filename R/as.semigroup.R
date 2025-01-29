@@ -27,7 +27,7 @@ function (x, gens = NA, lbs, numerical, edgeT)
             dimnames(x)[[1]] <- seq_len(nrow(x))
             dimnames(x)[[2]] <- seq_len(ncol(x))
         }
-        dim <- NA
+        NA
     }
     if (missing(edgeT) == FALSE && isTRUE(edgeT == TRUE) == TRUE) {
         ifelse(isTRUE(attr(x, "class") == "EdgeTable") == TRUE, 
@@ -43,7 +43,7 @@ function (x, gens = NA, lbs, numerical, edgeT)
                 TRUE) {
                 s <- x$S
                 colnames(s) <- rownames(s) <- x$st
-                for (i in seq_along(as.matrix(s))) {
+                for (i in seq_along(dimnames(x$S)[[1]])) {
                   s[s == i] <- x$st[i]
                 }
                 rm(i)

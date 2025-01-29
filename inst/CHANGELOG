@@ -2,7 +2,7 @@
 'multiplex' PACKAGE
 
 
-version 3.9 (28-January-2025)
+version 3.9 (29-January-2025)
 -----------------------------
 BUGS FIXED:
 	* "numerical" option in 'as.semigroup' works as well dependencies 
