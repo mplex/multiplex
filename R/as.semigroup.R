@@ -18,7 +18,6 @@ function (x, gens = NA, lbs, numerical, edgeT)
         else {
             ifelse(missing(gens) == FALSE, NA, gens <- x$gens)
         }
-        dim <- x$dim
     }
     else {
         if (is.null(dimnames(x)) == TRUE && isTRUE(numerical == 
@@ -85,7 +84,11 @@ function (x, gens = NA, lbs, numerical, edgeT)
     }
     else if ((missing(lbs) == TRUE && isTRUE(numerical == TRUE) == 
         TRUE)) {
-        if (isTRUE("Semigroup" %in% attr(x, "class")) == TRUE) {
+        if (isTRUE("numerical" %in% attr(x, "class")) == TRUE) {
+            return(x)
+        }
+        else if (isTRUE("Semigroup" %in% attr(x, "class")) == 
+            TRUE) {
             lbs <- seq_along(x$st)
         }
         else {
