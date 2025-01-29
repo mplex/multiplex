@@ -1,8 +1,8 @@
 green.rel <-
-function (S) 
+function (x) 
 {
-    ifelse(isTRUE(tolower(class(S)[1]) != "semigroup") == TRUE, 
-        S <- as.semigroup(S), NA)
+    ifelse(isTRUE(tolower(class(x)[1]) != "semigroup") == TRUE, 
+        S <- as.semigroup(x), S <- x)
     oS <- S$S
     odim <- S$dim
     ogens <- S$gens
@@ -13,22 +13,20 @@ function (S)
             L = noquote(S$st), D = oS))
     }
     else {
-        NA
         if (isTRUE(Sclass == "numerical") == TRUE) {
             flgn <- TRUE
-            S <- as.semigroup(S, numerical = FALSE, lbs = S$st, 
-                gens = S$gens)
+            S <- as.semigroup(S, numerical = FALSE)
         }
         else {
             flgn <- FALSE
         }
     }
-    x <- S$S
-    st <- colnames(x)
-    rrel <- vector("list", length = nrow(x))
-    names(rrel) <- dimnames(x)[[1]]
-    for (i in seq_len(nrow(x))) {
-        rrel[[i]] <- as.character(sort(unique(as.vector(unlist(x[i, 
+    xs <- S$S
+    st <- S$st
+    rrel <- vector("list", length = nrow(xs))
+    names(rrel) <- dimnames(xs)[[1]]
+    for (i in seq_len(nrow(xs))) {
+        rrel[[i]] <- as.character(sort(unique(as.vector(unlist(xs[i, 
             ])))))
     }
     rm(i)
@@ -39,10 +37,10 @@ function (S)
         clur[[i]] <- which(rrel %in% list(urrel[[i]]))
     }
     rm(i)
-    lrel <- vector("list", length = ncol(x))
-    names(lrel) <- dimnames(x)[[2]]
-    for (i in seq_len(ncol(x))) {
-        lrel[[i]] <- as.character(sort(unique(as.vector(unlist(x[, 
+    lrel <- vector("list", length = ncol(xs))
+    names(lrel) <- dimnames(xs)[[2]]
+    for (i in seq_len(ncol(xs))) {
+        lrel[[i]] <- as.character(sort(unique(as.vector(unlist(xs[, 
             i])))))
     }
     rm(i)
@@ -53,7 +51,7 @@ function (S)
         clul[[i]] <- which(lrel %in% list(ulrel[[i]]))
     }
     rm(i)
-    xe <- x[unlist(clur, use.names = FALSE), unlist(clul, use.names = FALSE)]
+    xe <- xs[unlist(clur, use.names = FALSE), unlist(clul, use.names = FALSE)]
     lstr <- vector("list", length = length(clur))
     for (i in seq_len(length(lstr))) {
         lstr[[i]] <- xe[which(rownames(xe) %in% st[clur[[i]]]), 
@@ -108,8 +106,8 @@ function (S)
     }
     else {
         for (i in seq_len(length(taqs))) {
-            temp <- lapply(lstrl[taqs[i]:tpqs[i]], function(x) {
-                cbind(x, "|")
+            temp <- lapply(lstrl[taqs[i]:tpqs[i]], function(z) {
+                cbind(z, "|")
             })
             if (isTRUE(nrow(temp[[1]]) == 1) == TRUE) {
                 utemp <- unlist(temp, use.names = FALSE)

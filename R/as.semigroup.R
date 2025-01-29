@@ -8,7 +8,7 @@ function (x, gens = NA, lbs, numerical, edgeT)
         stop("Class of \"x\" is not supported.")
     if (is.null(dimnames(x)) == TRUE && isTRUE("Semigroup" %in% 
         attr(x, "class")) == FALSE && missing(numerical) == TRUE) 
-        stop("Dimnames in \"x\" not found.")
+        stop("Dimnames in \"x\" are not found.")
     ifelse(missing(numerical) == FALSE && isTRUE(numerical == 
         TRUE) == TRUE, numerical <- TRUE, numerical <- FALSE)
     if (isTRUE("Semigroup" %in% attr(x, "class")) == TRUE) {
@@ -36,8 +36,22 @@ function (x, gens = NA, lbs, numerical, edgeT)
     if ((missing(lbs) == TRUE && isTRUE(numerical == TRUE) == 
         FALSE)) {
         if (isTRUE("Semigroup" %in% attr(x, "class")) == TRUE) {
-            ifelse(is.na(gens) == TRUE, NA, x$gens <- gens)
-            return(x)
+            if (isTRUE("symbolic" %in% attr(x, "class")) == TRUE) {
+                return(x)
+            }
+            else if (isTRUE("numerical" %in% attr(x, "class")) == 
+                TRUE) {
+                s <- x$S
+                colnames(s) <- rownames(s) <- x$st
+                for (i in seq_along(as.matrix(s))) {
+                  s[s == i] <- x$st[i]
+                }
+                rm(i)
+                lst <- list(ord = length(x$st), st = x$st, gens = x$gens, 
+                  S = as.data.frame(s))
+                class(lst) <- c("Semigroup", "symbolic")
+                return(lst)
+            }
         }
         else {
             if (is.null(attr(x, "class")) == TRUE) {
