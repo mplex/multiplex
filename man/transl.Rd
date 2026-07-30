@@ -9,6 +9,5 @@ internal function
 %\usage{
 %transl(lt, sep)
 %}
-%
 \keyword{internal}
 %

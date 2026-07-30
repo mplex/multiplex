@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 cpath <-
 function (x, values = FALSE, collapse = TRUE, directed, bonds, 
     sel, sep, lb2lb) 
@@ -216,3 +217,4 @@ function (x, values = FALSE, collapse = TRUE, directed, bonds,
         }
     }
 }
+

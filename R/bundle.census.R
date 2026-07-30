@@ -1,12 +1,20 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 bundle.census <-
 function (x, loops = FALSE) 
 {
     if (isTRUE(is.array(x)) == FALSE) 
-        stop("'x' sholud be an array.")
+        stop(paste(sQuote(deparse(substitute(x))), " must be an array of square matrices.", 
+            sep = ""))
     if (isTRUE(dim(x)[1] == dim(x)[2]) == FALSE) 
-        stop("'x' must be a square array.")
+        stop(paste(sQuote(deparse(substitute(x))), " must be square.", 
+            sep = ""))
     sep <- ", "
-    lb2lb <- TRUE
+    if (any(grepl(",", dimnames(x)[[1]])) == TRUE) {
+        lb2lb <- FALSE
+    }
+    else {
+        lb2lb <- TRUE
+    }
     ifelse(isTRUE(is.null(dimnames(x)[1]) == TRUE | is.null(dimnames(x)[1][[1]]) == 
         TRUE) == TRUE, LBS <- seq_len(nrow(x)), LBS <- dimnames(x)[[1]])
     lbs <- seq(LBS)
@@ -22,8 +30,8 @@ function (x, loops = FALSE)
         }
         mlt <- list()
         for (i in seq_len(dim(x)[3])) {
-            mlt[[i]] <- trnf(xd[, , i], tolist = TRUE, lbs = lbs, 
-                lb2lb = lb2lb, sep = sep)
+            mlt[[i]] <- trnl(xd[, , i], lbs = lbs, lb2lb = lb2lb, 
+                sep = sep)
         }
         rm(i)
         m <- unlist(mlt)
@@ -31,8 +39,7 @@ function (x, loops = FALSE)
     else {
         TRD <- FALSE
         r <- 1L
-        m <- trnf(xd, tolist = TRUE, lbs = lbs, lb2lb = lb2lb, 
-            sep = sep)
+        m <- trnl(xd, lbs = lbs, lb2lb = lb2lb, sep = sep)
     }
     bd <- bnd(x, xd, lbs, TRD, r, m, mlt, sep)
     Et <- vector()
@@ -50,8 +57,8 @@ function (x, loops = FALSE)
         ENT <- list()
         for (k in seq_len(r)) {
             tmp <- vector()
-            for (i in which(Et %in% trnf(xd[, , k], tolist = TRUE, 
-                lbs = lbs, lb2lb = lb2lb, sep = sep))) {
+            for (i in which(Et %in% trnl(xd[, , k], lbs = lbs, 
+                lb2lb = lb2lb, sep = sep))) {
                 tmp <- append(tmp, Et[i])
             }
             rm(i)
@@ -101,3 +108,4 @@ function (x, loops = FALSE)
     })
     return(bc)
 }
+

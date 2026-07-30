@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 semigroup <-
 function (x, type = c("numerical", "symbolic"), cmps, smpl, valued) 
 {
@@ -6,7 +7,7 @@ function (x, type = c("numerical", "symbolic"), cmps, smpl, valued)
     ifelse(missing(valued) == FALSE && isTRUE(valued == TRUE) == 
         TRUE, valued <- TRUE, valued <- FALSE)
     ifelse(missing(cmps) == FALSE && isTRUE(cmps == TRUE) == 
-        TRUE, NA, cmps <- FALSE)
+        TRUE, cmps <- TRUE, cmps <- FALSE)
     if (missing(smpl) == FALSE && isTRUE(smpl == TRUE) == TRUE) {
         if (is.null(dimnames(x)[[3]]) == FALSE) {
             lbs <- dimnames(x)[[3]]
@@ -420,3 +421,4 @@ function (x, type = c("numerical", "symbolic"), cmps, smpl, valued)
         return(mxmn(x, type = type, cmps = cmps))
     }
 }
+

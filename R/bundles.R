@@ -1,18 +1,44 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 bundles <-
 function (x, loops = FALSE, smpl = FALSE, lb2lb = TRUE, collapse = FALSE, 
     sep) 
 {
-    if (is.array(x) == FALSE) 
-        stop("'x' must be an array.")
+    if (isTRUE(is.array(x)) == FALSE) 
+        stop(paste(sQuote(deparse(substitute(x))), " must be an array of square matrices.", 
+            sep = ""))
     if (isTRUE(dim(x)[1] == dim(x)[2]) == FALSE) 
-        stop("'x' must be a square array.")
+        stop(paste(sQuote(deparse(substitute(x))), " must be square.", 
+            sep = ""))
     ifelse(missing(sep) == TRUE, sep <- ", ", NA)
+    if (any(grepl(",", dimnames(x)[[1]])) == TRUE && isTRUE(sep %in% 
+        c(",", ", ")) == TRUE) {
+        warning(paste("Labels in ", sQuote(deparse(substitute(x))), 
+            " contain comma like default separator.", sep = ""), 
+            call. = FALSE)
+    }
+    else {
+        NA
+    }
+    if (isTRUE(sum(x) == 0) == TRUE) {
+        ifelse(isTRUE(loops == FALSE) == TRUE, lst <- list(asym = character(0), 
+            recp = character(0), tent = character(0), txch = character(0), 
+            mixd = character(0), full = character(0)), lst <- list(asym = character(0), 
+            recp = character(0), tent = character(0), txch = character(0), 
+            mixd = character(0), full = character(0), loop = character(0)))
+        class(lst) <- c("Rel.Bundles", paste0("sep: ", sep))
+        return(lst)
+    }
+    else {
+        NA
+    }
     ifelse(isTRUE(is.null(dimnames(x)[1]) == TRUE | is.null(dimnames(x)[1][[1]]) == 
         TRUE) == TRUE, LBS <- seq_len(nrow(x)), LBS <- dimnames(x)[[1]])
     lbs <- seq(LBS)
+    if (is.null(dimnames(x)) == TRUE) {
+        dimnames(x)[[1]] <- dimnames(x)[[2]] <- lbs
+    }
+    ifelse(isTRUE(dim(x)[3] == 1) == TRUE, x <- x[, , 1], NA)
     xd <- dichot(x, c = 1L, diag = TRUE)
-    ifelse(isTRUE(dim(xd)[3] == 1) == TRUE, xd <- xd[, , 1], 
-        NA)
     if (is.na(dim(xd)[3]) == FALSE) {
         TRD <- TRUE
         r <- dim(x)[3]
@@ -22,8 +48,8 @@ function (x, loops = FALSE, smpl = FALSE, lb2lb = TRUE, collapse = FALSE,
         }
         mlt <- list()
         for (i in seq_len(dim(x)[3])) {
-            mlt[[i]] <- trnf(xd[, , i], tolist = TRUE, lbs = lbs, 
-                sep = sep, lb2lb = lb2lb)
+            mlt[[i]] <- trnl(xd[, , i], lbs = lbs, sep = sep, 
+                lb2lb = lb2lb)
         }
         rm(i)
         m <- unlist(mlt)
@@ -31,7 +57,7 @@ function (x, loops = FALSE, smpl = FALSE, lb2lb = TRUE, collapse = FALSE,
     else {
         TRD <- FALSE
         r <- 1
-        m <- trnf(xd, tolist = TRUE, lbs = lbs, sep = sep, lb2lb = lb2lb)
+        m <- trnl(xd, lbs = lbs, sep = sep, lb2lb = lb2lb)
     }
     if (smpl) {
         if (isTRUE(TRD == TRUE) == TRUE) {
@@ -50,10 +76,10 @@ function (x, loops = FALSE, smpl = FALSE, lb2lb = TRUE, collapse = FALSE,
             }
             for (k in seq_len(r)) {
                 allr <- paste("all", tt[k], sep = "_")
-                assign(allr, trnf(xd[, , k], tolist = TRUE, lbs = lbs, 
-                  sep = sep, lb2lb = lb2lb))
-                tmp <- trnf(xd[, , k], tolist = TRUE, lbs = lbs, 
-                  sep = sep, lb2lb = lb2lb)
+                assign(allr, trnl(xd[, , k], lbs = lbs, sep = sep, 
+                  lb2lb = lb2lb))
+                tmp <- trnl(xd[, , k], lbs = lbs, sep = sep, 
+                  lb2lb = lb2lb)
                 tDF <- data.frame(matrix(ncol = 2L, nrow = 0L))
                 for (i in seq_len(length(tmp))) {
                   tDF[i, 1] <- strsplit(tmp[i], sep)[[1]][1]
@@ -110,8 +136,8 @@ function (x, loops = FALSE, smpl = FALSE, lb2lb = TRUE, collapse = FALSE,
         AS <- list()
         for (k in seq_len(r)) {
             tmp <- vector()
-            for (i in which(As %in% trnf(xd[, , k], tolist = TRUE, 
-                lbs = lbs, sep = sep, lb2lb = lb2lb))) {
+            for (i in which(As %in% trnl(xd[, , k], lbs = lbs, 
+                sep = sep, lb2lb = lb2lb))) {
                 tmp <- append(tmp, As[i])
             }
             rm(i)
@@ -137,8 +163,8 @@ function (x, loops = FALSE, smpl = FALSE, lb2lb = TRUE, collapse = FALSE,
         RP <- list()
         for (k in seq_len(r)) {
             tmp <- vector()
-            for (i in which(Rp %in% trnf(xd[, , k], tolist = TRUE, 
-                lbs = lbs, sep = sep, lb2lb = lb2lb))) {
+            for (i in which(Rp %in% trnl(xd[, , k], lbs = lbs, 
+                sep = sep, lb2lb = lb2lb))) {
                 tmp <- append(tmp, Rp[i])
             }
             rm(i)
@@ -167,13 +193,13 @@ function (x, loops = FALSE, smpl = FALSE, lb2lb = TRUE, collapse = FALSE,
         for (k in seq_len(r)) {
             tmp <- vector()
             tmpt <- vector()
-            for (i in which(Xc %in% trnf(xd[, , k], tolist = TRUE, 
-                lbs = lbs, sep = sep, lb2lb = lb2lb))) {
+            for (i in which(Xc %in% trnl(xd[, , k], lbs = lbs, 
+                sep = sep, lb2lb = lb2lb))) {
                 tmp <- append(tmp, Xc[i])
             }
             rm(i)
-            for (i in which(Xc %in% trnf(t(xd[, , k]), tolist = TRUE, 
-                lbs = lbs, sep = sep, lb2lb = lb2lb))) {
+            for (i in which(Xc %in% trnl(t(xd[, , k]), lbs = lbs, 
+                sep = sep, lb2lb = lb2lb))) {
                 tmpt <- append(tmpt, paste(strsplit(Xc[i], sep)[[1]][2], 
                   strsplit(Xc[i], sep)[[1]][1], sep = sep))
             }
@@ -206,8 +232,8 @@ function (x, loops = FALSE, smpl = FALSE, lb2lb = TRUE, collapse = FALSE,
         ENT <- list()
         for (k in seq_len(r)) {
             tmp <- vector()
-            for (i in which(Et %in% trnf(xd[, , k], tolist = TRUE, 
-                lbs = lbs, sep = sep, lb2lb = lb2lb))) {
+            for (i in which(Et %in% trnl(xd[, , k], lbs = lbs, 
+                sep = sep, lb2lb = lb2lb))) {
                 tmp <- append(tmp, Et[i])
             }
             rm(i)
@@ -236,13 +262,13 @@ function (x, loops = FALSE, smpl = FALSE, lb2lb = TRUE, collapse = FALSE,
         for (k in seq_len(r)) {
             tmp <- vector()
             tmpt <- vector()
-            for (i in which(Mx %in% trnf(xd[, , k], tolist = TRUE, 
-                lbs = lbs, sep = sep, lb2lb = lb2lb))) {
+            for (i in which(Mx %in% trnl(xd[, , k], lbs = lbs, 
+                sep = sep, lb2lb = lb2lb))) {
                 tmp <- append(tmp, Mx[i])
             }
             rm(i)
-            for (i in which(Mx %in% trnf(t(xd[, , k]), tolist = TRUE, 
-                lbs = lbs, sep = sep, lb2lb = lb2lb))) {
+            for (i in which(Mx %in% trnl(t(xd[, , k]), lbs = lbs, 
+                sep = sep, lb2lb = lb2lb))) {
                 tmpt <- append(tmpt, paste(strsplit(Mx[i], sep)[[1]][2], 
                   strsplit(Mx[i], sep)[[1]][1], sep = sep))
             }
@@ -278,13 +304,13 @@ function (x, loops = FALSE, smpl = FALSE, lb2lb = TRUE, collapse = FALSE,
         for (k in seq_len(r)) {
             tmp <- vector()
             tmpt <- vector()
-            for (i in which(Fl %in% trnf(xd[, , k], tolist = TRUE, 
-                lbs = lbs, sep = sep, lb2lb = lb2lb))) {
+            for (i in which(Fl %in% trnl(xd[, , k], lbs = lbs, 
+                sep = sep, lb2lb = lb2lb))) {
                 tmp <- append(tmp, Fl[i])
             }
             rm(i)
-            for (i in which(Fl %in% trnf(t(xd[, , k]), tolist = TRUE, 
-                lbs = lbs, sep = sep, lb2lb = lb2lb))) {
+            for (i in which(Fl %in% trnl(t(xd[, , k]), lbs = lbs, 
+                sep = sep, lb2lb = lb2lb))) {
                 tmpt <- append(tmpt, paste(strsplit(Fl[i], sep)[[1]][2], 
                   strsplit(Fl[i], sep)[[1]][1], sep = sep))
             }
@@ -464,3 +490,4 @@ function (x, loops = FALSE, smpl = FALSE, lb2lb = TRUE, collapse = FALSE,
     class(lst) <- c("Rel.Bundles", paste0("sep: ", sep))
     return(lst)
 }
+

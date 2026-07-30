@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 pacnet <-
 function (file, toarray = FALSE, uniq = FALSE, transp = FALSE, 
     sep) 
@@ -244,3 +245,4 @@ function (file, toarray = FALSE, uniq = FALSE, transp = FALSE,
         class(lst) <- append(class(lst), "transp")
     return(lst)
 }
+

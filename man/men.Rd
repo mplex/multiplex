@@ -9,6 +9,5 @@ internal function
 %\usage{
 %men(y, sep)
 %}
-%
 \keyword{internal}
 %

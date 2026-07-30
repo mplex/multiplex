@@ -9,6 +9,5 @@ internal function
 %\usage{
 %zbnd(a, b)
 %}
-%
 \keyword{internal}
 %

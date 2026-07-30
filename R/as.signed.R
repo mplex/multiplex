@@ -1,18 +1,20 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 as.signed <-
 function (x, lbs) 
 {
-    if (isTRUE(attr(x, "class")[1] == "Rel.Q") == TRUE) {
+    if (isTRUE("Rel.Q" %in% attr(x, "class")) == TRUE) {
         x <- x$Q
     }
     else if (is.array(x) == FALSE) {
-        stop("Data must be an array")
+        stop("Data must be an array.")
     }
     else {
         NA
     }
     if (is.na(dim(x)[3]) == FALSE) {
         sm <- x[, , 1]
-        warning("Take the 1st dim. in 'x' only.")
+        message(paste("Take first dimension in ", sQuote("x"), 
+            " only.", sep = ""))
     }
     else {
         sm <- x
@@ -31,3 +33,4 @@ function (x, lbs)
     class(lst) <- "Signed"
     return(lst)
 }
+

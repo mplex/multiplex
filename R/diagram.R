@@ -1,39 +1,57 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 diagram <-
 function (x, type = c("hasse", "concept", "egg-box"), attrs = NULL, 
-    main = NULL, incmp, cex.main, bg, mar, shape, col, col0, 
-    fcol, ecol, lty, lbs, ffamily, fstyle, fsize, col.main, sep, 
-    ...) 
+    main = NULL, incmp, shape = c("rectangle", "circle", "box", 
+        "ellipse"), col, col0, fcol, ecol, lty, lbs, ffamily, 
+    fstyle, fsize, cex.main, col.main, bg, mar, sep, ...) 
 {
-    if (match.arg(type) == "concept" && isTRUE(class(x)[[2]] != 
-        "galois") == TRUE) {
-        message("Class of \"x\" is not \"galois\".")
+    if (match.arg(type) == "concept" && isTRUE("galois" %in% 
+        class(x)) == FALSE) {
+        warning(paste(sQuote(deparse(substitute(x))), " is not a ", 
+            dQuote("Galois"), " class object.", sep = ""), call. = FALSE)
     }
     else {
         invisible(NA)
     }
     if (match.arg(type) == "hasse" || match.arg(type) == "concept") {
-        if ((is.array(x) == FALSE | is.matrix(x) == FALSE) && 
-            isTRUE(attr(x, "class")[1] == "Partial.Order") == 
-                FALSE) {
+        if (isTRUE("partial.order" %in% tolower(class(x))) == 
+            FALSE) {
+            warning(paste(sQuote(deparse(substitute(x))), " is not a ", 
+                dQuote("Partial.Order"), " class object.", sep = ""), 
+                call. = FALSE)
             if (is.matrix(x[[1]]) == TRUE) {
                 x <- x[[1]]
             }
             else {
-                stop("\"x\" must be matrix, array, or a \"Partial.Order\" class object.")
+                if (is.array(x) == FALSE | is.matrix(x) == FALSE) 
+                  stop(paste(sQuote(deparse(substitute(x))), 
+                    " must be matrix, array, or a ", dQuote("Partial.Order"), 
+                    " class object.", sep = ""))
             }
         }
+        else {
+            NA
+        }
         if (requireNamespace("Rgraphviz", quietly = TRUE)) {
-            hasse(x, attrs = attrs, main = main, incmp, cex.main, 
-                bg, mar, shape, col, col0, fcol, ecol, lty, lbs, 
-                ffamily, fstyle, fsize, col.main, sep, ...)
+            switch(match.arg(type), concept = {
+                concept <- TRUE
+            }, hasse = {
+                ifelse(isTRUE("galois" %in% class(x)) == TRUE, 
+                  concept <- TRUE, concept <- FALSE)
+            })
+            hasse(x, concept = concept, attrs = attrs, main = main, 
+                incmp, shape, col, col0, fcol, ecol, lty, lbs, 
+                ffamily, fstyle, fsize, cex.main, col.main, bg, 
+                mar, sep, ...)
         }
         else {
-            stop("Package \"Rgraphviz\" is required for Hasse and Concept diagrams.")
+            stop(paste("Package ", sQuote("Rgraphviz"), " not found.", 
+                sep = ""))
         }
     }
     else if (match.arg(type) == "egg-box") {
         ifelse(isTRUE(tolower(class(x)[1]) != "semigroup") == 
-            TRUE, S <- as.semigroup(x), S <- x)
+            TRUE, S <- suppressWarnings(as.semigroup(x)), S <- x)
         Sclass <- class(S)[2]
         gs <- green.rel(S)
         if (isTRUE(length(unique(unlist(gs$clu))) > 1) == TRUE) {
@@ -43,7 +61,8 @@ function (x, type = c("hasse", "concept", "egg-box"), attrs = NULL,
             return(noquote(dcl))
         }
         else {
-            message("Single L- and R-class found in semigroup. Green relations returned.")
+            warning("Single L- and R-class found in semigroup and Green relations returned.", 
+                call. = FALSE)
             lrdcl <- vector(mode = "list", length = 3)
             lrdcl[1:3] <- gs[7:9]
             names(lrdcl) <- c("R", "L", "D")

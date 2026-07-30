@@ -9,6 +9,5 @@ internal function
 %\usage{
 %redl(a, b)
 %}
-%
 \keyword{internal}
 %

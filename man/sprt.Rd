@@ -9,6 +9,5 @@ internal function
 %\usage{
 %sprt(x, k, l)
 %}
-%
 \keyword{internal}
 %

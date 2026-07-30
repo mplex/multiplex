@@ -1,46 +1,39 @@
 \name{diagram.levels}
 \alias{diagram.levels}
-%
 \title{
 Levels in Lattice Diagram
 }
 \description{
-A function that reads the different levels in the lattice diagram of the partial order structure among actors and ties in the network
+A function to represent a textual interpretation of the levels in a given lattice diagram.
 }
 \usage{
 diagram.levels(x, perm = FALSE)
 }
-%
+%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{
-   A matrix representing the partial order
-}
-  \item{perm}{
-   (optional) whether or not to return the permuted structure
-   }
+  \item{x}{A matrix representing partial order relations.}
+  \item{perm}{optional and logical) Return automorphism of a permuted structure?}
 }
 \details{
-When it comes to reduce the structure of a multiple network, many times the partial order structure provides different 
-classes of elements depending in the inclusions these elements have. 
-In this sense, the illustration given by the \code{\link{diagram}} function provides us typically with different levels 
-of the ordered relations, which are read by this routine.
+This function provides a textual interpretation of the different levels in the lattice diagram of the partial order structure among actors and ties in the network.
+
+When reducing a multiple network, the partial order structure may define different classes of elements based on their inclusion relations. 
+The illustration produced by the \code{\link{diagram}} function typically shows these levels of ordered relations, which this routine then interprets.
 }
 \value{
 A named list with components of the \dQuote{levels} in the concept diagram produced by \code{\link{diagram}}.
 
-If the permutation is specified in \code{perm}, a data frame with the elements of the partial order structure with 
-the column names indicating the element class plus a vector with the levels and a matrix with the permuted structure are given as well.
+If \code{perm} is specified, the function returns a data frame containing the elements of the partial order structure, with column names indicating the element classes. 
+It also returns a vector of levels and a matrix of the permuted structure.
 }
-%
-\author{
-Antonio Rivero Ostoic
-}
+%\references{} ~
+%\author{} ~
 \note{
-This function requires that the \emph{Rgraphviz} package is installed. 
-Since function \code{grDevices::pictex()} inside this routine is for historical interest only since \strong{R} 4.4.0, 
+This function requires that the \pkg{Rgraphviz} package is installed. 
+Since function \code{grDevices::pictex()} inside this routine is for historical interest only since \proglang{R} \code{4.4.0}, 
 the warning message has been suppressed before its future replacement.
 }
-%
+%\section{Warning }{....} ~
 \seealso{
 \code{\link{partial.order}}, \code{\link{diagram}}, \code{\link{perm}}
 }
@@ -49,8 +42,9 @@ the warning message has been suppressed before its future replacement.
 data("incubA")
 
 # given e.g. a partial order table in the object 'po'
-po <- as.strings(incubA$IM) |> 
-  partial.order()
+po <- incubA |> getElement("IM") |> 
+  as.strings() |> 
+  partial.order(type="strings")
 
 # find the levels in the lattice diagram
 \dontrun{

@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 bnd <-
 function (x, xd, lbs, TRD, r, m, mlt, sep) 
 {
@@ -205,3 +206,4 @@ function (x, xd, lbs, TRD, r, m, mlt, sep)
     return(list(asym = asym, recp = recp, Eout = Eout, xchg = xchg, 
         mixe = mixe, full = full, out = out, tripfl = tripfl))
 }
+

@@ -1,0 +1,257 @@
+%\VignetteIndexEntry{Affiliation Networks with multiplex}
+%\VignetteDepends{multiplex, Rgraphviz, multigraph}
+%\VignetteEngine{knitr::knitr}
+
+\documentclass{article}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage[fleqn]{amsmath}
+\usepackage{float}
+%
+\setlength\parindent{0pt}
+\setlength{\parskip}{9pt}
+\renewcommand{\baselinestretch}{1.2}
+%
+\renewcommand\abstractname{}
+%\lstset{breaklines=true}
+
+\begin{document}
+\title{\LARGE Affiliation Networks with `multiplex'}
+\author{ {\Large Antonio Rivero Ostoic} \\
+{\normalsize CESU} \\{\large University of San Sim\'on} }
+\maketitle
+
+Social networks are systems defined by a collection of relationships among collective actors. In terms of set theory, a relation is an ordered pair such as $(x, y)$ that refers to a directed linkage from an element $x$ to an element $y$, where $x \in X$ and $y \in Y$ called the domain and codomain of the relation. The context of a binary relation $R$ is the overall relation set that results from the Cartesian product of the domain and codomain or $X \times Y$ of all ordered pairs $(x, y)$ where $R$ is a subset of the context.
+
+Usually, a social network refers to a domain with a set of relations on such domain, which is the generic term used to name the social entities in the system. In such a case, the system of relations is said to be a one-mode network. However, when the domain and the codomain are not equal, there are two sets of entities that describe the entire social system, which is known as affiliation, bipartite, or else two-mode networks. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+<<setup, include=FALSE>>=
+knitr::opts_chunk$set(size = 'footnotesize', background = '#FFFFFF', prompt = TRUE, strip.white = FALSE, comment = NA)
+options(width=110)
+knitr::knit_hooks$set(small.mar = function(before, options, envir) {
+    if (before) par(mar = c(4, 4, .1, .1))  # smaller margin on top and right
+})
+@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Galois representation}
+In terms of Formal Concept Analysis, the domain and codomain of a two-mode network are characterized respectively as a set of objects $G$, and a set of attributes $M$. A formal context is obtained with an incident relation $I \subseteq G \times M$ between these sets, and this triple is typically represented as a data table.
+
+<<data, echo=-6>>=
+# Fruits data set with attributes
+frt <- data.frame(yellow = c(0,1,0,0,1,0,0,0), green = c(0,0,1,0,0,0,0,1), red = c(1,0,0,1,0,0,0,0), 
+                  orange = c(0,0,0,0,0,1,1,0), apple = c(1,1,1,1,0,0,0,0), citrus = c(0,0,0,0,1,1,1,1))
+# Label the objects
+rownames(frt) <- c("PinkLady","GrannySmith","GoldenDelicious","RedDelicious","Lemon","Orange","Mandarin","Lime")
+frt
+@
+
+\newpage
+
+
+\subsection*{Galois derivations}
+The formal concept of a formal context is a pair of sets of objects $A$ and attributes $B$ that is maximally contained on each other. A \emph{Galois derivation} between $G$ and $M$ is defined for any subsets $A \subseteq G$ and $B \subseteq M$ by
+\begin{equation*}
+\begin{aligned}
+A^\prime \;=\; { m \in M \;\mid\; (g, m) \in I \quad(\text{for all } g \in A) } \\
+B^\prime \;=\; { g \in G \;\mid\; (g, m) \in I \quad(\text{for all } m \in B) }
+\end{aligned}
+\end{equation*}
+where $A$ and $B$ are said to be the extent and intent of the formal concept respectively, whereas $A^\prime$ is the set of attributes common to all the objects in the intent and $B^\prime$ the set of objects possessing the attributes in the extent.
+
+Starting with version $1.5$ it is possible to perform an algebraic analysis of two-mode networks with the function \texttt{galois()} of \textbf{multiplex} to produce Galois derivations.
+This command creates an adjunction between the two sets partially ordered by inclusion, and we obtain the complete list of concepts of the context, which can be assigned into an object with the class named ``\texttt{Galois}'' and ``\texttt{full}.''
+
+<<loadmultiplex>>=
+# load package
+library("multiplex")
+@
+\vspace{-10pt}
+<<galoisFull>>=
+# Galois representation between objects and attributes
+galois(frt)
+@
+
+It is also possible to condense the labeling of the objects and attributes with the option ``\texttt{reduced}'' in the argument \texttt{labeling} of the \texttt{galois()} function. 
+
+<<galoisReduc, echo=-2>>=
+# Galois derivation with a reduced labeling
+gd <- galois(frt, labeling = "reduced")
+galois(frt, labeling = "reduced")
+@
+
+
+However, the full labeling is useful for the construction of the hierarchy of concepts, and therefore the structure of the output given by the Galois derivation keeps it.
+
+<<strgaloisReduc, size='scriptsize'>>=
+str(gd$gc$full)
+@
+
+
+\subsection*{Partial ordering of the concepts}
+
+A hierarchy of the concepts is given by the relation subconcept--superconcept 
+$$
+(A, B) \leq (A_2, B_2) \quad\Leftrightarrow\quad A_1 \subseteq A_2 \qquad (\Leftrightarrow\quad B_1 \subseteq B_2)
+$$
+
+For this, the function \texttt{partial.order()} now supports the ``\texttt{galois}'' option in the \texttt{type} argument where the hierarchy of the concepts is constructed. In this case, even though the concepts have the ``reduced'' option, it is the ``full'' labeling of the formal concepts that is the base of the ordering among these concepts that can be designated in different ways.
+
+<<partialorder, echo=-3>>=
+# Partial ordering of the formal concepts with established labels
+pogdc <- partial.order(gd, type = "galois", lbs = paste("c", seq_len(length(gd$gc$full)), sep = ""))
+pogdc
+@
+
+We can see in the partial order table that all concepts are included in concept $12$, whereas concept $7$ is included in the rest of the concepts. As a result, these concepts constitute the maxima and the minima elements of a complete lattice that provides for all the formal concepts of the context. From the outputs given with the Galois derivation of this context, we can see as well that these concepts correspond to the set of objects and the set of attributes, which are entirely abridged in the reduced formal context.
+
+
+\subsection*{Concept lattice of the context}
+
+The concept lattice of the formal context is a system of concepts partially ordered where the greatest lower bound of the meet and the least upper bound of the join are defined as
+\begin{equation*}
+\begin{aligned}
+\bigwedge_{t\in T} \quad \bigl(A_t, B_t \bigr) \;=\; \Bigl(\; \bigcap_{t\in T}{A_t}, \;\;\bigl(\bigcup_{t\in T}{B_t} \bigr)^{\prime\prime} \;\Bigr) \\
+\bigvee_{t\in T} \quad \bigl(A_t, B_t \bigr) \;=\; \Bigl(\; \bigl(\bigcup_{t\in T}{A_t} \bigr)^{\prime\prime}, \;\;\bigcap_{t\in T}{B_t} \;\Bigr) \\
+\end{aligned}
+\end{equation*}
+
+We plot this type of lattice diagram with the labeling corresponding to the reduced context.
+<<pogc>>= 
+# Assign partial order of reduced context to 'pogd'
+pogd <- partial.order(gd, type = "galois")
+@
+\vspace{-10pt}
+<<diagrampogc, fig.pos='H', fig.width=4.5, fig.height=4.5, fig.align='center', fig.cap='Concept Lattice of fruits and color characteristics', echo=-1, small.mar=TRUE>>=  %
+par(mar=c(0,0,0,0))
+# Plot the lattice diagram
+suppressPackageStartupMessages(library("Rgraphviz", quietly = TRUE))
+diagram(pogd, type = "concept", main = "Fruits & Colors", fcol = "red", col.main = "blue")
+@
+
+
+Since this is a reduced representation of the context, both objects and attributes are only given just once. Besides, labels are placed instead of the nodes rather than next to them as the typical representation of formal context. Moreover, in case that a concept does not have a label, which happens in most reduced contexts, then the number of the concept is placed as the node.
+
+
+\section{Diagram levels \& Order Filters}
+
+The construction of the concept lattice of the context allows us to have additional information about the network relational structure. One part is concerned with the inclusion levels in the lattice structure, and another aspect deals with downsets and upsets, which are formed from all the lower and greater bounds of an element in the lattice diagram. Next, we take a brief look at the suitable functions to get such information.
+
+\subsection*{Levels in the lattice diagram}
+
+Mainly when dealing with large diagrams, it can be difficult to distinguish the different heights in the lattice and the elements belonging to each level. Function \texttt{diagram.levels()} allows us to count with such information, and we illustrate this routine with the entry \texttt{pogdc} that represents the partial order of the concepts corresponding to the fruits data set.
+
+<<diaglevels, echo=TRUE>>= 
+# Diagram levels
+if( require("Rgraphviz", quietly = TRUE, warn.conflicts = FALSE)) {
+diagram.levels(pogdc) }
+@
+
+Hence concepts $7$ and $12$ make a class of their own, whereas the rest of the concepts belong either to class $2$ or to class $3$.
+
+\bigbreak
+
+By setting \texttt{perm} to \texttt{TRUE}, we obtain the different classes in the lattice structure in a convenient way, and also a permuted partial order table according to the clustering.
+
+<<diaglevelsperm, echo=TRUE, message=FALSE, warning=FALSE>>= 
+# Diagram levels with permutation
+if( require("Rgraphviz", quietly = TRUE, warn.conflicts = FALSE)) {
+diagram.levels(pogdc, perm = TRUE) }
+@
+
+
+\subsection*{Order Filters and Order Ideals}
+
+Implications among objects and attributes in an arbitrary partially ordered set representing context are revealed by subsets in the order structure. 
+
+%\medbreak
+
+Let $(P, \leq)$ be an ordered set, and $a$, $b$ are elements in $P$. 
+
+A non-empty subset $U$ [resp. $D$] of $P$ is an upset [resp. downset] called a \emph{order filter} [resp. \emph{order ideal}] if, for all $a \in P$ and $b \in U$ [resp. $D$]
+$$
+b \leq a \text{\quad implies\quad} a \in U  \qquad\qquad [\;\text{resp.\;\;} a \leq b \text{\quad implies\quad} a \in D\;]
+$$
+
+For a particular element $x \in P$, the upset $\uparrow\! x$ formed for all the upper bounds of $x$ is called a \emph{principal order filter} generated by $x$. Dually, $\downarrow\! x$ is a \emph{principal order ideal} with all the lower bounds of $x$. Order filters and order ideals not coinciding with $P$ are called \emph{proper}.
+
+%\bigbreak
+
+To illustrate these concepts, we apply the function \texttt{fltr()} to the third element of the partial order represented by \texttt{pogd} that results in a proper principal order filter for this formal concept with labels.
+
+
+<<princfltrlbs, echo=TRUE>>= 
+# Principal order filter of the third concept 
+fltr(3, pogd)
+@
+
+
+We get the same result when introducing the one or more of the names of this concept.
+<<princfltrlbs2, echo=TRUE, eval=FALSE>>= 
+# Principal order filter of the concept with these labels
+fltr(c("red", "RedDelicious"), pogd)
+@
+
+Or alternatively we combine elements from different concepts to obtain other types of order filters in the concept lattice of the context.
+<<filter, echo=TRUE>>= 
+# Order filter of two concepts
+fltr(c("Lemon", "Lime"), pogd)
+@
+
+
+%\newpage
+
+Order ideals and principal order ideals are obtained similarly with this function if the argument \texttt{ideal} is set to \texttt{TRUE}.
+
+<<ideal, echo=TRUE>>= 
+# Order ideal of two concepts
+fltr(c(9, 11), pogd, ideal = TRUE)
+@
+
+
+
+
+\section{Bipartite graphs}
+
+Two-mode network are depicted through \emph{bipartite graphs}, where the entities in one set only can relate to the elements placed in the other set. 
+For this, \textbf{multiplex} has a reverse dependence on \textbf{multigraph} for the visualization of multiple networks, and also for bipartite graphs. 
+Hence, we use the function \texttt{bmgraph()} to plot the graph of the \texttt{frt} data set with the default layout option.
+
+<<bipp, echo=TRUE, eval=TRUE, fig.pos='H', fig.width=3.0, fig.height=3.0, fig.align='center', fig.env='figure', fig.cap='Bipartite graph', small.mar=TRUE>>=
+# Load the "multigraph" package and plot bipartite graph
+suppressPackageStartupMessages(library("multigraph", quietly = TRUE))
+bmgraph(frt, pch = 16:15, fsize = 6)
+@
+
+
+\subsection*{Multigraph with a binomial projection}
+
+
+Another possibility is to apply a force-directed layout to the binomial projection of this two-mode data set. Below the plot is made with some arguments for the vertices and the graph clock-wise rotated. 
+<<binp2, echo=TRUE, eval=FALSE>>= 
+# Plot proyection of bipartite network
+bmgraph(frt, layout = "force", seed = 1, cex = 3, fsize = 7, vcol = 8, pch = 16:15, rot = 25)
+@
+<<binp, fig.pos='H', fig.width=4.5, fig.height=4.5, fig.align='center', fig.env='figure', fig.cap='Bipartite graph with a force-directed layout', echo=FALSE, small.mar=TRUE>>=
+bmgraph(frt, layout = "force", seed = 1, cex = 3, fsize = 7, vcol = 8, pch = 16:15, rot = 25)
+@
+
+
+\bigbreak
+\medbreak
+
+\renewcommand{\baselinestretch}{1.0}
+
+\begin{thebibliography}{5}
+%
+\bibitem{Gant-Will96} Ganter, B. and R. Wille~\emph{ Formal Concept Analysis -- Mathematical Foundations}. Springer. 1996.
+\bibitem{rgpahviz} Hansen KD, Gentry J, Long L, Gentleman R, Falcon S, Hahne F and Sarkar D  ~\textbf{Rgraphviz}: \emph{Provides plotting capabilities for R graph objects}. R package version 2.24.0
+\bibitem{multiplex} Ostoic, J.A.R. ~\textbf{multiplex}: \emph{Algebraic Tools for the Analysis of Multiple Social Networks}. R package v 4.0
+\bibitem{multiplex} Ostoic, J.A.R. ~\textbf{multigraph}: \emph{Plot and manipulate multigraphs}. R package v 0.99.3
+%
+\end{thebibliography}
+
+
+\end{document}

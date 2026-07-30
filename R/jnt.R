@@ -1,31 +1,34 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 jnt <-
-function (xj, unique = FALSE, sep) 
+function (z, uniq, sep) 
 {
+    ifelse(missing(uniq) == FALSE && isTRUE(uniq == TRUE) == 
+        TRUE, uniq <- TRUE, uniq <- FALSE)
     ifelse(missing(sep) == TRUE, sep <- ", ", NA)
-    if (isTRUE(length(xj) != 0) == TRUE) {
-        if (isTRUE(is.list(xj)) == TRUE) {
-            Xj <- list()
+    if (isTRUE(length(z) != 0) == TRUE) {
+        if (is.list(z) == TRUE) {
+            tj <- list()
             jt <- list()
-            length(Xj) <- length(jt) <- length(xj)
-            for (i in seq_len(length(xj))) {
-                if (isTRUE(length(xj[[i]]) != 0) == TRUE) {
-                  tmpj <- as.list(xj[[i]])
-                  for (j in seq_len(length(xj[[i]]))) {
+            length(tj) <- length(jt) <- length(z)
+            for (i in seq_len(length(z))) {
+                if (isTRUE(length(z[[i]]) != 0) == TRUE) {
+                  tmpj <- as.list(z[[i]])
+                  for (j in seq_len(length(z[[i]]))) {
                     ifelse(isTRUE("." %in% strsplit(sep, "")[[1]]) == 
-                      TRUE, Xj[[i]] <- append(Xj[[i]], tmpj[[j]]), 
-                      Xj[[i]] <- append(Xj[[i]], strsplit(tmpj[[j]], 
+                      TRUE, tj[[i]] <- append(tj[[i]], tmpj[[j]]), 
+                      tj[[i]] <- append(tj[[i]], strsplit(tmpj[[j]], 
                         sep)[[1]]))
                   }
                   rm(j, tmpj)
-                  Xj[[i]] <- unique(Xj[[i]])
-                  if (length(Xj[[i]]) == 1) 
-                    jt[[i]] <- Xj[[i]]
-                  if (length(Xj[[i]]) > 1) 
-                    jt[[i]] <- paste(Xj[[i]][1], Xj[[i]][2], 
+                  tj[[i]] <- unique(tj[[i]])
+                  if (length(tj[[i]]) == 1) 
+                    jt[[i]] <- tj[[i]]
+                  if (length(tj[[i]]) > 1) 
+                    jt[[i]] <- paste(tj[[i]][1], tj[[i]][2], 
                       sep = sep)
-                  if (length(Xj[[i]]) > 2) {
-                    for (j in 3:length(Xj[[i]])) jt[[i]] <- paste(jt[[i]], 
-                      Xj[[i]][j], sep = sep)
+                  if (length(tj[[i]]) > 2) {
+                    for (j in 3:length(tj[[i]])) jt[[i]] <- paste(jt[[i]], 
+                      tj[[i]][j], sep = sep)
                     rm(j)
                   }
                 }
@@ -34,18 +37,18 @@ function (xj, unique = FALSE, sep)
                 }
             }
             rm(i)
-            ifelse(is.null(attr(xj, "names")) == FALSE, attr(jt, 
-                "names") <- attr(xj, "names"), NA)
+            ifelse(is.null(attr(z, "names")) == FALSE, attr(jt, 
+                "names") <- attr(z, "names"), NA)
         }
-        else if (isTRUE(is.vector(xj)) == TRUE) {
+        else if (is.vector(z) == TRUE) {
             vec <- vector()
-            for (i in seq_len(length(xj))) {
-                ifelse(is.numeric(xj) == TRUE, vec <- append(vec, 
-                  strsplit(as.character(xj)[i], sep)[[1]]), vec <- append(vec, 
-                  strsplit(xj[i], sep)[[1]]))
+            for (i in seq_len(length(z))) {
+                ifelse(is.numeric(z) == TRUE, vec <- append(vec, 
+                  strsplit(as.character(z)[i], sep)[[1]]), vec <- append(vec, 
+                  strsplit(z[i], sep)[[1]]))
             }
             rm(i)
-            if (isTRUE(unique == TRUE) == TRUE) {
+            if (isTRUE(uniq == TRUE) == TRUE) {
                 vec <- unique(vec)
             }
             else {
@@ -68,6 +71,7 @@ function (xj, unique = FALSE, sep)
         return(jt)
     }
     else {
-        xj
+        z
     }
 }
+

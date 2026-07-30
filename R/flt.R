@@ -1,10 +1,12 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 flt <-
 function (e, PO, rclos = TRUE) 
 {
     if (isTRUE(e > nrow(PO)) == TRUE) 
-        stop("'e' is greater than the size of the partial order")
+        stop(paste(deparse(substitute(e)), " is greater than size of partial order in ", 
+            deparse(substitute(PO)), ".", sep = ""))
     pfl <- vector()
-    for (i in 1:nrow(PO)) {
+    for (i in seq_len(nrow(PO))) {
         if (isTRUE(PO[e, i] == 1) == TRUE && isTRUE(PO[i, e] == 
             0) == TRUE) {
             pfl <- append(pfl, i)
@@ -19,3 +21,4 @@ function (e, PO, rclos = TRUE)
     }
     return(pfl)
 }
+

@@ -7,8 +7,7 @@ internal function
 internal function
 }
 %\usage{
-%reducs(x, clu, labels = NULL)
+%reducs(s, cl)
 %}
-%
 \keyword{internal}
 %

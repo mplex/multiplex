@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 mxmn <-
 function (x, type = c("numerical", "symbolic"), cmps, equat) 
 {
@@ -8,6 +9,7 @@ function (x, type = c("numerical", "symbolic"), cmps, equat)
     n <- dim(x)[1]
     z <- dim(x)[3]
     Bx <- x
+    cplb <- vector()
     for (k in seq_len(z)) {
         for (l in seq_len(z)) {
             mat <- matrix(NA, nrow = n, ncol = n, byrow = TRUE, 
@@ -26,37 +28,53 @@ function (x, type = c("numerical", "symbolic"), cmps, equat)
                 rm(j)
             }
             rm(i)
-            Bx <- zbind(Bx, mat)
-            dimnames(Bx)[[3]][dim(Bx)[3]] <- paste0(dimnames(Bx)[[3]][k], 
-                dimnames(Bx)[[3]][l])
+            if (isTRUE(dim(Bx)[3] == z) == TRUE) {
+                Bx <- zbind(x, mat)
+                cplb <- c(dimnames(x)[[3]], paste0(dimnames(x)[[3]][k], 
+                  dimnames(x)[[3]][l]))
+            }
+            else {
+                Bx <- zbind(Bx, mat)
+                cplb <- append(cplb, paste0(dimnames(x)[[3]][k], 
+                  dimnames(x)[[3]][l]))
+            }
         }
         rm(l)
     }
     rm(k)
-    Bx
+    dimnames(Bx)[[3]] <- cplb
     dfBx <- data.frame(matrix(ncol = (dim(x)[1] * dim(x)[2]), 
         nrow = 0))
     for (i in seq_len(dim(Bx)[3])) {
         dfBx[i, ] <- as.vector(Bx[, , i])
     }
     rm(i)
-    rownames(dfBx) <- dimnames(Bx)[[3]]
-    dfBxx <- dfBx
-    dfBx <- unique(dfBx)
-    Bx <- array(dim = c(dim(x)[1], dim(x)[2], nrow(dfBx)))
-    for (i in seq_len(nrow(dfBx))) {
-        Bx[, , i][seq_len(dim(Bx)[1] * dim(Bx)[2])] <- as.numeric(dfBx[i, 
-            ])
+    cplb2 <- vector()
+    if (any(duplicated(dfBx)) == TRUE) {
+        eqlb <- jnt(cplb[as.numeric(rownames(dfBx[duplicated(dfBx) | 
+            duplicated(dfBx, fromLast = TRUE), ]))], sep = "=")
+        rownames(dfBx) <- cplb
+        dfBx <- unique(dfBx)
+        cplb2 <- cplb[which(!(cplb %in% rownames(dfBx)))]
+        cplb <- rownames(dfBx)
+        Bx <- array(dim = c(dim(x)[1], dim(x)[2], nrow(dfBx)))
+        for (i in seq_len(nrow(dfBx))) {
+            Bx[, , i][seq_len(dim(Bx)[1] * dim(Bx)[2])] <- as.numeric(dfBx[i, 
+                ])
+        }
+        rm(i)
+        dimnames(Bx)[[1]] <- dimnames(Bx)[[2]] <- dimnames(x)[[1]]
+        dimnames(Bx)[[3]] <- cplb
     }
-    rm(i)
-    dimnames(Bx)[[1]] <- dimnames(Bx)[[2]] <- dimnames(x)[[1]]
-    dimnames(Bx)[[3]] <- rownames(dfBx)
-    Bx
-    E <- data.frame(matrix(ncol = dim(x)[3], nrow = dim(Bx)[3]))
-    for (k in seq_len(dim(x)[3])) {
-        for (j in seq_len(dim(Bx)[3])) {
+    else {
+        eqlb <- vector()
+    }
+    z2 <- dim(Bx)[3]
+    E <- data.frame(matrix(ncol = z, nrow = z2))
+    for (k in seq_len(z)) {
+        for (j in seq_len(z2)) {
             tmp <- mmp(Bx[, , j], Bx[, , k])
-            for (i in dim(Bx)[3]:1) {
+            for (i in z2:1) {
                 if (isTRUE(all.equal(tmp, Bx[, , i]) == TRUE)) 
                   E[j, k] <- i
             }
@@ -65,126 +83,48 @@ function (x, type = c("numerical", "symbolic"), cmps, equat)
         rm(j)
     }
     rm(k)
-    dimnames(E)[[1]] <- seq_len(dim(Bx)[3])
-    dimnames(E)[[2]] <- seq_len(dim(x)[3])
-    if (sum(as.numeric(is.na(E))) > 0) {
-        Bxc <- Bx[, , (z + 1):dim(Bx)[3]]
-        zz <- which(dimnames(Bx)[[3]] %in% dimnames(Bxc)[[3]])
-        for (k in seq_len(z)) {
-            for (l in zz) {
-                mat <- matrix(NA, nrow = n, ncol = n, byrow = TRUE, 
-                  dimnames = list(dimnames(x)[[1]], dimnames(x)[[2]]))
-                for (i in seq_len(n)) {
-                  for (j in seq_len(n)) {
-                    tmp1 <- x[i, , k]
-                    tmp2 <- Bx[, j, l]
-                    mintmp <- vector()
-                    for (m in seq_len(length(tmp1))) {
-                      mintmp <- append(mintmp, min(tmp1[m], tmp2[m]))
-                    }
-                    rm(m)
-                    mat[i, j] <- max(mintmp)
-                  }
-                  rm(j)
-                }
-                rm(i)
-                Bxc <- zbind(Bxc, mat)
-                dimnames(Bxc)[[3]][dim(Bxc)[3]] <- paste0(dimnames(x)[[3]][k], 
-                  dimnames(Bx)[[3]][l])
-            }
-            rm(l)
+    dimnames(E)[[1]] <- cplb
+    dimnames(E)[[2]] <- dimnames(x)[[3]]
+    while (any(is.na(E)) == TRUE) {
+        ei <- which(is.na(E), arr.ind = TRUE)
+        for (k in seq_len(nrow(ei))) {
+            Bx <- zbind(Bx, mmp(Bx[, , which(cplb == rownames(ei)[k])], 
+                Bx[, , which(cplb == cplb[ei[k, 2]])]))
+            cplb <- append(cplb, paste0(rownames(ei)[k], cplb[ei[k, 
+                2]]))
         }
         rm(k)
-        Bxc
-        dfBxc <- data.frame(matrix(ncol = (dim(x)[1] * dim(x)[2]), 
+        dimnames(Bx)[[3]] <- cplb
+        dfBx <- data.frame(matrix(ncol = (dim(x)[1] * dim(x)[2]), 
             nrow = 0))
-        for (i in seq_len(dim(Bxc)[3])) {
-            dfBxc[i, ] <- as.vector(Bxc[, , i])
+        for (i in seq_len(dim(Bx)[3])) {
+            dfBx[i, ] <- as.vector(Bx[, , i])
         }
         rm(i)
-        rownames(dfBxc) <- dimnames(Bxc)[[3]]
-        dfBxc
-        dfBxxc <- dfBxc
-        dfBxc <- unique(dfBxc)
-        Bxc <- array(dim = c(dim(x)[1], dim(x)[2], nrow(dfBxc)))
-        for (i in seq_len(nrow(dfBxc))) {
-            Bxc[, , i][seq_len(dim(Bxc)[1] * dim(Bxc)[2])] <- as.numeric(dfBxc[i, 
-                ])
-        }
-        rm(i)
-        dimnames(Bxc)[[1]] <- dimnames(Bxc)[[2]] <- dimnames(x)[[1]]
-        dimnames(Bxc)[[3]] <- rownames(dfBxc)
-        Bxc
-        Bx <- zbind(x, Bxc)
-    }
-    E <- data.frame(matrix(ncol = dim(x)[3], nrow = dim(Bx)[3]))
-    for (k in seq_len(dim(x)[3])) {
-        for (j in seq_len(dim(Bx)[3])) {
-            tmp <- mmp(Bx[, , j], Bx[, , k])
-            for (i in dim(Bx)[3]:1) {
-                if (isTRUE(all.equal(tmp, Bx[, , i]) == TRUE)) 
-                  E[j, k] <- i
+        if (any(duplicated(dfBx)) == TRUE) {
+            eqlb <- append(eqlb, jnt(cplb[as.numeric(rownames(dfBx[duplicated(dfBx) | 
+                duplicated(dfBx, fromLast = TRUE), ]))], sep = "="))
+            rownames(dfBx) <- cplb
+            dfBx <- unique(dfBx)
+            cplb <- rownames(dfBx)
+            Bx <- array(dim = c(dim(x)[1], dim(x)[2], nrow(dfBx)))
+            for (i in seq_len(nrow(dfBx))) {
+                Bx[, , i][seq_len(dim(Bx)[1] * dim(Bx)[2])] <- as.numeric(dfBx[i, 
+                  ])
             }
             rm(i)
+            dimnames(Bx)[[1]] <- dimnames(Bx)[[2]] <- dimnames(x)[[1]]
+            dimnames(Bx)[[3]] <- cplb
         }
-        rm(j)
-    }
-    rm(k)
-    dimnames(E)[[1]] <- seq_len(dim(Bx)[3])
-    dimnames(E)[[2]] <- seq_len(dim(x)[3])
-    E
-    zz <- seq(max(zz) + 1L, dim(Bx)[3])
-    while (sum(as.numeric(is.na(E))) > 0) {
+        else {
+            NA
+        }
+        z2 <- dim(Bx)[3]
+        E <- data.frame(matrix(ncol = z, nrow = z2))
         for (k in seq_len(z)) {
-            for (l in zz) {
-                mat <- matrix(NA, nrow = n, ncol = n, byrow = TRUE, 
-                  dimnames = list(dimnames(x)[[1]], dimnames(x)[[2]]))
-                for (i in seq_len(n)) {
-                  for (j in seq_len(n)) {
-                    tmp1 <- x[i, , k]
-                    tmp2 <- Bx[, j, l]
-                    mintmp <- vector()
-                    for (m in seq_len(length(tmp1))) {
-                      mintmp <- append(mintmp, min(tmp1[m], tmp2[m]))
-                    }
-                    rm(m)
-                    mat[i, j] <- max(mintmp)
-                  }
-                  rm(j)
-                }
-                rm(i)
-                Bxc <- zbind(Bxc, mat)
-                dimnames(Bxc)[[3]][dim(Bxc)[3]] <- paste0(dimnames(x)[[3]][k], 
-                  dimnames(Bx)[[3]][l])
-            }
-            rm(l)
-        }
-        rm(k)
-        Bxc
-        dfBxc <- data.frame(matrix(ncol = (dim(x)[1] * dim(x)[2]), 
-            nrow = 0))
-        for (i in seq_len(dim(Bxc)[3])) {
-            dfBxc[i, ] <- as.vector(Bxc[, , i])
-        }
-        rm(i)
-        rownames(dfBxc) <- dimnames(Bxc)[[3]]
-        dfBx3c <- dfBxc[(max(zz) + 1L - z):nrow(dfBxc), ]
-        dfBxc <- unique(dfBxc)
-        Bxc <- array(dim = c(dim(x)[1], dim(x)[2], nrow(dfBxc)))
-        for (i in seq_len(nrow(dfBxc))) {
-            Bxc[, , i][seq_len(dim(Bxc)[1] * dim(Bxc)[2])] <- as.numeric(dfBxc[i, 
-                ])
-        }
-        rm(i)
-        dimnames(Bxc)[[1]] <- dimnames(Bxc)[[2]] <- dimnames(x)[[1]]
-        dimnames(Bxc)[[3]] <- rownames(dfBxc)
-        Bx <- zbind(x, Bxc)
-        zz <- seq(max(zz) + 1L, dim(Bx)[3])
-        E <- data.frame(matrix(ncol = dim(x)[3], nrow = dim(Bx)[3]))
-        for (k in seq_len(dim(x)[3])) {
-            for (j in seq_len(dim(Bx)[3])) {
+            for (j in seq_len(z2)) {
                 tmp <- mmp(Bx[, , j], Bx[, , k])
-                for (i in dim(Bx)[3]:1) {
+                for (i in z2:1) {
                   if (isTRUE(all.equal(tmp, Bx[, , i]) == TRUE)) 
                     E[j, k] <- i
                 }
@@ -193,9 +133,8 @@ function (x, type = c("numerical", "symbolic"), cmps, equat)
             rm(j)
         }
         rm(k)
-        dimnames(E)[[1]] <- seq_len(dim(Bx)[3])
-        dimnames(E)[[2]] <- seq_len(dim(x)[3])
-        dfBxxc <- rbind(dfBxxc, dfBx3c)
+        dimnames(E)[[1]] <- cplb
+        dimnames(E)[[2]] <- dimnames(x)[[3]]
     }
     switch(match.arg(type), numerical = S <- cbind(E, data.frame(matrix(ncol = (nrow(E) - 
         ncol(E)), nrow = nrow(E)))), symbolic = {
@@ -238,50 +177,25 @@ function (x, type = c("numerical", "symbolic"), cmps, equat)
         colnames(S) <- rownames(S) <- dimnames(Bx)[[3]]
     }
     else {
-        colnames(S) <- seq_len(nrow(S))
+        colnames(S) <- rownames(S) <- seq_len(nrow(S))
     }
     if (equat == TRUE) {
-        tmpo <- rbind(dfBxx, dfBxxc[(nrow(dfBxx) - z + 1L):nrow(dfBxxc), 
-            ])
-        eq <- list()
-        length(eq) <- nrow(unique(tmpo))
-        names(eq) <- rownames(unique(tmpo))
-        for (i in which(duplicated(tmpo))) {
-            for (j in which(!(duplicated(tmpo)))) {
-                if (isTRUE(all(tmpo[i, ] == tmpo[j, ]) == TRUE)) {
-                  eq[[which(attr(eq, "names") == rownames(tmpo[j, 
-                    ]))]] <- append(eq[[which(attr(eq, "names") == 
-                    rownames(tmpo[j, ]))]], rownames(tmpo)[i])
-                }
-            }
-            rm(j)
-        }
-        rm(i)
-        eq[sapply(eq, is.null)] <- NULL
+        lst <- list(dim = dim(x)[1], gens = x, cmps = Bx[, , 
+            (z + 1):dim(Bx)[3]], equat = eqlb, ord = nrow(S), 
+            st = dimnames(Bx)[[3]], S = S)
     }
     else {
-        eq <- NULL
+        lst <- list(dim = dim(x)[1], gens = x, cmps = Bx[, , 
+            (z + 1):dim(Bx)[3]], ord = nrow(S), st = dimnames(Bx)[[3]], 
+            S = S)
     }
-    Lst <- list(dim = dim(x)[1], gens = x, cmps = Bx[, , (z + 
-        1):dim(Bx)[3]], equat = eq, ord = nrow(S), st = dimnames(Bx)[[3]], 
-        S = S)
-    nvc <- c(1L, 2L)
-    vc <- max(nvc) + 1L
-    if (isTRUE(cmps == TRUE) == TRUE) {
-        nvc <- append(nvc, vc)
+    if (isTRUE(cmps == FALSE) == TRUE) {
+        lst$cmps <- NULL
     }
     else {
         NA
     }
-    vc <- vc + 1L
-    if (isTRUE(equat == TRUE) == TRUE) {
-        nvc <- append(nvc, vc)
-    }
-    else {
-        NA
-    }
-    nvc <- append(nvc, seq(vc + 1L, 7L))
-    lst <- Lst[nvc]
     class(lst) <- c("Semigroup", match.arg(type), "valued")
     return(lst)
 }
+

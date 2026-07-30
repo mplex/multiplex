@@ -7,8 +7,7 @@ internal function
 internal function
 }
 %\usage{
-%jnt(xj, unique = FALSE, sep)
+%jnt(z, uniq, sep)
 %}
-%
 \keyword{internal}
 %

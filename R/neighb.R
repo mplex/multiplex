@@ -1,16 +1,19 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 neighb <-
 function (x, rs, type = c("und", "inn", "out"), k = 1, inclx = FALSE, 
     expand) 
 {
-    if (isTRUE(attr(rs, "class") == "Rel.System") == FALSE) {
+    if (isTRUE("Rel.System" %in% attr(rs, "class")) == FALSE) {
         if (is.array(rs) == FALSE) {
-            stop("Data must be at least a stacked array of square matrices.")
+            stop(paste(sQuote(deparse(substitute(x))), " must be at least a stacked array of square matrices.", 
+                sep = ""))
         }
-        warning("'rs' is transformed into a entire relational system of a \"Rel.System\" class.")
+        warning(paste(sQuote(deparse(substitute(rs))), " is transformed into a relational system with a ", 
+            dQuote("Rel.System"), " class.", sep = ""), call. = FALSE)
         rs <- rel.sys(rs, bonds = "entire")
     }
     if (isTRUE(k < 0L) == TRUE) 
-        stop("'k' must not be negative.")
+        stop(paste(sQuote("k"), " must not be negative.", sep = ""))
     if (isTRUE(k == 0L) == TRUE) 
         ifelse((inclx), return(x), return(character(0)))
     ifelse(missing(expand) == FALSE && isTRUE(expand == TRUE) == 
@@ -33,7 +36,7 @@ function (x, rs, type = c("und", "inn", "out"), k = 1, inclx = FALSE,
                     }
                     rm(j)
                   }
-                  rm
+                  rm(n)
                 }
                 srs[[i]] <- as.vector(unlist(tmp))
             }
@@ -59,10 +62,10 @@ function (x, rs, type = c("und", "inn", "out"), k = 1, inclx = FALSE,
             nb <- unique(nrs)
             if (isTRUE(k > 1L) == TRUE) {
                 if (isTRUE(expand == FALSE) == TRUE) {
-                  for (K in 2:k) {
+                  for (i in 2:k) {
                     nb <- append(nb, ngbs(nb, rs, type = type))
                   }
-                  rm(K)
+                  rm(i)
                 }
                 else if (isTRUE(expand == TRUE) == TRUE) {
                   nb2 <- nb
@@ -77,11 +80,11 @@ function (x, rs, type = c("und", "inn", "out"), k = 1, inclx = FALSE,
                     ink <- 3
                     k <- k + 1L
                   }
-                  for (K in ink:k) {
+                  for (i in ink:k) {
                     nb2 <- append(nb2, ngbs(nb2, rs, type = type))
-                    nbk[[K]] <- nb2[which(!(nb2 %in% c(nb, unlist(nbk))))]
+                    nbk[[i]] <- nb2[which(!(nb2 %in% c(nb, unlist(nbk))))]
                   }
-                  rm(K)
+                  rm(i)
                   ifelse(!(inclx), attr(nbk, "names") <- paste0("k=", 
                     seq_len(k)), attr(nbk, "names") <- paste0("k=", 
                     seq_along((ink - 2L):k) - 1L))
@@ -103,7 +106,10 @@ function (x, rs, type = c("und", "inn", "out"), k = 1, inclx = FALSE,
         }
     }
     else {
-        warning("'x' is not part of the relational system provided.")
+        warning(paste(sQuote(deparse(substitute(x))), " is not part of ", 
+            sQuote(deparse(substitute(rs))), ".", sep = ""), 
+            call. = FALSE)
         x
     }
 }
+

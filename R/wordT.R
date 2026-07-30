@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 wordT <-
 function (x) 
 {
@@ -186,3 +187,4 @@ function (x)
     class(wt) <- "WordTable"
     return(wt)
 }
+

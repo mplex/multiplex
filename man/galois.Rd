@@ -1,65 +1,56 @@
 \name{galois}
 \alias{galois}
 \title{
-Galois Derivations Between Subsets
+Galois Derivations
 }
 \description{
-Function to perform Galois derivations between partially ordered subsets
+Function to compute Galois derivations between partially ordered subsets.
 }
 \usage{
-galois(x, labeling = c("full", "reduced"), sep, valued, scl, 
-    sep2)
+galois(x, labeling = c("full", "reduced"), sep)
 }
-\arguments{
-  \item{x}{
-	a data frame with objects and attributes
-}
-  \item{labeling}{
-	whether the derivations should be 
-  \itemize{ 
-    \item \code{full} for full labeling
-    \item \code{reduced} for reduced labeling
+\arguments{\item{x}{An incidence matrix with objects and attributes.}
+  \item{labeling}{Type of labeling for the Galois derivations: 
+   \itemize{ 
+    \item \code{full}
+    \item \code{reduced}
+   }
   }
-}
-  \item{sep}{
-   (optional) pair separator used for the pairwise relations
-  }
-  \item{valued}{
-   (logical) whether the galois derivation is on a many-valued formal context
-  }
-  \item{scl}{
-   (optional, only for valued) the scale to be used in the galois derivation
-  }
-  \item{sep2}{
-   (optional, only for valued) the separator in the formal concept
-  }
+  \item{sep}{(optional) Pair separator for the pairwise relations, default \dQuote{comma-space}.}
 }
 \details{
-Galois derivations (or connections) are mappings between families of partially ordered subsets of elements. 
-Such derivations are useful to analyze the structure of both subsets, which in a social network are typically the actors and their corresponding affiliations or events. 
-That is, two-mode networks, but also a group of objects with a list of different attributes as used in formal concept analysis. 
+A \emph{Galois derivation}, or Galois connection, between the power sets of \eqn{G} and \eqn{M} is defined 
+for subsets \eqn{A \subseteq G} and \eqn{B \subseteq M} by the set of attributes common to all objects in \eqn{A}, 
+or \eqn{A^\prime}, and the set of objects having all attributes in \eqn{B}, or \eqn{B^\prime}.
+
+An inclusion with the \code{"full"} labeling in the output implies first objects and then attributes in the 
+Galois connection, whereas with the \code{"reduced"} option the output assumes inclusions of attributes first and then the objects. 
+
+Notice that for \emph{many-valued} formal contexts the structure is derived from a concept scaling through function \code{\link{cscl}} 
+where is possible to define a pair separator between attributes and their values. A warning message is produced when there is a 
+conflict between such separators and the pair separator chosen in \code{sep} for extents and intents. 
 }
 \value{
-A labelled list with Galois derivations of objects and attributes
+A list of \dQuote{\code{Galois}} class object with Galois derivations of objects and attributes as list labels:
+  \item{sep}{pair separator}
+  \item{gc}{galois connections of pairs }
+Notice that the object attribute class only is printed for \code{"full"} labeling, which is an intrinsic
+part of the outcome for a \code{"reduced"} labeling.
 }
 \references{
 Ganter, B. and R. Wille  \emph{Formal Concept Analysis -- Mathematical Foundations}. Springer. 1996.
 }
-\author{
-Antonio Rivero Ostoic
-}
-\note{
-Full labeling implies first objects and then attributes, whereas the reduced option is given the other way around.
-}
-
+%\author{} ~
+%\note{}
+%\section{Warning }{....} ~
 \seealso{
-\code{\link{partial.order}}, \code{\link{diagram}}, \code{\link{fltr}}.
+\code{\link{partial.order}}, \code{\link{cscl}}, \code{\link{diagram}}, \code{\link{fltr}}.
 }
 \examples{
-# create a data frame
+# incidence matrix as a data frame
 dfr <- data.frame(x=1:3, y=5:7)
 
-# find galois derivations
+# compute galois derivations 
 galois(dfr)
 }
 \keyword{algebra}

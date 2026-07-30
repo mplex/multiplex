@@ -9,6 +9,5 @@ internal function
 %\usage{
 %print.gml(x, ...)
 %}
-%
 \keyword{internal}
 %

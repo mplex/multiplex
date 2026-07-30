@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 diagram.levels <-
 function (x, perm = FALSE) 
 {
@@ -33,7 +34,8 @@ function (x, perm = FALSE)
             unlink("Rplots.tex")
         }
         else {
-            stop("Package \"Rgraphviz\" is required.")
+            stop(paste("Package ", sQuote("Rgraphviz"), " not found.", 
+                sep = ""))
         }
     }
     else {
@@ -50,13 +52,14 @@ function (x, perm = FALSE)
     else {
         dgl <- cls[1, ]
         ulv <- unique(attr(as.list(dgl), "names"))
-        lulv <- vector("list", length = length(ulv))
+        lulv <- vector(mode = "list", length = length(ulv))
         for (k in ulv) {
             lulv[[which(ulv %in% k)]] <- unlist(as.list(dgl)[which(attr(as.list(dgl), 
                 "names") == k)], use.names = FALSE)
         }
         rm(k)
         attr(lulv, "names") <- ulv
-        return(lulv)
+        return(lulv[order(names(lulv))])
     }
 }
+

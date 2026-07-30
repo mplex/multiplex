@@ -1,11 +1,12 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 partial.order <-
 function (x, type = c("strings", "galois", "pi.rels"), lbs, sel, 
-    po.incl, dichot) 
+    po.incl, valued) 
 {
     if (match.arg(type) == "strings") {
         if (isTRUE(attr(x, "class")[1] == "Strings") == TRUE) {
-            if (missing(dichot) == FALSE && isTRUE(dichot == 
-                TRUE) == TRUE) {
+            if (missing(valued) == FALSE && isTRUE(valued == 
+                FALSE) == TRUE) {
                 po <- strng(strings(dichot(x$wt, c = 1))$wt)
             }
             else {
@@ -14,7 +15,8 @@ function (x, type = c("strings", "galois", "pi.rels"), lbs, sel,
         }
         else if (isTRUE(attr(x, "class")[1] == "Strings") == 
             FALSE) {
-            stop("\"x\" should be an object of a \"Strings\" class.")
+            stop(paste(sQuote("x"), " is not a ", dQuote("Strings"), 
+                " class object.", sep = ""))
         }
     }
     if (match.arg(type) == "galois") {
@@ -83,7 +85,8 @@ function (x, type = c("strings", "galois", "pi.rels"), lbs, sel,
         }
         else if (isTRUE(attr(x$gc, "class")[1] == "Galois") == 
             FALSE) {
-            stop("\"x\" should be an object of a \"Galois\" class.")
+            stop(paste(sQuote("x"), " is not a ", dQuote("Galois"), 
+                " class object.", sep = ""))
         }
     }
     if (match.arg(type) == "pi.rels") {
@@ -91,7 +94,8 @@ function (x, type = c("strings", "galois", "pi.rels"), lbs, sel,
             if (missing(sel) == FALSE && isTRUE(is.vector(sel) == 
                 TRUE) == TRUE) {
                 if (isTRUE(sel <= 0) == TRUE) {
-                  stop("Value of \"sel\" must be positive integer.")
+                  stop(paste("Value of ", sQuote("sel"), " should be a positive integer.", 
+                    sep = ""))
                 }
                 else {
                   NA
@@ -100,7 +104,7 @@ function (x, type = c("strings", "galois", "pi.rels"), lbs, sel,
             else {
                 if (missing(sel) == FALSE && is.null(sel) == 
                   TRUE) {
-                  stop("Selection in 'sel' is NULL.")
+                  stop(paste(sQuote("sel"), " is NULL.", sep = ""))
                 }
                 else {
                   sel <- FALSE
@@ -124,7 +128,8 @@ function (x, type = c("strings", "galois", "pi.rels"), lbs, sel,
         }
         else if (isTRUE(attr(x, "class")[1] == "Pi.rels") == 
             FALSE) {
-            stop("\"x\" should be an object of a \"Pi.rels\" class.")
+            stop(paste(sQuote("x"), " is not a ", dQuote("Pi.rels"), 
+                " class object.", sep = ""))
         }
     }
     ifelse(missing(lbs) == FALSE && isTRUE(length(lbs) == dim(po)[1]) == 
@@ -141,3 +146,4 @@ function (x, type = c("strings", "galois", "pi.rels"), lbs, sel,
     }
     po
 }
+

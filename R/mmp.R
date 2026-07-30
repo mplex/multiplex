@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 mmp <-
 function (x1, x2, valued = TRUE) 
 {
@@ -25,3 +26,4 @@ function (x1, x2, valued = TRUE)
     }
     mat
 }
+

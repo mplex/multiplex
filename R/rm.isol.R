@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 rm.isol <-
 function (x, diag, diag.incl) 
 {
@@ -24,3 +25,4 @@ function (x, diag, diag.incl)
         x[inn, inn, ]
     }
 }
+

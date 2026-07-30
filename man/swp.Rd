@@ -9,6 +9,5 @@ internal function
 %\usage{
 %swp(y, sep)
 %}
-%
 \keyword{internal}
 %

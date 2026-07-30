@@ -1,19 +1,25 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 decomp <-
-function (S, pr, type = c("mca", "pi", "at", "cc"), reduc, fac, 
-    force) 
+function (S, pr, type = c("mca", "pi", "at", "cc"), reduc, fac) 
 {
     if (isTRUE("Pi.rels" %in% attr(pr, "class") || "Congruence" %in% 
         attr(pr, "class")) == FALSE) 
-        stop("\"pr\" must be either a \"Pi.rels\" or a \"Congruence\" class object.")
+        stop(paste(sQuote(deparse(substitute(pr))), " must be either a ", 
+            dQuote("Pi.rels"), " or a ", dQuote("Congruence"), 
+            " class object.", sep = ""))
     if (missing(fac) == FALSE && isTRUE("Pi.rels" %in% attr(pr, 
         "class")) == FALSE) 
-        warning("\"fac\" is ignored since it requires a \"Pi.rels\" class object as input.")
+        warning(paste(sQuote(deparse(substitute(fac))), " is ignored since it requires as input a ", 
+            dQuote("Pi.rels"), " class object.", sep = ""), call. = FALSE)
     if (isTRUE("Pi.rels" %in% attr(pr, "class")) == TRUE) {
         if (missing(fac) == FALSE && isTRUE("Decomp" %in% attr(S, 
             "class")) == TRUE) {
             if (is.numeric(fac) == FALSE || isTRUE(fac > length(S$IM)) == 
                 TRUE) {
-                warning("First factor is taken since \"fac\" must be an integer no larger than the number of factors in the input.")
+                warning(paste("First factor is taken since ", 
+                  dQuote("fac"), " must be an integer smaller than the number of factors in ", 
+                  sQuote(deparse(substitute(S))), ".", sep = ""), 
+                  call. = FALSE)
                 S <- S$IM[[1]]
             }
             else {
@@ -24,26 +30,32 @@ function (S, pr, type = c("mca", "pi", "at", "cc"), reduc, fac,
             NA
         }
         switch(match.arg(type), mca = poi <- pr$mca, pi = poi <- pr$pi, 
-            at = poi <- pr$at, cc = stop("Type options for a \"Pi.rels\" class object must be either \"pi\", \"at\" or \"mc\"."))
+            at = poi <- pr$at, cc = stop(paste("Type options for a ", 
+                dQuote("Pi.rels"), " class object must be either ", 
+                sQuote("pi"), ", ", sQuote("at"), " or ", sQuote("mc"), 
+                ".", sep = "")))
     }
     else if (isTRUE(attr(pr, "class")[1] == "Congruence") == 
         TRUE) {
         if (match.arg(type) != "cc") {
-            warning("Only option \"cc\" is suitable for a \"Congruence\" class object.")
+            warning(paste("Only ", dQuote("cc"), " type is suitable for a ", 
+                dQuote("Congruence"), " class object.", sep = ""), 
+                call. = FALSE)
         }
         ifelse(isTRUE(attr(pr, "class")[2] == "PO.Semigroup") == 
             TRUE, poi <- pr$PO, NA)
     }
     if (isTRUE("symbolic" %in% attr(S, "class")) == TRUE || isTRUE("Semigroup" %in% 
         attr(S, "class")) == FALSE) {
-        s <- as.semigroup(S, numerical = TRUE)
+        s <- suppressWarnings(as.semigroup(S, numerical = TRUE))
     }
     else {
         s <- S
     }
     if (isTRUE("Pi.rels" %in% attr(pr, "class")) == TRUE) {
         if (isTRUE(s$ord == dim(pr$pi)[1]) == FALSE) 
-            stop("Semigroup order and partial order dimension differ.")
+            stop("Semigroup order and partial order dimension differ.", 
+                call. = FALSE)
         if (is.list(poi) == TRUE) {
             tmp <- poi
             poi <- array(NA, dim = c(dim(tmp[[1]]), length(tmp)), 
@@ -105,23 +117,19 @@ function (S, pr, type = c("mca", "pi", "at", "cc"), reduc, fac,
         }
     }
     if (missing(reduc) == FALSE && isTRUE(reduc == TRUE) == TRUE) {
-        ifelse(missing(force) == FALSE && isTRUE(force == TRUE) == 
-            TRUE, force <- TRUE, force <- FALSE)
         if (isTRUE(nlevels(factor(as.matrix(s$S))) == 1) == TRUE) {
             im <- S$S
             ord <- S$ord
         }
         else {
             ord <- vector()
-            po <- list()
-            length(po) <- length(clu)
-            im <- list()
-            length(im) <- length(clu)
+            po <- vector(mode = "list", length = length(clu))
+            im <- vector(mode = "list", length = length(clu))
             for (k in seq_along(clu)) {
                 tmpimk <- reducs(S, cl = as.vector(clu[[k]]))
                 notek <- vector()
-                if (isTRUE(force == TRUE) == TRUE && (isTRUE(length(which(is.na(tmpimk))) > 
-                  0) == TRUE)) {
+                if (isTRUE(length(which(is.na(tmpimk))) > 0) == 
+                  TRUE) {
                   notek <- append(notek, k)
                   n <- nlevels(factor(clu[[k]]))
                   cls <- list()
@@ -169,6 +177,17 @@ function (S, pr, type = c("mca", "pi", "at", "cc"), reduc, fac,
                   im[[k]] <- tmpimk
                 }
                 rm(tmpimk)
+                if (isTRUE(length(notek) == 1L) == TRUE) {
+                  warning(paste0("Image ", notek, " has been forced to produce additional equations."), 
+                    call. = FALSE)
+                }
+                else if (isTRUE(length(notek) > 1L) == TRUE) {
+                  warning(paste0("Images in ", notek, " have been forced to produce additional equations."), 
+                    call. = FALSE)
+                }
+                else {
+                  NA
+                }
                 if (isTRUE("Pi.rels" %in% attr(pr, "class")) == 
                   TRUE) {
                   po[[k]] <- reduc(poi[, , k], clu = as.vector(clu[[k]]), 
@@ -198,5 +217,7 @@ function (S, pr, type = c("mca", "pi", "at", "cc"), reduc, fac,
     ifelse(isTRUE(attr(pr, "class")[1] == "Congruence") == TRUE, 
         class(lst) <- c("Decomp", attr(pr, "class")[1], "cc"), 
         class(lst) <- c("Decomp", attr(pr, "class")[1], match.arg(type)))
+    class(lst) <- unique(c(class(lst), class(pr)))
     return(lst)
 }
+

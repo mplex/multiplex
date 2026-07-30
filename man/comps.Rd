@@ -1,47 +1,50 @@
 \name{comps}
 \alias{comps}
 \title{
-Find Components and Isolates in Multiple Networks
+Find Components in Multiple Networks
 }
 \description{
-Function to find different components in the multiple network including isolated nodes.
+Function to find different components and isolated nodes in the multiple networks.
 }
 \usage{
 comps(x, bonds = c("entire", "strong", "weak"), sort)
 }
+%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{
-  array representing a given network
-}
-  \item{bonds}{
-   type of bonds to be used in the creation of the relational system  for the different components
-}
-  \item{sort}{
-  (optional and logical) sort components by size? Default \code{FALSE}
-}
+  \item{x}{An array representing a given network.}
+  \item{bonds}{Type of bonds for components creation: 
+  \itemize{
+    \item \code{"entire"}: all bundle patterns
+    \item \code{"strong"}: mutual bundles (reciprocal, exchange, and mixed)
+    \item \code{"weak"}: asymmetrical bundles (and entraiment)
+  }}
+  \item{sort}{(optional and logical, default \code{FALSE}) Sort components by size?}
 }
 \details{
-The different components in the network are obtained through the transitive closure of the bundle ties. 
-By default, the \emph{entire} system is chosen, but the option \code{bonds} allows choosing different types of relational bundles for the components. 
-Argument \code{sort} is for output of components having increasing size; that is (if they exist) dyads, triads, and so on.
+Components and isolates in network \code{x} are derived from the transitive closure of bundle ties. 
+By default, the computation takes the \emph{entire} system, but the \code{bonds} option lets 
+the selection of other types of relational bundles for the resulted components. 
+
+The \code{sort} argument outputs components length in ascending size, such as dyads, triads, and 
+larger groups when present. Changing the order of the existing components may have consequences in 
+the layout of the graph when plotting it with function \code{\link[multigraph:multigraph]{multigraph}}.
 }
 \value{
-A list with two possible system \dQuote{components}
-	\item{com}{network components}
-	\item{isol}{network isolates}
+A \code{list} object of length two with the \code{bonds} type in the class attribute:
+  \item{com}{List or vector with network components}
+  \item{isol}{Vector with network isolates}
 }
-%
-\author{
-Antonio Rivero Ostoic
-}
-%
+%\references{} ~
+%\author{} ~
+%\note{} ~
+%\section{Warning }{....} ~
 \seealso{
-\code{\link{bundles}}, \code{\link{rel.sys}}
+\code{\link{bundles}}, \code{\link{summaryBundles}}, \code{\link{bundle.census}}, \code{\link{rel.sys}}
 }
 \examples{
-# create the data: two binary relations among three elements
-arr <- round( replace( array( runif(18), c(3 ,3, 2) ), array( runif(18),
-       c(3, 3, 2) ) > .9, 3 ) )
+# create two binary relations among three elements
+arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
+       c(3,3,2))>.5, 1 ) )
 
 # find the components and isolates
 comps(arr)

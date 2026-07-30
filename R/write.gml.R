@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 write.gml <-
 function (x, file = NULL) 
 {
@@ -94,3 +95,4 @@ function (x, file = NULL)
     }
     cat("]", file = file, sep = "\n", append = TRUE)
 }
+

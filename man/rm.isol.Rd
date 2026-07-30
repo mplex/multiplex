@@ -1,7 +1,7 @@
 \name{rm.isol}
 \alias{rm.isol}
 \title{
-Remove Isolates
+Remove Isolates from Network
 }
 \description{
 Function to remove isolate nodes in simple and multiple networks.
@@ -9,35 +9,27 @@ Function to remove isolate nodes in simple and multiple networks.
 \usage{
 rm.isol(x, diag, diag.incl)
 }
+%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{
-   a matrix or array representing a network
-}
-  \item{diag}{
-   (optional and logical) for arrays, should diagonals be included in transformation?
-}
-  \item{diag.incl}{
-   (optional and logical) for arrays, should diagonals be included in the output?
-}
+  \item{x}{Matrix or array representing a network.}
+  \item{diag}{(optional and logical, for arrays) Include diagonals in transformation?}
+  \item{diag.incl}{(optional and logical, for arrays) Include diagonals in output?}
 }
 \details{
 Isolated nodes do not have any edges in the network, and in a multivariate system, there is no edges adjacent to these kinds of nodes at any level.
 }
 \value{
-The matrix or array representing a multiple network without the isolated actors.
+A matrix or an array representing a multiple network without the isolated actors.
 }
-%\references{
-%}
-\author{
-Antonio Rivero Ostoic
-}
-%\note{
-%}
+%\references{} ~
+%\author{} ~
+%\note{} ~
+%% ~Make other sections like Warning with \section{Warning }{....} ~
 \seealso{ 
 \code{\link{edgel}}, \code{\link{zbind}}
 }
 \examples{
-# create the data: two binary relations among three elements
+# create two binary relations among three elements
 arr <- round( replace( array( runif(18), c(3 ,3, 2) ), array( runif(18),
          c(3, 3, 2) ) > .5, 3 ) )
 
@@ -46,4 +38,3 @@ rm.isol(arr)
 }
 \keyword{manip}
 \keyword{array}
-

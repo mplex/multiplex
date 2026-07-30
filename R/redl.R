@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 redl <-
 function (a, b) 
 {
@@ -5,3 +6,4 @@ function (a, b)
     class(red) = c("Galois", "reduced")
     red
 }
+

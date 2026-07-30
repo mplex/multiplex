@@ -4,33 +4,26 @@
 Write \code{gml} Files
 }
 \description{
-A function to write files with a \code{gml} format.
+A function to write files with a graph modelling language (\code{gml}) format.
 }
 \usage{
 write.gml(x, file = NULL)
 }
 \arguments{
-  \item{x}{
-  an object representing the multiple network
-  }
-  \item{file}{
-  path to the file
-  }
+  \item{x}{Array or object representing a multiple network structure.}
+  \item{file}{(optional) Path with filename for output.}
 }
 \details{
 The \code{gml} format, an acronym for \emph{graph modelling language}, provides capabilities to represent multiple networks and add arguments to both the nodes and the edges for visualization purposes. 
 }
 \value{
-A file with the data with a graph modelling language format.
+A graph with modelling language format in a file with path or an object.
 }
-\references{
-\code{visone} \emph{Software for the analysis and visualization of social networks}. \url{http://visone.info}
-}
-\author{
-Antonio Rivero Ostoic
-}
-\note{
-In case that the file already exists in the pointed directory, then the file will be overwritten.
+%\references{} ~
+%\author{} ~
+%\note{} ~
+\section{Warning}{
+Files with identical path and name to \code{file} will be overwritten.
 }
 \seealso{
 \code{\link{read.gml}}, \code{\link{write.dl}}, \code{\link{write.dat}}

@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 zbind <-
 function (..., sort, force) 
 {
@@ -11,12 +12,15 @@ function (..., sort, force)
         stop("Input objects must be arrays or data frames.")
     lapply(argl, function(z) {
         ifelse(all(dimnames(z)[[1]] == dimnames(z)[[2]]) == TRUE, 
-            invisible(NA), stop("\"x\", \"y\" must be square arrays; dimensions not equal."))
+            invisible(NA), stop(paste(sQuote("x"), ", ", sQuote("y"), 
+                " must be square arrays; dimensions not equal.", 
+                sep = "")))
     })
     ifelse(isTRUE(dim(argl[[1]])[3] > 1L) == TRUE, pvt0 <- argl[[1]][, 
         , 1], pvt0 <- argl[[1]])
     if (is.null(dimnames(pvt0)[[1]]) == TRUE) {
-        warning("Dimnames NULL detected, bind first two arrays.")
+        warning("Dimnames NULL detected, bind first two arrays.", 
+            call. = FALSE)
         return(zbnd(...))
     }
     if (isTRUE(length(argl) < 2L) == TRUE) {
@@ -57,13 +61,15 @@ function (..., sort, force)
         }
         else {
             if (isTRUE(force == TRUE) == FALSE) 
-                stop("Arrays have different labeling; set \"force\" to TRUE.")
+                stop(paste("Arrays have different labeling; set ", 
+                  sQuote("force"), " to TRUE.", sep = ""), call. = FALSE)
             flgx <- TRUE
         }
     }
     else {
         if (isTRUE(force == TRUE) == FALSE) 
-            stop("Arrays have different dimensions; set \"force\" to TRUE.")
+            stop(paste("Arrays have different dimensions; set ", 
+                sQuote("force"), " to TRUE.", sep = ""), call. = FALSE)
         flgx <- TRUE
     }
     if (isTRUE(flgx == FALSE) == TRUE) {
@@ -75,8 +81,8 @@ function (..., sort, force)
             if (all(all.equal(dmnl[i], dmnl[i + k]) == TRUE) == 
                 FALSE) {
                 ifelse(isTRUE(dim(argl[[i + k]])[3] > 1) == TRUE, 
-                  NA, argl[[i + k]] <- transf(argl[[i + k]], 
-                    type = "toarray", ord = length(pvtlbs), lbs = pvtlbs))
+                  NA, argl[[i + k]] <- trnf(argl[[i + k]], tolist = FALSE, 
+                    ord = length(pvtlbs), lbs = pvtlbs))
             }
             if (all.equal(pvtlbs, dimnames(argl[[i]])[[2]]) == 
                 TRUE) {
@@ -135,8 +141,8 @@ function (..., sort, force)
                   byrow = TRUE))
             }
             else {
-                tmp1 <- transf(pvt0, type = "toarray", add = pvtlbs[which(!(pvtlbs %in% 
-                  dimnames(pvt0)[[1]]))])
+                tmp1 <- trnf(pvt0, tolist = FALSE, lbs = pvtlbs, 
+                  ord = length(pvtlbs))
                 if (identical(dimnames(tmp1)[[1]], pvtlbs) == 
                   TRUE) {
                   argdf <- rbind(argdf, matrix(tmp1, ncol = ncol(argdf), 
@@ -166,8 +172,8 @@ function (..., sort, force)
             }
             else {
                 for (j in seq_len(dim(argl[[1]])[3])) {
-                  tmp3 <- transf(argl[[1]][, , j], type = "toarray", 
-                    add = pvtlbs[which(!(pvtlbs %in% dimnames(pvt0)[[1]]))])
+                  tmp3 <- trnf(argl[[1]][, , j], tolist = FALSE, 
+                    , lbs = pvtlbs, ord = length(pvtlbs))
                   argdf <- rbind(argdf, matrix(tmp3, ncol = ncol(argdf), 
                     byrow = TRUE))
                 }
@@ -176,8 +182,8 @@ function (..., sort, force)
         }
         for (k in 2:length(argl)) {
             if (is.na(dim(argl[[k]])[3]) == TRUE) {
-                tmpk <- transf(argl[[k]], type = "toarray", add = pvtlbs[which(!(pvtlbs %in% 
-                  dimnames(argl[[k]])[[1]]))])
+                tmpk <- trnf(argl[[k]], tolist = FALSE, lbs = pvtlbs, 
+                  ord = length(pvtlbs))
                 if (identical(dimnames(tmpk)[[1]], pvtlbs) == 
                   TRUE) {
                   argdf <- rbind(argdf, matrix(tmpk, ncol = ncol(argdf), 
@@ -197,8 +203,8 @@ function (..., sort, force)
             }
             else {
                 for (j in seq_len(dim(argl[[k]])[3])) {
-                  tmpk <- transf(argl[[k]][, , j], type = "toarray", 
-                    add = pvtlbs[which(!(pvtlbs %in% dimnames(argl[[k]])[[1]]))])
+                  tmpk <- trnf(argl[[k]][, , j], tolist = FALSE, 
+                    lbs = pvtlbs, ord = length(pvtlbs))
                   tmplbs <- dimnames(tmpk)[[1]]
                   vec <- vector()
                   for (i in seq_len(length(tmplbs))) {
@@ -238,3 +244,4 @@ function (..., sort, force)
         }
     }
 }
+

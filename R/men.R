@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 men <-
 function (y, sep) 
 {
@@ -10,3 +11,4 @@ function (y, sep)
     rm(i)
     return(mn)
 }
+

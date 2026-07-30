@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 perm <-
 function (x, clu, rev, lbs, sort) 
 {
@@ -7,15 +8,19 @@ function (x, clu, rev, lbs, sort)
         0) == TRUE, x <- x$Q, NA)
     if (isTRUE(is.array(x) == TRUE) == FALSE && isTRUE(is.data.frame(x) == 
         TRUE) == FALSE && isTRUE(is.matrix(x) == TRUE) == FALSE) 
-        stop("\"x\" must be an array, matrix, or a data frame object.")
+        stop(paste(sQuote(deparse(substitute(x))), " must be an array, matrix, or a data frame object.", 
+            sep = ""))
     if (missing(sort) == FALSE && (missing(clu) == FALSE || missing(rev) == 
         FALSE || missing(lbs) == FALSE)) 
-        warning("Values in \"clu\", \"rev\", and \"lbs\" are ignored by activating \"sort\".")
+        warning(paste("Values in ", sQuote("clu"), ", ", sQuote("rev"), 
+            " and ", sQuote("lbs"), " are ignored for ", sQuote("sort"), 
+            " option.", sep = ""), call. = FALSE)
     ifelse(missing(rev) == FALSE && isTRUE(rev == TRUE) == TRUE, 
         rev <- TRUE, rev <- FALSE)
     if (missing(sort) == TRUE && (missing(clu) == TRUE || isTRUE(length(unlist(clu)) != 
         dim(x)[1]) == TRUE)) 
-        stop("\"clu\" is missing or it does not match the order of \"x\".")
+        stop(paste(sQuote("clu"), " is missing or it does not match the order of ", 
+            sQuote(deparse(substitute(x))), ".", sep = ""))
     if (missing(sort) == FALSE && is.null(dimnames(x)) == TRUE) 
         return(x)
     if (missing(sort) == FALSE && isTRUE(sort == TRUE) == TRUE && 
@@ -112,3 +117,4 @@ function (x, clu, rev, lbs, sort)
         return(px)
     }
 }
+

@@ -1,9 +1,11 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 semiring <-
 function (x, type = c("balance", "cluster"), symclos = TRUE, 
     transclos = TRUE, k = 2, lbs) 
 {
-    if (isTRUE(attr(x, "class") == "Signed") == FALSE) 
-        stop("\"x\" should be an object of a \"Signed\" class.")
+    if (isTRUE("Signed" %in% attr(x, "class")) == FALSE) 
+        stop(paste(sQuote(deparse(substitute(x))), " must be a ", 
+            dQuote("Signed"), " class object.", sep = ""))
     q <- x$s
     q[which(q == 1)] <- "p"
     q[which(q == 0)] <- "o"
@@ -11,8 +13,8 @@ function (x, type = c("balance", "cluster"), symclos = TRUE,
     if (isTRUE(all(levels(factor(as.matrix(q))) %in% c("a", "n", 
         "o", "p", "q")) == TRUE) == TRUE) {
         if (isTRUE(symclos == TRUE) == TRUE) {
-            for (i in 1:nrow(q)) {
-                for (j in 1:ncol(q)) {
+            for (i in seq_len(nrow(q))) {
+                for (j in seq_len(ncol(q))) {
                   if (isTRUE(q[i, j] != q[j, i]) == TRUE) {
                     if (isTRUE(q[i, j] == "o") == TRUE) {
                       q[i, j] <- q[j, i]
@@ -25,8 +27,8 @@ function (x, type = c("balance", "cluster"), symclos = TRUE,
                 rm(j)
             }
             rm(i)
-            for (i in 1:nrow(q)) {
-                for (j in 1:ncol(q)) {
+            for (i in seq_len(nrow(q))) {
+                for (j in seq_len(ncol(q))) {
                   if (isTRUE(q[i, j] != q[j, i]) == TRUE) {
                     if (isTRUE(q[i, j] == "p") == TRUE) {
                       q[j, i] <- q[i, j]
@@ -58,11 +60,11 @@ function (x, type = c("balance", "cluster"), symclos = TRUE,
         else {
             for (z in 2:k) {
                 chn <- list()
-                for (h in 1:nrow(Q)) {
+                for (h in seq_len(nrow(Q))) {
                   tmp2 <- list()
-                  for (i in 1:nrow(Q)) {
+                  for (i in seq_len(nrow(Q))) {
                     tmp <- vector()
-                    for (j in 1:ncol(Q)) {
+                    for (j in seq_len(ncol(Q))) {
                       tmp <- append(tmp, paste(Q[h, j], Q[j, 
                         i], sep = ", "))
                     }
@@ -75,11 +77,11 @@ function (x, type = c("balance", "cluster"), symclos = TRUE,
                 rm(h)
                 rm(tmp, tmp2)
                 mx <- list()
-                for (i in 1:nrow(Q)) {
+                for (i in seq_len(nrow(Q))) {
                   tmp2 <- list()
-                  for (j in 1:nrow(Q)) {
+                  for (j in seq_len(nrow(Q))) {
                     tmp <- vector()
-                    for (l in 1:ncol(Q)) {
+                    for (l in seq_len(ncol(Q))) {
                       ch <- strsplit(chn[[i]][[j]][l], ", ")[[1]]
                       switch(match.arg(type), balance = {
                         if ("o" %in% ch) {
@@ -116,8 +118,8 @@ function (x, type = c("balance", "cluster"), symclos = TRUE,
                   NA
                 }, cluster = {
                   mxn <- mx
-                  for (i in 1:ncol(Q)) {
-                    for (j in 1:ncol(Q)) {
+                  for (i in seq_len(ncol(Q))) {
+                    for (j in seq_len(ncol(Q))) {
                       if (any("n" == strsplit(chn[[i]][[j]][i], 
                         ", ")[[1]])) {
                         mxn[[i]][[j]][i] <- "n"
@@ -133,8 +135,8 @@ function (x, type = c("balance", "cluster"), symclos = TRUE,
                   rm(mxn)
                 })
                 x2 <- data.frame(matrix(nrow = nrow(Q), ncol = ncol(Q)))
-                for (i in 1:nrow(Q)) {
-                  for (j in 1:nrow(Q)) {
+                for (i in seq_len(nrow(Q))) {
+                  for (j in seq_len(nrow(Q))) {
                     ch <- mx[[i]][[j]]
                     switch(match.arg(type), balance = {
                       if (isTRUE(all("o" == ch)) == TRUE) {
@@ -202,20 +204,21 @@ function (x, type = c("balance", "cluster"), symclos = TRUE,
                     y2 <- replace(y2, y2 == 1L, "p")
                     y2 <- replace(y2, y2 != "p", "o")
                     nn <- which(x2 == "n", arr.ind = TRUE)
-                    for (i in 1:nrow(nn)) y2[nn[, 1][i], nn[, 
-                      2][i]] <- "n"
+                    for (i in seq_len(nrow(nn))) y2[nn[, 1][i], 
+                      nn[, 2][i]] <- "n"
                     rm(i, nn)
                     aa <- which(x2 == "a", arr.ind = TRUE)
-                    for (i in 1:nrow(aa)) y2[aa[, 1][i], aa[, 
-                      2][i]] <- "a"
+                    for (i in seq_len(nrow(aa))) y2[aa[, 1][i], 
+                      aa[, 2][i]] <- "a"
                     rm(i, aa)
                     qq <- which(x2 == "q", arr.ind = TRUE)
-                    for (i in 1:nrow(qq)) y2[qq[, 1][i], qq[, 
-                      2][i]] <- "q"
+                    for (i in seq_len(nrow(qq))) y2[qq[, 1][i], 
+                      qq[, 2][i]] <- "q"
                     rm(i, qq)
                     x2 <- data.frame(matrix(nrow = nrow(x2), 
                       ncol = ncol(x2)))
-                    for (i in 1:nrow(y2)) x2[i, ] <- y2[i, ]
+                    for (i in seq_len(nrow(y2))) x2[i, ] <- y2[i, 
+                      ]
                     rm(i)
                   } else {
                     NA
@@ -223,11 +226,11 @@ function (x, type = c("balance", "cluster"), symclos = TRUE,
                   Q <- x2
                 }, cluster = {
                   chmx <- list()
-                  for (h in 1:nrow(Q)) {
+                  for (h in seq_len(nrow(Q))) {
                     tmp2 <- list()
-                    for (i in 1:nrow(Q)) {
+                    for (i in seq_len(nrow(Q))) {
                       tmp <- vector()
-                      for (j in 1:ncol(Q)) {
+                      for (j in seq_len(ncol(Q))) {
                         tmp <- append(tmp, c(Q[h, j], Q[j, i]))
                       }
                       rm(j)
@@ -250,20 +253,21 @@ function (x, type = c("balance", "cluster"), symclos = TRUE,
                     y2 <- replace(y2, y2 == 1L, "p")
                     y2 <- replace(y2, y2 != "p", "o")
                     nn <- which(x2 == "n", arr.ind = TRUE)
-                    for (i in 1:nrow(nn)) y2[nn[, 1][i], nn[, 
-                      2][i]] <- "n"
+                    for (i in seq_len(nrow(nn))) y2[nn[, 1][i], 
+                      nn[, 2][i]] <- "n"
                     rm(i, nn)
                     aa <- which(x2 == "a", arr.ind = TRUE)
-                    for (i in 1:nrow(aa)) y2[aa[, 1][i], aa[, 
-                      2][i]] <- "a"
+                    for (i in seq_len(nrow(aa))) y2[aa[, 1][i], 
+                      aa[, 2][i]] <- "a"
                     rm(i, aa)
                     qq <- which(x2 == "q", arr.ind = TRUE)
-                    for (i in 1:nrow(qq)) y2[qq[, 1][i], qq[, 
-                      2][i]] <- "q"
+                    for (i in seq_len(nrow(qq))) y2[qq[, 1][i], 
+                      qq[, 2][i]] <- "q"
                     rm(i, qq)
                     x2 <- data.frame(matrix(nrow = nrow(x2), 
                       ncol = ncol(x2)))
-                    for (i in 1:nrow(y2)) x2[i, ] <- y2[i, ]
+                    for (i in seq_len(nrow(y2))) x2[i, ] <- y2[i, 
+                      ]
                     rm(i)
                   } else {
                     NA
@@ -296,6 +300,9 @@ function (x, type = c("balance", "cluster"), symclos = TRUE,
         }
     }
     else {
-        stop("Valence not permitted included in the data; cf. the manual to see the possible entries in 'x'.")
+        stop(paste("Valences in ", sQuote(deparse(substitute(x))), 
+            " must be ", dQuote(paste("a", "n", "o", "p", "q", 
+                sep = ", ")), " only.", sep = ""))
     }
 }
+

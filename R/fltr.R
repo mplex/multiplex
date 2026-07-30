@@ -1,10 +1,13 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 fltr <-
 function (x, PO, ideal = FALSE, rclos) 
 {
     if (isTRUE("Partial.Order" %in% attr(PO, "class")) == FALSE) 
-        stop("\"PO\" should be an object of a \"Partial.Order\" class.")
+        stop(paste(sQuote(deparse(substitute(PO))), " must be a ", 
+            dQuote("Partial.Order"), " class object.", sep = ""))
     if (is.null(dimnames(PO)[[1]]) == TRUE) 
-        stop("Dimnames in 'PO' are NULL")
+        stop(paste("Dimnames in ", sQuote(deparse(substitute(PO))), 
+            " are NULL.", sep = ""))
     ifelse(missing(rclos) == FALSE && isTRUE(rclos == FALSE) == 
         TRUE, rclos <- FALSE, rclos <- TRUE)
     if (isTRUE(is.character(x) == TRUE) == TRUE) {
@@ -19,7 +22,8 @@ function (x, PO, ideal = FALSE, rclos)
         tmp <- sub("}", "", dhc(tmp, sep = ",, "), fixed = TRUE)
         tmp <- dhc(tmp, sep = attr(PO, "class")[3])
         if (isTRUE(length(tmp) != length(unique(tmp))) == TRUE) 
-            stop("'PO' must be in a reduced form.")
+            stop(paste(sQuote(deparse(substitute(PO))), " must be in a reduced form.", 
+                sep = ""))
         ifelse(all(x %in% tmp) == FALSE, x <- x[which(x %in% 
             tmp)], NA)
         X <- vector()
@@ -50,11 +54,15 @@ function (x, PO, ideal = FALSE, rclos)
         }
         rm(k)
         if (isTRUE(length(X) == 0) == TRUE) 
-            stop("'x' is not part of the given partial order.")
+            stop(paste(sQuote(deparse(substitute(x))), " is not part of ", 
+                sQuote(deparse(substitute(PO))), ".", sep = ""), 
+                call. = FALSE)
     }
     else {
         if (isTRUE(max(x) > nrow(PO) | min(x) <= 0L) == TRUE) 
-            stop("Element in 'x' is either non-positive or a number greater than the size of the partial order.")
+            stop(paste("Elements in ", sQuote(deparse(substitute(x))), 
+                " must be greater than the size of ", sQuote(deparse(substitute(PO))), 
+                ".", sep = ""))
         X <- as.integer(x)
     }
     ifelse(isTRUE(ideal == TRUE) == TRUE, po <- t(PO), po <- PO)
@@ -84,3 +92,4 @@ function (x, PO, ideal = FALSE, rclos)
     }
     return(pfll)
 }
+

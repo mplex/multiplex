@@ -1,9 +1,34 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 edgeT <-
-function (x) 
+function (x, semigroupClass) 
 {
-    if (is.array(x) == FALSE) 
-        stop("Data must be a stacked array of square matrices.")
+    if (missing(semigroupClass) == FALSE && isTRUE(semigroupClass == 
+        TRUE) == TRUE) {
+        if (isTRUE(attr(x, "class") == "EdgeTable") == TRUE) {
+            if (is.null(dimnames(x$ET)) == TRUE) 
+                stop(paste("Dimnames in ", sQuote(deparse(substitute(x))), 
+                  " not found.", sep = ""))
+            return(edgS(x$ET, semigroupClass = TRUE))
+        }
+        else {
+            if (is.null(dimnames(x)) == TRUE) 
+                warning(paste("Dimnames in ", sQuote(deparse(substitute(x))), 
+                  " not found.", sep = ""), call. = FALSE)
+            return(edgS(x, semigroupClass = TRUE))
+        }
+    }
+    else {
+        if (is.array(x) == FALSE) 
+            stop(paste("Data should be a stacked array of square matrices or an ", 
+                dQuote("EdgeTable"), " class object.", sep = ""))
+    }
     if (is.na(dim(x)[3]) == TRUE) {
+        if (is.null(dimnames(x)) == TRUE) 
+            stop(paste("Dimnames in ", sQuote(deparse(substitute(x))), 
+                " not found.", sep = ""))
+        if (isTRUE(dim(x)[1] != dim(x)[2]) == TRUE) 
+            stop(paste(sQuote(deparse(substitute(x))), " is not square. Try as ", 
+                dQuote("semigroupClass"), " option.", sep = ""))
         s0 <- data.frame(matrix(ncol = 1, nrow = 1))
         if (isTRUE(all.equal(replace(x %*% x, x %*% x >= 1, 1), 
             x) == TRUE)) 
@@ -142,3 +167,4 @@ function (x)
     class(et) <- "EdgeTable"
     return(et)
 }
+

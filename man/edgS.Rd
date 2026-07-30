@@ -1,6 +1,5 @@
 \name{edgS}
 \alias{edgS}
-%
 \title{
 internal function
 }
@@ -10,6 +9,5 @@ internal function
 %\usage{
 %edgS(E, semigroupClass = FALSE)
 %}
-%
 \keyword{internal}
 %

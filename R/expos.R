@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 expos <-
 function (rs, classes = FALSE, allClasses = FALSE, allNodes = TRUE) 
 {
@@ -237,3 +238,4 @@ function (rs, classes = FALSE, allClasses = FALSE, allNodes = TRUE)
         return(list(Bonds = rs$bond.type, Exposure = exps))
     }
 }
+

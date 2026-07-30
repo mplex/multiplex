@@ -7,8 +7,7 @@ internal function
 internal function
 }
 %\usage{
-%ngbs(x, type = c("und", "dir"))
+%ngbs(x, rs, type = c("und", "inn", "out"), num = FALSE)
 %}
-%
 \keyword{internal}
 %

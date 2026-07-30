@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 edgS <-
 function (E, semigroupClass = FALSE) 
 {
@@ -19,8 +20,7 @@ function (E, semigroupClass = FALSE)
             ws <- which(E == s)
             i <- ws%%n
             i <- replace(i, i == 0, n)
-            j <- vector()
-            length(j) <- length(i)
+            j <- vector(length = length(i))
             j[which(ws <= n)] <- 1
             j[which(ws > n)] <- 2
             if (all(i > m) == TRUE) {
@@ -40,10 +40,9 @@ function (E, semigroupClass = FALSE)
                   wss <- which(E == ss)
                   ii <- wss%%n
                   ii <- replace(ii, ii == 0, n)
-                  jj <- vector()
-                  length(jj) <- length(ii)
-                  jj[which(wss <= n)] <- 1
-                  jj[which(wss > n)] <- 2
+                  jj <- vector(length = length(ii))
+                  jj[which(wss <= n)] <- 1L
+                  jj[which(wss > n)] <- 2L
                   ifelse(isTRUE(chg > 1) == TRUE, tmp <- c(tmp[1:(chg - 
                     1)], c(ii[which(ii == min(ii))], jj[which(ii == 
                     min(ii))]), tmp[(chg + 1):length(tmp)]), 
@@ -88,3 +87,4 @@ function (E, semigroupClass = FALSE)
         return(lst)
     }
 }
+

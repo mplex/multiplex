@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 dhc <-
 function (xd, sep) 
 {
@@ -22,3 +23,4 @@ function (xd, sep)
         xd
     }
 }
+

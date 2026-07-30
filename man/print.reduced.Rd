@@ -7,8 +7,7 @@ internal function
 internal function
 }
 %\usage{
-%print.reduced(p, ...)
+%print.reduced(x, ...)
 %}
-%
 \keyword{internal}
 %

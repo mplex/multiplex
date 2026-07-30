@@ -1,6 +1,8 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 transf <-
 function (x, type = c("toarray", "tolist", "toarray2", "toedgel"), 
-    lbs = NULL, lb2lb, sep, ord, sort, sym, add, adc, na.rm) 
+    lbs = NULL, lb2lb, valued, sep, ord, sort, sym, add, adc, 
+    rm.isol, na.rm) 
 {
     if (is.list(x) == TRUE) {
         if (isTRUE(length(x) == 1L) == TRUE) {
@@ -13,104 +15,334 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
             NA
         }
     }
-    if (match.arg(type) == "toarray" && is.data.frame(x) == TRUE) {
-        if (missing(na.rm) == FALSE && isTRUE(na.rm == FALSE) == 
+    else if (is.array(x) == TRUE && match.arg(type) != "toarray") {
+        ifelse(missing(valued) == FALSE && isTRUE(valued == TRUE) == 
+            TRUE, NA, x <- dichot(x, c = 1))
+    }
+    ifelse(missing(na.rm) == FALSE && isTRUE(na.rm == TRUE) == 
+        TRUE, na.rm <- TRUE, na.rm <- FALSE)
+    ifelse(missing(sort) == FALSE && isTRUE(sort == TRUE) == 
+        TRUE, sort <- TRUE, sort <- FALSE)
+    ifelse(missing(sep) == TRUE, sep <- ", ", NA)
+    if (match.arg(type) == "toarray") {
+        if (is.array(x) == TRUE && missing(add) == TRUE && is.null(lbs) == 
             TRUE) {
-            if (any(is.na(x)) == TRUE) 
-                message("Missing information in \"x\" recorded as \"NA\".")
-            x[, 1] <- as.factor(x[, 1])
-            levels(x[, 1]) <- c(levels(x[, 1]), "NA")
-            x[, 1][is.na(x[, 1])] <- "NA"
-            x[, 2] <- as.factor(x[, 2])
-            levels(x[, 2]) <- c(levels(x[, 2]), "NA")
-            x[, 2][is.na(x[, 2])] <- "NA"
+            if (missing(rm.isol) == FALSE && isTRUE(rm.isol == 
+                TRUE) == TRUE) {
+                return(rm.isol(x))
+            }
+            else {
+                message("No transformation.")
+                return(x)
+            }
         }
-        if (missing(add) == FALSE) {
-            xadd <- suppressWarnings(edgel(x, add = add))
-            diag(xadd)[which(dimnames(xadd)[[1]] %in% add)] <- 0
-            return(xadd)
-        }
-        else {
-            mat <- suppressWarnings(edgel(x, toarray = TRUE))
-            if (is.null(lbs) == FALSE) {
-                dimnames(mat)[[1]] <- lbs[seq_len(dim(mat)[1])]
-                dimnames(mat)[[2]] <- lbs[seq_len(dim(mat)[2])]
+        if (is.matrix(x) == TRUE && isTRUE(length(unique(dim(x))) == 
+            1) == TRUE) {
+            if (is.null(lbs) == TRUE) {
+                lbs <- dimnames(x)[[1]]
             }
             else {
                 NA
             }
-            return(mat)
         }
-    }
-    ifelse(missing(sep) == TRUE, sep <- ", ", NA)
-    if (match.arg(type) == "toedgel") {
+        if (is.data.frame(x) == TRUE || (is.matrix(x) == TRUE && 
+            identical(dimnames(x)[[1]], dimnames(x)[[2]]) == 
+                FALSE)) {
+            mat <- rbind(as.matrix(cbind(array(0L, dim = c(nrow(x), 
+                nrow(x))), x)), matrix(0L, nrow = ncol(x), ncol = sum(dim(x))))
+            dimnames(mat)[[1]] <- dimnames(mat)[[2]] <- c(rownames(x), 
+                colnames(x))
+            if (missing(add) == FALSE) {
+                warning(paste("Option ", sQuote("add"), " not supported for non-square arrays.", 
+                  sep = ""), call. = FALSE)
+            }
+            else {
+                NA
+            }
+            return(as.data.frame(mat))
+        }
+        if (missing(add) == FALSE) {
+            if (is.list(x) == TRUE) {
+                if (is.list(add) == TRUE) {
+                  for (i in seq_len(length(add))) {
+                    x[[i]] <- append(x[[i]], add[[i]])
+                  }
+                  rm(i)
+                }
+                else if (is.vector(add) == TRUE) {
+                  for (i in seq_len(length(add))) {
+                    x[[i]] <- append(x[[i]], add)
+                  }
+                  rm(i)
+                }
+            }
+            else if (is.vector(x) == TRUE && is.array(x) == FALSE && 
+                is.vector(add) == TRUE) {
+                x <- c(x, add)
+            }
+            else if (is.array(x) == TRUE) {
+                lbs <- c(dimnames(x)[[1]], add)
+            }
+        }
+        if ((is.list(x) == TRUE && isTRUE(length(x) > 1L) == 
+            TRUE) && is.matrix(x[[1]]) == TRUE) 
+            return(x)
+        if (missing(ord) == FALSE) {
+            ord <- as.numeric(ord)
+            if ((is.array(x) == FALSE & is.data.frame(x) == FALSE) && 
+                isTRUE(nlevels(factor(unlist(dhc(x, sep = sep)))) > 
+                  ord) == TRUE) {
+                ord <- nlevels(factor(unlist(dhc(x, sep = sep))))
+                warning(paste("Value in ", sQuote("ord"), " is ignored since the number of factor levels in pairwise list is higher.", 
+                  sep = ""), call. = FALSE)
+            }
+            else {
+                NA
+            }
+        }
+        else if (missing(ord) == TRUE) {
+            if (is.null(lbs) == FALSE) {
+                ord <- length(lbs)
+            }
+            else {
+                if (is.vector(x) == TRUE) {
+                  if (isTRUE("data.frame" %in% unlist(lapply(x, 
+                    is), use.names = FALSE)) == TRUE) {
+                    ord <- length(unique(unlist(lapply(x, dimnames), 
+                      use.names = FALSE)))
+                  }
+                  else {
+                    ord <- length(unique(dhc(unlist(x, use.names = FALSE))))
+                  }
+                }
+                else {
+                  ord <- dim(x)[1]
+                }
+            }
+        }
         if (is.array(x) == TRUE) {
-            if (is.na(dim(x)[3]) == TRUE) {
-                tmp <- trnf(x, tolist = TRUE, lb2lb = TRUE, lbs = dimnames(x)[[1]], 
-                  sep = sep)
-                tmp2 <- sapply(tmp, function(z) {
-                  strsplit(z, sep)
-                })
-                rm(tmp)
-                edgl <- data.frame(matrix(nrow = 0, ncol = 3))
-                colnames(edgl) <- c("s", "r", "t")
-                for (i in seq_len(length(tmp2))) {
-                  edgl[nrow(edgl) + 1L, ] <- c(strsplit(tmp2[[i]], 
-                    sep)[[1]], strsplit(tmp2[[i]], sep)[[2]], 
-                    "1")
+            if (isTRUE(length(unique(dim(x))) > 1) == TRUE) {
+                Lbs <- lbs
+            }
+            else {
+                ifelse(is.null(lbs) == TRUE, Lbs <- dimnames(x)[[1]][seq_len(ord)], 
+                  Lbs <- lbs[seq_len(ord)])
+            }
+            if (any(duplicated(Lbs)) == TRUE) {
+                Lbs <- unique(Lbs)
+                ord <- length(Lbs)
+            }
+            else {
+                NA
+            }
+        }
+        else if (is.array(x) == FALSE) {
+            if (is.null(lbs) == FALSE) {
+                if (any(unique(unlist(dhc(x))) %in% lbs) == FALSE && 
+                  all(suppressWarnings(is.na(as.numeric(unique(unlist(dhc(x))))))) == 
+                    FALSE) {
+                  Lbs <- seq_len(ord)
+                }
+                else {
+                  Lbs <- lbs[seq_len(ord)]
+                }
+            }
+            else {
+                if (isTRUE("data.frame" %in% unlist(lapply(x, 
+                  is), use.names = FALSE)) == TRUE) {
+                  ifelse(isTRUE(sort == TRUE) == TRUE, Lbs <- sort(unique(unlist(lapply(x, 
+                    dimnames), use.names = FALSE))), Lbs <- unique(unlist(lapply(x, 
+                    dimnames), use.names = FALSE)))
+                }
+                else {
+                  ifelse(isTRUE(sort == TRUE) == TRUE, Lbs <- sort(unique(unlist(dhc(x, 
+                    sep = sep))))[seq_len(ord)], Lbs <- levels(factor(unlist(dhc(x, 
+                    sep = sep))))[seq_len(ord)])
+                }
+            }
+        }
+        if (is.list(x) == TRUE) {
+            arr <- array(0L, dim = c(ord, ord, length(x)), dimnames = list(Lbs, 
+                Lbs, names(x)))
+            if (isTRUE("data.frame" %in% unlist(lapply(x, methods::is), 
+                use.names = FALSE)) == TRUE) {
+                for (k in seq_len(length(x))) {
+                  lst <- vector(mode = "list", length = length(Lbs))
+                  names(lst) <- Lbs
+                  sco <- rownames(x[[k]])[which(x[[k]] == 1)%%nrow(x[[k]])]
+                  for (i in unique(which(x[[k]] == 1)%%nrow(x[[k]]))) {
+                    rco <- colnames(x[[k]])[which(x[[k]][i, ] == 
+                      1)]
+                    for (j in seq_len(length(rco))) {
+                      ifelse(is.null(unlist(lst[which(Lbs %in% 
+                        rco[j])])) == FALSE, lst[[which(Lbs %in% 
+                        rco[j])]] <- append(as.vector(unlist(lst[which(Lbs %in% 
+                        rco[j])])), rownames(x[[k]][i, ])), lst[which(Lbs %in% 
+                        rco[j])] <- rownames(x[[k]][i, ]))
+                    }
+                    rm(j)
+                  }
+                  rm(i)
+                  tmp <- matrix(0L, ncol = as.numeric(ord), nrow = as.numeric(ord), 
+                    dimnames = list(Lbs, Lbs))
+                  for (j in seq_len(length(lst))) {
+                    if (is.null(lst[[j]]) == FALSE) {
+                      for (i in seq_len(length(lst[[j]]))) {
+                        tmp[which(rownames(tmp) == lst[[j]][i]), 
+                          which(colnames(tmp) == names(lst)[j])] <- tmp[which(rownames(tmp) == 
+                          lst[[j]][i]), which(colnames(tmp) == 
+                          names(lst)[j])] + 1L
+                      }
+                      rm(i)
+                    }
+                  }
+                  rm(j)
+                  arr[, , k] <- tmp
+                }
+                rm(k)
+            }
+            else {
+                for (i in seq_len(length(x))) {
+                  for (k in seq_len(length(x[[i]]))) {
+                    crs <- dhc(x[[i]][k], sep = sep)
+                    arr[which(Lbs %in% crs[1]), which(Lbs %in% 
+                      crs[2]), i] <- 1L
+                  }
+                  rm(k)
                 }
                 rm(i)
             }
-            else {
-                tmpl <- trnf(x, tolist = TRUE, lb2lb = TRUE, 
-                  lbs = dimnames(x)[[1]], sep = sep)
-                tmp <- trnf(x, tolist = TRUE, lb2lb = FALSE, 
-                  sep = sep)
-                tmp2 <- sapply(tmp, function(z) {
-                  strsplit(z, sep)
-                })
-                rm(tmp)
-                edgl <- data.frame(matrix(nrow = 0, ncol = (dim(x)[3]) + 
-                  2))
-                colnames(edgl) <- c("s", "r", dimnames(x)[[3]])
-                for (l in seq_len(length(tmp2[[1]]))) {
-                  edgl[nrow(edgl) + 1L, 3] <- 1L
-                  edgl[nrow(edgl), 1:2] <- strsplit(tmpl[[1]][[l]], 
-                    sep)[[1]]
+            if (missing(sym) == FALSE && isTRUE(sym == TRUE) == 
+                TRUE) {
+                for (i in seq_len(dim(arr)[3])) {
+                  arr[, , i] <- arr[, , i] + t(arr[, , i])
                 }
-                rm(l)
-                edgl1 <- Map(as.vector, data.frame(t(edgl[, 1:2])))
-                for (k in 2:dim(x)[3]) {
-                  for (l in seq_len(length(tmp2[[k]]))) {
-                    tmpeval <- strsplit(tmpl[[k]][[l]], sep)[[1]]
-                    if (any(unlist(lapply(lapply(edgl1, function(z) {
-                      tmpeval %in% z
-                    }), all), use.names = FALSE)) == TRUE) {
-                      edgl[which(unlist(lapply(lapply(edgl1, 
-                        function(z) {
-                          tmpeval %in% z
-                        }), all), use.names = FALSE)), (k + 2L)] <- 1L
-                    }
-                    else {
-                      edgl[nrow(edgl) + 1L, (k + 2L)] <- 1L
-                      edgl[nrow(edgl), 1:2] <- tmpeval
-                    }
-                  }
-                  rm(l)
-                  rm(tmpeval)
+                rm(i)
+            }
+            if (is.null(lbs) == FALSE && isTRUE(length(lbs) == 
+                dim(arr)[1]) == TRUE) {
+                dimnames(arr)[[1]] <- dimnames(arr)[[2]] <- lbs
+            }
+            else {
+                NA
+            }
+            if (isTRUE(sort == TRUE) == TRUE) {
+                return(perm(arr, sort = TRUE))
+            }
+            else {
+                return(arr)
+            }
+        }
+        else if (is.vector(x) == TRUE && is.array(x) == FALSE) {
+            mat <- matrix(0L, ncol = ord, nrow = ord, dimnames = list(Lbs, 
+                Lbs))
+            for (k in seq_len(length(x))) {
+                crs <- dhc(x[k], sep = sep)
+                mat[which(Lbs %in% crs[1]), which(Lbs %in% crs[2])] <- 1L
+            }
+            rm(k)
+            ifelse(missing(sym) == FALSE && isTRUE(sym == TRUE) == 
+                TRUE, mat <- mat + t(mat), NA)
+            if (isTRUE(sort == TRUE) == TRUE) {
+                return(perm(mat, sort = TRUE))
+            }
+            else {
+                return(mat)
+            }
+        }
+        else if (is.array(x) == TRUE) {
+            ifelse(isTRUE(NA %in% Lbs) == TRUE && is.null(lbs) == 
+                FALSE, Lbs <- lbs, NA)
+            if (is.na(dim(x)[3]) == TRUE && isTRUE(length(unique(dim(x))) == 
+                1) == TRUE) {
+                mat <- trnf(x, tolist = FALSE, ord = ord, lbs = Lbs)
+            }
+            else if (is.na(dim(x)[3]) == FALSE) {
+                arr <- array(0L, dim = c(length(Lbs), length(Lbs), 
+                  dim(x)[3]), dimnames = list(Lbs, Lbs, dimnames(x)[[3]]))
+                for (k in seq_len(dim(x)[3])) {
+                  arr[, , k] <- trnf(x[, , k], tolist = FALSE, 
+                    lbs = Lbs, ord = ord)
                 }
                 rm(k)
-                rm(edgl1)
-                edgl[sapply(edgl, is.na)] <- 0
             }
-            return(edgl)
+            else {
+                mat <- matrix(0L, ncol = length(Lbs), nrow = length(Lbs), 
+                  dimnames = list(Lbs, Lbs))
+                for (i in seq_len(nrow(x))) {
+                  mat[i, which(colnames(mat) %in% names(which(x[i, 
+                    ] > 0)))] <- x[i, which(colnames(x) %in% 
+                    names(which(x[i, ] > 0)))]
+                }
+                rm(i)
+            }
+        }
+        else if (is.null(x) == TRUE) {
+            mat <- matrix(0L, nrow = ord, ncol = ord)
         }
         else {
-            if (missing(na.rm) == FALSE && isTRUE(na.rm == FALSE) == 
-                TRUE) {
+            stop(paste("Input for ", sQuote("toarray"), " must be vector, pairwise list, edge list, or array.", 
+                sep = ""))
+        }
+        if (missing(sym) == FALSE && isTRUE(sym == TRUE) == TRUE) {
+            if (is.na(dim(x)[3]) == TRUE) {
+                mat <- mat + t(mat)
+            }
+            else {
+                for (i in seq_len(dim(x)[3])) {
+                  arr[, , i] <- arr[, , i] + t(arr[, , i])
+                }
+                rm(i)
+            }
+        }
+        if (is.null(lbs) == FALSE && missing(add) == TRUE) {
+            ifelse(is.na(dim(x)[3]) == TRUE, dimnames(mat)[[1]] <- dimnames(mat)[[2]] <- lbs[seq_len(ord)], 
+                dimnames(arr)[[2]] <- dimnames(arr)[[2]] <- lbs[seq_len(ord)])
+        }
+        else {
+            NA
+        }
+        if (isTRUE(sort == TRUE) == TRUE) {
+            if (is.na(dim(x)[3]) == TRUE) {
+                mat <- perm(mat, sort = TRUE)
+            }
+            else {
+                arr <- perm(arr, sort = TRUE)
+            }
+        }
+        else {
+            NA
+        }
+        if (missing(rm.isol) == FALSE && isTRUE(rm.isol == TRUE) == 
+            TRUE) {
+            if (is.na(dim(x)[3]) == TRUE) {
+                slct <- which((apply(mat, 1, sum) + apply(mat, 
+                  2, sum)) > 0)
+                return(mat[slct, slct])
+            }
+            else {
+                return(arr[slct, slct, ])
+            }
+        }
+        else {
+            if (is.na(dim(x)[3]) == TRUE) {
+                return(mat)
+            }
+            else {
+                return(arr)
+            }
+        }
+    }
+    if (match.arg(type) == "toedgel") {
+        if (is.array(x) == TRUE) {
+            return(edgel(x, toarray = FALSE))
+        }
+        else if (is.data.frame(x) == FALSE) {
+            if (isTRUE(na.rm == FALSE) == TRUE) {
                 if (any(is.na(x)) == TRUE) 
-                  message("Missing information in \"x\" recorded as \"NA\".")
-                ifelse(is.data.frame(x) == FALSE, NA, x[is.na(x)] <- "NA")
+                  message(paste("Missing information in ", sQuote("x"), 
+                    " recorded as ", sQuote("NA"), ".", sep = ""))
+                x[is.na(x)] <- "NA"
             }
             else {
                 NA
@@ -126,7 +358,6 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
                   edgl[nrow(edgl) + 1L, ] <- c(tmps[[1]][i][[1]], 
                     1L, rep(0L, length(x) - 1L))
                 }
-                rm(i)
                 edgl <- unique(edgl)
                 ttmps <- split(edgl[, 1:2], seq(nrow(edgl)))
                 tmpss <- lapply(ttmps, function(z) {
@@ -210,239 +441,84 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
             rownames(edgl) <- seq_len(nrow(edgl))
             return(edgl)
         }
+        else {
+            return(x)
+        }
     }
     if (match.arg(type) == "tolist") {
-        if (isTRUE(is.character(x) == TRUE) == TRUE | (is.array(x) == 
-            TRUE && is.null(dim(x)) == TRUE)) 
-            return(x)
-        if ((isTRUE(sum(x) > 0L) == FALSE | isTRUE(max(x) < 1L) == 
-            TRUE) && is.array(x) == TRUE) 
-            return(NULL)
         ifelse(missing(lb2lb) == FALSE && isTRUE(lb2lb == TRUE) == 
             TRUE, lb2lb <- TRUE, lb2lb <- FALSE)
+        if (is.data.frame(x) == TRUE && all(is.numeric(unlist(x, 
+            use.names = FALSE))) == FALSE) {
+            return(apply(x, 1, function(w) {
+                jnt(unlist(w, use.names = FALSE), uniq = TRUE)
+            }))
+        }
         if (is.list(x) == TRUE && is.data.frame(x) == FALSE) {
             inc <- list()
             for (k in seq_len(length(x))) {
-                inc[[k]] <- trnf(x[[k]], tolist = TRUE, lb2lb = lb2lb)
+                inc[[k]] <- trnf(x[[k]], tolist = TRUE, lb2lb = lb2lb, 
+                  sep = sep)
             }
             rm(k)
             attr(inc, "names") <- names(x)
             return(inc)
         }
-        if (is.null(lbs) == FALSE | isTRUE(lb2lb == TRUE) == 
-            FALSE) {
-            lbsr <- lbsc <- lbs
-        }
         else {
-            ifelse(is.null(dimnames(x)[[1]]) == TRUE, lbsr <- seq_len(dim(x)[1]), 
-                lbsr <- dimnames(x)[[1]])
-            ifelse(is.null(dimnames(x)[[2]]) == TRUE, lbsc <- seq_len(dim(x)[2]), 
-                lbsc <- dimnames(x)[[2]])
+            if (isTRUE(is.character(x) == TRUE) == TRUE | (is.array(x) == 
+                TRUE && is.null(dim(x)) == TRUE)) 
+                return(x)
+            if ((isTRUE(sum(x) > 0L) == FALSE | isTRUE(max(x) < 
+                1L) == TRUE) && is.array(x) == TRUE) 
+                return(NULL)
         }
-        rws <- vector()
-        cls <- vector()
         if (is.na(dim(x)[3]) == TRUE) {
-            inc <- list()
-            for (l in seq_len(max(x))) {
-                xd <- dichot(x, c = l)
-                for (i in seq_len(length(which((xd) == 1L)))) {
-                  cls[i] <- (ceiling(which((xd) == 1L)/dim(x)[1]))[i]
-                  ifelse((which((xd) == 1L)%%dim(x)[1])[i] == 
-                    0L, rws[i] <- (which((xd) == 1L)%%dim(x)[1])[i] + 
-                    dim(x)[1], rws[i] <- (which((xd) == 1L)%%dim(x)[1])[i])
-                  ifelse(isTRUE(lb2lb == TRUE) == TRUE, inc[[length(inc) + 
-                    1L]] <- paste(lbsr[rws[i]], lbsc[cls[i]], 
-                    sep = sep), inc[[length(inc) + 1L]] <- paste(rws[i], 
-                    cls[i], sep = sep))
-                }
-                rm(i)
+            if (identical(dimnames(x)[[1]], dimnames(x)[[2]]) == 
+                TRUE) {
+                return(trnf(x, tolist = TRUE, lb2lb = lb2lb, 
+                  sep = sep))
             }
-            rm(l)
-            return(unlist(inc))
+            else {
+                ifelse(is.matrix(x) == FALSE, x <- as.matrix(x), 
+                  NA)
+                x0 <- cbind(matrix(0, nrow = nrow(x) + ncol(x), 
+                  ncol = nrow(x)), rbind(x, matrix(0, nrow = ncol(x), 
+                  ncol = ncol(x))))
+                dimnames(x0)[[1]] <- dimnames(x0)[[2]] <- c(rownames(x), 
+                  colnames(x))
+                return(trnf(x0, tolist = TRUE, lb2lb = lb2lb, 
+                  sep = sep))
+            }
         }
         else {
-            Inc <- vector("list", length = dim(x)[3])
-            names(Inc) <- dimnames(x)[[3]]
+            inc <- vector(mode = "list", length = dim(x)[3])
             for (k in seq_len(dim(x)[3])) {
-                inc <- list()
-                if (isTRUE(max(x[, , k]) >= 1L) == TRUE) {
-                  for (l in seq_len(max(x[, , k]))) {
-                    xd <- dichot(x[, , k], c = l)
-                    for (i in seq_len(length(which((xd) == 1L)))) {
-                      cls[i] <- (ceiling(which((xd) == 1L)/dim(x[, 
-                        , k])[1]))[i]
-                      ifelse((which((xd) == 1L)%%dim(x[, , k])[1])[i] == 
-                        0L, rws[i] <- (which((xd) == 1L)%%dim(x[, 
-                        , k])[1])[i] + dim(x[, , k])[1], rws[i] <- (which((xd) == 
-                        1L)%%dim(x[, , k])[1])[i])
-                      ifelse(isTRUE(lb2lb == TRUE) == TRUE, inc[[length(inc) + 
-                        1L]] <- paste(lbsr[rws[i]], lbsc[cls[i]], 
-                        sep = sep), inc[[length(inc) + 1L]] <- paste(rws[i], 
-                        cls[i], sep = sep))
-                    }
-                    rm(i)
-                  }
-                  rm(l)
-                  Inc[[k]] <- unlist(inc)
+                if (identical(dimnames(x[, , k])[[1]], dimnames(x[, 
+                  , k])[[2]]) == TRUE) {
+                  inc[[k]] <- trnf(x[, , k], tolist = TRUE, lb2lb = lb2lb, 
+                    sep = sep)
                 }
                 else {
-                  NA
+                  ifelse(is.matrix(x[, , k]) == FALSE, x[, , 
+                    k] <- as.matrix(x[, , k]), NA)
+                  x0k <- cbind(matrix(0, nrow = nrow(x[, , k]) + 
+                    ncol(x[, , k]), ncol = nrow(x[, , k])), rbind(x[, 
+                    , k], matrix(0, nrow = ncol(x[, , k]), ncol = ncol(x[, 
+                    , k]))))
+                  dimnames(x0k)[[1]] <- dimnames(x0k)[[2]] <- c(rownames(x[, 
+                    , k]), colnames(x[, , k]))
+                  inc[[k]] <- trnf(x0k, tolist = TRUE, lb2lb = lb2lb, 
+                    sep = sep)
                 }
             }
             rm(k)
-            return(Inc)
+            attr(inc, "names") <- dimnames(x)[[3]]
+            return(inc)
         }
     }
     else {
         ifelse(missing(lb2lb) == FALSE && isTRUE(lb2lb == FALSE) == 
             TRUE, lb2lb <- FALSE, lb2lb <- TRUE)
-    }
-    if (match.arg(type) == "toarray") {
-        if (missing(add) == FALSE) {
-            if (is.list(x) == TRUE) {
-                if (is.list(add) == TRUE) {
-                  for (i in seq_len(length(add))) {
-                    x[[i]] <- append(x[[i]], add[[i]])
-                  }
-                  rm(i)
-                }
-            }
-            else if (is.vector(x) == TRUE) {
-                ifelse(is.vector(add) == TRUE, x <- c(x, add), 
-                  NA)
-            }
-            else if (is.array(x) == TRUE) {
-                lbs <- c(dimnames(x)[[1]], add)
-                ord <- dim(x)[1] + length(add)
-            }
-        }
-        if ((is.vector(x) == FALSE && isTRUE(dim(x)[1] == dim(x)[2]) == 
-            FALSE)) 
-            return(x)
-        if ((is.list(x) == TRUE && isTRUE(length(x) > 1L) == 
-            TRUE) && is.matrix(x[[1]]) == TRUE) 
-            return(x)
-        if (missing(ord) == TRUE) {
-            if (is.vector(x) == TRUE) {
-                ord <- length(unique(dhc(unlist(x, use.names = FALSE))))
-            }
-            else {
-                ifelse(is.null(lbs) == FALSE, ord <- length(dhc(lbs, 
-                  sep = sep)), ord <- dim(x)[1])
-            }
-        }
-        else {
-            ord <- as.numeric(ord)
-            if ((is.array(x) == FALSE & is.data.frame(x) == FALSE) && 
-                isTRUE(nlevels(factor(unlist(dhc(x, sep = sep)))) > 
-                  ord) == TRUE) {
-                ord <- nlevels(factor(unlist(dhc(x, sep = sep))))
-                warning("\"ord\" is ignored since value is less than the number of factor levels in pairwise list.")
-            }
-            else {
-                NA
-            }
-        }
-        if (is.array(x) == TRUE) {
-            ifelse(is.null(lbs) == TRUE, Lbs <- dimnames(x)[[1]][seq_len(ord)], 
-                Lbs <- lbs[seq_len(ord)])
-            if (any(duplicated(Lbs)) == TRUE) {
-                Lbs <- unique(Lbs)
-                ord <- length(Lbs)
-            }
-            else {
-                NA
-            }
-        }
-        else if (is.array(x) == FALSE) {
-            if (is.null(lbs) == FALSE | (is.null(lbs) == FALSE && 
-                isTRUE(lb2lb == TRUE) == TRUE)) {
-                Lbs <- lbs[seq_len(ord)]
-            }
-            else {
-                ifelse(missing(sort) == FALSE && isTRUE(sort == 
-                  TRUE) == TRUE, Lbs <- sort(unique(unlist(dhc(x, 
-                  sep = sep))))[seq_len(ord)], Lbs <- unique(unlist(dhc(x, 
-                  sep = sep)))[seq_len(ord)])
-            }
-        }
-        if (is.list(x) == TRUE) {
-            mat <- array(0L, dim = c(ord, ord, length(x)), dimnames = list(Lbs, 
-                Lbs, names(x)))
-            for (i in seq_len(length(x))) {
-                if (is.null(lbs) == FALSE) {
-                  mat[, , i] <- trnf(x[[i]], tolist = FALSE, 
-                    ord = ord)
-                }
-                else {
-                  mat[, , i] <- trnf(x[[i]], tolist = FALSE, 
-                    ord = ord, lbs = Lbs)
-                }
-            }
-            rm(i)
-        }
-        else if (is.vector(x) == TRUE) {
-            mat <- matrix(0L, ncol = ord, nrow = ord, dimnames = list(Lbs, 
-                Lbs))
-            for (i in seq_len(length(x))) {
-                mat[which(Lbs == dhc(x[i], sep = sep)[1]), which(Lbs == 
-                  dhc(x[i], sep = sep)[2])] <- mat[which(Lbs == 
-                  dhc(x[i], sep = sep)[1]), which(Lbs == dhc(x[i], 
-                  sep = sep)[2])] + 1L
-            }
-            rm(i)
-        }
-        else if (is.array(x) == TRUE) {
-            ifelse(isTRUE(NA %in% Lbs) == TRUE && is.null(lbs) == 
-                FALSE, Lbs <- lbs, NA)
-            if (is.na(dim(x)[3]) == TRUE) {
-                mat <- trnf(trnf(x, tolist = TRUE, lb2lb = TRUE), 
-                  tolist = FALSE, ord = ord, lbs = Lbs)
-            }
-            else {
-                arr <- array(dim = c(length(Lbs), length(Lbs), 
-                  dim(x)[3]), dimnames = list(Lbs, Lbs, dimnames(x)[[3]]))
-                for (k in seq_len(dim(x)[3])) {
-                  arr[, , k] <- trnf(trnf(x[, , k], tolist = TRUE, 
-                    lb2lb = TRUE), tolist = FALSE, ord = ord, 
-                    lbs = Lbs)
-                }
-                rm(k)
-                mat <- arr
-            }
-        }
-        else if (is.null(x) == TRUE) {
-            mat <- matrix(0L, nrow = ord, ncol = ord)
-        }
-        else {
-            stop("Input for \"toarray\" must be vector, pairwise list, edge list, or array.")
-        }
-        if (isTRUE(lb2lb == TRUE) == FALSE && is.null(lbs) == 
-            TRUE) {
-            dimnames(mat)[[1]] <- dimnames(mat)[[2]] <- NULL
-        }
-        else {
-            NA
-        }
-        if (missing(sym) == FALSE && isTRUE(sym == TRUE) == TRUE) {
-            if (is.na(dim(mat)[3]) == TRUE) {
-                mat <- mat + t(mat)
-            }
-            else {
-                for (i in seq_len(dim(mat)[3])) {
-                  mat[, , i] <- mat[, , i] + t(mat[, , i])
-                }
-                rm(i)
-            }
-        }
-        if (is.null(lbs) == FALSE && missing(add) == TRUE) {
-            dimnames(mat)[[1]] <- lbs[seq_len(ord)]
-            dimnames(mat)[[2]] <- lbs[seq_len(ord)]
-        }
-        else {
-            NA
-        }
-        return(mat)
     }
     if (match.arg(type) == "toarray2") {
         if (is.vector(x) == TRUE) {
@@ -499,7 +575,8 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
                     0L)]
                   if (is.null(lbs) == FALSE) {
                     if (is.list(lbs) == FALSE) 
-                      warning("\"lbs\" should be a list for \"toarray2\".")
+                      warning(paste(sQuote("lbs"), " should be a list for ", 
+                        sQuote("toarray2"), ".", sep = ""))
                     vc1 <- unique(c(vec1[[k]], lbs[[k]][[1]]))
                     vc2 <- unique(c(vec2[[k]], lbs[[k]][[2]]))
                   }
@@ -535,7 +612,8 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
                   0L)]
                 if (is.null(lbs) == FALSE) {
                   if (is.list(lbs) == FALSE) 
-                    warning("\"lbs\" should be a list for \"toarray2\".")
+                    warning(paste(sQuote("lbs"), " should be a list for ", 
+                      sQuote("toarray2"), ".", sep = ""))
                   vc1 <- unique(c(vec1, lbs[[1]]))
                   vc2 <- unique(c(vec2, lbs[[2]]))
                 }
@@ -567,3 +645,4 @@ function (x, type = c("toarray", "tolist", "toarray2", "toedgel"),
         return(dfr)
     }
 }
+

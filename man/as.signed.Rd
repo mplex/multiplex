@@ -1,41 +1,43 @@
 \name{as.signed}
 \alias{as.signed}
-%
 \title{
-Coerce to a Signed Object
+Coerce into a Signed Object
 }
 \description{
-A generic function for coercing an object to a \code{Signed} class.
+A generic function for coercing a matrix into a \dQuote{\code{Signed}} class object.
 }
 \usage{
 as.signed(x, lbs)
 }
-%
 \arguments{
-  \item{x}{
-	a matrix representing the signed network
-}
-  \item{lbs}{
-	(optional) labels for the signed matrix
-}
+  \item{x}{A matrix representing the signed network.}
+  \item{lbs}{(optional) Labels for the signed matrix.}
 }
 \details{
-Since the \code{semiring} function requires an object with a \sQuote{\code{Signed}} class, this function produces this class object from an array representing the signed network
+Use this function to convert an array representing a signed network into an \R object of 
+class \dQuote{\code{Signed}}, as required by function \code{\link{semiring}}.
+
+The array in \code{x} itself can be also a \dQuote{\code{Semiring}} class object represented as 
+\sQuote{\code{Rel.Q}} attribute for the semiring relational structure. 
 }
 \value{
-The array as a \code{Signed} class
+The input array in \code{x} as a \dQuote{\code{Signed}} class.
 }
-%
+%\references{} ~
+%\author{} ~
+%\note{} ~
+%\section{Warning }{....} ~
 \seealso{
 \code{\link{signed}}, \code{\link{semiring}}
 }
 \examples{
-# load the data
+# load a network dataset
 data("incubA")
 
 # coerce parts of the signed matrix with two types of relations
 signed(incubA$IM)$s[1:2,1:2] |> 
   as.signed()
 }
-\keyword{array}
-\keyword{models}
+\keyword{manip}
+\keyword{classes}
+\keyword{misc}

@@ -1,15 +1,35 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 galois <-
-function (x, labeling = c("full", "reduced"), sep, valued, scl, 
-    sep2) 
+function (x, labeling = c("full", "reduced"), sep) 
 {
-    ifelse(missing(sep) == TRUE, sep <- ", ", NA)
-    if (missing(valued) == FALSE && isTRUE(valued == TRUE) == 
-        TRUE) {
-        ifelse(missing(sep2) == TRUE, sep2 <- "_", NA)
-        x <- cscl(x, scl = scl, sep = sep2)
+    if (missing(sep) == TRUE) {
+        if (all(c("conceptual.scaling", ", ") %in% class(x)) == 
+            TRUE) {
+            warning(paste("A comma-space separator found in conceptual scaling ", 
+                sQuote("x"), " and use hyphen among extents/intents.", 
+                sep = ""), call. = FALSE)
+            sep <- "-"
+        }
+        else {
+            sep <- ", "
+        }
     }
     else {
-        NA
+        if (isTRUE(sep %in% c(".", "", "[.]", "(", "[", "{", 
+            "+", "*", "?")) == TRUE) {
+            warning(paste("Special characters, openers, dot, and empty separators are not allowed in ", 
+                sQuote("sep"), " and use a comma among extents/intents.", 
+                sep = ""), call. = FALSE)
+            sep <- ","
+        }
+        else if (isTRUE("conceptual.scaling" %in% class(x)) == 
+            TRUE && isTRUE(sep %in% class(x)) == TRUE) {
+            warning(paste("Chosen separator equals to conceptual scaling separator in ", 
+                sQuote("x"), ".", sep = ""), call. = FALSE)
+        }
+        else {
+            NA
+        }
     }
     if (is.data.frame(x) == FALSE) {
         if (is.vector(x) == TRUE) {
@@ -19,14 +39,16 @@ function (x, labeling = c("full", "reduced"), sep, valued, scl,
             x <- as.data.frame(x)
         }
         else {
-            stop("Data in \"x\" must be an array or a vector")
+            stop(paste(sQuote(deparse(substitute(x))), " must be an array or a vector.", 
+                sep = ""))
         }
     }
     if ("f" %in% colnames(x) == TRUE) {
         cnx <- colnames(x)
-        X <- x
-        colnames(X)[which(colnames(X) == "f")] <- ""
-        wdx <- which(duplicated(X))
+        xtmp <- x
+        colnames(xtmp)[which(colnames(xtmp) == "f")] <- ""
+        wdx <- which(duplicated(xtmp))
+        rm(xtmp)
         flgf <- TRUE
     }
     else {
@@ -110,15 +132,13 @@ function (x, labeling = c("full", "reduced"), sep, valued, scl,
     else {
         NA
     }
-    conj <- list()
-    length(conj) <- ncol(x)
+    conj <- vector(mode = "list", length = ncol(x))
     for (i in seq_len(ncol(x))) {
         conj[[i]] <- jnt(rownames(x)[which(x[, i] != 0L)], sep = sep)
     }
     rm(i)
     attr(conj, "names") <- colnames(x)
-    conj1 <- list()
-    length(conj1) <- nrow(x)
+    conj1 <- vector(mode = "list", length = nrow(x))
     for (i in seq_len(nrow(x))) {
         conj1[[i]] <- jnt(colnames(x)[which(x[i, ] != 0L)], sep = sep)
     }
@@ -129,7 +149,7 @@ function (x, labeling = c("full", "reduced"), sep, valued, scl,
     if (isTRUE(length(conj) > 1L) == TRUE) {
         for (k in 2:length(conj)) {
             for (i in k:length(conj)) {
-                if (isTRUE(length(intersect(dhc(conj[[k - 1]], 
+                if (isTRUE(length(intersect(dhc(conj[[k - 1L]], 
                   sep = sep), dhc(conj[[i]], sep = sep))) > 1L) == 
                   TRUE) {
                   conj2[[length(conj2) + 1L]] <- jnt(intersect(dhc(conj[[k - 
@@ -557,9 +577,11 @@ function (x, labeling = c("full", "reduced"), sep, valued, scl,
         derr[[i]] <- character(0)
     }
     rm(i)
-    lst <- (red = redl(dder, derr))
-    class(lst) <- c("Galois", "reduced")
-    switch(match.arg(labeling), full = Lst <- list(sep = sep, 
-        gc = dder), reduced = Lst <- list(sep = sep, gc = lst))
+    switch(match.arg(labeling), full = {
+        Lst <- list(sep = sep, gc = dder)
+    }, reduced = {
+        Lst <- list(sep = sep, gc = (red = redl(dder, derr)))
+    })
     Lst
 }
+

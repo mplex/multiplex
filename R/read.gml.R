@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 read.gml <-
 function (file, as = c("edgel", "array"), directed = TRUE, coords = FALSE) 
 {
@@ -223,20 +224,20 @@ function (file, as = c("edgel", "array"), directed = TRUE, coords = FALSE)
             rm(k)
             ties <- vector()
             for (i in seq_len(z)) {
-                ties <- append(ties, paste("T", i, sep = ""))
+                ties <- append(ties, paste("t", i, sep = ""))
             }
             rm(i)
-            colnames(DF) <- c("S", "R", ties)
+            colnames(DF) <- c("s", "r", ties)
         }
         else if (isTRUE(z == 1L) == TRUE) {
             DF <- as.data.frame(cbind(srt, rep(1, nrow(srt))), 
                 row.names = NULL)
-            colnames(DF) <- c("S", "R", "T")
+            colnames(DF) <- c("s", "r", "t")
         }
         if (isTRUE(directed == FALSE) == TRUE) {
             DF2 <- data.frame(DF[, 2], DF[, 1], DF[, 3:ncol(DF)])
-            ifelse(isTRUE(z == 1L) == TRUE, colnames(DF2) <- c("S", 
-                "R", "T"), colnames(DF2)[1:2] <- c("S", "R"))
+            ifelse(isTRUE(z == 1L) == TRUE, colnames(DF2) <- c("s", 
+                "r", "t"), colnames(DF2)[1:2] <- c("s", "r"))
             DF <- unique(as.data.frame(rbind(DF, DF2)))
         }
         else {
@@ -252,6 +253,8 @@ function (file, as = c("edgel", "array"), directed = TRUE, coords = FALSE)
         }
     }
     else {
-        stop("Specified argument not supported.")
+        stop(paste("Argument ", sQuote("as"), " must be either ", 
+            dQuote("array"), " or ", dQuote("edgel"), ".", sep = ""))
     }
 }
+

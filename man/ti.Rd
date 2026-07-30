@@ -1,6 +1,5 @@
 \name{ti}
 \alias{ti}
-%
 \title{
 internal function
 }
@@ -10,6 +9,5 @@ internal function
 %\usage{
 %ti(net)
 %}
-%
 \keyword{internal}
 %

@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 signed <-
 function (P, N = NULL, lbs) 
 {
@@ -48,3 +49,4 @@ function (P, N = NULL, lbs)
     class(lst) <- "Signed"
     return(lst)
 }
+

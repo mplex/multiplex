@@ -9,6 +9,5 @@ internal function
 %\usage{
 %coor(a, b)
 %}
-%
 \keyword{internal}
 %

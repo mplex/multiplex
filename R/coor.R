@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 coor <-
 function (a, b) 
 {
@@ -5,3 +6,4 @@ function (a, b)
     class(out) = c("GML")
     out
 }
+

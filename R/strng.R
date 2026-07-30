@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 strng <-
 function (x) 
 {
@@ -41,3 +42,4 @@ function (x)
     }
     po
 }
+

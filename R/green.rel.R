@@ -1,8 +1,9 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 green.rel <-
 function (x) 
 {
     ifelse(isTRUE(tolower(class(x)[1]) != "semigroup") == TRUE, 
-        S <- as.semigroup(x), S <- x)
+        S <- suppressWarnings(as.semigroup(x)), S <- x)
     oS <- S$S
     odim <- S$dim
     ogens <- S$gens
@@ -15,7 +16,7 @@ function (x)
     else {
         if (isTRUE(Sclass == "numerical") == TRUE) {
             flgn <- TRUE
-            S <- as.semigroup(S, numerical = FALSE)
+            S <- suppressWarnings(as.semigroup(S, numerical = FALSE))
         }
         else {
             flgn <- FALSE
@@ -175,3 +176,4 @@ function (x)
     class(lst) <- c("Semigroup", Sclass, "Green.Rels")
     return(lst)
 }
+

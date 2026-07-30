@@ -1,5 +1,6 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 reduc <-
-function (x, clu, lbs = NULL, slbs = NULL, valued, row, col) 
+function (x, clu, lbs, slbs, valued, row, col) 
 {
     ifelse(missing(valued) == FALSE && isTRUE(valued == TRUE) == 
         TRUE, valued <- TRUE, valued <- FALSE)
@@ -9,11 +10,12 @@ function (x, clu, lbs = NULL, slbs = NULL, valued, row, col)
         col <- TRUE, col <- FALSE)
     if (isTRUE(length(clu) != dim(x)[1]) == TRUE && isTRUE(col == 
         FALSE) == TRUE) 
-        stop("'clu' does not match the order of 'x'.")
+        stop(paste("Length of ", sQuote("clu"), " does not match the order of ", 
+            sQuote("x"), ".", sep = ""))
     if (isTRUE(row == FALSE) == TRUE && isTRUE(col == FALSE) == 
         TRUE) {
         if (isTRUE(is.array(x) == TRUE) == FALSE) 
-            stop("'x' must be an array object.")
+            stop(paste(sQuote("x"), " should be an array object."))
     }
     if (is.character(clu) == TRUE || is.factor(clu) == TRUE) {
         tmp <- as.vector(clu)
@@ -66,8 +68,8 @@ function (x, clu, lbs = NULL, slbs = NULL, valued, row, col)
                 }
             }
             rm(i, j)
-            ifelse(is.null(lbs) == FALSE, rownames(bm) <- colnames(bm) <- lbs, 
-                NA)
+            ifelse(missing(lbs) == FALSE && is.vector(lbs) == 
+                TRUE, rownames(bm) <- colnames(bm) <- lbs, NA)
         }
         else if (isTRUE(row == TRUE) == TRUE) {
             bm <- array(dim = c(lngt, ncol(x)))
@@ -76,7 +78,8 @@ function (x, clu, lbs = NULL, slbs = NULL, valued, row, col)
                 bm[i, ] <- colSums(x[cls[[i]], ])
             }
             rm(i)
-            ifelse(is.null(lbs) == TRUE, NA, rownames(bm) <- lbs)
+            ifelse(missing(lbs) == FALSE && is.vector(lbs) == 
+                TRUE, rownames(bm) <- lbs, NA)
         }
         else if (isTRUE(col == TRUE) == TRUE) {
             bm <- array(dim = c(nrow(x), lngt))
@@ -87,7 +90,8 @@ function (x, clu, lbs = NULL, slbs = NULL, valued, row, col)
                     cls[[i]]]))
             }
             rm(i)
-            ifelse(is.null(lbs) == TRUE, NA, colnames(bm) <- lbs)
+            ifelse(missing(lbs) == FALSE && is.vector(lbs) == 
+                TRUE, colnames(bm) <- lbs, NA)
         }
         else {
             NA
@@ -98,7 +102,7 @@ function (x, clu, lbs = NULL, slbs = NULL, valued, row, col)
         if (is.null(lbs) == FALSE) {
             dimnames(bm)[[1]] <- dimnames(bm)[[2]] <- lbs
         }
-        if (is.null(slbs) == FALSE) {
+        if (missing(slbs) == FALSE && is.vector(slbs) == TRUE) {
             dimnames(bm)[[3]] <- slbs
         }
         else {
@@ -116,6 +120,11 @@ function (x, clu, lbs = NULL, slbs = NULL, valued, row, col)
         }
         rm(k)
     }
-    ifelse(isTRUE(valued == TRUE) == TRUE, return(bm), return(dichot(bm, 
-        c = 1L)))
+    if (isTRUE(valued == TRUE) == TRUE) {
+        return(bm)
+    }
+    else {
+        return(dichot(bm, c = 1L))
+    }
 }
+

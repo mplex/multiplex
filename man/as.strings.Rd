@@ -1,42 +1,31 @@
 \name{as.strings}
 \alias{as.strings}
-%
 \title{
-Coerce an Object to a Strings Class
+Coerce Object into a Strings Class
 }
 \description{
-A generic function for coercing an R object to a \code{Rel.Strings} class.
+A generic function for coercing an \R object into a \dQuote{\code{Strings}} class.
 }
 \usage{
-as.strings(x, lbs = NULL)
+as.strings(x, lbs)
 }
 \arguments{
-  \item{x}{
-   an array; usually with three dimensions of stacked matrices where the multiple relations are placed.
-}
-  \item{lbs}{
-   (optional) labels of strings
-  }
+  \item{x}{An array, usually with three dimensions of stacked matrices where the multiple relations are placed.}
+  \item{lbs}{(optional) Labels of strings.}
 }
 \details{
-This function is useful to proceed with the establishment of the partial order in the strings of relations where the object should be of a \sQuote{\code{Strings}} class.
+Use this function to prepare an object for establishing the partial order of relation strings by converting it to class \dQuote{\code{Strings}}. 
+It returns as well the number of unique relations in the semigroup represented by the dimensions in \code{x}.
 }
 \value{
-An object of \sQuote{\code{Strings}} class
-  \item{wt}{
-  word tables
-  }
-  \item{ord}{
-  number of unique relations in the semigroup
-  }
+The input array in \code{x} as an object of \dQuote{\code{Strings}} class
+  \item{wt}{word tables}
+  \item{ord}{dimension in \code{x}}
 }
-%\references{
-%}
-\author{
-Antonio Rivero Ostoic
-}
-%\note{
-%}
+%\references{} ~
+%\author{} ~
+%\note{} ~
+%\section{Warning }{....} ~
 \seealso{
 \code{\link{strings}}, \code{\link{partial.order}}, \code{\link{zbind}}
 }
@@ -55,5 +44,6 @@ arrs <- zbind(arr1, arr2)
 # make the data a strings object
 as.strings(arrs)
 }
-\keyword{algebra}
-\keyword{array}
+\keyword{manip}
+\keyword{classes}
+\keyword{misc}

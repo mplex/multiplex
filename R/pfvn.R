@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 pfvn <-
 function (x, r, q) 
 {
@@ -117,3 +118,4 @@ function (x, r, q)
     class(lst) <- c("pathfinder", sim)
     return(lst)
 }
+

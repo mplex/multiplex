@@ -1,12 +1,17 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 rbox <-
 function (w, transp = FALSE, smpl = FALSE, k = 3, tlbs) 
 {
     if (is.array(w) == FALSE) 
-        stop("Data must be a stacked array of square matrices.")
+        stop(paste(sQuote(deparse(substitute(w))), " must be at least a stacked array of square matrices.", 
+            sep = ""))
     if (is.na(dim(w)[3]) == TRUE) 
         stop("Data must have at least 2 dimensions.")
-    if (k > 9L) 
-        stop("Only polynomial until length 9 is supported.")
+    if (k > 9L) {
+        warning("Only compounds until length 9 are supported.", 
+            call. = FALSE)
+        k <- 9
+    }
     x <- w
     ifelse(is.null(dimnames(w)[[3]]) == FALSE, lbs <- dimnames(w)[[3]], 
         lbs <- seq_len(dim(w)[3]))
@@ -30,7 +35,10 @@ function (w, transp = FALSE, smpl = FALSE, k = 3, tlbs)
                 LBS <- tlbs
             }
             else {
-                warning("\"tlbs\" has not equal length to dim(w)[3], use toggle case for labels instead...")
+                warning(paste("Use toggle case for transpose relations in ", 
+                  sQuote("tlbs"), " since length is not equal to number of relation-types in ", 
+                  sQuote(deparse(substitute(w))), ".", sep = ""), 
+                  call. = FALSE)
                 LBS <- chartr("a-zA-Z", "A-Za-z", lbs)
             }
         }
@@ -399,21 +407,25 @@ function (w, transp = FALSE, smpl = FALSE, k = 3, tlbs)
     }
     if (transp == TRUE) {
         if (smpl == TRUE) {
+            warning(paste("Relation labels in", sQuote("w"), 
+                " have been simplified and their transpose relations are included.", 
+                sep = ""), call. = FALSE)
             lst <- list(w = w, W = W, lbs = dimnames(x)[[1]], 
-                Note = c("Relation labels have been simplified and the transpose relations are included."), 
                 Orels = olbs, Srels = nlbs, Trels = Lbs, k = k, 
                 z = dim(W)[3])
         }
         else {
+            warning(paste("Transpose relations of ", sQuote("w"), 
+                " are included.", sep = ""), call. = FALSE)
             lst <- list(w = w, W = W, lbs = dimnames(x)[[1]], 
-                Note = c("Transpose relations are included"), 
                 Trels = Lbs, k = k, z = dim(W)[3])
         }
     }
     else if (transp == FALSE) {
         if (smpl == TRUE) {
+            warning(paste("Relation labels in", sQuote("w"), 
+                " have been simplified.", sep = ""), call. = FALSE)
             lst <- list(w = w, W = W, lbs = dimnames(x)[[1]], 
-                Note = c("Relation labels have been simplified"), 
                 Orels = olbs, Srels = nlbs, k = k, z = dim(W)[3])
         }
         else if (smpl == FALSE) {
@@ -424,3 +436,4 @@ function (w, transp = FALSE, smpl = FALSE, k = 3, tlbs)
     class(lst) <- "Rel.Box"
     return(lst)
 }
+

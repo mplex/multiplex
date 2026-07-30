@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 transl <-
 function (lt, sep) 
 {
@@ -75,3 +76,4 @@ function (lt, sep)
         return(levels(factor(tls)))
     }
 }
+

@@ -1,12 +1,16 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 pi.rels <-
 function (x, po.incl, vc, po) 
 {
-    if (isTRUE(attr(x, "class") == "Ind.incl") == FALSE && isTRUE(attr(x, 
-        "class")[1] == "Pacnet") == FALSE) 
-        stop("\"x\" should be an \"Ind.incl\" or \"Pacnet\" object class.")
+    if (any(c("Induced.inclusions", "Ind.incl", "Pacnet") %in% 
+        attr(x, "class")) == FALSE) 
+        stop(paste(sQuote(deparse(substitute(x))), " should be factorization product with an ", 
+            dQuote("Induced.inclusions"), " class or a ", dQuote("Pacnet"), 
+            " class object.", sep = ""))
     po <- x$po
     Po <- po[seq_len(nrow(po)), seq_len(ncol(po))]
-    if (isTRUE(attr(x, "class") == "Ind.incl") == TRUE) {
+    if (any(c("Induced.inclusions", "Ind.incl") %in% attr(x, 
+        "class")) == TRUE) {
         if (missing(vc) == FALSE) {
             pii <- array(dim = c(nrow(po), ncol(po), length(vc)))
             k <- 1L
@@ -47,13 +51,17 @@ function (x, po.incl, vc, po)
         }
         else {
             piis <- dichot(pii)
-            warning("There is no meet-complement of the atom in \"x\", then use atom itself.")
+            warning(paste("There is no meet-complement of the atom in ", 
+                sQuote(deparse(substitute(x))), " then use atom itself.", 
+                sep = ""), call. = FALSE)
             xmc <- pat
         }
     }
-    if (isTRUE(attr(x, "class")[1] == "Pacnet") == TRUE) {
+    if (isTRUE("Pacnet" %in% attr(x, "class")) == TRUE) {
         if (missing(po) == TRUE) 
-            stop("The partial order in \"po\" is required for the Pacnet option.")
+            stop(paste("A partial order in ", sQuote(deparse(substitute(po))), 
+                " needed for the ", dQuote("Pacnet"), " class option.", 
+                sep = ""))
         ifelse(isTRUE(attr(x, "class")[length(attr(x, "class"))] == 
             "transp") == TRUE, Po <- (po), Po <- t(po))
         pii <- array(dim = c(nrow(po), ncol(po), length(x$ii)))
@@ -97,7 +105,8 @@ function (x, po.incl, vc, po)
         }
         rm(i)
         dimnames(pisu)[[3]] <- c(dimnames(pii)[[3]], seq(from = dim(pii)[3] + 
-            1, to = dim(pisu)[3]))[which(duplicated(tmp) == FALSE)]
+            1L, to = dim(pisu)[3]))[which(duplicated(tmp) == 
+            FALSE)]
     }
     else if (isTRUE(nrow(tmpu) > 0) == FALSE) {
         pisu <- piis
@@ -113,3 +122,4 @@ function (x, po.incl, vc, po)
     class(lst) <- "Pi.rels"
     lst
 }
+

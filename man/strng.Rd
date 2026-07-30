@@ -1,6 +1,5 @@
 \name{strng}
 \alias{strng}
-%
 \title{
 internal function
 }
@@ -10,6 +9,5 @@ internal function
 %\usage{
 %strng(x)
 %}
-%
 \keyword{internal}
 %

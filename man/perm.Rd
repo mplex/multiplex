@@ -1,48 +1,31 @@
 \name{perm}
 \alias{perm}
-%
 \title{
 Array Permutation
 }
 \description{
-Function to permutate a given array of relation.
+Function to permutate a given array of relations.
 }
 \usage{
 perm(x, clu, rev, lbs, sort)
 }
-%
 \arguments{
-  \item{x}{
-   a matrix or an array to be permuted
-}
-  \item{clu}{
-   the cluster for the permutation
-}
-  \item{rev}{
-   (optional and logical) whether the order in \code{clu} sholud be reverted.
-}
-  \item{lbs}{
-   (optional) the labels after the permutation
-  }
-  \item{sort}{
-   (optional and logical) sort array according to labels?
-  }
+  \item{x}{Matrix or array to permute.}
+  \item{clu}{Vector of cluster for permutation.}
+  \item{rev}{(optional and logical) Revert order in \code{clu}?}
+  \item{lbs}{(optional) Vector of labels after permutation.}
+  \item{sort}{(optional and logical) Sort array according to labels?}
 }
 \details{
-This function serves to permutate an array representing relations according to a vector for the clustering membership.
+This function performs a permutation of a given array or matrix representing relations according to a clustering vector of membership.
 }
 \value{
 A permuted matrix or array
 }
-%\references{
-%
-%}
-\author{
-Antonio Rivero Ostoic
-}
-%\note{
-%
-%}
+%\references{} ~
+%\author{} ~
+%\note{} ~
+%\section{Warning }{....} ~
 \seealso{
 \code{\link{cph}}, \code{\link{partial.order}}
 }

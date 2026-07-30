@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 dichot <-
 function (x, c = 1, diag) 
 {
@@ -39,3 +40,4 @@ function (x, c = 1, diag)
         x
     }
 }
+

@@ -9,6 +9,5 @@ internal function
 %\usage{
 %dhc(xd, sep)
 %}
-%
 \keyword{internal}
 %

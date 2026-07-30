@@ -2,6 +2,24 @@
 'multiplex' PACKAGE
 
 
+version 4.0 (29-July-2026)
+-----------------------------
+ADDED FEATURES:
+	+ NEW INTERNAL FUNCTION 'trnl' for 'bundles', 'bundle.census'
+	+ internal function 'cscl' becomes external
+	+ new arg. "semigroupClass" in 'edgeT'
+	+ new arg. "concept" in 'hasse' for concept-diagrams
+	+ new args. "cl" "scale" in 'cscl' for concept-levels
+BUGS FIXED:
+	* fix diverse bugs in 'edgel' 'mlvl' 'rel.sys' 'transf' 'trnf' 
+	  'as.semigroup'
+OTHER CHANGES:
+	- DROP args. "valued" "scl" "sep2" in 'galois'
+	- DROP arg. "force" in 'deomp'
+	* RENAME arg. "dichot" AS "valued" in 'mnplx', 'reduc', 'transf' 
+	  'partial.order'
+
+
 version 3.9 (29-January-2025)
 -----------------------------
 BUGS FIXED:

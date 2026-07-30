@@ -1,9 +1,14 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 read.dl <-
 function (file) 
 {
     arx <- scan(file, what = "character", nlines = -1, quiet = TRUE)
     if (isTRUE(arx[1] == "DL") == FALSE) 
-        stop("Input file must have a DL format.")
+        stop(paste("Input file must have a ", sQuote("DL"), " format.", 
+            sep = ""))
+    if (any(arx == "FULLMATRIX") == FALSE) 
+        warning(paste("Support for a ", sQuote("FULLMATRIX"), 
+            " format only.", sep = ""), call. = FALSE)
     tip <- dhc(arx[2:3], sep = "=")
     if (isTRUE(tip[1] == "N") == TRUE) {
         if (any(tip == "NM") == TRUE) {
@@ -37,7 +42,7 @@ function (file)
             lnch <- which(arx == "DATA:")
             lgtv <- dim(arr)[1]^2L
             arrt <- arr
-            for (k in 1:dim(arr)[3]) {
+            for (k in seq_len(dim(arr)[3])) {
                 arrt[, , k] <- as.numeric(arx[(lnch + 1):(lgtv + 
                   lnch)])
                 arr[, , k] <- t(arrt[, , k])
@@ -47,7 +52,9 @@ function (file)
         }
         else if (any(tip == "NM") == FALSE) {
             if (any(tip == "EDGELIST1") == TRUE) {
-                stop("\"EDGELIST\" option in DL is not yet supported for reading.")
+                stop(paste(sQuote("EDGELIST"), " option in ", 
+                  sQuote("DL"), " is not yet supported for reading.", 
+                  sep = ""))
             }
             else {
                 arrt <- array(as.numeric(arx[(which(arx == "DATA:") + 
@@ -90,3 +97,4 @@ function (file)
     }
     arr
 }
+

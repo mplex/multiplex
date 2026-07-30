@@ -1,6 +1,5 @@
 \name{mxmn}
 \alias{mxmn}
-%
 \title{
 internal function
 }
@@ -10,6 +9,5 @@ internal function
 %\usage{
 %mxmn(x, type = c("numerical", "symbolic"), cmps, equat)
 %}
-%
 \keyword{internal}
 %

@@ -7,8 +7,7 @@ internal function
 internal function
 }
 %\usage{
-%flt(e, PO)
+%flt(e, PO, rclos = TRUE)
 %}
-%
 \keyword{internal}
 %

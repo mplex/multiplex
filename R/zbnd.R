@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 zbnd <-
 function (a, b) 
 {
@@ -26,3 +27,4 @@ function (a, b)
     }
     return(nx)
 }
+

@@ -1,6 +1,5 @@
 \name{dichot}
 \alias{dichot}
-%
 \title{
 Dichotomize Data with a Cutoff Value
 }
@@ -10,42 +9,29 @@ Function to dichotomize the input data for the semigroup construction with a cut
 \usage{
 dichot(x, c = 1, diag)
 }
-%
 \arguments{
-  \item{x}{
-   some data in a numeric form (usually arrays)
-}
-  \item{c}{
-   the cutoff value to perform the dichotomization (default \code{1})
-}
-  \item{diag}{
-  (optional and logical) whether or not the diagonals should be included (default \code{TRUE})
-}
+  \item{x}{An array, matrix or other data in a numeric form.}
+  \item{c}{A cutoff value to perform the dichotomization in \code{x}.}
+  \item{diag}{(optional and logical, default \code{TRUE}) Should diagonals be included in output?}
 }
 \details{
-This is a convenient function (or wrapper if you like) of the \code{\link[base:replace]{replace}} function. 
-In this case, the function is aimed to specify a cutoff value for the dichotomization of the data where the 
-values equal or higher to the cutoff are converted to one, while the others are set to zero. 
-The cutoff value in \code{c} can be any real number.
+This is a wrapper of the \code{\link[base:replace]{replace}} base function where in this case 
+is aimed to specify a cutoff value for the dichotomization of the data. 
+Values equal or higher to the cutoff are hence converted to \code{1}, while the others are set to \code{0}. 
+Notice that the cutoff value in \code{c} can be any real number, and labels are preserved after the dichotomization..
 }
 \value{
-Binary values of the input data.
+Binary values of the input data with the same format as \code{x}.
 }
-%\references{
-%No hay...
-%}
-\author{
-Antonio Rivero Ostoic
-}
-\note{
-Labels are preserved after the dichotomization.
-}
-%
+%\references{} ~
+%\author{} ~
+%\note{} ~
+%\section{Warning }{....} ~
 \seealso{
-\code{\link[base:replace]{replace}}, \code{\link{prev}}, \code{\link{semigroup}}.
+\code{\link[base:replace]{replace}}, \code{\link{mnplx}}, \code{\link{semigroup}}.
 }
 \examples{
-# create the data: two binary relations among three elements
+# create two binary relations among three elements
 arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
        c(3,3,2))>.5, 3 ) )
 
@@ -53,4 +39,3 @@ arr <- round( replace( array(runif(18), c(3,3,2)), array(runif(18),
 dichot(arr, c = 2)
 }
 \keyword{manip}
-%

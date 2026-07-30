@@ -1,8 +1,10 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 cph <-
 function (W, lbs) 
 {
-    if (isTRUE(attr(W, "class") == "Rel.Box") == FALSE) 
-        stop("\"W$W\" must be a \"Rel.Box\" class.")
+    if (isTRUE("Rel.Box" %in% attr(W, "class")) == FALSE) 
+        stop(paste(sQuote(deparse(substitute(W))), " must be a ", 
+            dQuote("Rel.Box"), " class object.", sep = ""))
     rls <- array(dim = c(dim(W$W)[3], dim(W$W)[1], dim(W$W)[1]))
     for (i in seq_len(dim(W$W)[3])) {
         for (j in seq_len(dim(W$W)[1])) {
@@ -52,3 +54,4 @@ function (W, lbs)
     class(phu) <- c("Partial.Order", "CPH")
     phu
 }
+

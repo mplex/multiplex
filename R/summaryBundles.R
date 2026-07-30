@@ -1,8 +1,10 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 summaryBundles <-
 function (x, file = NULL, latex = FALSE, byties) 
 {
-    if (isTRUE(attr(x, "class")[1] == "Rel.Bundles") == FALSE) 
-        stop("Data must be a \"Rel.Bundles\" class.")
+    if (isTRUE("Rel.Bundles" %in% attr(x, "class")) == FALSE) 
+        stop(paste(sQuote(deparse(substitute(x))), " must be a ", 
+            dQuote("Rel.Bundles"), " class object.", sep = ""))
     sep <- dhc(attr(x, "class")[2], ": ")[2]
     ifelse(isTRUE(sep == " -- ") == TRUE, sep2 <- ", ", sep2 <- " -- ")
     ifelse(missing(byties) == FALSE && isTRUE(byties == TRUE) == 
@@ -72,8 +74,9 @@ function (x, file = NULL, latex = FALSE, byties)
         if (isTRUE(is.list(x[[k]])) == TRUE) {
             for (i in seq_len(length(x[[k]]))) {
                 if (isTRUE(length(x[[k]][[i]]) != 0) == TRUE) {
-                  tmp <- trnf(x[[k]][[i]], tolist = FALSE, lb2lb = TRUE, 
-                    lbs = lb, ord = length(lb), sep = sep)
+                  tmp <- transf(x[[k]][[i]], type = "toarray", 
+                    lb2lb = TRUE, lbs = lb, ord = length(lb), 
+                    sep = sep)
                   tmp[lower.tri(tmp)] <- NA
                   tmp[is.na(tmp)] <- 0
                   if (isTRUE(sum(tmp) == 0) == FALSE) {
@@ -375,10 +378,10 @@ function (x, file = NULL, latex = FALSE, byties)
         Tent = tent, Txch = txch, Mixd = mixd, Full = full))
     Bundles <- unlist(bndl)
     if (latex) {
-        cat(paste("%% Produced by \"multiplex\"", paste("\"", 
-            utils::packageDescription("multiplex")["Version"]$Version, 
-            "\"", sep = ""), collapse = "  \\\\\n"), file = file, 
-            sep = "\n", append = TRUE)
+        cat(paste("%% Produced by", dQuote("multiplex"), paste("v.", 
+            sQuote(utils::packageDescription("multiplex")["Version"]$Version), 
+            sep = ""), collapse = "  \\\\\n"), file = file, sep = "\n", 
+            append = TRUE)
         cat(paste("\\documentclass{article}", collapse = "\n"), 
             file = file, sep = "\n", append = TRUE)
         cat(paste("\\usepackage[landscape,a4paper]{geometry}", 
@@ -500,3 +503,4 @@ function (x, file = NULL, latex = FALSE, byties)
         }
     }
 }
+

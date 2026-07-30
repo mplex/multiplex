@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 comps <-
 function (x, bonds = c("entire", "strong", "weak"), sort) 
 {
@@ -31,9 +32,12 @@ function (x, bonds = c("entire", "strong", "weak"), sort)
             }
             rm(i)
         }
-        return(list(com = com, isol = lbs[which(!(lbs %in% unlist(com)))]))
+        lst <- list(com = com, isol = lbs[which(!(lbs %in% unlist(com)))])
     }
     else {
-        return(list(com = NULL, isol = lbs))
+        lst <- list(com = character(0), isol = lbs)
     }
+    class(lst) <- c(class(lst), match.arg(bonds))
+    return(lst)
 }
+

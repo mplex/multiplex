@@ -1,16 +1,17 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 mnplx <-
-function (net, directed = TRUE, dichot, diag, clu) 
+function (net, directed = TRUE, valued, diag, clu) 
 {
-    if (missing(dichot) == FALSE && isTRUE(dichot == FALSE) == 
+    if (missing(valued) == FALSE && isTRUE(valued == FALSE) == 
         TRUE) {
-        dichot <- FALSE
-    }
-    else {
-        dichot <- TRUE
+        flgval <- FALSE
         net <- dichot(net, c = 1L)
     }
+    else {
+        flgval <- TRUE
+    }
     ifelse(missing(diag) == FALSE && isTRUE(diag == FALSE) == 
-        TRUE, diag <- FALSE, diag <- TRUE)
+        TRUE, flgdg <- FALSE, flgdg <- TRUE)
     ifelse(missing(clu) == FALSE && is.vector(clu) == TRUE, net <- perm(net, 
         clu = clu), NA)
     if ((is.na(dim(net)[3]) == TRUE | isTRUE(dim(net)[3] == 1L) == 
@@ -19,9 +20,9 @@ function (net, directed = TRUE, dichot, diag, clu)
             , 1], NA)
         ifelse(isTRUE(directed == FALSE) == TRUE, net <- (net + 
             t(net)), NA)
-        ifelse(isTRUE(diag == FALSE) == TRUE, diag(net) <- 0L, 
+        ifelse(isTRUE(flgdg == FALSE) == TRUE, diag(net) <- 0L, 
             NA)
-        ifelse(isTRUE(dichot == TRUE) == TRUE, return(dichot(net, 
+        ifelse(isTRUE(flgval == FALSE) == TRUE, return(dichot(net, 
             c = 1L)), return(net))
     }
     else {
@@ -30,10 +31,11 @@ function (net, directed = TRUE, dichot, diag, clu)
             k]
         ifelse(isTRUE(directed == TRUE) == TRUE, NA, mat <- mat + 
             t(mat))
-        ifelse(isTRUE(dichot == TRUE) == TRUE, mat <- dichot(mat, 
+        ifelse(isTRUE(flgval == FALSE) == TRUE, mat <- dichot(mat, 
             c = 1L), NA)
-        ifelse(isTRUE(diag == FALSE) == TRUE, diag(mat) <- 0L, 
+        ifelse(isTRUE(flgdg == FALSE) == TRUE, diag(mat) <- 0L, 
             NA)
         mat
     }
 }
+

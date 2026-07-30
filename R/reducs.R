@@ -1,10 +1,13 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 reducs <-
 function (s, cl) 
 {
     if (isTRUE("Semigroup" %in% attr(s, "class")) == FALSE) 
-        stop("\"s\" should be an object of a \"Semigroup\" class.")
+        stop(paste(sQuote(deparse(substitute(s))), " must be a ", 
+            dQuote("Semigroup"), " class object.", sep = ""))
     ifelse(isTRUE("symbolic" %in% attr(s, "class")) == TRUE, 
-        sx <- as.semigroup(s, numerical = TRUE), sx <- s)
+        sx <- suppressWarnings(as.semigroup(s, numerical = TRUE)), 
+        sx <- s)
     n <- nlevels(factor(cl))
     cls <- list()
     for (i in seq_len(n)) {
@@ -42,3 +45,4 @@ function (s, cl)
     dimnames(bm)[[1]] <- dimnames(bm)[[2]] <- as.list(lbs)
     return(as.data.frame(bm))
 }
+

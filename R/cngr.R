@@ -1,16 +1,23 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 cngr <-
-function (S, PO = NULL, uniq) 
+function (S, PO, uniq) 
 {
-    flgnum <- FALSE
-    if (isTRUE("Semigroup" %in% attr(S, "class")) == FALSE) {
-        s <- semigroup(S, type = "numerical")
+    if (missing(S) == TRUE) 
+        stop("Semigroup is missing.")
+    if (missing(PO) == TRUE) {
+        PO <- NULL
     }
-    else if (isTRUE("symbolic" %in% attr(S, "class")) == TRUE) {
-        s <- as.semigroup(S, numerical = TRUE)
+    else {
+        class(PO) <- NULL
+    }
+    if (isTRUE("Semigroup" %in% attr(S, "class")) == FALSE || 
+        isTRUE("symbolic" %in% attr(S, "class")) == TRUE) {
+        s <- suppressWarnings(as.semigroup(S, numerical = TRUE))
         flgnum <- TRUE
     }
     else {
         s <- S
+        flgnum <- FALSE
     }
     ns <- s$ord
     if (isTRUE(ns > 1L) == TRUE) {
@@ -24,7 +31,8 @@ function (S, PO = NULL, uniq)
             sep = ", ")))
         clus <- data.frame(matrix(ncol = ns, nrow = 0))
         if (isTRUE(nlevels(factor(as.matrix(s$S))) != 1) == TRUE) {
-            for (k in as.vector(mat)[which(as.vector(mat) > 0)]) {
+            kual <- as.vector(mat)[which(as.vector(mat) > 0)]
+            for (k in kual) {
                 for (i in seq_along(inc)) {
                   clus[i, ] <- as.vector(sprt(s$S, as.numeric(dhc(inc[i])[1]), 
                     as.numeric(dhc(inc[i])[2])))
@@ -39,8 +47,12 @@ function (S, PO = NULL, uniq)
             cg <- list()
             for (i in seq_len(nrow(cls))) {
                 cg[[i]] <- as.vector(cls[i, ])
-                ifelse(isTRUE(flgnum == TRUE) == TRUE, attr(cg[[i]], 
-                  "names") <- S$st, attr(cg[[i]], "names") <- dimnames(S)[[1]])
+                if (isTRUE(flgnum == TRUE) == TRUE) {
+                  attr(cg[[i]], "names") <- S$st
+                }
+                else {
+                  attr(cg[[i]], "names") <- dimnames(S)[[1]]
+                }
             }
             rm(i)
         }
@@ -61,3 +73,4 @@ function (S, PO = NULL, uniq)
         s
     }
 }
+

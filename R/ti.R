@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 ti <-
 function (net) 
 {
@@ -65,3 +66,4 @@ function (net)
     }
     Qq
 }
+

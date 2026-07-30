@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 write.dat <-
 function (x, path) 
 {
@@ -23,3 +24,4 @@ function (x, path)
         utils::write.table(x, file = pathname, row.names = FALSE, col.names = FALSE)
     }
 }
+

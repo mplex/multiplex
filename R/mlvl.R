@@ -1,201 +1,184 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 mlvl <-
-function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"), 
-    symCdm, diag, lbs) 
+function (x, y, type = c("bpn", "cn", "cn2"), symCdm, diag, lbs) 
 {
-    if (isTRUE("pathfinder" %in% attr(x, "class")) == TRUE) {
-        x <- x$Q
-    }
-    else {
-        NA
-    }
-    ifelse(match.arg(type) == "cn", qmd <- "1M", NA)
-    if (is.null(x) == FALSE) {
-        ifelse(is.null(dimnames(x)[[1]]) == TRUE, dimnames(x)[[1]] <- seq_len(dim(x)[1]), 
-            NA)
-        ifelse(is.null(dimnames(x)[[2]]) == TRUE, dimnames(x)[[2]] <- seq_len(dim(x)[2]), 
-            NA)
-        qmd <- vector()
-        if (is.array(x) == TRUE && is.na(dim(x)[3]) == FALSE) {
-            xx <- list()
-            for (i in seq_len(dim(x)[3])) {
-                xx[[i]] <- x[, , i]
-            }
-            rm(i)
-            attr(xx, "names") <- attr(x, "dimnames")[[3]]
-            qmd <- append(qmd, rep("1M", dim(x)[3]))
+    if (missing(x) == FALSE && match.arg(type) != "cn") {
+        if (isTRUE("pathfinder" %in% attr(x, "class")) == TRUE) {
+            x <- x$Q
         }
         else {
-            if (is.list(x) == TRUE) {
-                xx <- x
-                ifelse(is.null(attr(x, "names")) == TRUE, attr(xx, 
-                  "names") <- seq_len(length(x)), NA)
-                qmd <- append(qmd, rep("1M", length(x)))
+            if (any(class(x) %in% c("matrix", "array", "list")) == 
+                FALSE) 
+                stop(paste("Invalid class of ", sQuote(deparse(substitute(x))), 
+                  ".", sep = ""))
+        }
+        if (is.null(dim(x)) == FALSE) {
+            ifelse(is.null(dimnames(x)[[1]]) == TRUE, dimnames(x)[[1]] <- seq_len(dim(x)[1]), 
+                NA)
+            ifelse(is.null(dimnames(x)[[2]]) == TRUE, dimnames(x)[[2]] <- seq_len(dim(x)[2]), 
+                NA)
+        }
+        if (is.null(dim(x)) == TRUE || is.list(x) == TRUE) {
+            if (all(lapply(x, class) == "character") == TRUE) {
+                xx <- transf(x, type = "toarray")
             }
             else {
-                xx <- list(x)
-                attr(xx, "names") <- "1"
-                qmd <- append(qmd, "1M")
+                xx <- transf(lapply(x, function(z) {
+                  trnf(z, tolist = TRUE, lb2lb = TRUE)
+                }), type = "toarray")
             }
-        }
-        if (match.arg(type) == "bpn") {
-            vcn <- vector()
-            for (k in seq_len(length(xx))) {
-                vcn <- append(vcn, c(dimnames(xx[[k]])[[1]], 
-                  dimnames(xx[[k]])[[2]]))
-            }
-            rm(k)
-        }
-    }
-    else {
-        NA
-    }
-    if (is.null(y) == FALSE) {
-        ifelse(is.null(dimnames(y)[[1]]) == TRUE, dimnames(y)[[1]] <- seq_len(dim(y)[1]), 
-            NA)
-        ifelse(is.null(dimnames(y)[[2]]) == TRUE, dimnames(y)[[2]] <- seq_len(dim(y)[2]), 
-            NA)
-        if (is.array(y) == TRUE && is.na(dim(y)[3]) == FALSE) {
-            yy <- list()
-            for (i in seq_len(dim(y)[3])) {
-                yy[[i]] <- y[, , i]
-            }
-            rm(i)
-            attr(yy, "names") <- attr(y, "dimnames")[[3]]
-            qmd <- append(qmd, rep("2M", dim(y)[3]))
-        }
-        else if (is.list(y) == TRUE && is.data.frame(y) == FALSE) {
-            for (k in seq_len(length(y))) {
-                vcn <- append(vcn, c(dimnames(y[[k]])[[1]], dimnames(y[[k]])[[2]]))
-            }
-            rm(k)
-            yytmp <- transf(transf(y, type = "tolist", lb2lb = TRUE), 
-                type = "toarray", lbs = unique(vcn))
-            yy <- list()
-            for (k in seq_len(dim(yytmp)[3])) {
-                yy[[k]] <- yytmp[, , k]
-            }
-            rm(k)
-            ifelse(is.null(attr(y, "names")) == TRUE, attr(yy, 
-                "names") <- seq_len(length(y)), attr(yy, "names") <- attr(y, 
-                "names"))
-            qmd <- append(qmd, rep("2M", length(y)))
         }
         else {
-            ifelse(is.data.frame(y) == TRUE, y <- as.matrix(y), 
-                NA)
-            yy <- list(y)
-            if (is.null(x) == FALSE) {
-                attr(yy, "names") <- length(xx) + 1L
-            }
-            qmd <- append(qmd, "2M")
-            ifelse(match.arg(type) == "bpn", vcn <- append(vcn, 
-                c(dimnames(y)[[1]], dimnames(y)[[2]])), NA)
+            xx <- x
         }
+        ifelse(is.na(dim(xx)[3]) == TRUE, qmd <- "1M", qmd <- rep("1M", 
+            dim(xx)[3]))
     }
     else {
-        stop("A 2-mode network must be placed in \"y\".")
+        if (missing(y) == TRUE) 
+            stop(paste("Missing ", sQuote("x"), " and ", sQuote("y"), 
+                ".", sep = ""))
     }
-    if (match.arg(type) == "cn" || match.arg(type) == "cn2") {
-        if (is.null(y) == FALSE && (is.matrix(y) == TRUE || is.array(y) == 
-            TRUE || is.data.frame(y) == TRUE)) {
-            cdmat <- array(0, dim = c(nrow(y), nrow(y)), dimnames = list(rownames(y), 
-                rownames(y)))
-            for (k in seq_len(ncol(y))) {
-                af <- which(y[, k] > 0)
-                for (i in af) {
-                  for (j in seq_len(length(af))) {
-                    cdmat[i, af[j]] <- cdmat[i, af[j]] + 1L
+    if (missing(y) == FALSE) {
+        if (is.array(y) == TRUE) {
+            ifelse(is.null(dimnames(y)[[1]]) == TRUE, dimnames(y)[[1]] <- seq_len(dim(y)[1]), 
+                NA)
+            ifelse(is.null(dimnames(y)[[2]]) == TRUE, dimnames(y)[[2]] <- seq_len(dim(y)[2]), 
+                NA)
+        }
+        if (match.arg(type) == "bpn" || match.arg(type) == "cn2") {
+            if (is.data.frame(y) == TRUE) {
+                yy <- transf(y, type = "toarray", lbs = c(rownames(y), 
+                  colnames(y)))
+            }
+            else if (is.list(y) == FALSE) {
+                yy <- transf(transf(y, type = "tolist", lb2lb = TRUE), 
+                  type = "toarray", lbs = c(rownames(y), colnames(y)))
+            }
+            else {
+                yy <- transf(lapply(y, function(z) {
+                  transf(z, type = "tolist", lb2lb = TRUE)
+                }), type = "toarray")
+            }
+            ifelse(is.na(dim(yy)[3]) == TRUE, qmd <- append(qmd, 
+                "2M"), qmd <- append(qmd, rep("2M", dim(yy)[3])))
+        }
+        else {
+            if (is.matrix(y) == TRUE || is.array(y) == TRUE || 
+                is.data.frame(y) == TRUE) {
+                cdmat <- array(0, dim = c(nrow(y), nrow(y)), 
+                  dimnames = list(rownames(y), rownames(y)))
+                for (k in seq_len(ncol(y))) {
+                  af <- which(y[, k] > 0)
+                  for (i in af) {
+                    for (j in seq_len(length(af))) {
+                      cdmat[i, af[j]] <- cdmat[i, af[j]] + 1L
+                    }
+                    rm(j)
                   }
-                  rm(j)
+                  rm(i)
                 }
-                rm(i)
+                rm(k)
+                ifelse(missing(diag) == FALSE && isTRUE(diag == 
+                  TRUE) == TRUE, NA, diag(cdmat) <- 0L)
             }
-            rm(k)
-            ifelse(missing(diag) == FALSE && isTRUE(diag == TRUE) == 
-                TRUE, NA, diag(cdmat) <- 0L)
-        }
-        else {
-            stop("\"y\" is missing or it has a not valid format.")
-        }
-        if (match.arg(type) == "cn2") {
-            if ((is.matrix(x) == TRUE || is.array(x) == TRUE || 
-                is.null(x) == FALSE) && isTRUE(dim(cdmat)[1] == 
-                dim(x)[1]) == TRUE) {
-                cdmat <- zbind(x, cdmat, force = TRUE)
+            else if (is.list(y) == TRUE) {
+                cdmat <- lapply(y, function(z) {
+                  cdm <- array(0, dim = c(nrow(z), nrow(z)), 
+                    dimnames = list(rownames(z), rownames(z)))
+                  for (k in seq_len(ncol(z))) {
+                    af <- which(z[, k] > 0)
+                    for (i in af) {
+                      for (j in seq_len(length(af))) {
+                        cdm[i, af[j]] <- cdm[i, af[j]] + 1L
+                      }
+                      rm(j)
+                    }
+                    rm(i)
+                  }
+                  rm(k)
+                  return(cdm)
+                })
             }
             else {
-                stop("\"x\" is missing or it has a not valid format.")
+                stop(paste(sQuote("y"), " has invalid format.", 
+                  sep = ""))
             }
-            ifelse(missing(lbs) == FALSE && isTRUE(length(lbs) == 
-                dim(cdmat)[3]) == TRUE, dimnames(cdmat)[[3]] <- lbs, 
-                NA)
         }
     }
-    if (is.null(x) == FALSE) {
-        X <- list(xx, yy)
+    if (missing(lbs) == FALSE && (is.list(lbs) == TRUE && isTRUE(length(lbs) == 
+        2) == TRUE)) {
+        if ((is.matrix(y) == TRUE && all(dimnames(y)[[2]] %in% 
+            lbs[[1]]) == FALSE) || (is.data.frame(y) == TRUE && 
+            all(rownames(y) %in% lbs[[1]]) == FALSE) || (is.list(y) == 
+            TRUE && all(rownames(y[[1]]) %in% lbs[[1]]) == FALSE)) {
+            warning(paste("Domain labels for ", sQuote(deparse(substitute(y))), 
+                " do not correspond to specified labels in ", 
+                sQuote("lbs"), ".", sep = ""), call. = FALSE)
+        }
+        if ((is.matrix(x) == TRUE && all(dimnames(x)[[1]] %in% 
+            lbs[[2]]) == FALSE) || (is.array(x) == TRUE && all(unique(unlist(dimnames(x)[1:2])) %in% 
+            lbs[[2]]) == FALSE) || (is.list(x) == TRUE && all(unique(unlist(lapply(x, 
+            dimnames), use.names = FALSE)) %in% lbs[[2]]) == 
+            FALSE)) {
+            warning(paste("Codomain labels for ", sQuote(deparse(substitute(x))), 
+                " do not correspond to specified labels in ", 
+                sQuote("lbs"), ".", sep = ""), call. = FALSE)
+        }
+        Lbs <- list(dm = lbs[[1]], cdm = lbs[[2]])
     }
-    else {
-        X <- yy
-    }
-    if (is.list(y) == TRUE && is.data.frame(y) == FALSE) {
-        ifelse(any(rownames(yy[[1]]) %in% colnames(yy[[2]])) == 
-            TRUE, Lbs <- list(dm = (unique(c(colnames(yy[[1]]), 
-            rownames(yy[[2]])))), cdm = (unique(c(rownames(yy[[1]]), 
-            colnames(yy[[2]]))))), Lbs <- list(dm = (unique(c(rownames(yy[[1]]), 
-            rownames(yy[[2]])))), cdm = (unique(c(colnames(yy[[1]]), 
-            colnames(yy[[2]]))))))
-    }
-    else {
-        if (isTRUE(length(yy) > 1) == TRUE && is.list(y) == TRUE) {
-            ifelse(any(rownames(X[[which(qmd == "2M")]]) %in% 
-                rownames(X[[which(qmd == "1M")]])) == TRUE, Lbs <- list(dm = (unique(rownames(X[[which(qmd == 
-                "1M")]]))), cdm = (unique(rownames(t(X[[which(qmd == 
-                "2M")]]))))), Lbs <- list(dm = (unique(rownames(X[[which(qmd == 
-                "2M")]]))), cdm = (unique(rownames(X[[which(qmd == 
-                "1M")]])))))
+    else if (match.arg(type) != "cn") {
+        if (is.matrix(x) == TRUE) {
+            dm <- dimnames(x)[[1]]
+        }
+        else if (is.array(x) == TRUE) {
+            dm <- unique(unlist(dimnames(x)[1:2]))
+        }
+        else if (is.list(x) == TRUE) {
+            dm <- unique(unlist(lapply(x, dimnames), use.names = FALSE))
         }
         else {
-            Lbs <- list(dm = (rownames(y)), cdm = (colnames(y)))
+            dm <- NULL
         }
+        if (is.matrix(y) == TRUE) {
+            cdm <- dimnames(y)[[2]]
+        }
+        else if (is.data.frame(y) == TRUE) {
+            cdm <- colnames(y)
+        }
+        else if (is.list(y) == TRUE) {
+            cdm <- unique(unlist(lapply(y, dimnames), use.names = FALSE))
+        }
+        else {
+            cdm <- NULL
+        }
+        if (any(dm %in% cdm) == TRUE) {
+            warning(paste("Need domain/codomain labels in ", 
+                sQuote("lbs"), " for ", sQuote(deparse(substitute(x))), 
+                " and ", sQuote(deparse(substitute(y))), " since `", 
+                paste(intersect(dm[which(dm %in% cdm)], cdm[which(cdm %in% 
+                  dm)]), collapse = "`,`"), "` appear in both domains.", 
+                sep = ""), call. = FALSE)
+        }
+        Lbs <- list(dm = dm, cdm = cdm)
+    }
+    else {
+        Lbs <- list(dm = rownames(y), cdm = colnames(y))
     }
     if (match.arg(type) == "bpn") {
-        bmlbs <- unique(vcn)
-        n <- length(bmlbs)
-        bmat <- array(0, dim = c(n, n, length(X[[1]]) + length(X[[2]])), 
-            dimnames = list(bmlbs, bmlbs))
-        if (isTRUE(dim(X[[1]][[1]])[1] < n) == TRUE) {
-            for (k in seq_len(length(X[[1]]))) {
-                bmat[which(bmlbs %in% Lbs[[1]]), which(bmlbs %in% 
-                  Lbs[[1]]), k] <- X[[1]][[k]]
-            }
-            rm(k)
+        if (is.data.frame(yy) == TRUE) {
+            bmat <- suppressMessages(zbind(xx, as.matrix(yy), 
+                force = TRUE))
         }
         else {
-            for (k in seq_len(length(X[[1]]))) {
-                bmat[, , k] <- X[[1]][[k]]
-            }
-            rm(k)
+            bmat <- suppressMessages(zbind(xx, yy, force = TRUE))
         }
-        if (isTRUE(dim(X[[2]][[1]])[1] != n) == TRUE || isTRUE(dim(X[[2]][[1]])[2] != 
-            n) == TRUE) {
-            for (k in seq_len(length(X[[2]]))) {
-                bmat[, , length(X[[1]]) + k][which(dimnames(bmat)[[1]] %in% 
-                  Lbs$dm), which(dimnames(bmat)[[2]] %in% Lbs$cdm)] <- X[[2]][[k]]
-            }
-            rm(k)
-        }
-        else {
-            for (k in seq_len(length(X[[2]]))) {
-                bmat[, , length(X[[1]]) + k] <- X[[2]][[k]]
-            }
-            rm(k)
-        }
-        if (missing(lbs) == FALSE && isTRUE(length(lbs) == dim(bmat)[3]) == 
-            TRUE) {
+        if (missing(lbs) == FALSE && (is.list(lbs) == FALSE && 
+            isTRUE(length(lbs) == dim(bmat)[3]) == TRUE)) {
             dimnames(bmat)[[3]] <- lbs
         }
         else {
-            dimnames(bmat)[[3]] <- attr(c(xx, yy), "names")
+            NA
         }
         if (missing(symCdm) == FALSE && isTRUE(symCdm == TRUE) == 
             TRUE) {
@@ -204,18 +187,94 @@ function (x = NULL, y = NULL, type = c("bpn", "cn", "cn2", "list"),
             }
             rm(i)
         }
-    }
-    else {
-        bmat <- X
-    }
-    ifelse(missing(lbs) == FALSE && is.list(lbs) == TRUE, Lbs <- list(dm = lbs[[1]], 
-        cdm = lbs[[2]]), NA)
-    if (match.arg(type) == "bpn") {
+        if (is.null(dimnames(bmat)[[3]]) == TRUE) {
+            dimnames(bmat)[[3]] <- seq_len(dim(bmat)[3])
+            if (is.na(dim(x)[3]) == FALSE && is.null(dimnames(x)[[3]]) == 
+                FALSE) {
+                dimnames(bmat)[[3]][1:dim(x)[3]] <- dimnames(x)[[3]]
+            }
+            else {
+                NA
+            }
+            if (is.na(dim(y)[3]) == FALSE && is.null(dimnames(y)[[3]]) == 
+                FALSE) {
+                dimnames(bmat)[[3]][(dim(xx)[3] + 1):dim(bmat)[3]] <- dimnames(y)[[3]]
+            }
+            else {
+                NA
+            }
+        }
+        else {
+            NA
+        }
         lst <- list(mlnet = bmat, lbs = Lbs, modes = qmd)
     }
     else {
+        if (match.arg(type) == "cn2") {
+            if (is.null(y) == FALSE && (is.matrix(y) == TRUE || 
+                is.array(y) == TRUE || is.data.frame(y) == TRUE)) {
+                cdmat <- array(0, dim = c(nrow(y), nrow(y)), 
+                  dimnames = list(rownames(y), rownames(y)))
+                for (k in seq_len(ncol(y))) {
+                  af <- which(y[, k] > 0)
+                  for (i in af) {
+                    for (j in seq_len(length(af))) {
+                      cdmat[i, af[j]] <- cdmat[i, af[j]] + 1L
+                    }
+                    rm(j)
+                  }
+                  rm(i)
+                }
+                rm(k)
+                ifelse(missing(diag) == FALSE && isTRUE(diag == 
+                  TRUE) == TRUE, NA, diag(cdmat) <- 0L)
+            }
+            else {
+                stop(paste(sQuote("y"), " is missing or has invalid format.", 
+                  sep = ""))
+            }
+            cdmat <- suppressMessages(zbind(xx, cdmat, force = TRUE))
+            if (missing(lbs) == FALSE && isTRUE(length(lbs) == 
+                dim(cdmat)[3]) == TRUE) {
+                dimnames(cdmat)[[3]] <- lbs
+            }
+            else {
+                if (is.null(dimnames(cdmat)[[3]]) == TRUE) {
+                  dimnames(cdmat)[[3]] <- seq_len(dim(cdmat)[3])
+                  if (is.na(dim(x)[3]) == FALSE && is.null(dimnames(x)[[3]]) == 
+                    FALSE) {
+                    dimnames(cdmat)[[3]][1:dim(x)[3]] <- dimnames(x)[[3]]
+                  }
+                  else {
+                    NA
+                  }
+                  if (is.na(dim(y)[3]) == FALSE && is.null(dimnames(y)[[3]]) == 
+                    FALSE) {
+                    dimnames(cdmat)[[3]][(dim(xx)[3] + 1):dim(cdmat)[3]] <- dimnames(y)[[3]]
+                  }
+                  else {
+                    NA
+                  }
+                }
+                else {
+                  NA
+                }
+            }
+        }
+        else if (match.arg(type) == "cn") {
+            if (is.null(dim(cdmat)) == TRUE) {
+                qmd <- rep("2M", length(cdmat))
+            }
+            else if (is.na(dim(cdmat)[3]) == FALSE) {
+                qmd <- rep("2M", dim(cdmat)[3])
+            }
+            else {
+                qmd <- "2M"
+            }
+        }
         lst <- list(mlnet = cdmat, lbs = Lbs, modes = qmd)
     }
     class(lst) <- c("Multilevel", match.arg(type))
     return(lst)
 }
+

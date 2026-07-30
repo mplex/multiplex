@@ -1,63 +1,49 @@
 \name{neighb}
 \alias{neighb}
 \title{
-Neighborhood of Actor or Group of Actors
+Actor or Group Neighborhood in Relational System
 }
 \description{
-A function to find the neighbourhood of an actor or group of actors with a customized distance.
+A function to find with a customized distance the neighbourhood of an actor or group of actors 
+in a relational system representing a simple or multiple network.
 }
 \usage{
 neighb(x, rs, type = c("und", "inn", "out"), k = 1, inclx = FALSE, expand)
 }
-%
 \arguments{
-  \item{x}{
-the reference actor labeled in \code{rs} or a vector of several actors
-}
-  \item{rs}{
-the relational system of the network
-}
-  \item{type}{
-  whether the system is 
+  \item{x}{A reference actor labeled in \code{rs} or a vector with a group of actors.}
+  \item{rs}{Relational system of the network.}
+  \item{type}{Type of system: 
   \itemize{ 
     \item \code{und} for \emph{undirected} (default)
-    \item \code{inn} for \emph{incoming} node's ties to the reference actor
-    \item \code{out} for \emph{outgoing} arcs from the reference actor
+    \item \code{inn} for \emph{incoming} node's ties to \code{x}
+    \item \code{out} for \emph{outgoing} arcs from \code{x}
   }
 }
-  \item{k}{
-  the \dQuote{distance} of the neighbour nodes to the reference actor (where \code{k=1} gives the adjacent nodes)
-}
-  \item{inclx}{
-  (logical) should the reference actor be included in the output?
-}
-  \item{expand}{
-  (optional and logical) should the output be given by \code{k} (it only makes sense when \code{k>1})
-}
+  \item{k}{The \dQuote{distance} of the neighbour nodes to \code{x} where \eqn{k=1} is for adjacent nodes.}
+  \item{inclx}{(logical) Include the reference actor in the output?}
+  \item{expand}{(optional and logical) Should the output be given by \code{k}, for \eqn{k>1}.}
 }
 \details{
-The relational system serves to represent either the entire multiple network made of actors, or else just the relational bundles having a mutual or an asymmetric character in the system. 
-In this sense, this function detects the adjacent nodes to \sQuote{\code{x}} according to the specified relational system, but as well the neighbours of the adjacent nodes with a customized length. 
-Eventually, when the longest path or chain is reached, adding more value to \code{k} obviously will not produce more nodes in the graph system. 
-Type options \code{inn} and \code{out} are for directed networks.
+The relational system in \code{rs} represents either the full multiple network of actors or the subset of relational bundles that are mutual or asymmetric. 
+Accordingly, this function identifies the nodes adjacent to \sQuote{\code{x}} within the specified relational system, as well as neighbouring nodes at a user-defined path length. 
+Once the longest path or chain has been reached, increasing \code{k} will not add further nodes to the graph. 
+The \code{inn} and \code{out} options apply to directed networks.
+
+Notice that the output does not differentiate in case the chosen reference actors are in different components of the relational system. 
 }
 \value{
-Depending on \code{expand}, the output is either a vector or a list with the neighbour nodes to the reference actor(s).
+Depending on \code{expand}, the output is either a vector or a list with the neighbour nodes to the reference actor(s). 
 }
-%
-\author{
-Antonio Rivero Ostoic
-}
-\note{
-The output does not differentiate in case the reference actors are in different components of the network.
-}
-%
+%\references{} ~
+%\author{} ~
+%\note{} ~
+%\section{Warning }{....} ~
 \seealso{
 \code{\link{expos}}, \code{\link{rel.sys}}, \code{\link{bundles}}
-
 }
 \examples{
-# create the data: two binary relations among three elements
+# create two binary relations among three elements
 arr <- round( replace( array( runif(18), c(3 ,3, 2) ), array( runif(18),
        c(3, 3, 2) ) > .9, 3 ) )
 
@@ -69,4 +55,3 @@ neighb(1, rs)
 }
 \keyword{models}
 \keyword{manip}
-

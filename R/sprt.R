@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 sprt <-
 function (x, k, l) 
 {
@@ -17,7 +18,7 @@ function (x, k, l)
     }
     rm(i)
     clu[which(clu == 0)] <- max(clu) + 1
-    X <- as.semigroup(x, numerical = FALSE)
+    X <- suppressWarnings(as.semigroup(x, numerical = FALSE))
     if (isTRUE(any(is.na(reducs(X, clu)))) == FALSE) {
         return(clu)
     }
@@ -34,7 +35,7 @@ function (x, k, l)
             pr <- append(pr, paste(x[(as.numeric(strsplit(pr[i], 
                 ", ")[[1]][1])), k], x[(as.numeric(strsplit(pr[i], 
                 ", ")[[1]][2])), k], sep = ", "))
-            for (j in 1:length(pr)) {
+            for (j in seq_len(length(pr))) {
                 pr <- append(pr, paste(x[(as.numeric(strsplit(pr[i], 
                   ", ")[[1]][1])), (as.numeric(strsplit(pr[j], 
                   ", ")[[1]][1]))], x[(as.numeric(strsplit(pr[i], 
@@ -62,7 +63,7 @@ function (x, k, l)
         rm(i)
         flt <- which(clu == 0)
         ifelse(isTRUE(length(flt) == 0) == FALSE, NA, return(clu))
-        clu[which(clu == 0)] <- max(clu) + 1
+        clu[which(clu == 0)] <- max(clu) + 1L
         if (isTRUE(any(is.na(reducs(X, clu)))) == FALSE && isTRUE(sum(clu) == 
             ncol(x)) == FALSE) {
             return(clu)
@@ -82,7 +83,7 @@ function (x, k, l)
                   ", ")[[1]])] <- i
             }
             rm(i)
-            clu[which(clu == 0)] <- max(clu) + 1
+            clu[which(clu == 0)] <- max(clu) + 1L
             Sfr <- reducs(X, clu)
             if (isTRUE(any(is.na(Sfr))) == FALSE) {
                 return(clu)
@@ -102,7 +103,7 @@ function (x, k, l)
                     ", ")[[1]])] <- i
                 }
                 rm(i)
-                clu[which(clu == 0)] <- max(clu) + 1
+                clu[which(clu == 0)] <- max(clu) + 1L
                 while (isTRUE(any(is.na(eval(Sfr2 <- reducs(X, 
                   clu))))) == TRUE) {
                   ftt2 <- which(is.na(Sfr2), arr.ind = TRUE)
@@ -120,7 +121,7 @@ function (x, k, l)
                         ", ")[[1]])] <- i
                     }
                     rm(i)
-                    clu[which(clu == 0)] <- max(clu) + 1
+                    clu[which(clu == 0)] <- max(clu) + 1L
                   }
                 }
                 return(clu)
@@ -128,3 +129,4 @@ function (x, k, l)
         }
     }
 }
+

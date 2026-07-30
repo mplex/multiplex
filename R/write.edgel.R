@@ -1,3 +1,4 @@
+## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
 write.edgel <-
 function (x, file = NULL, sep = "\t", header = TRUE) 
 {
@@ -14,7 +15,7 @@ function (x, file = NULL, sep = "\t", header = TRUE)
             cat(paste("Sender", "Receiver", "Ties", sep = sep), 
                 file = file, sep = "\n", append = TRUE)
         }
-        tmp <- transf(x, type = "tolist", lb2lb = TRUE, lbs = dimnames(x)[[1]])
+        tmp <- trnf(x, tolist = TRUE, lb2lb = TRUE, lbs = dimnames(x)[[1]])
         for (i in seq_len(length(tmp))) {
             cat(paste(strsplit(tmp[i], ", ")[[1]][1], strsplit(tmp[i], 
                 ", ")[[1]][2], "1", sep = sep), file = file, 
@@ -57,3 +58,4 @@ function (x, file = NULL, sep = "\t", header = TRUE)
         }
     }
 }
+
