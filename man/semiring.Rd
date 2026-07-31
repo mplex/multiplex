@@ -13,8 +13,8 @@ semiring(x, type = c("balance", "cluster"), symclos = TRUE,
 \arguments{
   \item{x}{A \sQuote{\code{Signed}} class object.}
   \item{type}{  
-  \itemize{ 
    Semiring type: 
+  \itemize{ 
     \item \code{balance} semiring (default)
     \item \code{cluster} semiring
   }}

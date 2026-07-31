@@ -103,7 +103,7 @@ strings(arr) |>
 
 
 ### Example: Working with a Two-Mode Network data set
-<i>(taken from the multiplex [vignette](https://cran.r-project.org/web/packages/multiplex/vignettes/TwoModeNetworks.pdf))</i>
+<i>(taken from multiplex [vignette](https://cran.r-project.org/web/packages/multiplex/vignettes/AffiliationNetworks.pdf))</i>
 
 ```r
 ### Fruits data
