@@ -1,8 +1,8 @@
 Package: multiplex
 Type: Package
 Title: Algebraic Tools for the Analysis of Multiple Social Networks
-Version: 4.0
-Depends: R (>= 4.6.0)
+Version: 4.1
+Depends: R (>= 4.3.0)
 Imports: methods
 Suggests: multigraph, Rgraphviz, knitr
 Description: Algebraic procedures for analyses of multiple social networks are provided with this 
@@ -11,7 +11,7 @@ Description: Algebraic procedures for analyses of multiple social networks are p
     It combines methods based on partially ordered semigroups, decomposition procedures, semiring 
     structures, and relational bundles for multivariate network analysis. It also provides an 
     algebraic approach to affiliation networks using Galois derivations, with visualization options.
-Date: 2026-07-29
+Date: 2026-10-15
 Authors@R: person(given = "Antonio", family = "Rivero Ostoic", role = c("aut", "cre"), email = "multiplex@post.com")
 Author: Antonio Rivero Ostoic [aut, cre]
 Maintainer: Antonio Rivero Ostoic <multiplex@post.com>
@@ -21,4 +21,4 @@ Repository: CRAN
 License: GPL-3
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2026-07-29 18:01:33 UTC; AOST
+Packaged: 2026-10-15 10:01:33 UTC; mplex

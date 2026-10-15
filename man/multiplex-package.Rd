@@ -12,8 +12,8 @@
 \tabular{ll}{
     Package: \tab multiplex \cr
     Type: \tab Package \cr
-    Version: \tab 4.0 \cr
-    Date: \tab 29 July 2026 \cr
+    Version: \tab 4.1 \cr
+    Date: \tab 15 October 2026 \cr
     License: \tab GPL-3 \cr
 }
 One aim of the \pkg{multiplex} package is to provide an analytical tool specifically designed for social networks with relationships at multiple levels. 

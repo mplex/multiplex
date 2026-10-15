@@ -1,4 +1,4 @@
-## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
+## (GPL-3)  Antonio Rivero Ostoic, multiplex@post.com
 mlvl <-
 function (x, y, type = c("bpn", "cn", "cn2"), symCdm, diag, lbs) 
 {
@@ -35,9 +35,14 @@ function (x, y, type = c("bpn", "cn", "cn2"), symCdm, diag, lbs)
             dim(xx)[3]))
     }
     else {
-        if (missing(y) == TRUE) 
+        if (missing(y) == TRUE) {
             stop(paste("Missing ", sQuote("x"), " and ", sQuote("y"), 
                 ".", sep = ""))
+        }
+        else if (match.arg(type) != "cn") {
+            stop(paste("Types ", dQuote("bpn"), " and ", dQuote("cn2"), 
+                " require ", sQuote("x"), ".", sep = ""))
+        }
     }
     if (missing(y) == FALSE) {
         if (is.array(y) == TRUE) {
@@ -167,11 +172,40 @@ function (x, y, type = c("bpn", "cn", "cn2"), symCdm, diag, lbs)
     }
     if (match.arg(type) == "bpn") {
         if (is.data.frame(yy) == TRUE) {
-            bmat <- suppressMessages(zbind(xx, as.matrix(yy), 
-                force = TRUE))
+            if (isTRUE(max(xx) < 2L) == TRUE) {
+                bmat <- suppressMessages(zbind(xx, as.matrix(yy), 
+                  force = TRUE))
+            }
+            else {
+                message("Valued network detected in domain.")
+                bmat <- suppressMessages(zbind(dichot(xx), as.matrix(yy), 
+                  force = TRUE))
+            }
         }
         else {
-            bmat <- suppressMessages(zbind(xx, yy, force = TRUE))
+            if (isTRUE(max(xx) < 2L) == TRUE) {
+                bmat <- suppressMessages(zbind(xx, yy, force = TRUE))
+            }
+            else {
+                message("Valued network detected in domain.")
+                bmat <- suppressMessages(zbind(dichot(xx), yy, 
+                  force = TRUE))
+            }
+        }
+        if (isTRUE(max(xx) > 1L) == TRUE) {
+            x1 <- which(is.na(match(dimnames(bmat[, , which(qmd == 
+                "1M")])[[1]], dimnames(xx)[[1]])) == FALSE)
+            if (identical(dimnames(bmat[, , which(qmd == "1M")])[[1]][x1], 
+                dimnames(xx)[[1]]) == TRUE) {
+                bmat[x1, x1, which(qmd == "1M")] <- xx
+            }
+            else {
+                print(bmat)
+                stop("Valued network binomial projection sorting conflict.")
+            }
+        }
+        else {
+            NA
         }
         if (missing(lbs) == FALSE && (is.list(lbs) == FALSE && 
             isTRUE(length(lbs) == dim(bmat)[3]) == TRUE)) {
@@ -233,7 +267,15 @@ function (x, y, type = c("bpn", "cn", "cn2"), symCdm, diag, lbs)
                 stop(paste(sQuote("y"), " is missing or has invalid format.", 
                   sep = ""))
             }
-            cdmat <- suppressMessages(zbind(xx, cdmat, force = TRUE))
+            if (isTRUE(max(xx) < 2L) == TRUE) {
+                cdmat <- suppressMessages(zbind(xx, cdmat, force = TRUE))
+            }
+            else {
+                message("Valued network detected in domain.")
+                cdmat <- suppressMessages(zbind(dichot(xx), cdmat, 
+                  force = TRUE))
+                cdmat[, , which(qmd == "1M")] <- xx
+            }
             if (missing(lbs) == FALSE && isTRUE(length(lbs) == 
                 dim(cdmat)[3]) == TRUE) {
                 dimnames(cdmat)[[3]] <- lbs

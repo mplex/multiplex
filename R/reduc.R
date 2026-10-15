@@ -1,4 +1,4 @@
-## (GPL-3) Antonio Rivero Ostoic, multiplex@post.com
+## (GPL-3)  Antonio Rivero Ostoic, multiplex@post.com
 reduc <-
 function (x, clu, lbs, slbs, valued, row, col) 
 {
@@ -99,7 +99,7 @@ function (x, clu, lbs, slbs, valued, row, col)
     }
     else if (isTRUE(is.na(dim(x)[3]) == FALSE)) {
         bm <- array(dim = c(lngt, lngt, dim(x)[3]))
-        if (is.null(lbs) == FALSE) {
+        if (missing(lbs) == FALSE && is.vector(lbs) == TRUE) {
             dimnames(bm)[[1]] <- dimnames(bm)[[2]] <- lbs
         }
         if (missing(slbs) == FALSE && is.vector(slbs) == TRUE) {

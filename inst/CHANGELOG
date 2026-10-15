@@ -2,6 +2,13 @@
 'multiplex' PACKAGE
 
 
+version 4.1 (15-October-2025)
+-----------------------------
+BUGS FIXED:
+	* fix bug in 'mlvl' for binomial projection in valued networks
+	* patch in 'reduc' for 3D arrays with no labels
+
+
 version 4.0 (29-July-2026)
 -----------------------------
 ADDED FEATURES:
